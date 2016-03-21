@@ -1,0 +1,34 @@
+<wo:USViewLook>
+	<style type="text/css">
+		.sizeColumn {
+			text-align: right;
+		}
+	</style>
+	<wo:if condition="$allowBrowsing">
+		<wo:form>
+			<wo:textfield value="$path" size="100" />
+		</wo:form>
+	</wo:if>
+	<wo:form>
+		<wo:checkbox checked="$calculateDirectorySizes" id="calculateDirectorySizes" /> Reikna stærðir á möppum
+		<wo:AjaxObserveField updateContainerID="container" observeFieldID="calculateDirectorySizes" />
+	</wo:form>
+	<wo:AjaxUpdateContainer id="container">
+		<table class="table table-striped table-condensed table-bordered">
+			<tr>
+				<th><wo:if condition="$allowBrowsing"><wo:conditional condition="$selectedFile.getParent"><wo:link action="$upOneLevel">upp</wo:link></wo:conditional></wo:if></th>
+				<th>Heiti</th>
+				<th>Stærð</th>
+				<th>Síðast breytt</th>
+			</tr>
+			<wo:repetition list="$files" item="$currentFile">
+				<tr>
+					<td><wo:img src="$currentIconSRC"  /></td>
+					<td><wo:link action="$selectFile"><wo:str value="$currentFile.name" /></wo:link></td>
+					<td class="sizeColumn"><wo:conditional condition="$showCurrentSize"><wo:str value="$displaySize" /></wo:conditional></td>
+					<td><wo:str value="$lastModified" dateformat="%Y-%m-%d %H:%M" /></td>
+				</tr>
+			</wo:repetition>
+		</table>
+	</wo:AjaxUpdateContainer>
+</wo:USViewLook>

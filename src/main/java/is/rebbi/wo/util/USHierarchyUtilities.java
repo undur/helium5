@@ -1,0 +1,250 @@
+package is.rebbi.wo.util;
+
+import java.util.Enumeration;
+
+import com.webobjects.eocontrol.EOQualifier;
+import com.webobjects.eocontrol.EOSortOrdering;
+import com.webobjects.foundation.NSArray;
+import com.webobjects.foundation.NSKeyValueCodingAdditions;
+import com.webobjects.foundation.NSMutableArray;
+
+import er.extensions.foundation.ERXArrayUtilities;
+
+/**
+ * Allows the programmer to do various things with objects that implement the USHierarchy interface
+ */
+
+public class USHierarchyUtilities {
+
+	/**
+	 * Indicates if the node has subnodes.
+	 */
+	public static boolean hasChildren( USHierarchy object ) {
+		return USArrayUtilities.hasObjects( object.children() );
+	}
+
+	/**
+	 * Indicates if the node is at the top of the hiearchy (has no parent).
+	 */
+	public static boolean isRoot( USHierarchy object ) {
+		return object.parent() == null;
+	}
+
+	/**
+	 * Returns nodes at the same level as this one in the hierarchy.
+	 */
+	public static NSArray siblings( USHierarchy object ) {
+
+		if( isRoot( object ) ) {
+			return new NSArray( object );
+		}
+
+		return (object.parent()).children();
+	}
+
+	/**
+	 * Returns an array with all nodes below this one in the hierarchy.
+	 *
+	 * @param anObject the SWHierarchy object
+	 * @param includingSelf indicates if the topLevePage should be included in the array.
+	 */
+	public static NSArray everyChild( USHierarchy anObject, boolean includingSelf ) {
+
+		NSMutableArray tempArray = new NSMutableArray();
+
+		if( includingSelf ) {
+			tempArray.addObject( anObject );
+		}
+
+		if( hasChildren( anObject ) ) {
+			Enumeration e = anObject.children().objectEnumerator();
+
+			while( e.hasMoreElements() ) {
+				USHierarchy a = (USHierarchy)e.nextElement();
+				tempArray.addObject( a );
+				if( hasChildren( a ) ) {
+					tempArray.addObjectsFromArray( everyChild( a, true ) );
+				}
+			}
+		}
+
+		return tempArray;
+	}
+
+	/**
+	 * Indicates if child is a subnode of parent.
+	 *
+	 * @param includingSelf indicates if child should be checked against itself as well.
+	 */
+	public static boolean isParentNodeOfNode( USHierarchy parent, USHierarchy child, boolean includingSelf ) {
+		return everyParentNode( child, includingSelf ).containsObject( parent );
+	}
+
+	/**
+	 * Tells us if the specified page owes inheritance to the specified page
+	 *
+	 * @param child the page to check against
+	 * @param parent
+	 * @param includingTopLevel Indicates if the object should be checked against itself as well as it's children.
+	 */
+	public static boolean isChildOfNode( USHierarchy child, USHierarchy parent, boolean includingTopLevel ) {
+		return isParentNodeOfNode( parent, child, includingTopLevel );
+	}
+
+	/**
+	 * Returns the root node of the hierarchy.
+	 *
+	 * @param object The object to find the root for.
+	 */
+	public static USHierarchy root( USHierarchy object ) {
+
+		USHierarchy h = object;
+
+		while( !isRoot( h ) ) {
+			h = h.parent();
+		}
+
+		return h;
+	}
+
+	/**
+	 * Returns an array of all parent pages. includeSelf indicates if the calling page should be included.
+	 * Order of the array starts with the given page and then walks upward, ending with the top level node.
+	 */
+	public static NSArray everyParentNode( USHierarchy anObject, boolean includeSelf ) {
+
+		if( anObject == null ) {
+			return NSArray.emptyArray();
+		}
+
+		USHierarchy h = anObject;
+
+		NSMutableArray tempArray = new NSMutableArray();
+
+		if( includeSelf ) {
+			tempArray.addObject( h );
+		}
+
+		while( h.parent() != null ) {
+			h = h.parent();
+			tempArray.addObject( h );
+		}
+
+		return tempArray;
+	}
+
+	/**
+	 * Returns an array containing all parent pages in reverse order. includeSelf indicates if the calling page should be included.
+	 */
+	public static NSArray everyParentNodeReversed( USHierarchy anObject, boolean includeSelf ) {
+		return ERXArrayUtilities.reverse( everyParentNode( anObject, includeSelf ) );
+	}
+
+	/**
+	 * Returns the page at the specified index in the parent page hierarchy. 0 is the front page of the site, 1 is the subpage of that page etc.
+	 */
+
+	public static USHierarchy parentNodeAtLevel( USHierarchy anObject, int aLevel ) {
+		try {
+			NSArray anArray = everyParentNode( anObject, true );
+			return (USHierarchy)anArray.objectAtIndex( anArray.count() - aLevel );
+		}
+		catch( Exception e ) {
+			// FIXME: Wrong, wrong, wrong.
+			return null;
+		}
+	}
+
+	/**
+	 * All children, sorted using the given keyOrderArray.
+	 */
+	public static NSArray sortedChildren( USHierarchy anObject, NSArray<EOSortOrdering> sortOrderings ) {
+		return EOSortOrdering.sortedArrayUsingKeyOrderArray( anObject.children(), sortOrderings );
+	}
+
+	/**
+	 * All nodes corresponding to qualifier, sorted by sortOrderings.
+	 */
+	public static NSArray<? extends USHierarchy> sortedAndQualifiedSubNodes( USHierarchy anObject, NSArray<EOSortOrdering> sortOrderings, EOQualifier qualifier ) {
+		NSArray<? extends USHierarchy> tempArray = sortedChildren( anObject, sortOrderings );
+		return EOQualifier.filteredArrayWithQualifier( tempArray, qualifier );
+	}
+
+	/**
+	 * Searches for the given keypath in the hierarchy, from the specified object and upwards
+	 */
+	public static Object valueInHierarchyForKeyPath( USHierarchy anObject, String keyPath ) {
+
+		NSArray<USHierarchy> everyParentNode = everyParentNode( anObject, true );
+
+		for( USHierarchy nextLevel : everyParentNode ) {
+			//			Object returnValue = nextLevel.valueForKeyPath( keyPath );
+			Object returnValue = NSKeyValueCodingAdditions.Utility.valueForKeyPath( nextLevel, keyPath );
+
+			if( returnValue != null ) {
+				return returnValue;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Searches boolean value for the given keypath in the hierarchy. From the specific object and upwards
+	 */
+	public static Object trueValueInHierarchy( USHierarchy anObject, String keyPath ) {
+
+		Enumeration e = everyParentNode( anObject, true ).objectEnumerator();
+		USHierarchy nextLevel;
+		Object returnObject;
+		Boolean btrue = new Boolean( true );
+		boolean b;
+
+		while( e.hasMoreElements() ) {
+			nextLevel = (USHierarchy)e.nextElement();
+			returnObject = ((NSKeyValueCodingAdditions)nextLevel).valueForKeyPath( keyPath );
+			if( returnObject != null ) {
+				b = USUtilities.booleanFromObject( returnObject );
+				if( b ) {
+					return returnObject;
+				}
+			}
+			/*if( returnObject != null && btrue.equals(returnObject) ) {
+				return returnObject;
+			}*/
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns a boolean value for the given keypath in the hierarchy from the specific object and upwards.
+	 *
+	 * When examining the hierarchy, this function will return true if it finds a true (1) value, false if it
+	 * finds a false (-1) value but will move up the hierarchy if the value is null or zero.
+	 *
+	 * If no true/false values are found then false will be returned as the default value.
+	 */
+	public static boolean trueFalseInheritValueInHierarchy( USHierarchy anObject, String keyPath ) {
+		Enumeration e = everyParentNode( anObject, true ).objectEnumerator();
+		USHierarchy nextLevel;
+		Object returnObject;
+		String s;
+
+		while( e.hasMoreElements() ) {
+			nextLevel = (USHierarchy)e.nextElement();
+			returnObject = ((NSKeyValueCodingAdditions)nextLevel).valueForKeyPath( keyPath );
+			if( returnObject != null ) {
+				s = returnObject.toString();
+				if( "-1".equals( s ) || "false".equals( s ) ) {
+					return false;
+				}
+				else if( "1".equals( s ) || "true".equals( s ) ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+}

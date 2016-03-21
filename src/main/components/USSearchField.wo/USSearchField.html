@@ -1,0 +1,5 @@
+<wo:form directActionName="$searchActionName" class="sw-searchform">
+	<wo:AjaxAutoComplete id="searchString" name="searchString" value="$searchString" placeholder="Leitarorð…" list="$autoCompletes" class="search-big" />
+	<input type="hidden" name="allar-ordmyndir" value="1" />
+	<wo:submit directActionName="$searchActionName" class="search-big-btn btn btn-success search-button" value="Leita" style="z-index: 1000" />
+</wo:form>

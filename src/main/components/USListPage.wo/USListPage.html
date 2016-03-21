@@ -1,0 +1,73 @@
+<wo:USEditLook>
+	<style type="text/css">
+		th {
+			font-size: 14px !important;
+		}
+		
+		table {
+			background-color: white !important;
+		}
+	</style>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-11">
+				<h4><wo:str value="$selectedViewDefinition.icelandicNamePlural" /></h4>
+				<div class="row">
+					<div class="col-md-4">
+						<wo:form class="form-search">
+							<wo:textfield value="$searchString" id="searchString" class="searchField input-medium search-query" placeholder="Leita..." />
+							<wo:AjaxObserveField observeFieldID="searchString" updateContainerID="list" observeFieldFrequency="1" action="$resetDG" />
+						</wo:form>
+					</div>
+				</div>
+				<wo:AjaxUpdateContainer id="list">
+					<wo:link class="btn btn-success pull-right" style="margin-bottom: 10px" action="$createObject"><wo:str value="Stofna" /></wo:link>
+					<wo:if condition="$dg.hasMultipleBatches">
+						<div align="center">
+							<p><wo:str value="$dg.indexOfFirstDisplayedObject" /> - <wo:str value="$dg.indexOfLastDisplayedObject" /> / <wo:str value="$dg.allObjects.count" /></p>
+							<wo:IMBatchNavigation dg="$dg" />
+						</div>
+					</wo:if>
+					<wo:if condition="$dg.hasMultipleBatches" negate="$true">
+						<p><wo:str value="$dg.displayedObjects.count" /> færslur</p>
+					</wo:if>
+					<wo:form>
+						<table class="table table-striped table-condensed table-bordered">
+							<wo:if condition="$keyPathsToShow.size">
+								<thead>
+									<tr>
+										<th width="10"></th>
+										<wo:repetition list="$keyPathsToShow" item="$currentAttributeName">
+											<th nowrap><wo:str value="$currentAttributeDisplayName" /> <wo:AjaxSortOrder displayGroup="$dg" key="$currentAttributeName" /></th>
+										</wo:repetition>
+									</tr>
+								</thead>
+								<wo:repetition list="$dg.displayedObjects" item="$currentObject">
+									<tr>
+										<td width="10"><wo:EditLink object="$currentObject"><i class="glyphicon glyphicon-edit"></i></wo:EditLink></td>
+										<wo:repetition list="$keyPathsToShow" item="$currentAttributeName" index="$currentColumnIndex">
+											<td><wo:EditLink object="$currentObject" disabled="$isNotFirst"><wo:IMValue object="$currentValue" /></wo:EditLink></td>
+										</wo:repetition>
+									</tr>
+								</wo:repetition>
+							</wo:if>
+							<wo:if condition="$keyPathsToShow.size" negate="$true">
+								<wo:repetition list="$dg.displayedObjects" item="$currentObject">
+									<tr>
+										<td width="10"><wo:EditLink object="$currentObject"><i class="glyphicon glyphicon-edit"></i></wo:EditLink></td>
+										<td><wo:EditLink object="$currentObject"><wo:IMValue object="$currentObject" disabled="$true" /></wo:EditLink></td>
+									</tr>
+								</wo:repetition>						
+							</wo:if>
+						</table>
+					</wo:form>
+				</wo:AjaxUpdateContainer>
+			</div>
+		</div>
+	</div>
+	<script>
+		jQuery(document).ready(function(){
+			jQuery("#searchString").focus();
+		});
+	</script>
+</wo:USEditLook>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wodefinitions>
+    <wo class="USHeliumMenuComponent.java" wocomponentcontent="false">    <binding name="items"/>
+        <validation message="'items' is a required binding.">
+            <unbound name="items"/>
+        </validation>
+    <binding name="ulClass"/>
+    <binding name="previousLevel"/>
+        
+    </wo>
+</wodefinitions>

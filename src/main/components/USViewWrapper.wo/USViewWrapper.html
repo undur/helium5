@@ -1,0 +1,6 @@
+<wo:switch WOComponentName="$lookName" selectedObject="$selectedObject">
+	<wo:switch WOComponentName="$displayComponentName" callingComponent="$callingComponent" selectedObject="$selectedObject" />
+	<wo:if condition="$viewToolsComponentName.length">
+		<wo:switch WOComponentName="$viewToolsComponentName" selectedObject="$selectedObject" />
+	</wo:if>
+</wo:switch>

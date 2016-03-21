@@ -1,0 +1,44 @@
+<wo:if condition="$items.size">
+	<li>
+	    <wo:link action="$openStudentStatus" data-toggle="submenu" data-parent=".topmenu">
+	        <span class="figure"><i class="ico-stack2"></i></span>
+	        <span class="text">Námsferill</span>
+	    </wo:link>
+	</li>
+	<li>
+	    <wo:link action="$openPracticeDriving" data-toggle="submenu" data-parent=".topmenu">
+	        <span class="figure"><i class="ico-stack2"></i></span>
+	        <span class="text">Æfingaakstur</span>
+	    </wo:link>
+	</li>
+	<li>
+	    <a href="javascript:void(0);"  data-toggle="submenu" data-target="#tables" data-parent=".topmenu">
+	        <span class="figure"><i class="ico-people"></i></span>
+	        <span class="text">Gátlistar</span>
+	        <span class="arrow"></span>
+	    </a>
+	    <ul id="tables" class="submenu collapse " style="height: auto;">
+	        <li><wo:link action="$openChecklists"><span class="text">Ökuskóli 1</span></wo:link></li>
+	        <li><wo:link action="$openChecklists"><span class="text">Ökuskóli 2</span></wo:link></li>
+	        <li><wo:link action="$openChecklists"><span class="text">Kennsluakstur</span></wo:link></li>
+	        <li><wo:link action="$openChecklists"><span class="text">Ökugerði</span></wo:link></li>
+		    <a href="javascript:void(0);"  data-toggle="submenu" data-target="#tables" data-parent=".topmenu">
+		        <span class="figure"><i class="ico-people"></i></span>
+		        <span class="text">Gátlistar</span>
+		        <span class="arrow"></span>
+		    </a>
+		    <ul id="tables" class="submenu collapse " style="height: auto;">
+		        <li><wo:link action="$openChecklists"><span class="text">Ökuskóli 1</span></wo:link></li>
+		        <li><wo:link action="$openChecklists"><span class="text">Ökuskóli 2</span></wo:link></li>
+		        <li><wo:link action="$openChecklists"><span class="text">Kennsluakstur</span></wo:link></li>
+		        <li><wo:link action="$openChecklists"><span class="text">Ökugerði</span></wo:link></li>
+		    </ul>
+	    </ul>
+	</li>
+	<li>
+	    <wo:link action="$openGuide" data-toggle="submenu" data-parent=".topmenu">
+	        <span class="figure"><i class="ico-stack2"></i></span>
+	        <span class="text">Leiðbeiningar</span>
+	    </wo:link>
+	</li>
+</wo:if>

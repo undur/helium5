@@ -1,0 +1,45 @@
+<wo:USViewLook>
+	<div id="logviewer">
+		<p><wo:link action="$returnToCallingComponent">Til baka</wo:link></p>
+	
+		<h2><wo:str value="$file.absolutePath" size="100" /> <span class="linecount"> - <wo:str value="$numberOfLines" /> línur</span></h2>
+	
+		<wo:form>
+			<div class="formrow">
+				<label>Kóðun:</label> <wo:textfield value="$encoding" size="10"/>
+			</div>
+			<div class="formrow">
+			 	<label>&nbsp;</label> <wo:submit action="$read" value="Lesa aftur" />
+			 </div>
+		</wo:form>
+		
+		<hr />
+		<wo:form>
+			<div class="formrow">
+				<label>Regex-leit:</label> <wo:textfield value="$filter" size="20" />
+			</div>
+			<div class="formrow">
+				<label>Byrja á línu:</label> <wo:textfield value="$startLine" numberformat="0" size="20" />
+			</div>
+			<div class="formrow">
+				<label>Enda á línu:</label> <wo:textfield value="$endLine" numberformat="0" size="20" />
+			</div>
+			<div class="formrow">
+				<label>&nbsp;</label> <wo:checkbox checked="$reverseLines" /> Snúa röðun
+			</div>
+			<div class="formrow">
+				<label>&nbsp;</label> <wo:checkbox checked="$showLineNumbers" /> Sýna línunúmer
+			</div>
+			<div class="formrow">
+				<label>&nbsp;</label> <wo:AjaxSubmitButton updateContainerID="logfile" action="$read" value="Sía" />
+			</div>
+		</wo:form>
+		<hr />
+		<h3>Línur: <wo:str value="$lines.count" /></h3>
+		<wo:AjaxUpdateContainer id="logfile">
+	 		<wo:repetition list="$lines" item="$currentLine" index="$currentIndex">
+	 			<wo:conditional condition="$showLineNumbers"><wo:container elementName="span" class="$lineClass"><wo:str value="$currentLine.number" /></wo:container> </wo:conditional><wo:str value="$currentLine.text" /><br />
+	 		</wo:repetition>
+		</wo:AjaxUpdateContainer>
+	</div>
+</wo:USViewLook>

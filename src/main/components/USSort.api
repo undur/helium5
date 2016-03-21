@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wodefinitions>
+    <wo class="USSort" wocomponentcontent="false">    <binding name="keyPath"/>
+        <binding name="orderings"/>
+    <validation message="'orderings' is a required binding.">
+            <unbound name="orderings"/>
+        </validation>
+    </wo>
+</wodefinitions>

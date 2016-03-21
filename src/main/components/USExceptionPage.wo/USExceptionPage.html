@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>An exception occurred</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h3><wo:str value="$exception.class.name" /><wo:if condition="$exception.cause"><span style="font-size: smaller; color: gray">(<wo:str value="$exception.cause" />)</span></wo:if></h3>
+					<p><wo:str value="$exceptionParser.message" /></p>
+					<wo:if condition="$showSource">
+						<style type="text/css">
+							.filename-container {
+								font-family: monospace;
+								color: gray;
+							}
+		
+							.src-container {
+								font-family: monospace;
+								font-size: small;
+								color: rgb(50,50,50);
+								border: 1px solid rgb(200,200,200);
+								padding: 0px;
+								margin: 10px 0px;
+							}
+		
+							.src-line {
+								white-space: pre;
+								display: block;
+							}
+							
+							.src-line>span {
+								display: inline-block;
+								background-color: rgba(0,0,0,0.1);
+								padding: 0px 2px;					
+							}
+							
+							.odd-line {
+								background-color: rgb( 250,250,250);
+							}
+							
+							.even-line {
+								background-color: rgb( 235,235,235);
+							}
+		
+							.error-line {
+								background-color: rgb(255,180,180);
+							}
+						</style>
+<div class="filename-container"><strong><wo:str value="$firstLineOfTrace.fileName" /></strong></div>
+<div class="src-container">
+<wo:repetition list="$lines" item="$currentSourceLine" index="$currentSourceLineIndex"><wo:container elementName="span" class="$sourceLineClass"><span><wo:str value="$currentActualLineNumber" /></span> <wo:str value="$currentSourceLine" /></wo:container></wo:repetition>
+</div>
+					</wo:if>
+					<table class="table table-condensed table-bordered table-striped">
+						<tr>
+							<th>File</th>
+							<th>Line #</th>
+							<th>Method</th>
+							<th>Package</th>
+							<th>Bundle</th>
+						</tr>
+						<wo:repetition list="$exceptionParser.stackTrace" item="$currentErrorLine">
+							<wo:container elementName="tr" class="$currentRowClass">
+								<td><wo:str value="$currentErrorLine.fileName" /></td>
+								<td><wo:str value="$currentErrorLine.lineNumber" /></td>
+								<td><wo:str value="$currentErrorLine.methodName" /></td>
+								<td><wo:str value="$currentErrorLine.packageName" /></td>
+								<td><wo:str value="$currentBundle.name" /></td>
+							</wo:container>
+						</wo:repetition>
+					</table>
+					<div class="pull-right"><h4 style="font-weight: normal; color: gray">The exception occurred in the application <strong><wo:str value="$application.name" /></strong></h4></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

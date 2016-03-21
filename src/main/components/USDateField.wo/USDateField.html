@@ -1,0 +1,9 @@
+<wo:textfield value="$^value" class="$^class" style="$^style" id="$uniqueID" data-date-format="mm/dd/yy" placeholder="dd.mm.yyyy" formatter="$formatter" />
+
+<script type="text/javascript">
+	jQuery.datepicker.setDefaults(jQuery.datepicker.regional["is"]);
+
+	jQuery(document).ready(function() {
+		jQuery('#<wo:str value="$uniqueID" />').datepicker({ dateFormat: "dd.mm.yy" });
+	});
+</script>

@@ -1,0 +1,9 @@
+<div class="btn-group batch-navigation" style="display:inline-block">
+	<wo:container elementName="div" class="$classForPreviousButton"><wo:AjaxUpdateLink disabled="$noPreviousBatch" updateContainerID="list" action="$displayFirstBatch"><i class="glyphicon glyphicon-fast-backward"></i></wo:AjaxUpdateLink></wo:container>
+	<wo:container elementName="div" class="$classForPreviousButton"><wo:AjaxUpdateLink disabled="$noPreviousBatch" updateContainerID="list" action="$dg.displayPreviousBatch"><i class="glyphicon glyphicon-step-backward"></i></wo:AjaxUpdateLink></wo:container>
+	<wo:repetition list="$batchNumbers" item="$currentBatchIndex"> 
+		<wo:AjaxUpdateLink updateContainerID="list" class="$classForCurrentBatchButton" action="$selectBatch"><wo:str value="$currentBatchIndex" /></wo:AjaxUpdateLink>
+	</wo:repetition>
+	<wo:container elementName="div" class="$classForNextButton"><wo:AjaxUpdateLink disabled="$noNextBatch" updateContainerID="list" action="$dg.displayNextBatch"><i class="glyphicon glyphicon-step-forward"></i></wo:AjaxUpdateLink></wo:container>
+	<wo:container elementName="div" class="$classForNextButton"><wo:AjaxUpdateLink disabled="$noNextBatch" updateContainerID="list" action="$displayLastBatch"><i class="glyphicon glyphicon-fast-forward"></i></wo:AjaxUpdateLink></wo:container>
+</div>

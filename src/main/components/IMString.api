@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wodefinitions>
+    <wo class="IMString" wocomponentcontent="false">    <binding name="value"/>
+        <binding name="maxLength"/>
+        <validation message="'value' is a required binding.">
+            <unbound name="value"/>
+        </validation>
+    
+    
+    <binding name="valueWhenEmpty"/>
+    </wo>
+</wodefinitions>

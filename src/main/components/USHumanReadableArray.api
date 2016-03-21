@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wodefinitions>
+    <wo class="USHumanReadableArray.java" wocomponentcontent="false">    <binding name="objects"/>
+        <validation message="'objects' is a required binding.">
+            <unbound name="objects"/>
+        </validation>
+    <binding name="keyPath"/>
+    
+    <binding name="valueWhenEmpty"/>
+    <binding name="forceLowercase"/>
+    <binding defaults="Boolean" name="disabled"/>
+    </wo>
+</wodefinitions>

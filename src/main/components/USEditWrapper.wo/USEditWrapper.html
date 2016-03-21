@@ -1,0 +1,33 @@
+<wo:USEditLook selectedObject="$selectedObject">
+	<wo:AjaxUpdateContainer id="main" class="container">
+		<wo:form role="form" enctype="multipart/form-data">
+			<div class="sw-edit-controls">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="sw-object-descriptor"><strong><wo:IMValue object="$selectedObject" /></strong></div>
+					</div>
+					<div class="col-md-6">
+						<div class="pull-right">
+							<div class="btn-group">
+								<a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-cog"></i> <span class="caret"></span></a>
+								<ul class="dropdown-menu">
+									<li><wo:ViewLink object="$selectedObject"><i class="glyphicon glyphicon-eye-open"></i> Opna á vefnum</wo:ViewLink></li>
+									<li><wo:link action="$editGeneric"><i class="glyphicon glyphicon-list"></i> Opna í almennu viðmóti</wo:link></li>
+								</ul>
+							</div>
+							<wo:AjaxModalContainer label="Eyða" closeLabel="Hætta við" class="btn btn-sm btn-danger"><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða færslunni &quot;<strong><wo:IMValue object="$selectedObject" /></strong>&quot;?</p><p align="center"><wo:link action="$deleteObject" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessari færslu</wo:link></p></div></wo:AjaxModalContainer>
+							<wo:link action="$returnToCallingComponent" class="btn btn-sm btn-default">Til baka</wo:link>
+							<wo:submit action="$saveChangesAndReturn" class="btn btn-sm btn-default" value="Vista og loka" />
+							<wo:AjaxSubmitButton action="$saveChanges" updateContainerID="main" class="btn btn-sm btn-primary" accesskey="s" value="Vista" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<wo:switch WOComponentName="$displayComponentName" callingComponent="$callingComponent" selectedObject="$selectedObject" />
+				</div>
+			</div>
+		</wo:form>
+	</wo:AjaxUpdateContainer>
+</wo:USEditLook>

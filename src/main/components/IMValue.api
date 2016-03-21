@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wodefinitions>
+    <wo class="IMValue" wocomponentcontent="false">    <binding name="object"/>
+        
+    <binding name="valueWhenEmpty"/>
+    <binding defaults="Boolean" name="disabled"/>
+    
+    <binding name="forceLowercase"/>
+    <binding name="keyPath"/>
+    
+    
+    
+    </wo>
+</wodefinitions>

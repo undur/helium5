@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wodefinitions>
+    <wo class="IMDetailLink" wocomponentcontent="false">    <binding name="object"/>
+        <validation message="'object' is a required binding.">
+            <unbound name="object"/>
+        </validation>
+    <binding name="disabled"/>
+    <binding name="target"/>
+    <binding name="class"/>
+    <binding name="id"/>
+    </wo>
+</wodefinitions>

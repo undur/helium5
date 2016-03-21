@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wodefinitions>
+    <wo class="USToOneRelationshipEOF.java" wocomponentcontent="false">    <binding name="object"/>
+        <validation message="'object' is a required binding.">
+            <unbound name="object"/>
+        </validation>
+    <binding name="key"/>
+        <validation message="'key' is a required binding.">
+            <unbound name="key"/>
+        </validation>
+    <binding name="displayKey"/>
+    <binding name="disableObjectSelection"/>
+    </wo>
+</wodefinitions>

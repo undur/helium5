@@ -1,0 +1,16 @@
+ListRepetition: WORepetition {
+    list = ^list;
+    item = ^item;
+    index = ^index;
+}
+
+Sublist: USNestedList {
+    list = ^sublist;
+    item = ^item;
+    sublist = ^sublist;
+    index = ^index;
+}
+
+SublistConditional: WOConditional {
+    condition = hasSublist;
+}
