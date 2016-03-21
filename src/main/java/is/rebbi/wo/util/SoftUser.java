@@ -70,16 +70,19 @@ public class SoftUser {
 	 */
 	public static SoftUser fromRequest( WORequest request ) {
 
-		System.out.println( "request: " + request );
-		SoftUser softUser = (SoftUser)request.userInfoForKey( USER_KEY );
+		if( request != null ) {
+			SoftUser softUser = (SoftUser)request.userInfoForKey( USER_KEY );
 
-		if( softUser == null ) {
-			String uuid = userIDFromRequest( request );
-			softUser = get( uuid );
-			request.setUserInfoForKey( softUser, USER_KEY );
+			if( softUser == null ) {
+				String uuid = userIDFromRequest( request );
+				softUser = get( uuid );
+				request.setUserInfoForKey( softUser, USER_KEY );
+			}
+
+			return softUser;
 		}
 
-		return softUser;
+		return null;
 	}
 
 	public static SoftUser get( String uuid ) {
