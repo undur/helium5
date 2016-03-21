@@ -48,7 +48,7 @@ public abstract class USField extends ERXComponent {
 	@Override
 	public void appendToResponse( WOResponse response, WOContext context ) {
 		super.appendToResponse( response, context );
-		AjaxUtils.addStylesheetResourceInHead( context, response, "USWebObjects", "USField.css" );
+		AjaxUtils.addStylesheetResourceInHead( context, response, "helium", "USField.css" );
 	}
 
 	/**

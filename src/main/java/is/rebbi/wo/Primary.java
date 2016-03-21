@@ -16,7 +16,7 @@ public class Primary {
 	private static final Logger logger = LoggerFactory.getLogger( Primary.class );
 
 	static {
-		logger.info( "Initializing USWebObjects" );
+		logger.info( "Initializing Helium" );
 		TransactionStamper.register();
 		SoftUser.Manager.register();
 		SessionManager.register();
@@ -26,6 +26,6 @@ public class Primary {
 	}
 
 	public static String frameworkBundleName() {
-		return "USWebObjects";
+		return "helium";
 	}
 }

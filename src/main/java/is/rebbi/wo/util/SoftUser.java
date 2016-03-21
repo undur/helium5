@@ -36,7 +36,7 @@ public class SoftUser {
 		this( UUID.randomUUID().toString() );
 	}
 
-	public SoftUser( String uuid ) {
+	public SoftUser(String uuid) {
 		setUuid( uuid );
 	}
 
@@ -70,6 +70,7 @@ public class SoftUser {
 	 */
 	public static SoftUser fromRequest( WORequest request ) {
 
+		System.out.println( "request: " + request );
 		SoftUser softUser = (SoftUser)request.userInfoForKey( USER_KEY );
 
 		if( softUser == null ) {

@@ -131,7 +131,7 @@ public class RBFileBrowser extends ERXComponent {
 	}
 
 	public String currentIconSRC() {
-		return ERXApplication.erxApplication().resourceManager().urlForResourceNamed( currentIconName(), "USWebObjects", null, context().request() );
+		return ERXApplication.erxApplication().resourceManager().urlForResourceNamed( currentIconName(), "helium", null, context().request() );
 	}
 
 	@Override
