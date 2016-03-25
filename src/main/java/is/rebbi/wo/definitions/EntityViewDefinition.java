@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import com.webobjects.eoaccess.EOAttribute;
 import com.webobjects.eoaccess.EOEntity;
-import com.webobjects.eoaccess.EOModel;
 import com.webobjects.eoaccess.EOModelGroup;
 import com.webobjects.eocontrol.EOEnterpriseObject;
 import com.webobjects.eocontrol.EOSortOrdering;
@@ -514,10 +513,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	public static List<EntityViewDefinition> all() {
 		List<EntityViewDefinition> all = new ArrayList<>();
 
-		for( String entityName : allEOFEntityNames() ) {
-			all.add( EntityViewDefinition.get( entityName ) );
-		}
-
 		for( String entityName : allCayenneEntityNames() ) {
 			all.add( EntityViewDefinition.get( entityName ) );
 		}
@@ -536,20 +531,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		}
 
 		return serverRuntime.getDataDomain().getEntityResolver().getObjEntities().stream().map( ObjEntity::getName ).collect( Collectors.toList() );
-	}
-
-	private static List<String> allEOFEntityNames() {
-		List<String> allEntityNames = new ArrayList<>();
-
-		for( EOModel model : EOModelGroup.defaultGroup().models() ) {
-			for( EOEntity entity : model.entities() ) {
-				if( !entity.name().startsWith( "EO" ) ) {
-					allEntityNames.add( entity.name() );
-				}
-			}
-		}
-
-		return allEntityNames;
 	}
 
 	/**

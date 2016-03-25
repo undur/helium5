@@ -10,17 +10,17 @@ import com.webobjects.foundation.NSSelector;
 import er.extensions.eof.ERXEC;
 import is.rebbi.core.search.Indexable;
 
-public class IndexManagerEOF {
+public class IndexManager {
 
 	/**
 	 * The transaction watcher is a singleton - this is the instance.
 	 */
-	private static IndexManagerEOF _instance;
+	private static IndexManager _instance;
 
 	/**
 	 * Key set in EC userinfo indicating that this manager should be disabled in them.
 	 */
-	private static final String DISABLED_MARKER = "DISABLED" + IndexManagerEOF.class.getSimpleName();
+	private static final String DISABLED_MARKER = "DISABLED" + IndexManager.class.getSimpleName();
 
 	/**
 	 * Marks the given Editing context to disable any logging.
@@ -36,22 +36,22 @@ public class IndexManagerEOF {
 		return ec.userInfoForKey( DISABLED_MARKER ) != null;
 	}
 
-	private IndexManagerEOF() {};
+	private IndexManager() {};
 
 	/**
 	 * Start watching transactions
 	 */
 	public static void register() {
-		NSSelector<IndexManagerEOF> beforeSaveSelector = new NSSelector<>( "beforeSaveChangesInEditingContext", new Class[] { NSNotification.class } );
+		NSSelector<IndexManager> beforeSaveSelector = new NSSelector<>( "beforeSaveChangesInEditingContext", new Class[] { NSNotification.class } );
 		NSNotificationCenter.defaultCenter().addObserver( instance(), beforeSaveSelector, ERXEC.EditingContextWillSaveChangesNotification, null );
 	}
 
 	/**
 	 * Creates our default transaction manager.
 	 */
-	public static IndexManagerEOF instance() {
+	public static IndexManager instance() {
 		if( _instance == null ) {
-			_instance = new IndexManagerEOF();
+			_instance = new IndexManager();
 		}
 
 		return _instance;

@@ -14,7 +14,7 @@ public abstract class USBaseComponent extends ERXComponent {
 	 */
 	private String _uniqueID;
 
-	public USBaseComponent( WOContext context ) {
+	public USBaseComponent(WOContext context) {
 		super( context );
 	}
 
