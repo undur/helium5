@@ -2,22 +2,24 @@ package is.rebbi.wo.api;
 
 import java.lang.reflect.Type;
 
+import org.apache.cayenne.ObjectContext;
+
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
-import com.webobjects.eocontrol.EOEditingContext;
 import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSMutableArray;
 
 import er.extensions.appserver.ERXDirectAction;
+import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.util.USJson;
 
 public abstract class USController extends ERXDirectAction {
 
 	private static NSMutableArray<Class<? extends USController>> _controllers = new NSMutableArray<>();
 
-	private EOEditingContext _ec;
+	private ObjectContext _oc;
 
-	public USController( WORequest r ) {
+	public USController(WORequest r) {
 		super( r );
 	}
 
@@ -32,12 +34,12 @@ public abstract class USController extends ERXDirectAction {
 	/**
 	 * @return A new editing context for each instance of the controller class.
 	 */
-	protected EOEditingContext ec() {
-		if( _ec == null ) {
-			_ec = session().defaultEditingContext();
+	protected ObjectContext oc() {
+		if( _oc == null ) {
+			_oc = USCayenne.newContext();
 		}
 
-		return _ec;
+		return _oc;
 	}
 
 	/**

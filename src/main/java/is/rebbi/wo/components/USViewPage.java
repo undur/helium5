@@ -6,13 +6,10 @@ import org.apache.cayenne.ObjectContext;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
-import com.webobjects.eocontrol.EOEditingContext;
 
-import er.extensions.eof.ERXGenericRecord;
 import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
-import is.rebbi.wo.util.USEOUtilities;
 
 /**
  * Common functionality for client and admin side components.
@@ -30,11 +27,9 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 	 */
 	private E _selectedObject;
 
-	private EOEditingContext _ec;
-
 	private ObjectContext _oc;
 
-	public USViewPage( WOContext context ) {
+	public USViewPage(WOContext context) {
 		super( context );
 	}
 
@@ -56,29 +51,12 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 	}
 
 	public WOActionResults saveChanges() {
-		if( isCayenne() ) {
-			oc().commitChanges();
-		}
-		else {
-			ec().saveChanges();
-
-			if( USEOUtilities.isNested( ec() ) ) {
-				EOEditingContext parent = (EOEditingContext)ec().parentObjectStore();
-				parent.saveChanges();
-			}
-		}
-
+		oc().commitChanges();
 		return null;
 	}
 
 	public WOActionResults deleteObject() {
-		if( isCayenne() ) {
-			oc().deleteObject( selectedObject() );
-		}
-		else {
-			ec().deleteObject( ((ERXGenericRecord)selectedObject()) );
-		}
-
+		oc().deleteObject( selectedObject() );
 		saveChanges();
 		return returnToCallingComponent();
 	}
@@ -93,19 +71,6 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 	public WOActionResults returnToCallingComponent() {
 		callingComponent().ensureAwakeInContext( context() );
 		return callingComponent();
-	}
-
-	protected EOEditingContext ec() {
-		if( _ec == null ) {
-			if( selectedObject() != null ) {
-				_ec = ((ERXGenericRecord)selectedObject()).editingContext();
-			}
-			else {
-				_ec = session().defaultEditingContext();
-			}
-		}
-
-		return _ec;
 	}
 
 	protected ObjectContext oc() {
