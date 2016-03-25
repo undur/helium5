@@ -18,7 +18,7 @@ public class USHumanReadableArray extends ERXStatelessComponent {
 	public int currentIndex;
 	public Object currentObject;
 
-	public USHumanReadableArray( WOContext context ) {
+	public USHumanReadableArray(WOContext context) {
 		super( context );
 	}
 
@@ -48,7 +48,7 @@ public class USHumanReadableArray extends ERXStatelessComponent {
 
 		if( keyPath() != null ) {
 			if( currentObject != null && !(currentObject instanceof NSKeyValueCoding.Null) ) {
-				value = ((NSKeyValueCodingAdditions)currentObject).valueForKeyPath( keyPath() );
+				value = NSKeyValueCodingAdditions.Utility.valueForKeyPath( currentObject, keyPath() );
 			}
 		}
 		else {
