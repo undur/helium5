@@ -8,7 +8,6 @@ import is.rebbi.wo.util.RequestManager;
 import is.rebbi.wo.util.SessionManager;
 import is.rebbi.wo.util.SoftUser;
 import is.rebbi.wo.util.StatsManager;
-import is.rebbi.wo.util.TransactionStamper;
 
 //Smu
 public class Primary {
@@ -17,7 +16,6 @@ public class Primary {
 
 	static {
 		logger.info( "Initializing Helium" );
-		TransactionStamper.register();
 		SoftUser.Manager.register();
 		SessionManager.register();
 		StatsManager.register();

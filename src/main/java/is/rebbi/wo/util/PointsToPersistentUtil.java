@@ -1,28 +1,31 @@
 package is.rebbi.wo.util;
 
-import com.webobjects.eocontrol.EOAndQualifier;
-import com.webobjects.eocontrol.EOEditingContext;
-import com.webobjects.eocontrol.EOQualifier;
-import com.webobjects.eocontrol.EOSortOrdering;
-import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSMutableArray;
+import java.util.ArrayList;
+import java.util.List;
 
-import er.extensions.eof.ERXEOControlUtilities;
-import er.extensions.eof.ERXEnterpriseObject;
-import er.extensions.eof.ERXGenericRecord;
-import er.extensions.eof.ERXKey;
+import org.apache.cayenne.DataObject;
+import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.exp.Expression;
+import org.apache.cayenne.exp.ExpressionFactory;
+import org.apache.cayenne.exp.Property;
+import org.apache.cayenne.map.ObjEntity;
+import org.apache.cayenne.query.Ordering;
+import org.apache.cayenne.query.SelectQuery;
+
 import is.rebbi.core.search.PointsToPersistent;
+import is.rebbi.core.util.ListUtilities;
 import is.rebbi.wo.interfaces.HasFakeRelationship;
+import jambalaya.CayenneUtils;
 
 public class PointsToPersistentUtil {
 
-	private static final ERXKey<String> TARGET_ENTITY_NAME = new ERXKey<>( "targetEntityName" );
-	private static final ERXKey<String> TARGET_ID = new ERXKey<>( "targetID" );
+	private static final Property<String> TARGET_ENTITY_NAME = new Property<>( "targetEntityName" );
+	private static final Property<String> TARGET_ID = new Property<>( "targetID" );
 
 	/**
 	 * @return The target object of the given fake relationship container object.
 	 */
-	public static ERXGenericRecord targetObject( EOEditingContext ec, PointsToPersistent object ) {
+	public static DataObject targetObject( ObjectContext ec, PointsToPersistent object ) {
 
 		if( object == null ) {
 			return null;
@@ -36,16 +39,18 @@ public class PointsToPersistentUtil {
 	/**
 	 * @return true if the target object exists.
 	 */
-	public static boolean targetObjectExists( EOEditingContext ec, PointsToPersistent object ) {
-		Integer count = ERXEOControlUtilities.objectCountWithQualifier( ec, object.targetEntityName(), TARGET_ID.eq( object.targetID() ) );
+	public static boolean targetObjectExists( ObjectContext oc, PointsToPersistent object ) {
+		ObjEntity objEntity = oc.getEntityResolver().getObjEntity( object.targetEntityName() );
+		Class<? extends DataObject> entityClass = (Class<? extends DataObject>)objEntity.getJavaClass();
+		Long count = CayenneUtils.count( oc, entityClass, TARGET_ID.eq( object.targetID() ) );
 		return count != null && count > 0;
 	}
 
 	/**
 	 * @return The target object of the given fake relationship container object.
 	 */
-	public static ERXGenericRecord targetObject( EOEditingContext ec, String entityName, String idString ) {
-		return PKSerializerEOF.eo( ec, entityName, idString );
+	public static DataObject targetObject( ObjectContext ec, String entityName, String idString ) {
+		return PKSerializerCayenne.eo( ec, entityName, idString );
 	}
 
 	/**
@@ -53,50 +58,44 @@ public class PointsToPersistentUtil {
 	 * @param targetObject The object to target with the relationship.
 	 * @return A new HasFakeRelationship targeting targetObject.
 	 */
-	public static <E extends HasFakeRelationship> E create( Class<E> entityClass, ERXEnterpriseObject targetObject ) {
-		E object = ERXEOControlUtilities.createAndInsertObject( targetObject.editingContext(), entityClass );
-		setTargetObject( object, targetObject );
-		return object;
+	public static <E extends HasFakeRelationship> E create( Class<E> entityClass, DataObject targetObject ) {
+		E newObject = targetObject.getObjectContext().newObject( entityClass );
+		setTargetObject( newObject, targetObject );
+		return newObject;
 	}
 
 	/**
 	 * @param link The link to change.
 	 * @param targetObject The new object to target.
 	 */
-	public static <E extends HasFakeRelationship> void setTargetObject( E link, ERXEnterpriseObject targetObject ) {
-		link.setTargetEntityName( targetObject.entityName() );
-		link.setTargetID( PKSerializerEOF.serialize( targetObject ) );
+	public static <E extends HasFakeRelationship> void setTargetObject( E link, DataObject targetObject ) {
+		link.setTargetEntityName( targetObject.getObjectId().getEntityName() );
+		link.setTargetID( PKSerializerCayenne.serialize( targetObject ) );
 	}
 
-	public static int relatedObjectCount( EOEditingContext ec, Class entityClass, ERXEnterpriseObject targetObject ) {
+	public static int relatedObjectCount( ObjectContext oc, Class entityClass, DataObject targetObject ) {
 
-		String entityName = entityClass.getSimpleName();
+		List<Expression> a = new ArrayList<>();
+		a.add( TARGET_ENTITY_NAME.eq( targetObject.getObjectId().getEntityName() ) );
+		a.add( TARGET_ID.eq( PKSerializerCayenne.serialize( targetObject ) ) );
+		Expression q = ExpressionFactory.and( a );
 
-		NSMutableArray<EOQualifier> a = new NSMutableArray<>();
-		a.addObject( TARGET_ENTITY_NAME.eq( targetObject.entityName() ) );
-		a.addObject( TARGET_ID.eq( PKSerializerEOF.serialize( targetObject ) ) );
-		EOQualifier q = new EOAndQualifier( a );
-
-		return ERXEOControlUtilities.objectCountWithQualifier( ec, entityName, q );
+		return (int)CayenneUtils.count( oc, entityClass, q );
 	}
 
-	public static <E extends PointsToPersistent> NSArray<E> relatedObjects( Class<E> entityClass, ERXEnterpriseObject targetObject, NSArray<EOSortOrdering> sortOrderings ) {
+	public static <E extends PointsToPersistent> List<E> relatedObjects( Class<E> entityClass, DataObject targetObject, List<Ordering> orderings ) {
 
-		String entityName = entityClass.getSimpleName();
+		List<Expression> a = new ArrayList<>();
+		a.add( TARGET_ENTITY_NAME.eq( targetObject.getObjectId().getEntityName() ) );
+		a.add( TARGET_ID.eq( PKSerializerCayenne.serialize( targetObject ) ) );
+		Expression q = ExpressionFactory.and( a );
 
-		if( targetObject == null || targetObject.primaryKey() == null ) {
-			return NSArray.emptyArray();
-		}
+		SelectQuery<E> query = new SelectQuery<>( entityClass );
+		query.setQualifier( q );
+		List<E> objects = targetObject.getObjectContext().select( query );
 
-		NSMutableArray<EOQualifier> a = new NSMutableArray<>();
-		a.addObject( TARGET_ENTITY_NAME.eq( targetObject.entityName() ) );
-		a.addObject( TARGET_ID.eq( PKSerializerEOF.serialize( targetObject ) ) );
-		EOQualifier q = new EOAndQualifier( a );
-
-		NSArray<E> objects = ERXEOControlUtilities.objectsWithQualifier( targetObject.editingContext(), entityName, q, NSArray.emptyArray(), true );
-
-		if( USArrayUtilities.hasObjects( sortOrderings ) ) {
-			objects = EOSortOrdering.sortedArrayUsingKeyOrderArray( objects, sortOrderings );
+		if( ListUtilities.hasObjects( orderings ) ) {
+			Ordering.orderList( objects, orderings );
 		}
 
 		return objects;

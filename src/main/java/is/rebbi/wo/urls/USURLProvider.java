@@ -3,7 +3,6 @@ package is.rebbi.wo.urls;
 import org.apache.cayenne.DataObject;
 
 import com.webobjects.appserver.WOContext;
-import com.webobjects.eocontrol.EOGenericRecord;
 import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableDictionary;
 
@@ -69,10 +68,6 @@ public abstract class USURLProvider {
 	}
 
 	public static URLProvider urlProviderForClass( Class<?> clazz ) {
-
-		if( EOGenericRecord.class.isAssignableFrom( clazz ) ) {
-			return new URLProviderEO();
-		}
 
 		if( DataObject.class.isAssignableFrom( clazz ) ) {
 			return new URLProviderCayenne();

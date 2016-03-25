@@ -14,7 +14,6 @@ import is.rebbi.wo.components.admin.USLoginPage;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.search.USSearchAction;
 import is.rebbi.wo.urls.URLProviderCayenne;
-import is.rebbi.wo.urls.URLProviderEO;
 import is.rebbi.wo.urls.URLProviderPersistent;
 import is.rebbi.wo.urls.USStaticURLs;
 
@@ -31,7 +30,7 @@ public class InspectAction extends ERXDirectAction {
 	private static final String SEARCH_PREFIX = "/search/";
 	public static final String PASSWORD_RESET_REQUEST_PREFIX = "/passwordResetRequest/";
 
-	public InspectAction( WORequest r ) {
+	public InspectAction(WORequest r) {
 		super( r );
 	}
 
@@ -52,14 +51,7 @@ public class InspectAction extends ERXDirectAction {
 		if( url.startsWith( INSPECTION_PREFIX ) ) {
 			EntityViewDefinition def = URLProviderPersistent.viewDefinitionFromURL( url );
 
-			Object object;
-
-			if( def.isCayenneEntity() ) {
-				object = URLProviderCayenne.objectFromURL( USCayenne.serverRuntime().newContext(), url );
-			}
-			else {
-				object = URLProviderEO.objectFromURL( session().defaultEditingContext(), url );
-			}
+			Object object = URLProviderCayenne.objectFromURL( USCayenne.serverRuntime().newContext(), url );
 
 			if( object == null ) {
 				return response404();
