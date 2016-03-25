@@ -7,18 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.access.DataDomain;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.map.EntityResolver;
+import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.webobjects.eoaccess.EOAttribute;
-import com.webobjects.eoaccess.EOEntity;
-import com.webobjects.eoaccess.EOModelGroup;
-import com.webobjects.eocontrol.EOEnterpriseObject;
 import com.webobjects.eocontrol.EOSortOrdering;
 import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSMutableArray;
@@ -28,8 +24,8 @@ import er.extensions.components.ERXComponent;
 import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import is.rebbi.wo.util.USCRUDUtilities;
-import is.rebbi.wo.util.USEOUtilities;
 import is.rebbi.wo.util.USGenericComparator;
+import jambalaya.CayenneUtils;
 
 /**
  * Defines the viewing of a certain entity.
@@ -136,13 +132,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 	public static void registerEntityViewDefinitionProvider( ProvidesEntityViewDefinitions provider ) {
 		entityViewDefinitionProviders().add( provider );
-	}
-
-	/**
-	 * @return True if the given entity is a Cayenne entity.
-	 */
-	public boolean isCayenneEntity() {
-		return EOModelGroup.defaultGroup().entityNamed( name() ) == null;
+		invalidateCache();
 	}
 
 	public AttributeViewDefinition addAttributeViewDefinition( AttributeViewDefinition a ) {
@@ -173,22 +163,17 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	}
 
 	private static Class<?> classForEntity( String entityName ) {
+		System.out.println( "entityName: " + entityName );
+
 		Class<?> entityClass = null;
 
-		EOEntity eoEntity = EOModelGroup.defaultGroup().entityNamed( entityName );
+		ServerRuntime serverRuntime = USCayenne.serverRuntime();
+		DataDomain dataDomain = serverRuntime.getDataDomain();
+		EntityResolver entityResolver = dataDomain.getEntityResolver();
+		ObjEntity entity = entityResolver.getObjEntity( entityName );
 
-		if( eoEntity != null ) {
-			entityClass = USEOUtilities.classForEntityNamed( entityName );
-		}
-		else {
-			ServerRuntime serverRuntime = USCayenne.serverRuntime();
-			DataDomain dataDomain = serverRuntime.getDataDomain();
-			EntityResolver entityResolver = dataDomain.getEntityResolver();
-			ObjEntity entity = entityResolver.getObjEntity( entityName );
-
-			if( entity != null ) {
-				entityClass = entity.getJavaClass();
-			}
+		if( entity != null ) {
+			entityClass = entity.getJavaClass();
 		}
 
 		return entityClass;
@@ -221,18 +206,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		EntityViewDefinition e = new EntityViewDefinition();
 		e.setEntityClass( entityClass );
 
-		String name = null;
-
-		if( DataObject.class.isAssignableFrom( entityClass ) ) {
-			name = USCayenne.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
-		}
-		else if( EOEnterpriseObject.class.isAssignableFrom( entityClass ) ) {
-			EOEntity entity = EOModelGroup.defaultGroup().entityNamed( entityClass.getSimpleName() );
-			name = entity.name();
-		}
-		else {
-			throw new IllegalArgumentException( "Sorry. I only support EO and Cayenne classes, not: " + entityClass );
-		}
+		String name = USCayenne.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
 
 		e.setName( name );
 		e.setIcelandicName( icelandicName );
@@ -448,8 +422,8 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		_text = value;
 	}
 
-	public EOEntity entity() {
-		return EOModelGroup.defaultGroup().entityNamed( name() );
+	public ObjEntity entity() {
+		return USCayenne.newContext().getEntityResolver().getObjEntity( name() );
 	}
 
 	public AttributeViewDefinition attributeNamed( String attributeName ) {
@@ -491,12 +465,12 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		NSArray<EOSortOrdering> a = new NSMutableArray<>();
 
 		for( AttributeViewDefinition attributeDefinition : attributesToShow() ) {
-			EOAttribute attribute = entity().attributeNamed( attributeDefinition.name() );
+			ObjAttribute attribute = entity().getAttribute( attributeDefinition.name() );
 
 			if( attribute != null ) {
 				EOSortOrdering s;
 
-				if( USEOUtilities.attributeIsString( attribute ) ) {
+				if( CayenneUtils.attributeIsString( attribute ) ) {
 					s = new EOSortOrdering( attributeDefinition.name(), EOSortOrdering.CompareCaseInsensitiveAscending );
 				}
 				else {

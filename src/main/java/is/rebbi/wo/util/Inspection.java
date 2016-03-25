@@ -13,7 +13,6 @@ import er.extensions.eof.ERXGenericRecord;
 import is.rebbi.wo.components.USEditPageGenericCayenne;
 import is.rebbi.wo.components.USEditPageGenericEOF;
 import is.rebbi.wo.components.USEditWrapper;
-import is.rebbi.wo.components.USListPage;
 import is.rebbi.wo.components.USListPageCayenne;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.components.USViewPageGenericCayenne;
@@ -56,17 +55,9 @@ public class Inspection {
 
 	public static WOActionResults openListPage( Class entityClass ) {
 		EntityViewDefinition viewDefinition = EntityViewDefinition.get( entityClass );
-
-		if( viewDefinition.isCayenneEntity() ) {
-			USListPageCayenne nextPage = ERXApplication.erxApplication().pageWithName( USListPageCayenne.class );
-			nextPage.setSelectedViewDefinition( viewDefinition );
-			return nextPage;
-		}
-		else {
-			USListPage nextPage = ERXApplication.erxApplication().pageWithName( USListPage.class );
-			nextPage.setSelectedViewDefinition( viewDefinition );
-			return nextPage;
-		}
+		USListPageCayenne nextPage = ERXApplication.erxApplication().pageWithName( USListPageCayenne.class );
+		nextPage.setSelectedViewDefinition( viewDefinition );
+		return nextPage;
 	}
 
 	/**

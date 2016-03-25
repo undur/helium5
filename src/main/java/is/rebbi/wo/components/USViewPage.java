@@ -61,10 +61,6 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 		return returnToCallingComponent();
 	}
 
-	public boolean isCayenne() {
-		return viewDefinition().isCayenneEntity();
-	}
-
 	/**
 	 * @return The component instance that invoked this component.
 	 */
