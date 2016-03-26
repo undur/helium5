@@ -8,12 +8,13 @@ import java.util.List;
 import com.webobjects.eocontrol.EOKeyValueQualifier;
 import com.webobjects.eocontrol.EOQualifier;
 import com.webobjects.foundation.NSArray;
+import com.webobjects.foundation.NSComparator;
+import com.webobjects.foundation.NSComparator.ComparisonException;
 import com.webobjects.foundation.NSMutableSet;
 
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
 import is.rebbi.wo.definitions.EntityViewDefinition;
-import is.rebbi.wo.util.USArrayUtilities;
 import is.rebbi.wo.util.USGenericComparator;
 
 public class USMenu {
@@ -105,7 +106,12 @@ public class USMenu {
 			results.addObject( categoryName );
 		}
 
-		return USArrayUtilities.sortedArrayUsingIcelandicComparator( results.allObjects() );
+		try {
+			return results.allObjects().sortedArrayUsingComparator( NSComparator.AscendingStringComparator );
+		}
+		catch( ComparisonException e ) {
+			throw new RuntimeException( "Fucking sorting, how does it work!" );
+		}
 	}
 
 	private static USMenuItemPage systemMenuItem() {
