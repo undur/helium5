@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.cayenne.DataObject;
 
-import er.extensions.eof.ERXGenericRecord;
 import is.rebbi.core.formatters.FormatterWrapperNullSafe;
 import is.rebbi.core.search.Indexable;
 import is.rebbi.wo.definitions.EntityViewDefinition;
@@ -52,14 +51,6 @@ public class HumanReadableUtils {
 			b.append( EntityViewDefinition.get( object.getClass() ).icelandicName() );
 			b.append( "#" );
 			b.append( ((DataObject)object).getObjectId() );
-			return b.toString();
-		}
-
-		if( object instanceof ERXGenericRecord ) {
-			StringBuilder b = new StringBuilder();
-			b.append( EntityViewDefinition.get( object.getClass() ).icelandicName() );
-			b.append( "#" );
-			b.append( ((ERXGenericRecord)object).primaryKey() );
 			return b.toString();
 		}
 

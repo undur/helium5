@@ -5,11 +5,12 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.cayenne.DataObject;
+
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
 import er.extensions.components.ERXStatelessComponent;
-import er.extensions.eof.ERXGenericRecord;
 import is.rebbi.wo.util.HumanReadableUtils;
 
 /**
@@ -18,7 +19,7 @@ import is.rebbi.wo.util.HumanReadableUtils;
 
 public class IMValue extends ERXStatelessComponent {
 
-	public IMValue( WOContext context ) {
+	public IMValue(WOContext context) {
 		super( context );
 	}
 
@@ -39,7 +40,7 @@ public class IMValue extends ERXStatelessComponent {
 			return true;
 		}
 
-		if( !(object() instanceof ERXGenericRecord) ) {
+		if( !(object() instanceof DataObject) ) {
 			return true;
 		}
 

@@ -1,6 +1,6 @@
 package is.rebbi.wo.tasks;
 
-import is.rebbi.wo.search.IndexCreatorEOF;
+import is.rebbi.wo.search.IndexCreatorCayenne;
 
 public class RegenerateIndexTask extends USTask {
 
@@ -11,6 +11,6 @@ public class RegenerateIndexTask extends USTask {
 
 	@Override
 	public void run() {
-		IndexCreatorEOF.createIndex();
+		IndexCreatorCayenne.createIndex();
 	}
 }

@@ -1,22 +1,18 @@
 package is.rebbi.wo.util;
 
 import org.apache.cayenne.DataObject;
+import org.apache.cayenne.ObjectContext;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
-import com.webobjects.eocontrol.EOEditingContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.appserver.ERXWOContext;
-import er.extensions.eof.ERXEOControlUtilities;
-import er.extensions.eof.ERXGenericRecord;
 import is.rebbi.wo.components.USEditPageGenericCayenne;
-import is.rebbi.wo.components.USEditPageGenericEOF;
 import is.rebbi.wo.components.USEditWrapper;
 import is.rebbi.wo.components.USListPageCayenne;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.components.USViewPageGenericCayenne;
-import is.rebbi.wo.components.USViewPageGenericEOF;
 import is.rebbi.wo.components.USViewWrapper;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
@@ -80,8 +76,9 @@ public class Inspection {
 		return nextPage;
 	}
 
-	public static <A extends ERXGenericRecord> WOActionResults createAndEditObject( EOEditingContext ec, String entityName, WOContext context ) {
-		ERXGenericRecord eo = (ERXGenericRecord)ERXEOControlUtilities.createAndInsertObject( ec, entityName );
+	public static <A extends DataObject> WOActionResults createAndEditObject( ObjectContext ec, String entityName, WOContext context ) {
+		Class<?> javaClass = ec.getEntityResolver().getObjEntity( entityName ).getJavaClass();
+		DataObject eo = (DataObject)ec.newObject( javaClass );
 		// ec.processRecentChanges();
 		return editObjectInContext( eo, context );
 	}
@@ -93,10 +90,6 @@ public class Inspection {
 			pageClass = USEditPageGenericCayenne.class;
 		}
 
-		if( selectedObject instanceof ERXGenericRecord ) {
-			pageClass = USEditPageGenericEOF.class;
-		}
-
 		return editObjectInContextUsingComponent( selectedObject, context, pageClass );
 	}
 
@@ -105,10 +98,6 @@ public class Inspection {
 
 		if( selectedObject instanceof DataObject ) {
 			pageClass = USViewPageGenericCayenne.class;
-		}
-
-		if( selectedObject instanceof ERXGenericRecord ) {
-			pageClass = USViewPageGenericEOF.class;
 		}
 
 		return inspectObjectInContextUsingComponent( selectedObject, context, pageClass );

@@ -10,9 +10,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.cayenne.Cayenne;
-import org.apache.cayenne.CayenneDataObject;
+import org.apache.cayenne.DataObject;
 
-import er.extensions.eof.ERXGenericRecord;
 import is.rebbi.wo.util.SWSettings;
 
 public class FileStorage extends Storage {
@@ -21,7 +20,7 @@ public class FileStorage extends Storage {
 
 	public FileStorage() {}
 
-	public FileStorage( String documentPath ) {
+	public FileStorage(String documentPath) {
 		_documentPath = documentPath;
 	}
 
@@ -43,14 +42,11 @@ public class FileStorage extends Storage {
 
 		String primaryKey;
 
-		if( document instanceof ERXGenericRecord ) {
-			primaryKey = ((ERXGenericRecord)document).primaryKey();
-		}
-		else if( document instanceof CayenneDataObject ) {
-			primaryKey = String.valueOf( Cayenne.longPKForObject( ((CayenneDataObject)document) ) );
+		if( document instanceof DataObject ) {
+			primaryKey = String.valueOf( Cayenne.longPKForObject( ((DataObject)document) ) );
 		}
 		else {
-			throw new IllegalArgumentException( "FileStorage only supports ERXGenericRecord and CayenneDataObject. Class is: " + document.getClass() );
+			throw new IllegalArgumentException( "FileStorage only supports DataObject. Class is: " + document.getClass() );
 		}
 
 		if( primaryKey != null ) {

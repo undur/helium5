@@ -9,7 +9,6 @@ import com.webobjects.foundation.NSKeyValueCoding;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
 import er.extensions.components.ERXStatelessComponent;
-import er.extensions.eof.ERXGenericRecord;
 import is.rebbi.core.util.ListUtilities;
 import is.rebbi.wo.util.HumanReadableUtils;
 
@@ -80,6 +79,6 @@ public class USHumanReadableArray extends ERXStatelessComponent {
 	}
 
 	public boolean isInspectable() {
-		return currentObject instanceof ERXGenericRecord || currentObject instanceof DataObject;
+		return currentObject instanceof DataObject;
 	}
 }
