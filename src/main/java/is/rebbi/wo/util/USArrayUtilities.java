@@ -46,34 +46,6 @@ public class USArrayUtilities {
 	}
 
 	/**
-	 * Returns an array of the first letters of the keyPath of anArray
-	 * Note: Strings are trimmed, meaning whitespace before strings is ignored.
-	 */
-	public static NSArray<String> firstLettersForKeyPathInArray( String keyPath, NSArray<?> array ) {
-
-		if( !hasObjects( array ) ) {
-			return NSArray.emptyArray();
-		}
-
-		NSMutableSet<String> set = new NSMutableSet<>();
-
-		for( Object object : array ) {
-			Object value = NSKeyValueCodingAdditions.Utility.valueForKeyPath( object, keyPath );
-
-			if( value != null ) {
-
-				String stringValue = value.toString();
-
-				if( stringValue != null && stringValue.length() > 0 ) {
-					set.addObject( stringValue.substring( 0, 1 ).toUpperCase() );
-				}
-			}
-		}
-
-		return sortedArrayUsingIcelandicComparator( set.allObjects() );
-	}
-
-	/**
 	 * Returns a new array sorted according to the Icelandic alphabet.
 	 *
 	 * @param array the array to sort
