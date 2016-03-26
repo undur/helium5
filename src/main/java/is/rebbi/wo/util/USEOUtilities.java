@@ -29,6 +29,7 @@ import er.extensions.eof.ERXEOControlUtilities;
 import er.extensions.eof.ERXEnterpriseObject;
 import er.extensions.qualifiers.ERXAndQualifier;
 import er.extensions.qualifiers.ERXTrueQualifier;
+import is.rebbi.core.util.ListUtilities;
 import is.rebbi.core.util.StringUtilities;
 
 /**
@@ -58,7 +59,7 @@ public class USEOUtilities {
 		fs.setFetchLimit( 1 );
 		NSArray<EOEnterpriseObject> fetched = ec.objectsWithFetchSpecification( fs );
 
-		if( USArrayUtilities.hasObjects( fetched ) ) {
+		if( ListUtilities.hasObjects( fetched ) ) {
 			return fetched.objectAtIndex( 0 );
 		}
 

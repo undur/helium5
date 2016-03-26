@@ -28,6 +28,7 @@ import com.webobjects.foundation.NSPathUtilities;
 
 import er.javamail.ERMailDataAttachment;
 import er.javamail.ERMailDeliveryPlainText;
+import is.rebbi.core.util.ListUtilities;
 import is.rebbi.core.util.StringUtilities;
 
 /**
@@ -144,7 +145,7 @@ public class USMailSender {
 				mp.addBodyPart( part );
 			}
 
-			if( !USArrayUtilities.hasObjects( attachmentFilePaths ) ) {
+			if( !ListUtilities.hasObjects( attachmentFilePaths ) ) {
 				_sendMessage( fromEmailAddress, to, cc, bcc, subject, mp );
 			}
 			else {

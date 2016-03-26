@@ -5,7 +5,7 @@ import java.util.List;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXStatelessComponent;
-import is.rebbi.wo.util.USArrayUtilities;
+import is.rebbi.core.util.ListUtilities;
 
 /**
  * A hierarchical repetition.
@@ -20,7 +20,7 @@ import is.rebbi.wo.util.USArrayUtilities;
 
 public class USNestedList extends ERXStatelessComponent {
 
-	public USNestedList( WOContext context ) {
+	public USNestedList(WOContext context) {
 		super( context );
 	}
 
@@ -49,6 +49,6 @@ public class USNestedList extends ERXStatelessComponent {
 	 * Determines if the current node has a sublist
 	 */
 	public boolean hasSublist() {
-		return USArrayUtilities.hasObjects( sublist() );
+		return ListUtilities.hasObjects( sublist() );
 	}
 }
