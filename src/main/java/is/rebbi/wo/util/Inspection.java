@@ -8,11 +8,11 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.appserver.ERXWOContext;
-import is.rebbi.wo.components.USEditPageGenericCayenne;
+import is.rebbi.wo.components.USEditPageGeneric;
 import is.rebbi.wo.components.USEditWrapper;
 import is.rebbi.wo.components.USListPageEdit;
 import is.rebbi.wo.components.USViewPage;
-import is.rebbi.wo.components.USViewPageGenericCayenne;
+import is.rebbi.wo.components.USViewPageGeneric;
 import is.rebbi.wo.components.USViewWrapper;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
@@ -87,7 +87,7 @@ public class Inspection {
 		Class<? extends HasSelectedObjectPage> pageClass = null;
 
 		if( selectedObject instanceof DataObject ) {
-			pageClass = USEditPageGenericCayenne.class;
+			pageClass = USEditPageGeneric.class;
 		}
 
 		return editObjectInContextUsingComponent( selectedObject, context, pageClass );
@@ -97,7 +97,7 @@ public class Inspection {
 		Class<? extends HasSelectedObjectPage> pageClass = null;
 
 		if( selectedObject instanceof DataObject ) {
-			pageClass = USViewPageGenericCayenne.class;
+			pageClass = USViewPageGeneric.class;
 		}
 
 		return inspectObjectInContextUsingComponent( selectedObject, context, pageClass );

@@ -24,13 +24,13 @@ import jambalaya.CayenneUtils;
  * Generic object edit page.
  */
 
-public class USEditPageGenericCayenne<E extends DataObject> extends USViewPage<E> {
+public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 
 	public ObjAttribute currentAttribute;
 	public ObjRelationship currentRelationship;
 	public String filename;
 
-	public USEditPageGenericCayenne( WOContext context ) {
+	public USEditPageGeneric( WOContext context ) {
 		super( context );
 	}
 
