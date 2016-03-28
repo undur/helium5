@@ -5,7 +5,7 @@ import org.apache.cayenne.DataObject;
 
 import is.rebbi.core.search.IndexRecord;
 
-public class IndexingEOUtilities {
+public class IndexUtilities {
 
 	public static IndexRecord create( DataObject obj ) {
 		String entityName = obj.getObjectId().getEntityName();

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import com.webobjects.foundation.NSTimestamp;
 
-import is.rebbi.wo.search.IndexManager;
 import is.rebbi.wo.util.SessionManager;
 import is.rebbi.wo.util.SoftUser;
 
@@ -19,7 +18,6 @@ public class Primary {
 		_startupTime = new NSTimestamp();
 		SoftUser.Manager.register();
 		SessionManager.register();
-		IndexManager.register();
 	}
 
 	public static String frameworkBundleName() {

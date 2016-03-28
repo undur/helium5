@@ -1,21 +1,16 @@
 package is.rebbi.wo.search;
 
-import com.webobjects.eocontrol.EOEditingContext;
-import com.webobjects.eocontrol.EOEnterpriseObject;
-import com.webobjects.eocontrol.EOObjectStoreCoordinator;
-import com.webobjects.foundation.NSNotification;
-import com.webobjects.foundation.NSNotificationCenter;
-import com.webobjects.foundation.NSSelector;
+import org.apache.cayenne.Cayenne;
+import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.ObjectId;
+import org.apache.cayenne.lifecycle.changemap.ChangeMap;
+import org.apache.cayenne.lifecycle.changemap.ObjectChange;
+import org.apache.cayenne.lifecycle.changemap.ObjectChangeType;
+import org.apache.cayenne.lifecycle.postcommit.PostCommitListener;
 
-import er.extensions.eof.ERXEC;
 import is.rebbi.core.search.Indexable;
 
-public class IndexManager {
-
-	/**
-	 * The transaction watcher is a singleton - this is the instance.
-	 */
-	private static IndexManager _instance;
+public class IndexManager implements PostCommitListener {
 
 	/**
 	 * Key set in EC userinfo indicating that this manager should be disabled in them.
@@ -25,63 +20,36 @@ public class IndexManager {
 	/**
 	 * Marks the given Editing context to disable any logging.
 	 */
-	public static void disableInEditingContext( EOEditingContext ec ) {
-		ec.setUserInfoForKey( true, DISABLED_MARKER );
+	public static void disableInObjectContext( ObjectContext ec ) {
+		ec.setUserProperty( DISABLED_MARKER, true );
 	}
 
 	/**
 	 * Marks the given Editing context to disable any logging.
 	 */
-	private static boolean isDisabledInEditingContext( EOEditingContext ec ) {
-		return ec.userInfoForKey( DISABLED_MARKER ) != null;
+	private static boolean isDisabledInObjectContext( ObjectContext ec ) {
+		return ec.getUserProperty( DISABLED_MARKER ) != null;
 	}
 
-	private IndexManager() {};
+	@Override
+	public void onPostCommit( ObjectContext originatingContext, ChangeMap changeMap ) {
 
-	/**
-	 * Start watching transactions
-	 */
-	public static void register() {
-		NSSelector<IndexManager> beforeSaveSelector = new NSSelector<>( "beforeSaveChangesInEditingContext", new Class[] { NSNotification.class } );
-		NSNotificationCenter.defaultCenter().addObserver( instance(), beforeSaveSelector, ERXEC.EditingContextWillSaveChangesNotification, null );
-	}
+		if( !isDisabledInObjectContext( originatingContext ) ) {
+			for( java.util.Map.Entry<ObjectId, ? extends ObjectChange> changes : changeMap.getChanges().entrySet() ) {
+				ObjectId changedObjectID = changes.getKey();
 
-	/**
-	 * Creates our default transaction manager.
-	 */
-	public static IndexManager instance() {
-		if( _instance == null ) {
-			_instance = new IndexManager();
-		}
+				Class<?> entityClass = originatingContext.getEntityResolver().getObjEntity( changedObjectID.getEntityName() ).getJavaClass();
+				boolean isIndexable = Indexable.class.isAssignableFrom( entityClass );
 
-		return _instance;
-	}
+				if( isIndexable ) {
+					ObjectChangeType changeType = changes.getValue().getType();
 
-	/**
-	 * Invoked each time changes are saved in the application.
-	 */
-	public void beforeSaveChangesInEditingContext( NSNotification notification ) {
-		EOEditingContext ec = (EOEditingContext)notification.object();
+					Indexable indexable = (Indexable)Cayenne.objectForPK( originatingContext, changedObjectID );
 
-		if( !isDisabledInEditingContext( ec ) ) {
-			if( ec.parentObjectStore() instanceof EOObjectStoreCoordinator ) {
-				for( EOEnterpriseObject eo : ec.insertedObjects() ) {
-					if( eo instanceof Indexable ) {
-						Indexable indexable = (Indexable)eo;
+					if( changeType.equals( ObjectChangeType.UPDATE ) || changes.getValue().getType().equals( ObjectChangeType.INSERT ) ) {
 						Indexer.updateRecord( indexable.indexRecord() );
 					}
-				}
-
-				for( EOEnterpriseObject eo : ec.updatedObjects() ) {
-					if( eo instanceof Indexable ) {
-						Indexable indexable = (Indexable)eo;
-						Indexer.updateRecord( indexable.indexRecord() );
-					}
-				}
-
-				for( EOEnterpriseObject eo : ec.deletedObjects() ) {
-					if( eo instanceof Indexable ) {
-						Indexable indexable = (Indexable)eo;
+					else if( changeType.equals( ObjectChangeType.DELETE ) ) {
 						Indexer.deleteRecord( indexable.indexRecord() );
 					}
 				}

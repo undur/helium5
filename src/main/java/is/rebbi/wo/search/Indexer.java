@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.cayenne.query.SelectQuery;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -34,6 +35,7 @@ import com.webobjects.foundation.NSMutableSet;
 import er.extensions.foundation.ERXArrayUtilities;
 import is.rebbi.core.search.IndexRecord;
 import is.rebbi.core.search.Indexable;
+import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.SWSettings;
 
@@ -92,6 +94,37 @@ public class Indexer {
 		}
 
 		return _indexSearcher;
+	}
+
+	/**
+	 * Generates the index. If an index already exists, it will be deleted and a new one created in it's stead.
+	 */
+	public static void createIndex() {
+		IndexWriterConfig config = new IndexWriterConfig( Indexer.getAnalyzer() );
+
+		try( IndexWriter writer = new IndexWriter( Indexer.indexDirectory(), config ); ) {
+			config.setOpenMode( OpenMode.CREATE );
+
+			for( String entityName : Indexer.entityNamesToIndex() ) {
+				EntityViewDefinition def = EntityViewDefinition.get( entityName );
+				logger.info( "Indexing entity: " + entityName );
+
+				USCayenne.newContext().iterate( new SelectQuery<>( def.entityClass() ), object -> {
+					try {
+						Indexer.addRecord( writer, ((Indexable)object).indexRecord() );
+					}
+					catch( IOException e ) {
+						throw new RuntimeException( "Failed to index object", e );
+					}
+				} );
+
+				logger.info( "Finished indexing entity: " + entityName );
+			}
+
+		}
+		catch( Exception e ) {
+			logger.error( "Failed to perform indexing", e );
+		}
 	}
 
 	public static void updateRecord( IndexRecord indexRecord ) {
@@ -246,19 +279,19 @@ public class Indexer {
 	 */
 	public static List<String> entityNamesToIndex() {
 		List<String> entityNames = new ArrayList<>();
-	
+
 		for( EntityViewDefinition evd : EntityViewDefinition.all() ) {
 			Class c = evd.entityClass();
-	
+
 			if( c != null ) {
 				boolean isIndexable = Indexable.class.isAssignableFrom( c );
-	
+
 				if( isIndexable ) {
 					entityNames.add( evd.name() );
 				}
 			}
 		}
-	
+
 		return entityNames;
 	}
 }
