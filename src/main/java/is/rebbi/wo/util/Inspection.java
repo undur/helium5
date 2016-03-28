@@ -79,7 +79,6 @@ public class Inspection {
 	public static <A extends DataObject> WOActionResults createAndEditObject( ObjectContext ec, String entityName, WOContext context ) {
 		Class<?> javaClass = ec.getEntityResolver().getObjEntity( entityName ).getJavaClass();
 		DataObject eo = (DataObject)ec.newObject( javaClass );
-		// ec.processRecentChanges();
 		return editObjectInContext( eo, context );
 	}
 

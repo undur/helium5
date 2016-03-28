@@ -5,15 +5,15 @@ import com.webobjects.foundation.NSTimestamp;
 
 import er.extensions.components.ERXComponent;
 import er.extensions.foundation.ERXStringUtilities;
+import is.rebbi.wo.Primary;
 import is.rebbi.wo.util.SoftUser;
-import is.rebbi.wo.util.StatsManager;
 import is.rebbi.wo.util.USHTTPUtilities;
 
 public class SiteInfo extends ERXComponent {
 
 	private static final String buildDate = ERXStringUtilities.stringFromResource( "buildDate", "txt", null );
 
-	public SiteInfo( WOContext context ) {
+	public SiteInfo(WOContext context) {
 		super( context );
 	}
 
@@ -33,7 +33,7 @@ public class SiteInfo extends ERXComponent {
 		public String branch() {
 			return ERXStringUtilities.stringFromResource( "branch", "txt", null );
 		}
-
+	
 		public String changeset() {
 			return ERXStringUtilities.stringFromResource( "changeset", "txt", null );
 		}
@@ -44,6 +44,6 @@ public class SiteInfo extends ERXComponent {
 	}
 
 	public NSTimestamp startupDate() {
-		return StatsManager.instance().startupTime();
+		return Primary.startupTime();
 	}
 }
