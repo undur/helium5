@@ -7,7 +7,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.eocontrol.EOSortOrdering;
 
-import is.rebbi.wo.components.USListPageCayenne;
+import is.rebbi.wo.components.USListPageEdit;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.USGenericComparator;
@@ -28,7 +28,7 @@ public class USStartPage extends USViewPage {
 	}
 
 	public WOActionResults selectViewDefinition() {
-		USListPageCayenne nextPage = pageWithName( USListPageCayenne.class );
+		USListPageEdit nextPage = pageWithName( USListPageEdit.class );
 		nextPage.setSelectedViewDefinition( currentViewDefinition );
 		return nextPage;
 	}

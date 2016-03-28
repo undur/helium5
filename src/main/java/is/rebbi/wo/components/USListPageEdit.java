@@ -25,7 +25,7 @@ import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.Inspection;
 import jambalaya.CayenneUtils;
 
-public class USListPageCayenne extends USBaseComponent {
+public class USListPageEdit extends USBaseComponent {
 
 	/**
 	 * The Object Context to fetch into.
@@ -72,7 +72,7 @@ public class USListPageCayenne extends USBaseComponent {
 	 */
 	public List<Ordering> orderings = new ArrayList<>();
 
-	public USListPageCayenne( WOContext context ) {
+	public USListPageEdit( WOContext context ) {
 		super( context );
 	}
 
