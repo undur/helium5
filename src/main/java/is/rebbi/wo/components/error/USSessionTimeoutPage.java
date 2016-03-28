@@ -1,4 +1,4 @@
-package is.rebbi.wo.components;
+package is.rebbi.wo.components.error;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;

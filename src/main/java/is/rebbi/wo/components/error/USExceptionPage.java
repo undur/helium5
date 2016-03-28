@@ -1,4 +1,4 @@
-package is.rebbi.wo.components;
+package is.rebbi.wo.components.error;
 
 import java.io.IOException;
 import java.nio.file.Files;
