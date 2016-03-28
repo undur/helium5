@@ -10,12 +10,12 @@ import org.apache.cayenne.lifecycle.postcommit.PostCommitListener;
 
 import is.rebbi.core.search.Indexable;
 
-public class IndexManager implements PostCommitListener {
+public class IndexListener implements PostCommitListener {
 
 	/**
 	 * Key set in EC userinfo indicating that this manager should be disabled in them.
 	 */
-	private static final String DISABLED_MARKER = "DISABLED" + IndexManager.class.getSimpleName();
+	private static final String DISABLED_MARKER = "DISABLED" + IndexListener.class.getSimpleName();
 
 	/**
 	 * Marks the given Editing context to disable any logging.
