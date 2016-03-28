@@ -18,7 +18,7 @@ public class PKSerializer {
 		return serialize( eo.getObjectId() );
 	}
 
-	protected static String serialize( ObjectId gid ) {
+	public static String serialize( ObjectId gid ) {
 
 		Map<String, Object> idSnapshot = gid.getIdSnapshot();
 		List<String> keys = new ArrayList<>( idSnapshot.keySet() );

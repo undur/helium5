@@ -9,6 +9,7 @@ import org.apache.cayenne.lifecycle.changemap.ObjectChangeType;
 import org.apache.cayenne.lifecycle.postcommit.PostCommitListener;
 
 import is.rebbi.core.search.Indexable;
+import is.rebbi.wo.util.PKSerializer;
 
 public class IndexListener implements PostCommitListener {
 
@@ -31,26 +32,29 @@ public class IndexListener implements PostCommitListener {
 		return ec.getUserProperty( DISABLED_MARKER ) != null;
 	}
 
+	private static String uniqueIDFromObjectId( ObjectId objectId ) {
+		return objectId.getEntityName() + PKSerializer.serialize( objectId );
+	}
+
 	@Override
 	public void onPostCommit( ObjectContext originatingContext, ChangeMap changeMap ) {
 
 		if( !isDisabledInObjectContext( originatingContext ) ) {
 			for( java.util.Map.Entry<ObjectId, ? extends ObjectChange> changes : changeMap.getChanges().entrySet() ) {
-				ObjectId changedObjectID = changes.getKey();
+				ObjectId objectId = changes.getKey();
 
-				Class<?> entityClass = originatingContext.getEntityResolver().getObjEntity( changedObjectID.getEntityName() ).getJavaClass();
+				Class<?> entityClass = originatingContext.getEntityResolver().getObjEntity( objectId.getEntityName() ).getJavaClass();
 				boolean isIndexable = Indexable.class.isAssignableFrom( entityClass );
 
 				if( isIndexable ) {
 					ObjectChangeType changeType = changes.getValue().getType();
 
-					Indexable indexable = (Indexable)Cayenne.objectForPK( originatingContext, changedObjectID );
-
 					if( changeType.equals( ObjectChangeType.UPDATE ) || changes.getValue().getType().equals( ObjectChangeType.INSERT ) ) {
+						Indexable indexable = (Indexable)Cayenne.objectForPK( originatingContext, objectId );
 						Indexer.updateRecord( indexable.indexRecord() );
 					}
 					else if( changeType.equals( ObjectChangeType.DELETE ) ) {
-						Indexer.deleteRecord( indexable.indexRecord() );
+						Indexer.deleteRecord( uniqueIDFromObjectId( objectId ) );
 					}
 				}
 			}

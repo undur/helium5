@@ -129,17 +129,17 @@ public class Indexer {
 
 	public static void updateRecord( IndexRecord indexRecord ) {
 		logger.debug( "Updating record: " + indexRecord );
-		deleteRecord( indexRecord );
+		deleteRecord( indexRecord.uniqueID() );
 		addRecord( indexRecord );
 	}
 
-	public static void deleteRecord( IndexRecord record ) {
+	public static void deleteRecord( String uniqueID ) {
 
 		IndexWriterConfig config = new IndexWriterConfig( getAnalyzer() );
 
 		try( IndexWriter writer = new IndexWriter( indexDirectory(), config ); ) {
 			config.setOpenMode( OpenMode.CREATE_OR_APPEND );
-			Term term = new Term( F_UNIQUE_ID, record.uniqueID() );
+			Term term = new Term( F_UNIQUE_ID, uniqueID );
 			logger.debug( "Deleting record using term: " + term );
 			writer.deleteDocuments( term );
 		}
