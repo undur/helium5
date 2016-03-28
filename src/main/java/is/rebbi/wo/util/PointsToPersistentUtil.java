@@ -50,7 +50,7 @@ public class PointsToPersistentUtil {
 	 * @return The target object of the given fake relationship container object.
 	 */
 	public static DataObject targetObject( ObjectContext ec, String entityName, String idString ) {
-		return PKSerializerCayenne.eo( ec, entityName, idString );
+		return PKSerializer.eo( ec, entityName, idString );
 	}
 
 	/**
@@ -70,14 +70,14 @@ public class PointsToPersistentUtil {
 	 */
 	public static <E extends HasFakeRelationship> void setTargetObject( E link, DataObject targetObject ) {
 		link.setTargetEntityName( targetObject.getObjectId().getEntityName() );
-		link.setTargetID( PKSerializerCayenne.serialize( targetObject ) );
+		link.setTargetID( PKSerializer.serialize( targetObject ) );
 	}
 
 	public static int relatedObjectCount( ObjectContext oc, Class entityClass, DataObject targetObject ) {
 
 		List<Expression> a = new ArrayList<>();
 		a.add( TARGET_ENTITY_NAME.eq( targetObject.getObjectId().getEntityName() ) );
-		a.add( TARGET_ID.eq( PKSerializerCayenne.serialize( targetObject ) ) );
+		a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject ) ) );
 		Expression q = ExpressionFactory.and( a );
 
 		return (int)CayenneUtils.count( oc, entityClass, q );
@@ -87,7 +87,7 @@ public class PointsToPersistentUtil {
 
 		List<Expression> a = new ArrayList<>();
 		a.add( TARGET_ENTITY_NAME.eq( targetObject.getObjectId().getEntityName() ) );
-		a.add( TARGET_ID.eq( PKSerializerCayenne.serialize( targetObject ) ) );
+		a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject ) ) );
 		Expression q = ExpressionFactory.and( a );
 
 		SelectQuery<E> query = new SelectQuery<>( entityClass );

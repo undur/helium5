@@ -163,8 +163,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	}
 
 	private static Class<?> classForEntity( String entityName ) {
-		System.out.println( "entityName: " + entityName );
-
 		Class<?> entityClass = null;
 
 		ServerRuntime serverRuntime = USCayenne.serverRuntime();

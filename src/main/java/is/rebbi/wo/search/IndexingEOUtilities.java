@@ -1,4 +1,4 @@
-package is.rebbi.wo.util;
+package is.rebbi.wo.search;
 
 import org.apache.cayenne.Cayenne;
 import org.apache.cayenne.DataObject;

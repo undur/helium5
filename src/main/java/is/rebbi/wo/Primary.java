@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import is.rebbi.wo.search.IndexManager;
-import is.rebbi.wo.util.RequestManager;
 import is.rebbi.wo.util.SessionManager;
 import is.rebbi.wo.util.SoftUser;
 import is.rebbi.wo.util.StatsManager;
@@ -18,7 +17,6 @@ public class Primary {
 		SoftUser.Manager.register();
 		SessionManager.register();
 		StatsManager.register();
-		RequestManager.register();
 		IndexManager.register();
 	}
 

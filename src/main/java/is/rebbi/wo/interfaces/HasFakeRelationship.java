@@ -13,7 +13,7 @@ import org.apache.cayenne.query.SelectQuery;
 
 import is.rebbi.core.search.PointsToPersistent;
 import is.rebbi.core.util.ListUtilities;
-import is.rebbi.wo.util.PKSerializerCayenne;
+import is.rebbi.wo.util.PKSerializer;
 import is.rebbi.wo.util.PointsToPersistentUtil;
 
 /**
@@ -45,7 +45,7 @@ public interface HasFakeRelationship extends DataObject, PointsToPersistent {
 		 * @return The target object of the given fake relationship container object.
 		 */
 		public static DataObject targetObject( ObjectContext ec, String entityName, String idString ) {
-			return PKSerializerCayenne.eo( ec, entityName, idString );
+			return PKSerializer.eo( ec, entityName, idString );
 		}
 
 		/**
@@ -65,7 +65,7 @@ public interface HasFakeRelationship extends DataObject, PointsToPersistent {
 		 */
 		public static <E extends HasFakeRelationship> void setTargetObject( E link, DataObject targetObject ) {
 			link.setTargetEntityName( targetObject.getObjectId().getEntityName() );
-			link.setTargetID( PKSerializerCayenne.serialize( targetObject ) );
+			link.setTargetID( PKSerializer.serialize( targetObject ) );
 		}
 
 		public static int relatedObjectCount( Class entityClass, DataObject targetObject ) {
@@ -80,7 +80,7 @@ public interface HasFakeRelationship extends DataObject, PointsToPersistent {
 
 			List<Expression> a = new ArrayList<>();
 			a.add( TARGET_ENTITY_NAME.eq( targetObject.getObjectId().getEntityName() ) );
-			a.add( TARGET_ID.eq( PKSerializerCayenne.serialize( targetObject ) ) );
+			a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject ) ) );
 			Expression q = ExpressionFactory.and( a );
 
 			SelectQuery<E> query = new SelectQuery<>( entityClass );

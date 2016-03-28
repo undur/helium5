@@ -10,7 +10,7 @@ import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.ObjectId;
 
-public class PKSerializerCayenne {
+public class PKSerializer {
 
 	private static final String PK_ELEMENT_SEPARATOR = "|";
 
