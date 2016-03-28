@@ -8,12 +8,12 @@ import com.webobjects.foundation.NSMutableArray;
 
 import er.extensions.components.ERXComponent;
 
-public class IMBatchNavigation extends ERXComponent {
+public class USBatchNavigation extends ERXComponent {
 
 	public WODisplayGroup dg;
 	public Integer currentBatchIndex;
 
-	public IMBatchNavigation( WOContext context ) {
+	public USBatchNavigation( WOContext context ) {
 		super( context );
 	}
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wodefinitions>
-    <wo class="IMBatchNavigation" wocomponentcontent="false">    <binding name="dg"/>
+    <wo class="USBatchNavigation.java" wocomponentcontent="false">    <binding name="dg"/>
         <validation message="'newBinding' is a required binding.">
             <unbound name="dg"/>
         </validation>
