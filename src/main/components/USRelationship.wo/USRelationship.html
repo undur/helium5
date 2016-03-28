@@ -1,6 +1,6 @@
 <wo:conditional condition="$relationship.isToMany" negate="$true">
-	<wo:USToOneRelationshipCayenne object="$object" key="$key" disableObjectSelection="$disableObjectSelection" />
+	<wo:USToOneRelationship object="$object" key="$key" disableObjectSelection="$disableObjectSelection" />
 </wo:conditional>
 <wo:conditional condition="$relationship.isToMany">
-	<wo:USToManyRelationshipCayenne object="$object" key="$key" disableObjectSelection="$disableObjectSelection" />
+	<wo:USToManyRelationship object="$object" key="$key" disableObjectSelection="$disableObjectSelection" />
 </wo:conditional>
