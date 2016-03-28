@@ -32,6 +32,11 @@ public class IndexListener implements PostCommitListener {
 		return ec.getUserProperty( DISABLED_MARKER ) != null;
 	}
 
+	/**
+	 * @return A unique ID for the record in the index.
+	 *
+	 * TODO: This probably belongs in Indexable or IndexRecord.
+	 */
 	private static String uniqueIDFromObjectId( ObjectId objectId ) {
 		return objectId.getEntityName() + PKSerializer.serialize( objectId );
 	}
