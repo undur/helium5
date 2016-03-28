@@ -1,4 +1,4 @@
-package is.rebbi.wo.components.relationships.cayenne;
+package is.rebbi.wo.components.relationships;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,7 +28,7 @@ import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.definitions.AttributeViewDefinition;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 
-public class USRelationshipTargetSelectionCayenne extends USViewPage {
+public class USRelationshipTargetSelection extends USViewPage {
 
 	public String searchString;
 
@@ -39,7 +39,7 @@ public class USRelationshipTargetSelectionCayenne extends USViewPage {
 	public AttributeViewDefinition currentAttribute;
 	public boolean saveOnSelect;
 
-	public USRelationshipTargetSelectionCayenne( WOContext context ) {
+	public USRelationshipTargetSelection( WOContext context ) {
 		super( context );
 	}
 

@@ -11,7 +11,7 @@ import is.rebbi.core.search.Indexable;
 import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 
-public class IndexCreatorCayenne {
+public class IndexListener {
 
 	/**
 	 * Generates the index. If an index already exists, it will be deleted and a new one created in it's stead.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <wodefinitions>
-    <wo class="USRelationshipCayenne" wocomponentcontent="false">    <binding name="key"/>
+    <wo class="USRelationship.java" wocomponentcontent="false">    <binding name="key"/>
         <binding name="object"/>
         <validation message="'object' is a required binding.">
             <unbound name="object"/>

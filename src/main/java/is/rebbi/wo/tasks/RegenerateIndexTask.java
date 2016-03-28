@@ -1,6 +1,6 @@
 package is.rebbi.wo.tasks;
 
-import is.rebbi.wo.search.IndexCreatorCayenne;
+import is.rebbi.wo.search.IndexListener;
 
 public class RegenerateIndexTask extends USTask {
 
@@ -11,6 +11,6 @@ public class RegenerateIndexTask extends USTask {
 
 	@Override
 	public void run() {
-		IndexCreatorCayenne.createIndex();
+		IndexListener.createIndex();
 	}
 }

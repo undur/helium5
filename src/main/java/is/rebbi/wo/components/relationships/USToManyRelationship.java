@@ -1,4 +1,4 @@
-package is.rebbi.wo.components.relationships.cayenne;
+package is.rebbi.wo.components.relationships;
 
 import java.util.List;
 
@@ -21,11 +21,11 @@ import is.rebbi.wo.util.Inspection;
  * Inspects a to-many relationship, allowing editing, addition and removal of objects.
  */
 
-public class USToManyRelationshipCayenne extends USBaseComponent {
+public class USToManyRelationship extends USBaseComponent {
 
 	public DataObject currentObject;
 
-	public USToManyRelationshipCayenne( WOContext context ) {
+	public USToManyRelationship( WOContext context ) {
 		super( context );
 	}
 
@@ -81,7 +81,7 @@ public class USToManyRelationshipCayenne extends USBaseComponent {
 	}
 
 	public WOActionResults selectObject() {
-		USRelationshipTargetSelectionCayenne nextPage = pageWithName( USRelationshipTargetSelectionCayenne.class );
+		USRelationshipTargetSelection nextPage = pageWithName( USRelationshipTargetSelection.class );
 		nextPage.object = object();
 		nextPage.key = key();
 		nextPage.callingComponent = (ERXComponent)context().page();

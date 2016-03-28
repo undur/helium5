@@ -1,4 +1,4 @@
-package is.rebbi.wo.components.relationships.cayenne;
+package is.rebbi.wo.components.relationships;
 
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.Persistent;
@@ -20,9 +20,9 @@ import is.rebbi.wo.util.Inspection;
  * Inspects a to-one relationship, allowing editing, addition and removal of objects.
  */
 
-public class USToOneRelationshipCayenne extends USBaseComponent {
+public class USToOneRelationship extends USBaseComponent {
 
-	public USToOneRelationshipCayenne( WOContext context ) {
+	public USToOneRelationship( WOContext context ) {
 		super( context );
 	}
 
@@ -81,7 +81,7 @@ public class USToOneRelationshipCayenne extends USBaseComponent {
 	}
 
 	public WOActionResults selectObject() {
-		USRelationshipTargetSelectionCayenne nextPage = pageWithName( USRelationshipTargetSelectionCayenne.class );
+		USRelationshipTargetSelection nextPage = pageWithName( USRelationshipTargetSelection.class );
 		nextPage.object = object();
 		nextPage.key = key();
 		nextPage.callingComponent = (ERXComponent)context().page();

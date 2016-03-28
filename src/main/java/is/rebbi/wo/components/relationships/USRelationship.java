@@ -1,4 +1,4 @@
-package is.rebbi.wo.components.relationships.cayenne;
+package is.rebbi.wo.components.relationships;
 
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.map.ObjRelationship;
@@ -7,9 +7,9 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
 
-public class USRelationshipCayenne extends ERXNonSynchronizingComponent {
+public class USRelationship extends ERXNonSynchronizingComponent {
 
-	public USRelationshipCayenne( WOContext context ) {
+	public USRelationship( WOContext context ) {
 		super( context );
 	}
 
