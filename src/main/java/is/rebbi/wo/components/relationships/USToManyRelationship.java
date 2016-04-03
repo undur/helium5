@@ -25,7 +25,7 @@ public class USToManyRelationship extends USBaseComponent {
 
 	public DataObject currentObject;
 
-	public USToManyRelationship( WOContext context ) {
+	public USToManyRelationship(WOContext context) {
 		super( context );
 	}
 
@@ -47,7 +47,7 @@ public class USToManyRelationship extends USBaseComponent {
 	}
 
 	private ObjRelationship relationship() {
-		return object().getObjectContext().getEntityResolver().getObjEntity( selectObject().getClass() ).getRelationship( key() );
+		return object().getObjectContext().getEntityResolver().getObjEntity( object().getClass() ).getRelationship( key() );
 	}
 
 	public List<DataObject> destinationObjects() {
