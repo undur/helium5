@@ -38,8 +38,8 @@ public class USMenu {
 	public static USMenu defaultMenu() {
 		if( _defaultMenu == null ) {
 			_defaultMenu = new USMenu();
-			_defaultMenu.addAtBottom( databaseMenuItem() );
-			_defaultMenu.addAtBottom( systemMenuItem() );
+			//			_defaultMenu.addAtBottom( databaseMenuItem() );
+			//			_defaultMenu.addAtBottom( systemMenuItem() );
 		}
 
 		return _defaultMenu;

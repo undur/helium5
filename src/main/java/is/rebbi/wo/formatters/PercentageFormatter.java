@@ -3,12 +3,12 @@ package is.rebbi.wo.formatters;
 import java.math.BigDecimal;
 import java.text.FieldPosition;
 import java.text.Format;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+import java.util.Locale;
 
 import com.webobjects.foundation.NSNumberFormatter;
-
-import is.rebbi.core.util.StringUtilities;
 
 public class PercentageFormatter extends Format {
 
@@ -16,26 +16,27 @@ public class PercentageFormatter extends Format {
 	private boolean renderZeroAsEmpty = false;
 	private int _numberOfDecimals = 2;
 
+	private static void replaceString( StringBuffer sb, String toReplace, String replacement ) {
+		int index = -1;
+		while( (index = sb.lastIndexOf( toReplace )) != -1 ) {
+			sb.replace( index, index + toReplace.length(), replacement );
+		}
+	}
+
 	@Override
 	public StringBuffer format( Object obj, StringBuffer toAppendTo, FieldPosition pos ) {
-
 		if( obj != null ) {
 			Double number = ((Number)obj).doubleValue();
 
-			if( !number.isNaN() ) {
-				number = number * 100;
+			if( !(renderZeroAsEmpty && number == 0) ) {
+				NumberFormat format = NumberFormat.getPercentInstance( new Locale( "is" ) );
+				format.setMaximumFractionDigits( _numberOfDecimals );
+				format.format( obj, toAppendTo, pos );
 
-				if( !(renderZeroAsEmpty && number == 0) ) {
-					String formatted = StringUtilities.formatDouble( number, _numberOfDecimals );
-
-					toAppendTo.append( formatted );
-
-					if( addPercentage ) {
-						toAppendTo.append( "%" );
-					}
+				if( !addPercentage ) {
+					replaceString( toAppendTo, "%", "" );
 				}
 			}
-
 		}
 
 		return toAppendTo;
