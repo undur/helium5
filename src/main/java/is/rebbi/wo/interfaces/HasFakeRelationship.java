@@ -83,6 +83,7 @@ public interface HasFakeRelationship extends DataObject, PointsToPersistent {
 			a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject ) ) );
 			Expression q = ExpressionFactory.and( a );
 
+			System.out.println( q );
 			SelectQuery<E> query = new SelectQuery<>( entityClass );
 			query.setQualifier( q );
 			List<E> objects = targetObject.getObjectContext().select( query );
