@@ -30,7 +30,7 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 	public ObjRelationship currentRelationship;
 	public String filename;
 
-	public USEditPageGeneric( WOContext context ) {
+	public USEditPageGeneric(WOContext context) {
 		super( context );
 	}
 
@@ -85,6 +85,10 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 
 	public Object currentAttributeValue() {
 		return NSKeyValueCoding.Utility.valueForKey( selectedObject(), currentAttribute.getName() );
+	}
+
+	public Object currentRelationshipValue() {
+		return NSKeyValueCoding.Utility.valueForKey( selectedObject(), currentRelationship.getName() );
 	}
 
 	public String currentEditComponentName() {
