@@ -17,6 +17,7 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSData;
 import com.webobjects.foundation.NSKeyValueCoding;
 
+import is.rebbi.wo.util.HumanReadableUtils;
 import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.CayenneUtils;
 
@@ -29,9 +30,14 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 	public ObjAttribute currentAttribute;
 	public ObjRelationship currentRelationship;
 	public String filename;
+	public DataObject currentObject;
 
 	public USViewPageGeneric(WOContext context) {
 		super( context );
+	}
+
+	public String currentObjectHumanReadable() {
+		return HumanReadableUtils.toStringHuman( currentObject );
 	}
 
 	/**
