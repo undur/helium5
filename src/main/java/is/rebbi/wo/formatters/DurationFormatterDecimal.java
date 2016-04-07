@@ -28,6 +28,6 @@ public class DurationFormatterDecimal extends Format {
 
 	@Override
 	public Object parseObject( String source, ParsePosition pos ) {
-		throw new RuntimeException( "Parsing is not implemented" );
+		throw new RuntimeException( "Parsing is not supported" );
 	}
 }
