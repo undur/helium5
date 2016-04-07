@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.cayenne.DataObject;
 
 import is.rebbi.core.formatters.FormatterWrapperNullSafe;
+import is.rebbi.core.search.IndexRecord;
 import is.rebbi.core.search.Indexable;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 
@@ -39,7 +40,11 @@ public class HumanReadableUtils {
 		}
 
 		if( object instanceof Indexable ) {
-			return ((Indexable)object).indexRecord().name();
+			IndexRecord indexRecord = ((Indexable)object).indexRecord();
+
+			if( indexRecord != null ) {
+				return indexRecord.name();
+			}
 		}
 
 		if( object instanceof Date ) {

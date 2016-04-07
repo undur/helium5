@@ -59,6 +59,7 @@ public class USToManyRelationship extends USBaseComponent {
 		String destinationEntityName = relationship().getTargetEntityName();
 		Persistent newObject = dc.newObject( destinationEntityName );
 		object().addToManyTarget( relationship().getName(), (DataObject)newObject, true );
+		dc.commitChanges();
 		return Inspection.editObjectInContext( newObject, context() );
 	}
 

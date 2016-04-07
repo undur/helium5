@@ -75,7 +75,7 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 				_oc = ((DataObject)selectedObject()).getObjectContext();
 			}
 			else {
-				_oc = USCayenne.newContext();
+				_oc = USCayenne.defaultObjectContext( session() );
 			}
 		}
 

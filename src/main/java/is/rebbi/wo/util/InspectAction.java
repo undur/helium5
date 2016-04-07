@@ -51,7 +51,7 @@ public class InspectAction extends ERXDirectAction {
 		if( url.startsWith( INSPECTION_PREFIX ) ) {
 			EntityViewDefinition def = URLProviderPersistent.viewDefinitionFromURL( url );
 
-			Object object = URLProviderCayenne.objectFromURL( USCayenne.serverRuntime().newContext(), url );
+			Object object = URLProviderCayenne.objectFromURL( USCayenne.defaultObjectContext( session() ), url );
 
 			if( object == null ) {
 				return response404();

@@ -48,7 +48,7 @@ public class USListPageEdit extends USBaseComponent {
 	public DataObject currentObject;
 
 	/**
-	 * The keyPath currently bying iterated over in lists.
+	 * The keyPath currently being iterated over in lists.
 	 */
 	public String currentKeyPath;
 
@@ -72,7 +72,7 @@ public class USListPageEdit extends USBaseComponent {
 	 */
 	public List<Ordering> orderings = new ArrayList<>();
 
-	public USListPageEdit( WOContext context ) {
+	public USListPageEdit(WOContext context) {
 		super( context );
 	}
 
@@ -82,7 +82,7 @@ public class USListPageEdit extends USBaseComponent {
 
 	private ObjectContext oc() {
 		if( _oc == null ) {
-			_oc = USCayenne.newContext();
+			_oc = USCayenne.defaultObjectContext( session() );
 		}
 
 		return _oc;
@@ -162,10 +162,6 @@ public class USListPageEdit extends USBaseComponent {
 		}
 
 		query.setQualifier( expression() );
-		//		ASTLike expression = new ASTLike( new ASTObjPath( "name" ), "%mjólk%" );
-		//		Expression expression = ExpressionFactory.exp( "((name likeIgnoreCase \"%mjólk%\") or (number likeIgnoreCase \"%mjólk%\") or (uniqueID likeIgnoreCase \"%mjólk%\")) or ((name likeIgnoreCase \"%mjólk%\") or (number likeIgnoreCase \"%mjólk%\") or (unit.name likeIgnoreCase \"%mjólk%\") or (product.name likeIgnoreCase \"%mjólk%\"))", null );
-		//		Expression expression = ExpressionFactory.exp( "((name likeIgnoreCase \"%mjólk%\") or (product+.name likeIgnoreCase \"%mjólk%\"))" );
-		//		query.setQualifier( expression );
 		query.addOrderings( orderings );
 
 		_numberOfObjects = null;
@@ -197,6 +193,7 @@ public class USListPageEdit extends USBaseComponent {
 
 	public WOActionResults search() {
 		currentBatchIndex = 0;
+		System.out.println( "Search" );
 		return null;
 	}
 
