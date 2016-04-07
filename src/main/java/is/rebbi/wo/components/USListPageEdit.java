@@ -193,7 +193,6 @@ public class USListPageEdit extends USBaseComponent {
 
 	public WOActionResults search() {
 		currentBatchIndex = 0;
-		System.out.println( "Search" );
 		return null;
 	}
 
