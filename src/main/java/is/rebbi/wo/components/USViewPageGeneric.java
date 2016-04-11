@@ -97,6 +97,10 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 		return NSKeyValueCoding.Utility.valueForKey( selectedObject(), currentRelationship.getName() );
 	}
 
+	public Object currentRelationshipValueHumanReadable() {
+		return HumanReadableUtils.toStringHuman( currentRelationshipValue() );
+	}
+
 	public String currentEditComponentName() {
 		return null;
 	}
