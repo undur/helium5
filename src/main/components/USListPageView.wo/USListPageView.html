@@ -23,7 +23,6 @@
 				<wo:AjaxUpdateContainer id="list">
 					<div class="pull-right" style="text-align: right; margin-bottom: 10px; margin-top: -55px">
 						<wo:form>
-							<wo:link class="btn btn-xs btn-success" style="margin-bottom: 10px" action="$createObject"><wo:str value="Stofna hlut" /></wo:link><br />
 							<strong><wo:str value="$numberOfObjects" numberformat="0" /></strong> hlutir fundust<wo:if condition="$hasMultipleBatches">. Síða <wo:popUpButton list="$batches" selection="$currentBatchIndexForDisplay" id="currentBatchIndex" /> af <wo:str value="$numberOfBatches" /> með <wo:textfield value="$batchSize" numberformat="0" size="3" id="batchSize" /> hlutum hver</wo:if>
 							<wo:AjaxObserveField observeFieldID="currentBatchIndex" updateContainerID="list" />
 							<wo:AjaxObserveField observeFieldID="batchSize" updateContainerID="list" />
