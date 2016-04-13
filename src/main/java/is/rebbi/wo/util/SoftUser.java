@@ -155,7 +155,7 @@ public class SoftUser {
 
 			SoftUser softUser = SoftUser.fromRequest( request );
 
-			if( !SoftUser.hasUserCookie( response ) ) {
+			if( !SoftUser.hasUserCookie( response ) && softUser != null ) {
 				softUser.assign( request, response );
 			}
 
