@@ -1,5 +1,6 @@
 package is.rebbi.wo.cayenne;
 
+import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.configuration.server.ServerRuntimeBuilder;
@@ -11,6 +12,11 @@ import er.extensions.appserver.ERXSession;
 public class USCayenne {
 
 	private static ServerRuntime _serverRuntime;
+
+	/**
+	 * ObjectContexts store the currently logged in user as a property using this key.
+	 */
+	private static final String OC_USER_KEY = "helium-user";
 
 	public static void setServerRuntime( ServerRuntime runtime ) {
 		_serverRuntime = runtime;
@@ -46,5 +52,19 @@ public class USCayenne {
 		}
 
 		return oc;
+	}
+
+	/**
+	 * Set the user that owns the given object context. Actions performed within this context will be o
+	 */
+	public static void setUserInContext( DataObject user, ObjectContext oc ) {
+		oc.setUserProperty( OC_USER_KEY, user );
+	}
+
+	/**
+	 * @return The owning user of the given ObjectContext.
+	 */
+	public static DataObject userInContext( ObjectContext oc ) {
+		return (DataObject)oc.getUserProperty( OC_USER_KEY );
 	}
 }
