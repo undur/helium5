@@ -49,6 +49,7 @@ public class SWSettings {
 	/**
 	 * Available settings.
 	 */
+	private static final String NAME = "name";
 	private static final String HOME = "home";
 	private static final String SETTINGS_PATH = "settingsPath";
 	private static final String INDEX_PATH = "indexPath";
@@ -246,6 +247,13 @@ public class SWSettings {
 	 */
 	public static Integer allUsersGroupID() {
 		return integerForKey( ALL_USER_GROUP_ID );
+	}
+
+	/**
+	 * @return The ID of the group that contains all users.
+	 */
+	public static String name() {
+		return stringForKey( NAME );
 	}
 
 	public static void setAllUsersGroupID( Integer value ) {
