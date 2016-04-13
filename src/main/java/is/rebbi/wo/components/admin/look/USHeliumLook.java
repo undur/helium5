@@ -10,10 +10,11 @@ import er.extensions.crypting.ERXCrypto;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.menu.USMenu;
+import is.rebbi.wo.util.SWSettings;
 
 public class USHeliumLook extends USViewPage {
 
-	public USHeliumLook( WOContext context ) {
+	public USHeliumLook(WOContext context) {
 		super( context );
 	}
 
@@ -55,5 +56,9 @@ public class USHeliumLook extends USViewPage {
 
 	public String avatarSRC() {
 		return "http://www.gravatar.com/avatar/" + ERXCrypto.md5Encode( "hugi@karlmenn.is" ) + "?s=120";
+	}
+
+	public String siteName() {
+		return SWSettings.name();
 	}
 }
