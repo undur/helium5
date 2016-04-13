@@ -70,10 +70,19 @@ public class USListPageEdit extends USBaseComponent {
 	/**
 	 * Orderings to use when sorting the objects.
 	 */
-	public List<Ordering> orderings = new ArrayList<>();
+	private List<Ordering> _orderings;
 
 	public USListPageEdit(WOContext context) {
 		super( context );
+	}
+
+	public List<Ordering> orderings() {
+		if( _orderings == null ) {
+			_orderings = new ArrayList<>();
+			_orderings.add( initialOrdering() );
+		}
+
+		return _orderings;
 	}
 
 	public WOActionResults edit() {
@@ -162,7 +171,7 @@ public class USListPageEdit extends USBaseComponent {
 		}
 
 		query.setQualifier( expression() );
-		query.addOrderings( orderings );
+		query.addOrderings( orderings() );
 
 		_numberOfObjects = null;
 		return oc().select( query );
@@ -189,6 +198,10 @@ public class USListPageEdit extends USBaseComponent {
 		else {
 			return USCayenne.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( selectedViewDefinition().entityClass() ).getAttributes().stream().map( ObjAttribute::getName ).collect( Collectors.toList() );
 		}
+	}
+
+	private Ordering initialOrdering() {
+		return new Ordering( keyPathsToShow().get( 0 ) );
 	}
 
 	public WOActionResults search() {
