@@ -239,7 +239,7 @@ public class Indexer {
 
 			BooleanQuery bq = new BooleanQuery();
 			Query query = queryParser.parse( queryString );
-			//			bq.add( query, BooleanClause.Occur.SHOULD );
+			bq.add( query, BooleanClause.Occur.MUST );
 
 			if( additionalConditions != null && !additionalConditions.isEmpty() ) {
 				for( Entry<String, String> entry : additionalConditions.entrySet() ) {
