@@ -240,7 +240,7 @@ public class Indexer {
 			if( additionalConditions != null && !additionalConditions.isEmpty() ) {
 				for( Entry<String, String> entry : additionalConditions.entrySet() ) {
 					TermQuery termQuery = new TermQuery( new Term( entry.getKey(), entry.getValue() ) );
-					bq.add( termQuery, BooleanClause.Occur.SHOULD );
+					bq.add( termQuery, BooleanClause.Occur.MUST );
 				}
 			}
 
