@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -22,10 +23,13 @@ import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
@@ -220,13 +224,29 @@ public class Indexer {
 	 * Perform a search on the index.
 	 */
 	public static List<IndexRecord> search( String queryString ) {
+		return search( queryString, null );
+	}
+
+	public static List<IndexRecord> search( String queryString, Map<String, String> additionalConditions ) {
 
 		try {
 			QueryParser queryParser = new MultiFieldQueryParser( new String[] { F_NAME, F_TEXT, F_HIDDEN_TEXT }, getAnalyzer() );
 			queryParser.setDefaultOperator( QueryParser.Operator.AND );
-			Query query = queryParser.parse( queryString );
 
-			ScoreDoc[] hits = indexSearcher().search( query, null, 2000 ).scoreDocs;
+			BooleanQuery bq = new BooleanQuery();
+			Query query = queryParser.parse( queryString );
+			bq.add( query, BooleanClause.Occur.SHOULD );
+
+			if( additionalConditions != null && !additionalConditions.isEmpty() ) {
+				for( Entry<String, String> entry : additionalConditions.entrySet() ) {
+					TermQuery termQuery = new TermQuery( new Term( entry.getKey(), entry.getValue() ) );
+					bq.add( termQuery, BooleanClause.Occur.SHOULD );
+				}
+			}
+
+			System.out.println( bq );
+
+			ScoreDoc[] hits = indexSearcher().search( bq, null, 2000 ).scoreDocs;
 
 			List<IndexRecord> results = new ArrayList<>();
 
@@ -287,10 +307,14 @@ public class Indexer {
 		return resultArray;
 	}
 
-	public static NSArray<IndexRecord> results( String queryString ) {
+	public static NSArray<IndexRecord> results( String queryString, Map<String, String> additional ) {
 		NSMutableArray<IndexRecord> results = new NSMutableArray<>();
-		ERXArrayUtilities.addObjectsFromArrayWithoutDuplicates( results, Indexer.search( queryString ) );
+		ERXArrayUtilities.addObjectsFromArrayWithoutDuplicates( results, Indexer.search( queryString, additional ) );
 		return results;
+	}
+
+	public static NSArray<IndexRecord> results( String queryString ) {
+		return results( queryString, null );
 	}
 
 	/**
