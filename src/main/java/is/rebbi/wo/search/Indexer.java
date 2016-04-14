@@ -40,7 +40,6 @@ import com.webobjects.foundation.NSComparator;
 import com.webobjects.foundation.NSMutableArray;
 
 import er.extensions.foundation.ERXArrayUtilities;
-import is.rebbi.core.search.IndexMoreInfo;
 import is.rebbi.core.search.IndexRecord;
 import is.rebbi.core.search.Indexable;
 import is.rebbi.wo.cayenne.USCayenne;
@@ -210,12 +209,15 @@ public class Indexer {
 		doc.add( textField );
 		doc.add( hiddenTextField );
 
-		if( record instanceof IndexMoreInfo ) {
-			for( Entry<String, String> entry : ((IndexMoreInfo)record).additionalData().entrySet() ) {
-				Field f = new Field( entry.getKey(), entry.getValue() == null ? "" : record.hiddenText(), Field.Store.YES, Field.Index.ANALYZED );
+		if( record.additionalData() != null ) {
+			for( Entry<String, String> entry : record.additionalData().entrySet() ) {
+				System.out.println( entry.getKey() + " : " + entry.getValue() );
+				Field f = new Field( entry.getKey(), entry.getValue() == null ? "" : entry.getValue(), Field.Store.YES, Field.Index.ANALYZED );
 				doc.add( f );
 			}
 		}
+
+		System.out.println( doc );
 
 		writer.addDocument( doc );
 	}
@@ -246,7 +248,7 @@ public class Indexer {
 
 			System.out.println( bq );
 
-			ScoreDoc[] hits = indexSearcher().search( bq, null, 2000 ).scoreDocs;
+			ScoreDoc[] hits = indexSearcher().search( query, null, 2000 ).scoreDocs;
 
 			List<IndexRecord> results = new ArrayList<>();
 

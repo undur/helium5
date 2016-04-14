@@ -145,9 +145,15 @@ public class USSearchPage extends USBaseComponent {
 	}
 
 	public WOActionResults toggle() {
+		List<EntityViewDefinition> allExceptCurrent = new ArrayList<>( viewDefinitions() );
+		allExceptCurrent.remove( currentViewDefinition );
+
 		if( definitionsToExclude.isEmpty() ) {
 			definitionsToExclude = new ArrayList<>( viewDefinitions() );
 			definitionsToExclude.remove( currentViewDefinition );
+		}
+		else if( definitionsToExclude.equals( allExceptCurrent ) ) {
+			definitionsToExclude = new ArrayList<>();
 		}
 		else {
 			if( definitionsToExclude.contains( currentViewDefinition ) ) {
