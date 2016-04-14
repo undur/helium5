@@ -129,6 +129,7 @@ public class Indexer {
 						Indexer.addRecord( writer, ((Indexable)object).indexRecord() );
 					}
 					catch( IOException e ) {
+						e.printStackTrace();
 						throw new RuntimeException( "Failed to index object", e );
 					}
 				} );
@@ -138,6 +139,7 @@ public class Indexer {
 			System.out.println( "Done" );
 		}
 		catch( Exception e ) {
+			e.printStackTrace();
 			logger.error( "Failed to perform indexing", e );
 		}
 	}
@@ -237,18 +239,18 @@ public class Indexer {
 
 			BooleanQuery bq = new BooleanQuery();
 			Query query = queryParser.parse( queryString );
-			bq.add( query, BooleanClause.Occur.SHOULD );
+			//			bq.add( query, BooleanClause.Occur.SHOULD );
 
 			if( additionalConditions != null && !additionalConditions.isEmpty() ) {
 				for( Entry<String, String> entry : additionalConditions.entrySet() ) {
-					TermQuery termQuery = new TermQuery( new Term( entry.getKey(), entry.getValue() ) );
-					bq.add( termQuery, BooleanClause.Occur.MUST );
+					Term term = new Term( entry.getKey(), entry.getValue() );
+					TermQuery termQuery = new TermQuery( term );
+					bq.add( termQuery, BooleanClause.Occur.FILTER );
 				}
 			}
-
 			System.out.println( bq );
 
-			ScoreDoc[] hits = indexSearcher().search( query, null, 2000 ).scoreDocs;
+			ScoreDoc[] hits = indexSearcher().search( bq, null, 2000 ).scoreDocs;
 
 			List<IndexRecord> results = new ArrayList<>();
 
