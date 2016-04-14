@@ -183,7 +183,7 @@ public class Indexer {
 	 */
 	private static void addRecord( IndexWriter writer, IndexRecord record ) throws CorruptIndexException, IOException {
 
-		logger.debug( "Adding new index record:" + record );
+		System.out.println( "Adding new index record:" + record );
 
 		if( record == null ) {
 			throw new RuntimeException( "[record] is null, this must never happen. Check your code." );
@@ -213,13 +213,10 @@ public class Indexer {
 
 		if( record.additionalData() != null ) {
 			for( Entry<String, String> entry : record.additionalData().entrySet() ) {
-				System.out.println( entry.getKey() + " : " + entry.getValue() );
 				Field f = new Field( entry.getKey(), entry.getValue() == null ? "" : entry.getValue(), Field.Store.YES, Field.Index.ANALYZED );
 				doc.add( f );
 			}
 		}
-
-		System.out.println( doc );
 
 		writer.addDocument( doc );
 	}
@@ -248,7 +245,8 @@ public class Indexer {
 					bq.add( termQuery, BooleanClause.Occur.FILTER );
 				}
 			}
-			System.out.println( bq );
+
+			System.out.println( "Query: " + bq );
 
 			ScoreDoc[] hits = indexSearcher().search( bq, null, 2000 ).scoreDocs;
 
