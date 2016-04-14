@@ -12,7 +12,7 @@ public class USTaskRunnerPage extends ERXComponent {
 
 	public Class currentTaskClass;
 
-	public USTaskRunnerPage( WOContext context ) {
+	public USTaskRunnerPage(WOContext context) {
 		super( context );
 	}
 

@@ -3,8 +3,12 @@ package is.rebbi.wo.search;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.cayenne.query.PrefetchTreeNode;
 import org.apache.cayenne.query.SelectQuery;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -30,9 +34,9 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSComparator;
 import com.webobjects.foundation.NSMutableArray;
-import com.webobjects.foundation.NSMutableSet;
 
 import er.extensions.foundation.ERXArrayUtilities;
+import is.rebbi.core.search.IndexMoreInfo;
 import is.rebbi.core.search.IndexRecord;
 import is.rebbi.core.search.Indexable;
 import is.rebbi.wo.cayenne.USCayenne;
@@ -104,12 +108,23 @@ public class Indexer {
 
 		try( IndexWriter writer = new IndexWriter( Indexer.indexDirectory(), config ); ) {
 			config.setOpenMode( OpenMode.CREATE );
-
 			for( String entityName : Indexer.entityNamesToIndex() ) {
 				EntityViewDefinition def = EntityViewDefinition.get( entityName );
 				logger.info( "Indexing entity: " + entityName );
 
-				USCayenne.newContext().iterate( new SelectQuery<>( def.entityClass() ), object -> {
+				SelectQuery<Object> query = new SelectQuery<>( def.entityClass() );
+				List<String> keyPathsToPrefetch = ((Indexable)def.entityClass().newInstance()).keyPathsToPrefetchBeforeIndexing();
+
+				for( String keyPath : keyPathsToPrefetch ) {
+					query.addPrefetch( PrefetchTreeNode.withPath( keyPath, PrefetchTreeNode.JOINT_PREFETCH_SEMANTICS ) );
+				}
+
+				query.setFetchLimit( 100 );
+
+				System.out.println( "Starting fetch" );
+
+				USCayenne.newContext().iterate( query, object -> {
+					System.out.println( object );
 					try {
 						Indexer.addRecord( writer, ((Indexable)object).indexRecord() );
 					}
@@ -120,7 +135,7 @@ public class Indexer {
 
 				logger.info( "Finished indexing entity: " + entityName );
 			}
-
+			System.out.println( "Done" );
 		}
 		catch( Exception e ) {
 			logger.error( "Failed to perform indexing", e );
@@ -164,7 +179,7 @@ public class Indexer {
 	/**
 	 * Adds a single record to the index.
 	 */
-	static void addRecord( IndexWriter writer, IndexRecord record ) throws CorruptIndexException, IOException {
+	private static void addRecord( IndexWriter writer, IndexRecord record ) throws CorruptIndexException, IOException {
 
 		logger.debug( "Adding new index record:" + record );
 
@@ -194,13 +209,20 @@ public class Indexer {
 		doc.add( textField );
 		doc.add( hiddenTextField );
 
+		if( record instanceof IndexMoreInfo ) {
+			for( Entry<String, String> entry : ((IndexMoreInfo)record).additionalData().entrySet() ) {
+				Field f = new Field( entry.getKey(), entry.getValue() == null ? "" : record.hiddenText(), Field.Store.YES, Field.Index.ANALYZED );
+				doc.add( f );
+			}
+		}
+
 		writer.addDocument( doc );
 	}
 
 	/**
 	 * Perform a search on the index.
 	 */
-	public static NSArray<IndexRecord> search( String queryString ) {
+	public static List<IndexRecord> search( String queryString ) {
 
 		try {
 			QueryParser queryParser = new MultiFieldQueryParser( new String[] { F_NAME, F_TEXT, F_HIDDEN_TEXT }, getAnalyzer() );
@@ -209,7 +231,7 @@ public class Indexer {
 
 			ScoreDoc[] hits = indexSearcher().search( query, null, 2000 ).scoreDocs;
 
-			NSMutableArray<IndexRecord> results = new NSMutableArray<>();
+			List<IndexRecord> results = new ArrayList<>();
 
 			for( int i = 0; i < hits.length; ++i ) {
 				Document doc = indexSearcher().doc( hits[i].doc );
@@ -221,22 +243,22 @@ public class Indexer {
 				IndexRecord record = IndexRecord.create( entityName, targetID );
 				record.setName( name );
 				record.setText( text );
-				results.addObject( record );
+				results.add( record );
 			}
 
 			return results;
 		}
 		catch( Exception e ) {
 			e.printStackTrace();
-			return NSArray.emptyArray();
+			return new ArrayList<>();
 		}
 	}
 
 	/**
 	 * Perform a search on the index.
 	 */
-	public static NSArray<String> autocomplete( String searchString ) {
-		NSMutableSet<String> results = new NSMutableSet<>();
+	public static List<String> autocomplete( String searchString ) {
+		Set<String> results = new HashSet<>();
 		searchString = searchString.toLowerCase();
 
 		try {
@@ -248,7 +270,7 @@ public class Indexer {
 				String name = doc.get( F_NAME );
 
 				if( name.toLowerCase().startsWith( searchString ) ) {
-					results.addObject( name );
+					results.add( name );
 				}
 			}
 		}
@@ -256,10 +278,10 @@ public class Indexer {
 			logger.error( "An error occurred during autocomplete: " + e );
 		}
 
-		NSArray<String> resultArray = null;
+		NSArray<String> resultArray = new NSArray<>( results );
 
 		try {
-			resultArray = results.allObjects().sortedArrayUsingComparator( NSComparator.AscendingCaseInsensitiveStringComparator );
+			resultArray = resultArray.sortedArrayUsingComparator( NSComparator.AscendingCaseInsensitiveStringComparator );
 		}
 		catch( Exception e ) {
 			logger.error( "An error occurred while sorting", e );
