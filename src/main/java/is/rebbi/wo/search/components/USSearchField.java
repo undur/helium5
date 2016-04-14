@@ -1,7 +1,9 @@
 package is.rebbi.wo.search.components;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.webobjects.appserver.WOContext;
-import com.webobjects.foundation.NSArray;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
@@ -15,7 +17,7 @@ public class USSearchField extends ERXComponent {
 	 */
 	public String searchString;
 
-	public USSearchField( WOContext context ) {
+	public USSearchField(WOContext context) {
 		super( context );
 	}
 
@@ -44,12 +46,12 @@ public class USSearchField extends ERXComponent {
 		return b.toString();
 	}
 
-	public NSArray<String> autoCompletes() {
+	public List<String> autoCompletes() {
 
 		if( searchString != null && searchString.length() > 0 ) {
 			return Indexer.autocomplete( searchString );
 		}
 
-		return NSArray.emptyArray();
+		return new ArrayList<>();
 	}
 }

@@ -1,5 +1,8 @@
 package is.rebbi.wo.search.components;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSArray;
@@ -19,7 +22,7 @@ public class USSearchPage extends USBaseComponent {
 
 	public ERXDisplayGroup<IndexRecord> dg;
 
-	public NSMutableArray<EntityViewDefinition> definitionsToExclude = new NSMutableArray<>();
+	public List<EntityViewDefinition> definitionsToExclude = new ArrayList<>();
 	public EntityViewDefinition currentViewDefinition;
 
 	/**
@@ -39,7 +42,7 @@ public class USSearchPage extends USBaseComponent {
 
 	public IndexRecord currentRecord;
 
-	public USSearchPage( WOContext context ) {
+	public USSearchPage(WOContext context) {
 		super( context );
 	}
 
@@ -55,8 +58,8 @@ public class USSearchPage extends USBaseComponent {
 		NSMutableArray<IndexRecord> a = new NSMutableArray<>();
 
 		for( IndexRecord r : results() ) {
-			if( !definitionsToExclude.containsObject( EntityViewDefinition.get( r.targetEntityName() ) ) ) {
-				a.addObject( r );
+			if( !definitionsToExclude.contains( EntityViewDefinition.get( r.targetEntityName() ) ) ) {
+				a.add( r );
 			}
 		}
 
@@ -93,12 +96,12 @@ public class USSearchPage extends USBaseComponent {
 		return b.toString();
 	}
 
-	public NSArray<String> autoCompletes() {
+	public List<String> autoCompletes() {
 		if( searchString() != null && searchString().length() > 1 ) {
 			return Indexer.autocomplete( searchString() );
 		}
 
-		return NSArray.emptyArray();
+		return new ArrayList<>();
 	}
 
 	public String searchString() {
@@ -142,11 +145,17 @@ public class USSearchPage extends USBaseComponent {
 	}
 
 	public WOActionResults toggle() {
-		if( definitionsToExclude.containsObject( currentViewDefinition ) ) {
-			definitionsToExclude.removeObject( currentViewDefinition );
+		if( definitionsToExclude.isEmpty() ) {
+			definitionsToExclude = new ArrayList<>( viewDefinitions() );
+			definitionsToExclude.remove( currentViewDefinition );
 		}
 		else {
-			definitionsToExclude.addObject( currentViewDefinition );
+			if( definitionsToExclude.contains( currentViewDefinition ) ) {
+				definitionsToExclude.remove( currentViewDefinition );
+			}
+			else {
+				definitionsToExclude.add( currentViewDefinition );
+			}
 		}
 
 		return null;
@@ -157,8 +166,11 @@ public class USSearchPage extends USBaseComponent {
 
 		b.append( "label" );
 
-		if( !definitionsToExclude.containsObject( currentViewDefinition ) ) {
+		if( !definitionsToExclude.contains( currentViewDefinition ) ) {
 			b.append( " label-success" );
+		}
+		else {
+			b.append( " label-default" );
 		}
 
 		return b.toString();

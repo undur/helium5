@@ -119,12 +119,9 @@ public class Indexer {
 					query.addPrefetch( PrefetchTreeNode.withPath( keyPath, PrefetchTreeNode.JOINT_PREFETCH_SEMANTICS ) );
 				}
 
-				query.setFetchLimit( 100 );
-
-				System.out.println( "Starting fetch" );
+				query.setFetchLimit( 1000 );
 
 				USCayenne.newContext().iterate( query, object -> {
-					System.out.println( object );
 					try {
 						Indexer.addRecord( writer, ((Indexable)object).indexRecord() );
 					}

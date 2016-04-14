@@ -18,7 +18,7 @@ public class USSearchAction extends ERXDirectAction {
 
 	private static final Logger logger = LoggerFactory.getLogger( USSearchAction.class );
 
-	public USSearchAction( WORequest r ) {
+	public USSearchAction(WORequest r) {
 		super( r );
 	}
 
