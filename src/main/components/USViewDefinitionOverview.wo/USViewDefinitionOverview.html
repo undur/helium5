@@ -1,0 +1,23 @@
+<wo:USEditLook>
+	<h2>Configuration</h2>
+	<table class="table">
+		<tr>
+			<th>Category</th>
+			<th>Entity</th>
+			<th>Name</th>
+			<th>Plural</th>
+			<th>View page</th>
+			<th>Edit page</th>
+		</tr>
+		<wo:repetition list="$all" item="$current">
+			<tr>
+				<td><wo:str value="$current.categoryName" /></td>
+				<td><wo:str value="$current.name" /></td>
+				<td><wo:str value="$current.icelandicName" /></td>
+				<td><wo:str value="$current.icelandicNamePlural" /></td>
+				<td><wo:str value="$current.viewComponentClass" /></td>
+				<td><wo:str value="$current.editComponentClass" /></td>
+			</tr>
+		 </wo:repetition>
+	</table>
+</wo:USEditLook>

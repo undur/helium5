@@ -14,6 +14,7 @@ import com.webobjects.foundation.NSMutableSet;
 
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
+import is.rebbi.wo.components.admin.USViewDefinitionOverview;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.USGenericComparator;
 
@@ -118,6 +119,7 @@ public class USMenu {
 		USMenuItemPage systemItem = USMenuItemPage.create( "Kerfi", "fa fa-wrench sidebar-nav-icon", null );
 		systemItem.addChild( USMenuItemPage.create( "Dagbækur", null, null ) );
 		systemItem.addChild( USMenuItemPage.create( "Aðgerðir", null, USTaskRunnerPage.class ) );
+		systemItem.addChild( USMenuItemPage.create( "Birting", null, USViewDefinitionOverview.class ) );
 		systemItem.addChild( USMenuItemPage.create( "Stilling", null, null ) );
 		return systemItem;
 	}
