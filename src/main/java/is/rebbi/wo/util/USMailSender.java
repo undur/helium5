@@ -1,10 +1,8 @@
 package is.rebbi.wo.util;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
@@ -22,12 +20,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
-import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSData;
-import com.webobjects.foundation.NSPathUtilities;
+import org.apache.commons.io.FilenameUtils;
 
-import er.javamail.ERMailDataAttachment;
-import er.javamail.ERMailDeliveryPlainText;
 import is.rebbi.core.util.ListUtilities;
 import is.rebbi.core.util.StringUtilities;
 
@@ -158,56 +152,13 @@ public class USMailSender {
 					if( StringUtilities.hasValue( attachmentFilePath ) ) {
 						MimeBodyPart part = new MimeBodyPart();
 						part.setDataHandler( new DataHandler( new FileDataSource( attachmentFilePath ) ) );
-						part.setFileName( NSPathUtilities.lastPathComponent( attachmentFilePath ) );
+						part.setFileName( FilenameUtils.getName( attachmentFilePath ) );
 						mixed.addBodyPart( part );
 					}
 				}
 
 				_sendMessage( fromEmailAddress, to, cc, bcc, subject, mixed );
 			}
-		}
-		catch( MessagingException e ) {
-			throw new RuntimeException( "Failed to send email", e );
-		}
-	}
-
-	public static void sendInMultipleEmails( String fromEmailAddress, List<String> to, String subject, String plainTextBody, Map<String, NSData> attachments ) {
-		for( String emailAddress : to ) {
-			composeEmail( null, fromEmailAddress, Arrays.asList( emailAddress ), subject, plainTextBody, attachments );
-		}
-	}
-
-	public static void composeEmail( String fromName, String fromEmailAddress, List<String> to, String subject, String plainTextBody, Map<String, NSData> attachments ) {
-		try {
-			ERMailDeliveryPlainText mail = new ERMailDeliveryPlainText();
-			mail.newMail();
-
-			if( fromName != null ) {
-				mail.setFromAddress( fromEmailAddress, fromName );
-			}
-			else {
-				mail.setFromAddress( fromEmailAddress );
-			}
-
-			mail.setToAddresses( new NSArray<>( to ) );
-			mail.setSubject( subject );
-
-			if( !StringUtilities.hasValue( plainTextBody ) ) {
-				plainTextBody = "";
-			}
-
-			mail.setTextContent( plainTextBody );
-
-			if( attachments != null ) {
-				for( String attachmentName : attachments.keySet() ) {
-					String attachmentID = String.valueOf( RANDOM.nextInt() );
-					NSData atachmentData = attachments.get( attachmentName );
-					ERMailDataAttachment attachment = new ERMailDataAttachment( attachmentName, attachmentID, atachmentData );
-					mail.addAttachment( attachment );
-				}
-			}
-
-			mail.sendMail();
 		}
 		catch( MessagingException e ) {
 			throw new RuntimeException( "Failed to send email", e );
