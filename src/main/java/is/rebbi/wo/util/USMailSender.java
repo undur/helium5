@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -30,8 +29,6 @@ import is.rebbi.core.util.StringUtilities;
  */
 
 public class USMailSender {
-
-	private static final Random RANDOM = new Random();
 
 	private USMailSender() {}
 
