@@ -50,12 +50,6 @@ public class USMailSender {
 
 			Session session = Session.getInstance( props, auth );
 
-			System.out.println( "SWSettings.smtpHost() " + SWSettings.smtpHost() );
-			System.out.println( "SWSettings.smtpPort() " + SWSettings.smtpPort() );
-			System.out.println( "PROPS: " + props );
-			System.out.println( "session.getProperty: " + session.getProperty( "mail.smtp.host" ) );
-
-			session.setDebug( true );
 			MimeMessage msg = new MimeMessage( session );
 			msg.setSentDate( new Date() );
 
