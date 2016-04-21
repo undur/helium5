@@ -41,7 +41,7 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 	}
 
 	/**
-	 * FIXME: Migrate to a utility class like USEOUtilities.
+	 * FIXME: Migrate to a utility class
 	 *
 	 * @return A list of attributes
 	 */

@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
-import com.webobjects.eocontrol.EOSortOrdering;
 
 import is.rebbi.wo.components.USListPageEdit;
 import is.rebbi.wo.components.USViewPage;
@@ -21,7 +20,6 @@ public class USStartPage extends USViewPage {
 	}
 
 	public List<EntityViewDefinition> all() {
-		EOSortOrdering s = new EOSortOrdering( "icelandicName", EOSortOrdering.CompareCaseInsensitiveAscending );
 		List<EntityViewDefinition> all = EntityViewDefinition.all();
 		Collections.sort( all, new USGenericComparator( "icelandicName", true, true ) );
 		return all;
