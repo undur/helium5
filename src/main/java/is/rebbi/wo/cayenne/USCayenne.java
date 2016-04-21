@@ -11,12 +11,20 @@ import er.extensions.appserver.ERXSession;
 
 public class USCayenne {
 
+	/**
+	 * The processes global ServerRuntime
+	 */
 	private static ServerRuntime _serverRuntime;
+
+	/**
+	 * Key used to store object context in the session's object store.
+	 */
+	private static final String OC_IDENTIFIER = "defaultObjectContext";
 
 	/**
 	 * ObjectContexts store the currently logged in user as a property using this key.
 	 */
-	private static final String OC_USER_KEY = "helium-user";
+	private static final String OC_USER_KEY = "heliumUser";
 
 	public static void setServerRuntime( ServerRuntime runtime ) {
 		_serverRuntime = runtime;
@@ -37,11 +45,6 @@ public class USCayenne {
 	public static boolean isActive() {
 		return serverRuntime() != null;
 	}
-
-	/**
-	 * Key used to store object context in the session's object store.
-	 */
-	private static final String OC_IDENTIFIER = "defaultObjectContext";
 
 	public static ObjectContext defaultObjectContext( WOSession session ) {
 		ObjectContext oc = (ObjectContext)((ERXSession)session).objectStore().valueForKey( OC_IDENTIFIER );
