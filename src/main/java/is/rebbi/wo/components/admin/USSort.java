@@ -80,7 +80,7 @@ public class USSort extends ERXStatelessComponent {
 	}
 
 	public String currentLabelClass() {
-		return "";
+		return null;
 	}
 
 	public String currentIconClass() {
