@@ -5,5 +5,6 @@
     <validation message="'orderings' is a required binding.">
             <unbound name="orderings"/>
         </validation>
+    <binding name="disabled"/>
     </wo>
 </wodefinitions>

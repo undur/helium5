@@ -13,8 +13,12 @@ import is.rebbi.core.util.ListUtilities;
 
 public class USSort extends ERXStatelessComponent {
 
-	public USSort( WOContext context ) {
+	public USSort(WOContext context) {
 		super( context );
+	}
+
+	public boolean disabled() {
+		return booleanValueForBinding( "disabled" );
 	}
 
 	public WOActionResults sort() {

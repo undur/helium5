@@ -1,7 +1,7 @@
 <table class="table table-condensed">
 	<tr>
 		<wo:repetition list="$keyPaths" item="$currentKeyPath">
-			<th> <wo:USSort keyPath="$currentKeyPath" orderings="$orderings"><wo:str value="$currentKeyPathName" /></wo:USSort></th>
+			<th> <wo:USSort keyPath="$currentKeyPath" orderings="$orderings" disabled="$noSortOnCurrentKeyPath"><wo:str value="$currentKeyPathName" /></wo:USSort></th>
 		</wo:repetition>
 	</tr>
 	<wo:repetition list="$objects" item="$currentObject">
