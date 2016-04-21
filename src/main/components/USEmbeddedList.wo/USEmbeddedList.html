@@ -1,0 +1,14 @@
+<table class="table table-condensed">
+	<tr>
+		<wo:repetition list="$keyPaths" item="$currentKeyPath">
+			<th> <wo:USSort keyPath="$currentKeyPath" orderings="$orderings"><wo:str value="$currentKeyPathName" /></wo:USSort></th>
+		</wo:repetition>
+	</tr>
+	<wo:repetition list="$objects" item="$currentObject">
+		<tr>
+			<wo:repetition list="$keyPaths" item="$currentKeyPath">
+				<td><wo:IMValue object="$currentValue" /></td>
+			</wo:repetition>
+		</tr>
+	</wo:repetition>
+</table>
