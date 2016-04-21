@@ -246,8 +246,6 @@ public class Indexer {
 				}
 			}
 
-			System.out.println( "Query: " + bq );
-
 			ScoreDoc[] hits = indexSearcher().search( bq, null, 2000 ).scoreDocs;
 
 			List<IndexRecord> results = new ArrayList<>();
