@@ -20,6 +20,7 @@ import is.rebbi.wo.util.USUtilities;
 
 public class USSearchPage extends USBaseComponent {
 
+	public int index;
 	public ERXDisplayGroup<IndexRecord> dg;
 
 	public List<EntityViewDefinition> definitionsToExclude = new ArrayList<>();
@@ -180,5 +181,17 @@ public class USSearchPage extends USBaseComponent {
 		}
 
 		return b.toString();
+	}
+
+	public Integer shortcut() {
+		return showShortcut() ? index + 1 : null;
+	}
+
+	public String shortcutClass() {
+		return showShortcut() ? "ttip" : null;
+	}
+
+	private boolean showShortcut() {
+		return index < 9;
 	}
 }

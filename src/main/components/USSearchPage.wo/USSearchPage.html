@@ -36,10 +36,10 @@
 									<th><wo:AjaxSortOrder displayGroup="$dg" key="text" updateContainerID="searchContainer" /></th>
 								</thead>
 								<tbody>
-									<wo:repetition list="$resultsFiltered" item="$currentRecord">
+									<wo:repetition list="$resultsFiltered" item="$currentRecord" index="$index">
 										<tr>
 											<td width="20px"><wo:if condition="$currentDefinition.iconFileName.length"><wo:img src="$currentDefinition.iconFileName" /></wo:if></td>
-											<td><wo:PointsToPersistentLink object="$currentRecord"><wo:str value="$currentRecord.name" /></wo:PointsToPersistentLink></td>
+											<td><wo:PointsToPersistentLink data-shortcut-key="$shortcut" class="$shortcutClass" object="$currentRecord"><wo:str value="$currentRecord.name" /></wo:PointsToPersistentLink></td>
 											<td style="color: gray"><wo:str value="$currentDefinition.icelandicName" /></td>
 											<td><wo:str value="$currentRecord.text" escapeHTML="$false" /></td>
 										</tr>
