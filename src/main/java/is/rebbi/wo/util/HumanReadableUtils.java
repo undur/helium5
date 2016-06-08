@@ -2,6 +2,7 @@ package is.rebbi.wo.util;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,14 +26,13 @@ public class HumanReadableUtils {
 		}
 
 		if( object instanceof List ) {
-			StringBuilder b = new StringBuilder();
+			List<String> result = new ArrayList<>();
 
 			for( Object each : ((List)object) ) {
-				b.append( toStringHuman( each ) );
-				b.append( ", " );
+				result.add( toStringHuman( each ) );
 			}
 
-			return b.toString();
+			return String.join( ",", result );
 		}
 
 		if( object instanceof HumanReadable ) {
