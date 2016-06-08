@@ -32,7 +32,7 @@ public class HumanReadableUtils {
 				result.add( toStringHuman( each ) );
 			}
 
-			return String.join( ",", result );
+			return String.join( ", ", result );
 		}
 
 		if( object instanceof HumanReadable ) {
