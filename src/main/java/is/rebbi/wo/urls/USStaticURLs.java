@@ -17,7 +17,7 @@ public class USStaticURLs {
 		if( _urlMakers == null ) {
 			_urlMakers = new NSMutableDictionary<>();
 			register( "/staging", new DirectActionURLMaker( "InspectAction" ) );
-			register( "/login", new DirectActionURLMaker( "SWDirectAction/login" ) );
+			register( "/login", new DirectActionURLMaker( "InspectAction/login" ) );
 			register( "/kerfi", new DirectActionURLMaker( "SWDirectAction/login" ) );
 			register( "/apidoc", new DirectActionURLMaker( "USController/apidoc" ) );
 		}
@@ -48,7 +48,7 @@ public class USStaticURLs {
 
 		private String _directActionName;
 
-		public DirectActionURLMaker( String directActionName ) {
+		public DirectActionURLMaker(String directActionName) {
 			_directActionName = directActionName;
 		}
 
@@ -62,7 +62,7 @@ public class USStaticURLs {
 
 		private Class<? extends ERXComponent> _componentClass;
 
-		public ComponentURLMaker( Class<? extends ERXComponent> componentClass ) {
+		public ComponentURLMaker(Class<? extends ERXComponent> componentClass) {
 			_componentClass = componentClass;
 		}
 
