@@ -32,6 +32,7 @@ public class USHeliumLook extends USViewPage {
 		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "helium/js/plugins.js" );
 		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "helium/js/app.js" );
 		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "helium/js/pages/index.js" );
+		AjaxUtils.addScriptResourceInHead( c, r, "app", "jquery-textcomplete/jquery.textcomplete.min.js" );
 
 		ERXResponseRewriter.addResourceInHead( r, c, Primary.frameworkBundleName(), "helium/img/favicon.ico", "<link rel=\"shortcut icon\" href=\"", "\">" );
 
