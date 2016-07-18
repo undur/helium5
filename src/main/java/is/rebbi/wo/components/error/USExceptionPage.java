@@ -16,6 +16,7 @@ import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSBundle;
 import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableArray;
+import com.webobjects.foundation.development.NSMavenProjectBundle;
 import com.webobjects.woextensions.WOExceptionParser;
 import com.webobjects.woextensions.WOParsedErrorLine;
 
@@ -65,7 +66,7 @@ public class USExceptionPage extends ERXComponent {
 	 */
 	public WOParsedErrorLine currentErrorLine;
 
-	public USExceptionPage( WOContext aContext ) {
+	public USExceptionPage(WOContext aContext) {
 		super( aContext );
 	}
 
@@ -107,7 +108,15 @@ public class USExceptionPage extends ERXComponent {
 			return null;
 		}
 
-		String path = bundle.bundlePath() + "/Sources/" + nameOfThrowingClass.replace( ".", "/" ) + ".java";
+		String path = null;
+
+		if( NSBundle.mainBundle() instanceof NSMavenProjectBundle ) {
+			path = bundle.bundlePath() + "/src/main/java/" + nameOfThrowingClass.replace( ".", "/" ) + ".java";
+		}
+		else {
+			path = bundle.bundlePath() + "/Sources/" + nameOfThrowingClass.replace( ".", "/" ) + ".java";
+		}
+
 		return Paths.get( path );
 	}
 
