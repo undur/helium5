@@ -89,7 +89,7 @@ public class USListPageEdit extends USBaseComponent {
 		return Inspection.editObjectInContext( currentObject, context() );
 	}
 
-	private ObjectContext oc() {
+	protected ObjectContext oc() {
 		if( _oc == null ) {
 			_oc = USCayenne.defaultObjectContext( session() );
 		}

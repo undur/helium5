@@ -1,22 +1,14 @@
 package is.rebbi.wo.components.relationships;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
-import org.apache.cayenne.map.EntityResolver;
-import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
-import org.apache.cayenne.util.CayenneMapEntry;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSKeyValueCoding;
 
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.components.USListPageEdit;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 
@@ -44,33 +36,7 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 	}
 
 	public ObjRelationship relationship() {
-		ObjectContext oc = object.getObjectContext();
-		return oc.getEntityResolver().getObjEntity( object.getObjectId().getEntityName() ).getRelationship( key );
-	}
-
-	private List<String> relationshipsInKeyPath( String keyPath ) {
-		EntityResolver entityResolver = USCayenne.serverRuntime().getDataDomain().getEntityResolver();
-		ObjEntity entity = entityResolver.getObjEntity( relationship().getTargetEntityName() );
-
-		List<String> relationships = new ArrayList<>();
-
-		StringBuilder b = new StringBuilder();
-
-		for( Iterator<CayenneMapEntry> it = entity.resolvePathComponents( keyPath ); it.hasNext(); ) {
-			CayenneMapEntry next = it.next();
-
-			if( next instanceof ObjRelationship ) {
-
-				if( b.length() > 0 ) {
-					b.append( "." );
-				}
-
-				b.append( next.getName() );
-				relationships.add( b.toString() );
-			}
-		}
-
-		return relationships;
+		return oc().getEntityResolver().getObjEntity( object.getObjectId().getEntityName() ).getRelationship( key );
 	}
 
 	@Override
@@ -93,9 +59,14 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 		}
 
 		if( saveOnSelect ) {
-			object.getObjectContext().commitChanges();
+			oc().commitChanges();
 		}
 
 		return callingComponent;
+	}
+
+	@Override
+	protected ObjectContext oc() {
+		return object.getObjectContext();
 	}
 }
