@@ -246,7 +246,7 @@ public class Indexer {
 				}
 			}
 
-			ScoreDoc[] hits = indexSearcher().search( bq, null, 2000 ).scoreDocs;
+			ScoreDoc[] hits = indexSearcher().search( bq, 100000 ).scoreDocs;
 
 			List<IndexRecord> results = new ArrayList<>();
 
