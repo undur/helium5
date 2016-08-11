@@ -280,7 +280,7 @@ public class Indexer {
 
 		try {
 			Query query = new PrefixQuery( new Term( F_NAME, searchString ) );
-			ScoreDoc[] hits = indexSearcher().search( query, null, 2000 ).scoreDocs;
+			ScoreDoc[] hits = indexSearcher().search( query, 100000 ).scoreDocs;
 
 			for( int i = 0; i < hits.length; ++i ) {
 				Document doc = indexSearcher().doc( hits[i].doc );
