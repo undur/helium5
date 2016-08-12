@@ -1,5 +1,7 @@
 package is.rebbi.wo.components.relationships;
 
+import java.util.List;
+
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.map.ObjRelationship;
@@ -68,5 +70,40 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 	@Override
 	protected ObjectContext oc() {
 		return object.getObjectContext();
+	}
+
+	private Object currentRelationshipValue() {
+		return NSKeyValueCoding.Utility.valueForKey( object, key );
+	}
+
+	public boolean currentChecked() {
+		if( relationship().isToMany() ) {
+			return ((List)currentRelationshipValue()).contains( currentObject );
+		}
+
+		return currentRelationshipValue().equals( currentObject );
+	}
+
+	public void setCurrentChecked( boolean isChecked ) {
+		if( relationship().isToMany() ) {
+			if( isChecked ) {
+				if( !currentChecked() ) {
+					object.addToManyTarget( key, currentObject, true );
+				}
+			}
+			else {
+				if( currentChecked() ) {
+					object.removeToManyTarget( key, currentObject, true );
+				}
+			}
+		}
+	}
+
+	public WOActionResults linkSelected() {
+		if( saveOnSelect ) {
+			oc().commitChanges();
+		}
+
+		return callingComponent;
 	}
 }
