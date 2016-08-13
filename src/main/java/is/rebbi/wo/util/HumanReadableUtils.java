@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.cayenne.DataObject;
-
 import is.rebbi.core.formatters.FormatterWrapperNullSafe;
 import is.rebbi.core.search.IndexRecord;
 import is.rebbi.core.search.Indexable;
-import is.rebbi.wo.definitions.EntityViewDefinition;
 
 public class HumanReadableUtils {
 
@@ -49,14 +46,6 @@ public class HumanReadableUtils {
 
 		if( object instanceof Date ) {
 			return dateFormatWithTime().format( object );
-		}
-
-		if( object instanceof DataObject ) {
-			StringBuilder b = new StringBuilder();
-			b.append( EntityViewDefinition.get( object.getClass() ).icelandicName() );
-			b.append( "#" );
-			b.append( ((DataObject)object).getObjectId() );
-			return b.toString();
 		}
 
 		return object.toString();
