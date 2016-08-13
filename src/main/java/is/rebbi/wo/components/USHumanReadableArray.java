@@ -9,8 +9,8 @@ import com.webobjects.foundation.NSKeyValueCoding;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
 import er.extensions.components.ERXStatelessComponent;
+import is.rebbi.core.humanreadable.HumanReadableUtils;
 import is.rebbi.core.util.ListUtilities;
-import is.rebbi.wo.util.HumanReadableUtils;
 
 public class USHumanReadableArray extends ERXStatelessComponent {
 

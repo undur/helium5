@@ -13,8 +13,8 @@ import com.webobjects.foundation.NSKeyValueCoding;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
 import er.extensions.components.ERXComponent;
+import is.rebbi.core.humanreadable.HumanReadableUtils;
 import is.rebbi.wo.components.USBaseComponent;
-import is.rebbi.wo.util.HumanReadableUtils;
 import is.rebbi.wo.util.Inspection;
 
 /**

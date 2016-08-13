@@ -17,7 +17,7 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSData;
 import com.webobjects.foundation.NSKeyValueCoding;
 
-import is.rebbi.wo.util.HumanReadableUtils;
+import is.rebbi.core.humanreadable.HumanReadableUtils;
 import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.CayenneUtils;
 

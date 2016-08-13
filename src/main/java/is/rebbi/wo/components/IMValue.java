@@ -11,7 +11,7 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
 import er.extensions.components.ERXStatelessComponent;
-import is.rebbi.wo.util.HumanReadableUtils;
+import is.rebbi.core.humanreadable.HumanReadableUtils;
 
 /**
  * Display any object as a human readable string in a component.
