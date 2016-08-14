@@ -220,6 +220,7 @@ public class USListPageEdit extends USBaseComponent {
 	public WOActionResults createObject() {
 		Object object = oc().newObject( selectedViewDefinition().entityClass() );
 		oc().commitChanges();
-		return Inspection.editObjectInContext( object, context() );
+		WOActionResults nextPage = Inspection.editObjectInContext( object, context() );
+		return nextPage;
 	}
 }

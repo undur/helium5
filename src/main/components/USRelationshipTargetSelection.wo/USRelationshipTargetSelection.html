@@ -20,7 +20,7 @@
 		<wo:form>
 			<div class="pull-right" style="text-align: right; margin-bottom: 10px; margin-top: -55px">
 				<div style="margin-bottom: 10px">
-					<wo:link class="btn btn-xs btn-success" action="$createObject"><wo:str value="Stofna hlut" /></wo:link> <wo:if condition="$relationship.isToMany"><wo:submit action="$linkSelected" class="btn btn-xs btn-default" value="Tengja valdar færslur" /></wo:if><br />
+					<wo:link class="btn btn-xs btn-success" action="$createObject">Stofna nýja færslu</wo:link> <wo:if condition="$relationship.isToMany"><wo:submit action="$linkSelected" class="btn btn-xs btn-default" value="Tengja valdar færslur" /></wo:if><br />
 				</div>
 				<strong><wo:str value="$numberOfObjects" numberformat="0" /></strong> hlutir fundust<wo:if condition="$hasMultipleBatches">. Síða <wo:popUpButton list="$batches" selection="$currentBatchIndexForDisplay" id="currentBatchIndex" /> af <wo:str value="$numberOfBatches" /> með <wo:textfield value="$batchSize" numberformat="0" size="3" id="batchSize" /> hlutum hver</wo:if>
 				<wo:AjaxObserveField observeFieldID="currentBatchIndex" updateContainerID="list" />
