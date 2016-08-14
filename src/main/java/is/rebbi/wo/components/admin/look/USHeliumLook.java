@@ -45,6 +45,7 @@ public class USHeliumLook extends USViewPage {
 		addAppleTouchIcon( r, c, "helium/img/icon152.png", "152x152" );
 
 		ERXResponseRewriter.insertInResponseBeforeHead( r, c, "<script type=\"text/javascript\"> $.noConflict(); </script>", TagMissingBehavior.SkipAndWarn );
+		AjaxUtils.addScriptResourceInHead( context(), r, "helium", "bootstrap_prototype_conflict_fix.js" );
 	}
 
 	private void addAppleTouchIcon( WOResponse r, WOContext c, String filename, String sizes ) {
