@@ -84,27 +84,32 @@ public class URLProviderCayenne extends URLProviderPersistent {
 
 		if( objectIdentiferIsGeneric( objectIdentifier ) ) {
 			String objEntityName = entityNameFromTypeIdentifier( typeIdentifier );
-			ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
-			Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
-
 			String identifier = objectIdentifier.substring( PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
-			String[] components = identifier.split( "\\|" );
-
-			Map<String, Object> keyMap = new HashMap<>();
-
-			int i = 0;
-
-			for( DbAttribute attribute : primaryKeyAttributes ) {
-				keyMap.put( attribute.getName(), components[i++] );
-			}
-
-			SelectQuery q = new SelectQuery( objEntityName );
-			Expression e = ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO );
-			q.setQualifier( e );
-			return (DataObject)q.selectOne( oc );
+			DataObject object = objectFromIdentifier( oc, objEntityName, identifier );
+			return object;
 		}
 		else {
 			throw new RuntimeException( "Unsupported URL format" );
 		}
+	}
+
+	public static DataObject objectFromIdentifier( ObjectContext oc, String objEntityName, String identifier ) {
+		ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
+		Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
+		String[] components = identifier.split( "\\|" );
+
+		Map<String, Object> keyMap = new HashMap<>();
+
+		int i = 0;
+
+		for( DbAttribute attribute : primaryKeyAttributes ) {
+			keyMap.put( attribute.getName(), components[i++] );
+		}
+
+		SelectQuery q = new SelectQuery( objEntityName );
+		Expression e = ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO );
+		q.setQualifier( e );
+		DataObject object = (DataObject)q.selectOne( oc );
+		return object;
 	}
 }
