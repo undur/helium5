@@ -8,51 +8,49 @@
 			background-color: white !important;
 		}
 	</style>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h3><wo:str value="$selectedViewDefinition.icelandicNamePlural" /></h3>
-				<div class="row">
-					<div class="col-md-4">
-						<wo:form class="form-search">
-							<wo:textfield value="$searchString" id="searchString" class="searchField input-medium search-query" placeholder="Leita…" />
-							<wo:AjaxObserveField observeFieldID="searchString" updateContainerID="list" observeFieldFrequency="1" action="$search" />
-						</wo:form>
-					</div>
+	<div class="row">
+		<div class="col-md-12">
+			<h3><wo:str value="$selectedViewDefinition.icelandicNamePlural" /></h3>
+			<div class="row">
+				<div class="col-md-4">
+					<wo:form class="form-search">
+						<wo:textfield value="$searchString" id="searchString" class="searchField input-medium search-query" placeholder="Leita…" />
+						<wo:AjaxObserveField observeFieldID="searchString" updateContainerID="list" observeFieldFrequency="1" action="$search" />
+					</wo:form>
 				</div>
-				<wo:AjaxUpdateContainer id="list">
-					<div class="pull-right" style="text-align: right; margin-bottom: 10px; margin-top: -55px">
-						<wo:form>
-							<wo:link class="btn btn-xs btn-success" style="margin-bottom: 10px" action="$createObject"><wo:str value="Stofna hlut" /></wo:link><br />
-							<strong><wo:str value="$numberOfObjects" numberformat="0" /></strong> hlutir fundust<wo:if condition="$hasMultipleBatches">. Síða <wo:popUpButton list="$batches" selection="$currentBatchIndexForDisplay" id="currentBatchIndex" /> af <wo:str value="$numberOfBatches" /> með <wo:textfield value="$batchSize" numberformat="0" size="3" id="batchSize" /> hlutum hver</wo:if>
-							<wo:AjaxObserveField observeFieldID="currentBatchIndex" updateContainerID="list" />
-							<wo:AjaxObserveField observeFieldID="batchSize" updateContainerID="list" />
-						</wo:form>
-					</div>
+			</div>
+			<wo:AjaxUpdateContainer id="list">
+				<div class="pull-right" style="text-align: right; margin-bottom: 10px; margin-top: -55px">
 					<wo:form>
-						<table class="table table-striped table-condensed table-bordered">
-							<thead>
+						<wo:link class="btn btn-xs btn-success" style="margin-bottom: 10px" action="$createObject"><wo:str value="Stofna hlut" /></wo:link><br />
+						<strong><wo:str value="$numberOfObjects" numberformat="0" /></strong> hlutir fundust<wo:if condition="$hasMultipleBatches">. Síða <wo:popUpButton list="$batches" selection="$currentBatchIndexForDisplay" id="currentBatchIndex" /> af <wo:str value="$numberOfBatches" /> með <wo:textfield value="$batchSize" numberformat="0" size="3" id="batchSize" /> hlutum hver</wo:if>
+						<wo:AjaxObserveField observeFieldID="currentBatchIndex" updateContainerID="list" />
+						<wo:AjaxObserveField observeFieldID="batchSize" updateContainerID="list" />
+					</wo:form>
+				</div>
+				<wo:form>
+					<table class="table table-striped table-condensed table-bordered">
+						<thead>
+							<tr>
+								<th width="10"></th>
+								<wo:repetition list="$keyPathsToShow" item="$currentKeyPath">
+									<th nowrap><wo:USSort orderings="$orderings" keyPath="$currentKeyPath"><wo:str value="$currentKeyPathDisplayName" /></wo:USSort></th>
+								</wo:repetition>
+							</tr>
+						</thead>
+						<tbody>
+							<wo:repetition list="$objects" item="$currentObject">
 								<tr>
-									<th width="10"></th>
+									<td width="10"><wo:EditLink object="$currentObject"><i class="glyphicon glyphicon-edit"></i></wo:EditLink></td>
 									<wo:repetition list="$keyPathsToShow" item="$currentKeyPath">
-										<th nowrap><wo:USSort orderings="$orderings" keyPath="$currentKeyPath"><wo:str value="$currentKeyPathDisplayName" /></wo:USSort></th>
+										<td><wo:IMValue object="$currentValue" /></td>
 									</wo:repetition>
 								</tr>
-							</thead>
-							<tbody>
-								<wo:repetition list="$objects" item="$currentObject">
-									<tr>
-										<td width="10"><wo:EditLink object="$currentObject"><i class="glyphicon glyphicon-edit"></i></wo:EditLink></td>
-										<wo:repetition list="$keyPathsToShow" item="$currentKeyPath">
-											<td><wo:IMValue object="$currentValue" /></td>
-										</wo:repetition>
-									</tr>
-								</wo:repetition>
-							</tbody>
-						</table>
-					</wo:form>
-				</wo:AjaxUpdateContainer>
-			</div>
+							</wo:repetition>
+						</tbody>
+					</table>
+				</wo:form>
+			</wo:AjaxUpdateContainer>
 		</div>
 	</div>
 	<script>
