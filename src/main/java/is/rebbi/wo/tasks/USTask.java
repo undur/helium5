@@ -35,10 +35,21 @@ public abstract class USTask {
 	public static void runTaskOfClass( Class<? extends USTask> taskClass ) {
 		try {
 			USTask instance = taskClass.newInstance();
-			instance.run();
+			if( instance.runInBackground() ) {
+				new Thread( () -> {
+					instance.run();
+				} ).run();
+			}
+			else {
+				instance.run();
+			}
 		}
 		catch( InstantiationException | IllegalAccessException e ) {
 			throw new RuntimeException( e );
 		}
+	}
+
+	public boolean runInBackground() {
+		return true;
 	}
 }
