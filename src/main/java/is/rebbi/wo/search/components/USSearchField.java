@@ -17,6 +17,8 @@ public class USSearchField extends ERXComponent {
 	 */
 	public String searchString;
 
+	public boolean autocomplete;
+
 	public USSearchField(WOContext context) {
 		super( context );
 	}
