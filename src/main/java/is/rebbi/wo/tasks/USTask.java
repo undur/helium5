@@ -35,10 +35,11 @@ public abstract class USTask {
 	public static void runTaskOfClass( Class<? extends USTask> taskClass ) {
 		try {
 			USTask instance = taskClass.newInstance();
+
 			if( instance.runInBackground() ) {
 				new Thread( () -> {
 					instance.run();
-				} ).run();
+				} ).start();
 			}
 			else {
 				instance.run();
