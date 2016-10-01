@@ -386,6 +386,31 @@ public class IcelandicInflector {
 		return result;
 	}
 
+	public String gender( String word ) {
+
+		String result = null;
+
+		try {
+			IndexSearcher searcher = indexSearcher();
+			String queryString = F_WORD + ":" + word;
+			Query q = new QueryParser( F_MODIFIED_WORD, getAnalyzer() ).parse( queryString );
+			TopScoreDocCollector collector = TopScoreDocCollector.create( 1 );
+			searcher.search( q, collector );
+			ScoreDoc[] hits = collector.topDocs().scoreDocs;
+
+			for( int i = 0; i < hits.length; ++i ) {
+				Document d = searcher.doc( hits[i].doc );
+				String modifiedWord = d.get( F_TYPE );
+				result = modifiedWord;
+			}
+		}
+		catch( Exception e ) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	/**
 	 * @return The modified form of a word. Null if no matching word is found .
 	 */
