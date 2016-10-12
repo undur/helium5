@@ -62,24 +62,12 @@ public class SessionManager {
 
 	public void sessionDidRestore( NSNotification notification ) {
 		ERXSession session = (ERXSession)notification.object();
-
-		if( session != null ) {
-			session.objectStore().takeValueForKey( new NSTimestamp(), "lastTouchedDate" );
-		}
+		addSessionIfMissing( session );
 	}
 
 	public void sessionDidCreate( NSNotification notification ) {
 		ERXSession session = (ERXSession)notification.object();
-
-		if( session != null ) {
-			session.objectStore().takeValueForKey( new NSTimestamp(), "lastTouchedDate" );
-			session.objectStore().takeValueForKey( ((ERXRequest)session.context().request()).remoteHostAddress(), "remoteHostAddress" );
-			activeSessions().addObject( session );
-
-			if( session.browser().isRobot() ) {
-				session.setTimeOut( 300 );
-			}
-		}
+		addSessionIfMissing( session );
 	}
 
 	public void sessionDidTimeOut( NSNotification notification ) {
@@ -94,5 +82,24 @@ public class SessionManager {
 				}
 			}
 		}
+	}
+
+	public void addSessionIfMissing( ERXSession session ) {
+		if( session != null ) {
+			touchSession( session );
+
+			if( !activeSessions().contains( session ) ) {
+				session.objectStore().takeValueForKey( ((ERXRequest)session.context().request()).remoteHostAddress(), "remoteHostAddress" );
+				activeSessions().addObject( session );
+
+				if( session.browser().isRobot() ) {
+					session.setTimeOut( 300 );
+				}
+			}
+		}
+	}
+
+	private void touchSession( ERXSession session ) {
+		session.objectStore().takeValueForKey( new NSTimestamp(), "lastTouchedDate" );
 	}
 }
