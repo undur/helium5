@@ -7,7 +7,6 @@ import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
 import com.webobjects.foundation.NSTimestamp;
 
-import er.extensions.appserver.ERXRequest;
 import er.extensions.appserver.ERXSession;
 
 /**
@@ -89,7 +88,8 @@ public class SessionManager {
 			touchSession( session );
 
 			if( !activeSessions().contains( session ) ) {
-				session.objectStore().takeValueForKey( ((ERXRequest)session.context().request()).remoteHostAddress(), "remoteHostAddress" );
+				String ipAddress = USHTTPUtilities.ipAddressFromRequest( session.context().request() );
+				session.objectStore().takeValueForKey( ipAddress, "remoteHostAddress" );
 				activeSessions().addObject( session );
 
 				if( session.browser().isRobot() ) {
