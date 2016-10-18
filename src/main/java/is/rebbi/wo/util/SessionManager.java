@@ -1,5 +1,6 @@
 package is.rebbi.wo.util;
 
+import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOSession;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSNotification;
@@ -7,6 +8,7 @@ import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
 import com.webobjects.foundation.NSTimestamp;
 
+import er.extensions.appserver.ERXBrowser;
 import er.extensions.appserver.ERXSession;
 
 /**
@@ -88,12 +90,24 @@ public class SessionManager {
 			touchSession( session );
 
 			if( !activeSessions().contains( session ) ) {
-				String ipAddress = USHTTPUtilities.ipAddressFromRequest( session.context().request() );
-				session.objectStore().takeValueForKey( ipAddress, "remoteHostAddress" );
 				activeSessions().addObject( session );
 
-				if( session.browser().isRobot() ) {
-					session.setTimeOut( 300 );
+				WOContext context = session.context();
+
+				if( context != null ) {
+					String ipAddress = USHTTPUtilities.ipAddressFromRequest( context.request() );
+
+					if( ipAddress != null ) {
+						session.objectStore().takeValueForKey( ipAddress, "remoteHostAddress" );
+					}
+				}
+
+				ERXBrowser browser = session.browser();
+
+				if( browser != null ) {
+					if( browser.isRobot() ) {
+						session.setTimeOut( 300 );
+					}
 				}
 			}
 		}
