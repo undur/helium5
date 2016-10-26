@@ -57,6 +57,10 @@ public class USCayenne {
 		return oc;
 	}
 
+	public static void resetDefaultObjectContext( WOSession session ) {
+		((ERXSession)session).objectStore().takeValueForKey( null, OC_IDENTIFIER );
+	}
+
 	/**
 	 * Set the user that owns the given object context. Actions performed within this context will be o
 	 */
