@@ -85,7 +85,7 @@ public class SessionManager {
 		}
 	}
 
-	public void addSessionIfMissing( ERXSession session ) {
+	public synchronized void addSessionIfMissing( ERXSession session ) {
 		if( session != null ) {
 			touchSession( session );
 
