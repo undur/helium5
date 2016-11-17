@@ -12,10 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
-import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSBundle;
 import com.webobjects.foundation.NSDictionary;
-import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.development.NSMavenProjectBundle;
 import com.webobjects.woextensions.WOExceptionParser;
 import com.webobjects.woextensions.WOParsedErrorLine;
@@ -72,7 +70,7 @@ public class USExceptionPage extends ERXComponent {
 	 * @return First line of the stack trace, essentially the causing line.
 	 */
 	public WOParsedErrorLine firstLineOfTrace() {
-		NSArray<WOParsedErrorLine> stackTrace = exceptionParser.stackTrace();
+		List<WOParsedErrorLine> stackTrace = exceptionParser.stackTrace();
 
 		if( stackTrace.isEmpty() ) {
 			return null;
@@ -150,7 +148,7 @@ public class USExceptionPage extends ERXComponent {
 	 * @return CSS class for the current line of the source file (to show odd/even lines and highlight the error line)
 	 */
 	public String sourceLineClass() {
-		NSMutableArray<String> cssClasses = new NSMutableArray<>();
+		List<String> cssClasses = new ArrayList<>();
 		cssClasses.add( "src-line" );
 
 		if( currentSourceLineIndex % 2 == 0 ) {
@@ -164,7 +162,7 @@ public class USExceptionPage extends ERXComponent {
 			cssClasses.add( "error-line" );
 		}
 
-		return cssClasses.componentsJoinedByString( " " );
+		return String.join( " ", cssClasses );
 	}
 
 	/**
