@@ -20,10 +20,8 @@ import com.webobjects.foundation.development.NSMavenProjectBundle;
 import com.webobjects.woextensions.WOExceptionParser;
 import com.webobjects.woextensions.WOParsedErrorLine;
 
-import er.ajax.AjaxUtils;
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.Primary;
 
 /**
  * A little nicer version of WOExceptionPage.
@@ -66,15 +64,8 @@ public class USExceptionPage extends ERXComponent {
 	 */
 	public WOParsedErrorLine currentErrorLine;
 
-	public USExceptionPage(WOContext aContext) {
+	public USExceptionPage( WOContext aContext ) {
 		super( aContext );
-	}
-
-	@Override
-	public void appendToResponse( WOResponse r, WOContext c ) {
-		super.appendToResponse( r, c );
-		AjaxUtils.addStylesheetResourceInHead( c, r, Primary.frameworkBundleName(), "helium/css/bootstrap.min.css" );
-		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "helium/js/vendor/bootstrap.min.js" );
 	}
 
 	/**
