@@ -30,7 +30,7 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 	public ObjRelationship currentRelationship;
 	public String filename;
 
-	public USEditPageGeneric(WOContext context) {
+	public USEditPageGeneric( WOContext context ) {
 		super( context );
 	}
 
