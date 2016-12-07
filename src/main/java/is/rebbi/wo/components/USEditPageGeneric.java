@@ -111,7 +111,7 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 	 * FIXME: We're assuming long strings for certain field names here
 	 */
 	public boolean attributeIsLongString() {
-		boolean isLong = "text".equals( currentAttribute.getName() ) || "history".equals( currentAttribute.getName() );
+		boolean isLong = "text".equals( currentAttribute.getName() ) || "history".equals( currentAttribute.getName() ) || "testText".equals( currentAttribute.getName() ) || "expectedResult".equals( currentAttribute.getName() ) || "jsonRequestText".equals( currentAttribute.getName() );
 		return attributeIsString() && isLong;
 	}
 
