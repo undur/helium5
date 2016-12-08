@@ -32,7 +32,7 @@ public class USMailSender {
 
 	private USMailSender() {}
 
-	public static void _sendMessage( String fromEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, MimeMultipart mp ) {
+	private static void _sendMessage( String fromEmailAddress, String replyToEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, MimeMultipart mp ) {
 		try {
 			Properties props = new Properties();
 			props.put( "mail.smtp.host", SWSettings.smtpHost() );
@@ -55,6 +55,10 @@ public class USMailSender {
 
 			if( fromEmailAddress != null ) {
 				msg.setFrom( new InternetAddress( fromEmailAddress ) );
+			}
+
+			if( replyToEmailAddress != null ) {
+				msg.setReplyTo( new InternetAddress[] { new InternetAddress( replyToEmailAddress ) } );
 			}
 
 			if( to != null ) {
@@ -104,7 +108,7 @@ public class USMailSender {
 				mp.addBodyPart( part );
 			}
 
-			_sendMessage( fromEmailAddress, to, cc, bcc, subject, mp );
+			_sendMessage( fromEmailAddress, null, to, cc, bcc, subject, mp );
 		}
 		catch( MessagingException e ) {
 			throw new RuntimeException( "Error sending e-mail", e );
@@ -112,6 +116,10 @@ public class USMailSender {
 	}
 
 	public static void composeEmail( String fromEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, String text, String html, List<String> attachmentFilePaths ) {
+		composeEmail( fromEmailAddress, null, to, cc, bcc, subject, text, html, attachmentFilePaths );
+	}
+
+	public static void composeEmail( String fromEmailAddress, String replyToEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, String text, String html, List<String> attachmentFilePaths ) {
 
 		try {
 			MimeMultipart mp = new MimeMultipart( "alternative" );
@@ -131,7 +139,7 @@ public class USMailSender {
 			}
 
 			if( !ListUtilities.hasObjects( attachmentFilePaths ) ) {
-				_sendMessage( fromEmailAddress, to, cc, bcc, subject, mp );
+				_sendMessage( fromEmailAddress, null, to, cc, bcc, subject, mp );
 			}
 			else {
 				MimeMultipart mixed = new MimeMultipart( "mixed" );
@@ -148,7 +156,7 @@ public class USMailSender {
 					}
 				}
 
-				_sendMessage( fromEmailAddress, to, cc, bcc, subject, mixed );
+				_sendMessage( fromEmailAddress, null, to, cc, bcc, subject, mixed );
 			}
 		}
 		catch( MessagingException e ) {
@@ -161,7 +169,7 @@ public class USMailSender {
 		private String username;
 		private String password;
 
-		public SMTPAuthenticator(String username, String password) {
+		public SMTPAuthenticator( String username, String password ) {
 			this.username = username;
 			this.password = password;
 		}
