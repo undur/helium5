@@ -32,7 +32,7 @@ public class USMailSender {
 
 	private USMailSender() {}
 
-	private static void _sendMessage( String fromEmailAddress, String replyToEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, MimeMultipart mp ) {
+	private static void _sendMessage( String fromName, String fromEmailAddress, String replyToEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, MimeMultipart mp ) {
 		try {
 			Properties props = new Properties();
 			props.put( "mail.smtp.host", SWSettings.smtpHost() );
@@ -54,11 +54,11 @@ public class USMailSender {
 			msg.setSentDate( new Date() );
 
 			if( fromEmailAddress != null ) {
-				msg.setFrom( new InternetAddress( fromEmailAddress ) );
+				msg.setFrom( new InternetAddress( fromEmailAddress, fromName ) );
 			}
 
 			if( replyToEmailAddress != null ) {
-				msg.setReplyTo( new InternetAddress[] { new InternetAddress( replyToEmailAddress ) } );
+				msg.setReplyTo( new InternetAddress[] { new InternetAddress( replyToEmailAddress, fromName ) } );
 			}
 
 			if( to != null ) {
@@ -108,7 +108,7 @@ public class USMailSender {
 				mp.addBodyPart( part );
 			}
 
-			_sendMessage( fromEmailAddress, null, to, cc, bcc, subject, mp );
+			_sendMessage( null, fromEmailAddress, null, to, cc, bcc, subject, mp );
 		}
 		catch( MessagingException e ) {
 			throw new RuntimeException( "Error sending e-mail", e );
@@ -116,10 +116,10 @@ public class USMailSender {
 	}
 
 	public static void composeEmail( String fromEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, String text, String html, List<String> attachmentFilePaths ) {
-		composeEmail( fromEmailAddress, null, to, cc, bcc, subject, text, html, attachmentFilePaths );
+		composeEmail( null, fromEmailAddress, null, to, cc, bcc, subject, text, html, attachmentFilePaths );
 	}
 
-	public static void composeEmail( String fromEmailAddress, String replyToEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, String text, String html, List<String> attachmentFilePaths ) {
+	public static void composeEmail( String fromName, String fromEmailAddress, String replyToEmailAddress, List<String> to, List<String> cc, List<String> bcc, String subject, String text, String html, List<String> attachmentFilePaths ) {
 
 		try {
 			MimeMultipart mp = new MimeMultipart( "alternative" );
@@ -139,7 +139,7 @@ public class USMailSender {
 			}
 
 			if( !ListUtilities.hasObjects( attachmentFilePaths ) ) {
-				_sendMessage( fromEmailAddress, replyToEmailAddress, to, cc, bcc, subject, mp );
+				_sendMessage( fromName, fromEmailAddress, replyToEmailAddress, to, cc, bcc, subject, mp );
 			}
 			else {
 				MimeMultipart mixed = new MimeMultipart( "mixed" );
@@ -156,7 +156,7 @@ public class USMailSender {
 					}
 				}
 
-				_sendMessage( fromEmailAddress, replyToEmailAddress, to, cc, bcc, subject, mixed );
+				_sendMessage( fromName, fromEmailAddress, replyToEmailAddress, to, cc, bcc, subject, mixed );
 			}
 		}
 		catch( MessagingException e ) {
