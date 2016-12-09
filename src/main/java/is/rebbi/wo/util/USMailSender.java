@@ -139,7 +139,7 @@ public class USMailSender {
 			}
 
 			if( !ListUtilities.hasObjects( attachmentFilePaths ) ) {
-				_sendMessage( fromEmailAddress, null, to, cc, bcc, subject, mp );
+				_sendMessage( fromEmailAddress, replyToEmailAddress, to, cc, bcc, subject, mp );
 			}
 			else {
 				MimeMultipart mixed = new MimeMultipart( "mixed" );
@@ -156,7 +156,7 @@ public class USMailSender {
 					}
 				}
 
-				_sendMessage( fromEmailAddress, null, to, cc, bcc, subject, mixed );
+				_sendMessage( fromEmailAddress, replyToEmailAddress, to, cc, bcc, subject, mixed );
 			}
 		}
 		catch( MessagingException e ) {
