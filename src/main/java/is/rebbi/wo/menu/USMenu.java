@@ -13,6 +13,7 @@ import com.webobjects.foundation.NSComparator.ComparisonException;
 import com.webobjects.foundation.NSMutableSet;
 
 import er.extensions.components.ERXComponent;
+import is.rebbi.wo.components.admin.USSystemInfo;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
 import is.rebbi.wo.components.admin.USViewDefinitionOverview;
 import is.rebbi.wo.definitions.EntityViewDefinition;
@@ -121,6 +122,7 @@ public class USMenu {
 		systemItem.addChild( USMenuItemPage.create( "Aðgerðir", null, USTaskRunnerPage.class ) );
 		systemItem.addChild( USMenuItemPage.create( "Birting", null, USViewDefinitionOverview.class ) );
 		systemItem.addChild( USMenuItemPage.create( "Stilling", null, null ) );
+		systemItem.addChild( USMenuItemPage.create( "Umhverfi", null, USSystemInfo.class ) );
 		return systemItem;
 	}
 

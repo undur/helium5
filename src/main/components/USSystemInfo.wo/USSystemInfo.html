@@ -1,0 +1,24 @@
+<wo:USEditLook>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h2>Properties</h2>
+				<table class="table table-condensed table-bordered">
+					<tr>
+						<th>Key</th>
+						<th>Value</th>
+					</tr>
+					<wo:repetition list="$propertyKeys" item="$currentPropertyKey">
+					<tr>
+						<td><wo:str value="$currentPropertyKey" /></td>
+						<td><wo:str value="$currentPropertyValue" /></td>
+					</tr>
+					</wo:repetition>
+				</table>
+				
+				<h2>Classpath</h2>
+				<wo:str value="$reportPath" escapeHTML="$false" />
+			</div>
+		</div>
+	</div>
+</wo:USEditLook>
