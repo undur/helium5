@@ -8,5 +8,6 @@
     
     
     <binding name="valueWhenEmpty"/>
+    <binding name="dateTimeFormatter"/>
     </wo>
 </wodefinitions>

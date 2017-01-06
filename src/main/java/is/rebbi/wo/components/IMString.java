@@ -2,6 +2,8 @@ package is.rebbi.wo.components;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
 import com.webobjects.appserver.WOContext;
@@ -29,6 +31,10 @@ public class IMString extends ERXStatelessComponent {
 		return USUtilities.integerFromObject( valueForBinding( "maxLength" ) );
 	}
 
+	private DateTimeFormatter dateTimeFormatter() {
+		return (DateTimeFormatter)valueForBinding( "dateTimeFormatter" );
+	}
+
 	public String valueWhenEmpty() {
 		return stringValueForBinding( "valueWhenEmpty" );
 	}
@@ -41,7 +47,13 @@ public class IMString extends ERXStatelessComponent {
 		}
 
 		if( value instanceof BigDecimal ) {
-			return NumberFormat.getInstance( new Locale( "is" ) ).format( value );
+			value = NumberFormat.getInstance( new Locale( "is" ) ).format( value );
+		}
+
+		if( value instanceof TemporalAccessor ) {
+			if( dateTimeFormatter() != null ) {
+				value = dateTimeFormatter().format( (TemporalAccessor)value );
+			}
 		}
 
 		if( !(value instanceof String) ) {
