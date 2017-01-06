@@ -72,7 +72,7 @@ public class USListPageEdit extends USBaseComponent {
 	 */
 	private List<Ordering> _orderings;
 
-	public USListPageEdit(WOContext context) {
+	public USListPageEdit( WOContext context ) {
 		super( context );
 	}
 
