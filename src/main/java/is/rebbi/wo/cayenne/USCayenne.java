@@ -3,18 +3,13 @@ package is.rebbi.wo.cayenne;
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
-import org.apache.cayenne.configuration.server.ServerRuntimeBuilder;
 
 import com.webobjects.appserver.WOSession;
 
 import er.extensions.appserver.ERXSession;
+import jambalaya.Jambalaya;
 
 public class USCayenne {
-
-	/**
-	 * The processes global ServerRuntime
-	 */
-	private static ServerRuntime _serverRuntime;
 
 	/**
 	 * Key used to store object context in the session's object store.
@@ -26,24 +21,18 @@ public class USCayenne {
 	 */
 	private static final String OC_USER_KEY = "heliumUser";
 
+	@Deprecated
 	public static void setServerRuntime( ServerRuntime runtime ) {
-		_serverRuntime = runtime;
+		Jambalaya.setServerRuntime( runtime );
 	}
 
+	@Deprecated
 	public static ServerRuntime serverRuntime() {
-		if( _serverRuntime == null ) {
-			setServerRuntime( new ServerRuntimeBuilder().build() );
-		}
-
-		return _serverRuntime;
+		return Jambalaya.serverRuntime();
 	}
 
 	public static ObjectContext newContext() {
-		return serverRuntime().newContext();
-	}
-
-	public static boolean isActive() {
-		return serverRuntime() != null;
+		return Jambalaya.newContext();
 	}
 
 	public static ObjectContext defaultObjectContext( WOSession session ) {
