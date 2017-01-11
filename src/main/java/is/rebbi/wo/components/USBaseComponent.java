@@ -14,7 +14,7 @@ public abstract class USBaseComponent extends ERXComponent {
 	 */
 	private String _uniqueID;
 
-	public USBaseComponent(WOContext context) {
+	public USBaseComponent( WOContext context ) {
 		super( context );
 	}
 
@@ -54,9 +54,7 @@ public abstract class USBaseComponent extends ERXComponent {
 			return lookName;
 		}
 
-		if( lookName == null ) {
-			lookName = SWSettings.defaultLookName();
-		}
+		lookName = SWSettings.defaultLookName();
 
 		if( lookName == null ) {
 			lookName = USStandardLook.class.getSimpleName();
@@ -69,12 +67,18 @@ public abstract class USBaseComponent extends ERXComponent {
 	 * @return Name of WOComponent to wrap around content when editing objects.
 	 */
 	public String editLookName() {
-		String editLookName = SWSettings.defaultEditLookName();
+		String lookName = context().request().stringFormValueForKey( "look" );
 
-		if( editLookName == null ) {
-			editLookName = lookName();
+		if( lookName != null ) {
+			return lookName;
 		}
 
-		return editLookName;
+		lookName = SWSettings.defaultEditLookName();
+
+		if( lookName == null ) {
+			lookName = USStandardLook.class.getSimpleName();
+		}
+
+		return lookName;
 	}
 }
