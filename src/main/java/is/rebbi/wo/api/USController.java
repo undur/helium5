@@ -10,8 +10,8 @@ import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSMutableArray;
 
 import er.extensions.appserver.ERXDirectAction;
-import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.util.USJson;
+import jambalaya.Jambalaya;
 
 public abstract class USController extends ERXDirectAction {
 
@@ -19,7 +19,7 @@ public abstract class USController extends ERXDirectAction {
 
 	private ObjectContext _oc;
 
-	public USController(WORequest r) {
+	public USController( WORequest r ) {
 		super( r );
 	}
 
@@ -36,7 +36,7 @@ public abstract class USController extends ERXDirectAction {
 	 */
 	protected ObjectContext oc() {
 		if( _oc == null ) {
-			_oc = USCayenne.newContext();
+			_oc = Jambalaya.newContext();
 		}
 
 		return _oc;

@@ -29,7 +29,7 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 
 	private ObjectContext _oc;
 
-	public USViewPage(WOContext context) {
+	public USViewPage( WOContext context ) {
 		super( context );
 	}
 

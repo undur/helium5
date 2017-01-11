@@ -42,9 +42,9 @@ import com.webobjects.foundation.NSMutableArray;
 import er.extensions.foundation.ERXArrayUtilities;
 import is.rebbi.core.search.IndexRecord;
 import is.rebbi.core.search.Indexable;
-import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.SWSettings;
+import jambalaya.Jambalaya;
 
 /**
  * Creates and maintains the index.
@@ -122,7 +122,7 @@ public class Indexer {
 					query.addPrefetch( PrefetchTreeNode.withPath( keyPath, PrefetchTreeNode.JOINT_PREFETCH_SEMANTICS ) );
 				}
 
-				USCayenne.newContext().iterate( query, object -> {
+				Jambalaya.newContext().iterate( query, object -> {
 					try {
 						Indexer.addRecord( writer, ((Indexable)object).indexRecord() );
 					}

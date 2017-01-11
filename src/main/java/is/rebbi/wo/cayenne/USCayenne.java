@@ -40,7 +40,7 @@ public class USCayenne {
 		ObjectContext oc = (ObjectContext)((ERXSession)session).objectStore().valueForKey( OC_IDENTIFIER );
 
 		if( oc == null ) {
-			oc = USCayenne.newContext();
+			oc = Jambalaya.newContext();
 			((ERXSession)session).objectStore().takeValueForKey( oc, OC_IDENTIFIER );
 		}
 

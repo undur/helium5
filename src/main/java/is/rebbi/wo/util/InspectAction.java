@@ -30,7 +30,7 @@ public class InspectAction extends ERXDirectAction {
 	private static final String SEARCH_PREFIX = "/search/";
 	public static final String PASSWORD_RESET_REQUEST_PREFIX = "/passwordResetRequest/";
 
-	public InspectAction(WORequest r) {
+	public InspectAction( WORequest r ) {
 		super( r );
 	}
 
@@ -82,14 +82,14 @@ public class InspectAction extends ERXDirectAction {
 			String afterPrefix = url.substring( SEARCH_PREFIX.length() );
 			logger.info( "searchString: " + afterPrefix );
 			String directActionName = USSearchAction.class.getSimpleName() + "/search";
-			NSDictionary<String, Object> params = new NSDictionary<String, Object>( afterPrefix, "searchString_field" );
+			NSDictionary<String, Object> params = new NSDictionary<>( afterPrefix, "searchString_field" );
 			String searchURL = context().directActionURLForActionNamed( directActionName, params );
 			return USHTTPUtilities.redirectTemporary( searchURL );
 		}
 
 		if( url.startsWith( PASSWORD_RESET_REQUEST_PREFIX ) ) {
 			String afterPrefix = url.substring( PASSWORD_RESET_REQUEST_PREFIX.length() );
-			NSDictionary<String, Object> params = new NSDictionary<String, Object>( afterPrefix, "key" );
+			NSDictionary<String, Object> params = new NSDictionary<>( afterPrefix, "key" );
 			String searchURL = context().directActionURLForActionNamed( "SWPasswordResetAction" /* FIXME: SWPasswordResetAction.class.getSimpleName() */, params );
 			return USHTTPUtilities.redirectTemporary( searchURL );
 		}

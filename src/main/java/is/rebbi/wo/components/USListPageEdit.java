@@ -24,6 +24,7 @@ import is.rebbi.wo.definitions.AttributeViewDefinition;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.Inspection;
 import jambalaya.CayenneUtils;
+import jambalaya.Jambalaya;
 
 public class USListPageEdit extends USBaseComponent {
 
@@ -196,7 +197,7 @@ public class USListPageEdit extends USBaseComponent {
 			return attributesToShow.stream().map( AttributeViewDefinition::name ).collect( Collectors.toList() );
 		}
 		else {
-			return USCayenne.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( selectedViewDefinition().entityClass() ).getAttributes().stream().map( ObjAttribute::getName ).collect( Collectors.toList() );
+			return Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( selectedViewDefinition().entityClass() ).getAttributes().stream().map( ObjAttribute::getName ).collect( Collectors.toList() );
 		}
 	}
 

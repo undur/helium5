@@ -21,11 +21,11 @@ import com.webobjects.foundation.NSMutableArray;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import is.rebbi.wo.util.USCRUDUtilities;
 import is.rebbi.wo.util.USGenericComparator;
 import jambalaya.CayenneUtils;
+import jambalaya.Jambalaya;
 
 /**
  * Defines the viewing of a certain entity.
@@ -165,7 +165,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	private static Class<?> classForEntity( String entityName ) {
 		Class<?> entityClass = null;
 
-		ServerRuntime serverRuntime = USCayenne.serverRuntime();
+		ServerRuntime serverRuntime = Jambalaya.serverRuntime();
 		DataDomain dataDomain = serverRuntime.getDataDomain();
 		EntityResolver entityResolver = dataDomain.getEntityResolver();
 		ObjEntity entity = entityResolver.getObjEntity( entityName );
@@ -204,7 +204,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		EntityViewDefinition e = new EntityViewDefinition();
 		e.setEntityClass( entityClass );
 
-		String name = USCayenne.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
+		String name = Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
 
 		e.setName( name );
 		e.setIcelandicName( icelandicName );
@@ -421,7 +421,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	}
 
 	public ObjEntity entity() {
-		return USCayenne.newContext().getEntityResolver().getObjEntity( name() );
+		return Jambalaya.newContext().getEntityResolver().getObjEntity( name() );
 	}
 
 	public AttributeViewDefinition attributeNamed( String attributeName ) {
@@ -496,7 +496,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 	private static List<String> allCayenneEntityNames() {
 		// FIXME: MAXIMUM UGLYNESS!
-		ServerRuntime serverRuntime = USCayenne.serverRuntime();
+		ServerRuntime serverRuntime = Jambalaya.serverRuntime();
 
 		if( serverRuntime == null ) {
 			return new ArrayList<>();
