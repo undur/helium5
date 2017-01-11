@@ -31,6 +31,7 @@ public class USCayenne {
 		return Jambalaya.serverRuntime();
 	}
 
+	@Deprecated
 	public static ObjectContext newContext() {
 		return Jambalaya.newContext();
 	}
