@@ -134,7 +134,7 @@ public class Indexer {
 
 				logger.info( "Finished indexing entity: " + entityName );
 			}
-			System.out.println( "Done" );
+			logger.info( "Done" );
 		}
 		catch( Exception e ) {
 			e.printStackTrace();
@@ -181,7 +181,7 @@ public class Indexer {
 	 */
 	private static void addRecord( IndexWriter writer, IndexRecord record ) throws CorruptIndexException, IOException {
 
-		System.out.println( "Adding new index record:" + record );
+		logger.info( "Adding new index record:" + record );
 
 		if( record == null ) {
 			throw new RuntimeException( "[record] is null, this must never happen. Check your code." );
