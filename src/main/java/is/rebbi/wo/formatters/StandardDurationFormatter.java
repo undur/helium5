@@ -3,12 +3,13 @@ package is.rebbi.wo.formatters;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
 
-import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSMutableArray;
-
+import is.rebbi.core.util.ListUtilities;
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.util.USUtilities;
 
 /**
  * Formats seconds and outputs a string formatted for days, hours, minutes and seconds.
@@ -34,11 +35,10 @@ public class StandardDurationFormatter extends Format {
 	@Override
 	public StringBuffer format( Object obj, StringBuffer toAppendTo, FieldPosition pos ) {
 
-		Integer seconds = USUtilities.integerFromObject( obj );
-
 		StringBuilder b = new StringBuilder();
 
-		if( seconds != null ) {
+		if( obj != null ) {
+			Integer seconds = ((Number)obj).intValue();
 			int hours = seconds / 3600;
 			seconds = seconds - hours * 3600;
 
@@ -77,20 +77,21 @@ public class StandardDurationFormatter extends Format {
 
 			totalSeconds = 0l;
 
-			NSMutableArray<String> parts = NSArray.componentsSeparatedByString( source, ":" ).mutableClone();
+			String[] split = source.split( Pattern.quote( ":" ) );
+			List<String> parts = new ArrayList<>( Arrays.asList( split ) );
 
-			if( parts.count() > 0 ) {
-				totalSeconds += Integer.parseInt( parts.lastObject() );
-				parts.removeLastObject();
+			if( parts.size() > 0 ) {
+				totalSeconds += Integer.parseInt( ListUtilities.lastObject( parts ) );
+				parts.remove( parts.size() - 1 );
 			}
 
-			if( parts.count() > 0 ) {
-				totalSeconds += Integer.parseInt( parts.lastObject() ) * 60;
-				parts.removeLastObject();
+			if( parts.size() > 0 ) {
+				totalSeconds += Integer.parseInt( ListUtilities.lastObject( parts ) ) * 60;
+				parts.remove( parts.size() - 1 );
 			}
 
-			if( parts.count() > 0 ) {
-				totalSeconds += Integer.parseInt( parts.lastObject() ) * 3600;
+			if( parts.size() > 0 ) {
+				totalSeconds += Integer.parseInt( ListUtilities.lastObject( parts ) ) * 3600;
 			}
 		}
 
