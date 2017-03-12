@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.util.USUtilities;
 
 /**
  * Formats seconds and outputs a string formatted for days, hours, minutes and seconds.
@@ -18,11 +17,10 @@ public class DurationFormatter extends Format {
 	@Override
 	public StringBuffer format( Object obj, StringBuffer toAppendTo, FieldPosition pos ) {
 
-		Integer seconds = USUtilities.integerFromObject( obj );
-
 		StringBuilder b = new StringBuilder();
 
-		if( seconds != null ) {
+		if( obj != null ) {
+			Integer seconds = ((Number)obj).intValue();
 			int hours = seconds / 3600;
 			seconds = seconds - hours * 3600;
 

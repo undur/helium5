@@ -6,8 +6,6 @@ import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
 
-import is.rebbi.wo.util.USUtilities;
-
 public class FileSizeFormatter extends Format {
 
 	private static final BigDecimal THOUSAND = new BigDecimal( 1000 );
@@ -16,7 +14,7 @@ public class FileSizeFormatter extends Format {
 	public StringBuffer format( Object obj, StringBuffer toAppendTo, FieldPosition pos ) {
 
 		if( obj != null ) {
-			BigDecimal bd = USUtilities.bigDecimalFromObject( obj );
+			BigDecimal bd = (BigDecimal)obj;
 			toAppendTo.append( format( bd ) );
 		}
 
