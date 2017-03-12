@@ -14,8 +14,8 @@ import com.webobjects.foundation.NSTimestamp;
 import er.extensions.appserver.ERXSession;
 import er.extensions.components.ERXComponent;
 import er.extensions.foundation.ERXProperties;
+import is.rebbi.core.formatters.DurationFormatter;
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.formatters.DurationFormatter;
 import is.rebbi.wo.util.SessionManager;
 
 public class USSystemInfo extends ERXComponent {
