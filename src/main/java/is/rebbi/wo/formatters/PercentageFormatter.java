@@ -1,6 +1,8 @@
 package is.rebbi.wo.formatters;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.NumberFormat;
@@ -8,10 +10,9 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Locale;
 
-import com.webobjects.foundation.NSNumberFormatter;
-
 public class PercentageFormatter extends Format {
 
+	private static final Locale LOCALE = new Locale( "is" );
 	private boolean addPercentage = false;
 	private boolean renderZeroAsEmpty = false;
 	private int _numberOfDecimals = 2;
@@ -29,7 +30,7 @@ public class PercentageFormatter extends Format {
 			Double number = ((Number)obj).doubleValue();
 
 			if( !(renderZeroAsEmpty && number == 0) ) {
-				NumberFormat format = NumberFormat.getPercentInstance( new Locale( "is" ) );
+				NumberFormat format = NumberFormat.getPercentInstance( LOCALE );
 				format.setMaximumFractionDigits( _numberOfDecimals );
 				format.format( obj, toAppendTo, pos );
 
@@ -57,13 +58,17 @@ public class PercentageFormatter extends Format {
 	@Override
 	public Object parseObject( String source, ParsePosition status ) {
 		try {
-			NSNumberFormatter f = new NSNumberFormatter( "0.00" );
-			f.setDecimalSeparator( "," );
-			f.setThousandSeparator( "." );
+			DecimalFormatSymbols symbols = new DecimalFormatSymbols( LOCALE );
+			DecimalFormat f = new DecimalFormat( "##.###", symbols );
 			source = source.substring( status.getIndex() );
 			status.setIndex( source.length() );
-			BigDecimal b = (BigDecimal)f.parseObject( source );
-			return b.divide( new BigDecimal( 100 ) );
+			Number number = (Number)f.parseObject( source );
+
+			if( !(number instanceof BigDecimal) ) {
+				number = new BigDecimal( number.toString() );
+			}
+
+			return ((BigDecimal)number).divide( new BigDecimal( 100 ) );
 		}
 		catch( ParseException e ) {
 			throw new RuntimeException( e );
