@@ -168,7 +168,7 @@ public class USListPageEdit extends USBaseComponent {
 		query.setFetchOffset( firstObjectIndex() );
 
 		for( String keyPath : CayenneUtils.keyPathsToPrefetch( oc(), selectedViewDefinition().entityClass(), keyPathsToShow() ) ) {
-			query.addPrefetch( PrefetchTreeNode.withPath( keyPath, PrefetchTreeNode.JOINT_PREFETCH_SEMANTICS ) );
+			query.addPrefetch( PrefetchTreeNode.withPath( keyPath, PrefetchTreeNode.DISJOINT_BY_ID_PREFETCH_SEMANTICS ) );
 		}
 
 		query.setQualifier( expression() );
