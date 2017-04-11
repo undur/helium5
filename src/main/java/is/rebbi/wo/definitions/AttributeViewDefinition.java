@@ -1,11 +1,14 @@
 package is.rebbi.wo.definitions;
 
+import org.apache.cayenne.exp.Property;
+
 /**
  * Defines the display of an attribute.
  */
 
 public class AttributeViewDefinition {
 
+	private Property<?> _property;
 	private String _name;
 	private String _icelandicName;
 	private String _text;
@@ -14,15 +17,27 @@ public class AttributeViewDefinition {
 
 	public AttributeViewDefinition() {}
 
-	public AttributeViewDefinition( Integer sortOrder, String name, String icelandicName, boolean show ) {
+	public AttributeViewDefinition( Integer sortOrder, Property<?> property, String icelandicName, boolean show ) {
 		setSortOrder( sortOrder );
-		setName( name );
+		setName( property.getName() );
+		setProperty( property );
 		setIcelandicName( icelandicName );
 		setShow( show );
 	}
 
+	@Deprecated
+	public AttributeViewDefinition( Integer sortOrder, String name, String icelandicName, boolean show ) {
+		setSortOrder( sortOrder );
+		setName( name );
+		setProperty( Property.create( name, null ) );
+		setIcelandicName( icelandicName );
+		setShow( show );
+	}
+
+	@Deprecated
 	public AttributeViewDefinition( String name, String icelandicName, boolean show ) {
 		setName( name );
+		setProperty( Property.create( name, null ) );
 		setIcelandicName( icelandicName );
 		setShow( show );
 	}
@@ -33,6 +48,14 @@ public class AttributeViewDefinition {
 
 	public void setName( String value ) {
 		_name = value;
+	}
+
+	public Property<?> property() {
+		return _property;
+	}
+
+	public void setProperty( Property<?> value ) {
+		_property = value;
 	}
 
 	public String icelandicName() {
