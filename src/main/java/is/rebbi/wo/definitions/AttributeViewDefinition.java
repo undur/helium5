@@ -25,7 +25,6 @@ public class AttributeViewDefinition {
 		setShow( show );
 	}
 
-	@Deprecated
 	public AttributeViewDefinition( Integer sortOrder, String name, String icelandicName, boolean show ) {
 		setSortOrder( sortOrder );
 		setName( name );
@@ -34,7 +33,6 @@ public class AttributeViewDefinition {
 		setShow( show );
 	}
 
-	@Deprecated
 	public AttributeViewDefinition( String name, String icelandicName, boolean show ) {
 		setName( name );
 		setProperty( Property.create( name, null ) );
