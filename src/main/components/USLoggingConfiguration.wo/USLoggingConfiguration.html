@@ -1,0 +1,21 @@
+<wo:USEditLook>
+	<table class="table table-condensed">
+		<tr>
+			<th>Level</th>
+			<th>Appender</th>
+			<th>Logger</th>
+		</tr>
+		<wo:repetition list="$loggers" item="$currentLogger">
+			<tr>
+				<td>
+					<wo:repetition list="$logLevels" item="$currentLevel">
+						<wo:link action="$selectLevel" class="$currentClass"><wo:str value="$currentLevel.toString" /></wo:link>
+					</wo:repetition>
+				</td>
+				<td><wo:str value="$currentAppenders" /></td>
+				<td><wo:str value="$currentLogger.name" /></td>
+			</tr>
+		</wo:repetition>
+	</table>
+	<p><wo:link action="$defaultSettings" class="btn btn-default">Reload</wo:link></p>
+</wo:USEditLook>

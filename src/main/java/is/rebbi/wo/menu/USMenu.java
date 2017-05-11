@@ -13,6 +13,7 @@ import com.webobjects.foundation.NSComparator.ComparisonException;
 import com.webobjects.foundation.NSMutableSet;
 
 import er.extensions.components.ERXComponent;
+import is.rebbi.wo.components.admin.USLoggingConfiguration;
 import is.rebbi.wo.components.admin.USSystemInfo;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
 import is.rebbi.wo.components.admin.USViewDefinitionOverview;
@@ -73,7 +74,8 @@ public class USMenu {
 		}
 
 		List<EntityViewDefinition> a = filteredArrayWithQualifier( EntityViewDefinition.all(), q );
-		//		EOSortOrdering s = new EOSortOrdering( "icelandicName", EOSortOrdering.CompareCaseInsensitiveAscending );
+		// EOSortOrdering s = new EOSortOrdering( "icelandicName",
+		// EOSortOrdering.CompareCaseInsensitiveAscending );
 		Collections.sort( a, new USGenericComparator( "icelandicName", true, true ) );
 		return a;
 	}
@@ -86,7 +88,7 @@ public class USMenu {
 			return list;
 		}
 		List<E> filteredList = new ArrayList<>( list.size() );
-		for( Iterator<E> iterator = list.iterator(); iterator.hasNext(); ) {
+		for( Iterator<E> iterator = list.iterator() ; iterator.hasNext() ; ) {
 			E object = iterator.next();
 			if( qualifier.evaluateWithObject( object ) ) {
 				filteredList.add( object );
@@ -123,6 +125,7 @@ public class USMenu {
 		systemItem.addChild( USMenuItemPage.create( "Birting", null, USViewDefinitionOverview.class ) );
 		systemItem.addChild( USMenuItemPage.create( "Stilling", null, null ) );
 		systemItem.addChild( USMenuItemPage.create( "Umhverfi", null, USSystemInfo.class ) );
+		systemItem.addChild( USMenuItemPage.create( "Loggar", null, USLoggingConfiguration.class ) );
 		return systemItem;
 	}
 
