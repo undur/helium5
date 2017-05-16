@@ -1,7 +1,9 @@
 package is.rebbi.wo.components;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -18,6 +20,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
+import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.definitions.AttributeViewDefinition;
@@ -72,6 +75,11 @@ public class USListPageEdit extends USBaseComponent {
 	 * Orderings to use when sorting the objects.
 	 */
 	private List<Ordering> _orderings;
+
+	/**
+	 * A list of selected objects in the UI
+	 */
+	public Set<DataObject> selectedObjects = new HashSet<>();
 
 	public USListPageEdit( WOContext context ) {
 		super( context );
@@ -223,5 +231,44 @@ public class USListPageEdit extends USBaseComponent {
 		oc().commitChanges();
 		WOActionResults nextPage = Inspection.editObjectInContext( object, context() );
 		return nextPage;
+	}
+
+	public boolean currentIsSelected() {
+		return selectedObjects.contains( currentObject );
+	}
+
+	public void setCurrentIsSelected( boolean value ) {
+		if( value ) {
+			if( !selectedObjects.contains( currentObject ) ) {
+				selectedObjects.add( currentObject );
+			}
+		}
+		else {
+			if( selectedObjects.contains( currentObject ) ) {
+				selectedObjects.remove( currentObject );
+			}
+		}
+	}
+
+	public WOActionResults deleteSelectedObjects() {
+		oc().deleteObjects( selectedObjects );
+		oc().commitChanges();
+
+		selectedObjects = new HashSet<>();
+
+		return search();
+	}
+
+	public String currentCheckboxID() {
+		return ((ERXWOContext)context()).safeElementID();
+	}
+
+	public WOActionResults toggleSelected() {
+		setCurrentIsSelected( !currentIsSelected() );
+		return null;
+	}
+
+	public String currentTRClass() {
+		return currentIsSelected() ? "danger" : null;
 	}
 }
