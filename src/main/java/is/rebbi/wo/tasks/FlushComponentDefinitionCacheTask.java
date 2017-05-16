@@ -12,6 +12,17 @@ import javassist.ClassPool;
 
 public class FlushComponentDefinitionCacheTask extends USTask {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger( FlushComponentDefinitionCacheTask.class );
+
+	private Method kvcDefaultImplementation_flushCaches;
+	private Method kvcReflectionKeyBindingCreation_flushCaches;
+	private Method kvcValueAccessor_flushCaches;
+	private Method nsValidationDefaultImplementation_flushCaches;
+	private Method woApplication_removeComponentDefinitionCacheContents;
+	private Object woApplicationObject;
+	private Method nsThreadsafeMutableDictionary_removeAllObjects;
+	private Object actionClassesCacheDictionnary;
+
 	@Override
 	public String name() {
 		return "Flush component, KVC, Action and Validation caches";
@@ -24,17 +35,6 @@ public class FlushComponentDefinitionCacheTask extends USTask {
 		clearActionCacheCommand.executeCommand();
 		clearValidationCacheCommand.executeCommand();
 	}
-
-	private static final Logger LOGGER = LoggerFactory.getLogger( HotswapWebObjectsPlugin.class );
-
-	private Method kvcDefaultImplementation_flushCaches;
-	private Method kvcReflectionKeyBindingCreation_flushCaches;
-	private Method kvcValueAccessor_flushCaches;
-	private Method nsValidationDefaultImplementation_flushCaches;
-	private Method woApplication_removeComponentDefinitionCacheContents;
-	private Object woApplicationObject;
-	private Method nsThreadsafeMutableDictionary_removeAllObjects;
-	private Object actionClassesCacheDictionnary;
 
 	private interface Command {
 		public void executeCommand();
