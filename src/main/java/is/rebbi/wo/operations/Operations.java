@@ -11,13 +11,15 @@ public class Operations {
 		if( _operations == null ) {
 			_operations = new ArrayList<>();
 			addOperation( new EditOperation() );
-			addOperation( new GenericViewingOperation() );
+			addOperation( new ViewOperation() );
+			addOperation( new EditGenericOperation() );
+			addOperation( new ViewGenericOperation() );
 		}
 
 		return _operations;
 	}
 
 	private static void addOperation( Operation operation ) {
-		operations().add( operation );
+		_operations.add( operation );
 	}
 }

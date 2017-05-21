@@ -9,11 +9,11 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.util.Inspection;
 
-public class EditOperation implements Operation {
+public class EditGenericOperation implements Operation {
 
 	@Override
 	public String name() {
-		return "Breyta";
+		return "Breyta (almenn útgáfa)";
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class EditOperation implements Operation {
 	@Override
 	public BiFunction<DataObject, WOContext, WOActionResults> execute() {
 		return ( dataObject, context ) -> {
-			return Inspection.editObjectInContext( dataObject, context );
+			return Inspection.editObjectInContextUsingGenericComponent( dataObject, context );
 		};
 	}
 

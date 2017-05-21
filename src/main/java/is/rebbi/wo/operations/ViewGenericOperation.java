@@ -9,11 +9,11 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.util.Inspection;
 
-public class GenericViewingOperation implements Operation {
+public class ViewGenericOperation implements Operation {
 
 	@Override
 	public String name() {
-		return "Skoða almenna útgáfu";
+		return "Skoða (almenn útgáfa)";
 	}
 
 	@Override

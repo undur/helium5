@@ -29,4 +29,11 @@ public interface Operation {
 	 * A function that decides if the operation should be shown to the user.
 	 */
 	public BiFunction<DataObject, WOContext, Boolean> show();
+
+	/**
+	 * A function that generates the URL for the current operation.
+	 */
+	public default BiFunction<DataObject, WOContext, String> urlFunction() {
+		return null;
+	}
 }
