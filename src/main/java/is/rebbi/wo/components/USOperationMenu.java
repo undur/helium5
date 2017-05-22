@@ -1,0 +1,56 @@
+package is.rebbi.wo.components;
+
+import java.util.List;
+
+import org.apache.cayenne.DataObject;
+
+import com.webobjects.appserver.WOActionResults;
+import com.webobjects.appserver.WOContext;
+
+import er.extensions.components.ERXNonSynchronizingComponent;
+import is.rebbi.wo.operations.Operation;
+import is.rebbi.wo.operations.Operations;
+
+public class USOperationMenu extends ERXNonSynchronizingComponent {
+
+	public Operation currentOperation;
+
+	public USOperationMenu( WOContext context ) {
+		super( context );
+	}
+
+	public DataObject selectedObject() {
+		return (DataObject)valueForBinding( "selectedObject" );
+	}
+
+	public List<Operation> operations() {
+		return Operations.operations();
+	}
+
+	public WOActionResults selectOperation() {
+		return currentOperation.execute().apply( selectedObject(), context() );
+	}
+
+	public String currentOperationURL() {
+		return currentOperation.urlFunction().apply( selectedObject(), context() );
+	}
+
+	public boolean showCurrentOperation() {
+		return currentOperation.show().apply( selectedObject(), context() );
+	}
+
+	public String currentOperationClass() {
+		return "glyphicon glyphicon-" + currentOperation.iconName();
+	}
+
+	public WOActionResults viewTags() {
+		// return Inspection.editObjectInContextUsingComponent(
+		// selectedObject(), context(), SWTaggingPage.class );
+		return null;
+	}
+
+	public WOActionResults viewTransactions() {
+		return null;
+	}
+
+}

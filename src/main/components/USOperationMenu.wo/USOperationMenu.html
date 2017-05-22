@@ -1,0 +1,19 @@
+<div class="btn-group">
+	<a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-cog"></i> <span class="caret"></span></a>
+	<ul class="dropdown-menu">
+		<wo:repetition list="$operations" item="$currentOperation">
+			<wo:if condition="$showCurrentOperation">
+				<wo:if condition="$currentOperation.urlFunction" negate="true">
+					<li><wo:link action="$selectOperation"><wo:container elementName="i" class="$currentOperationClass"></wo:container> <wo:str value="$currentOperation.name" /></wo:link></li>
+				</wo:if>
+				<wo:if condition="$currentOperation.urlFunction">
+					<li><wo:link href="$currentOperationURL"><wo:container elementName="i" class="$currentOperationClass"></wo:container> <wo:str value="$currentOperation.name" /></wo:link></li>
+				</wo:if>
+			</wo:if>
+		</wo:repetition>
+		<li><wo:link action="$viewTags"><i class="glyphicon glyphicon-tags"></i> Merki</wo:link></li>
+		<li><wo:link action="$viewTransactions"><i class="glyphicon glyphicon-list"></i> Hreyfingasaga</wo:link></li>
+		<li role="separator" class="divider"></li>
+		<li><wo:link action="$viewTransactions"><i class="glyphicon glyphicon-cog"></i> Stjórnkerfi</wo:link></li>
+	</ul>
+</div>

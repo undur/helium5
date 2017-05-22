@@ -10,16 +10,16 @@ public class Operations {
 	public static List<Operation> operations() {
 		if( _operations == null ) {
 			_operations = new ArrayList<>();
-			addOperation( new EditOperation() );
-			addOperation( new ViewOperation() );
-			addOperation( new EditGenericOperation() );
-			addOperation( new ViewGenericOperation() );
+			_operations.add( new EditOperation() );
+			_operations.add( new ViewOperation() );
+			_operations.add( new EditGenericOperation() );
+			_operations.add( new ViewGenericOperation() );
 		}
 
 		return _operations;
 	}
 
-	private static void addOperation( Operation operation ) {
-		_operations.add( operation );
+	public static void addOperation( Operation operation ) {
+		operations().add( operation );
 	}
 }
