@@ -10,13 +10,6 @@
 					<div class="col-md-6">
 						<div class="pull-right">
 							<wo:USOperationMenu selectedObject="$selectedObject" />
-							<div class="btn-group">
-								<a class="btn btn-default dropdown-toggle btn-xs" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-cog"></i> <span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li><wo:ViewLink object="$selectedObject"><i class="glyphicon glyphicon-eye-open"></i> Opna á vefnum</wo:ViewLink></li>
-									<li><wo:link action="$editGeneric"><i class="glyphicon glyphicon-list"></i> Opna í almennu viðmóti</wo:link></li>
-								</ul>
-							</div>
 							<wo:AjaxModalContainer label="Eyða" closeLabel="Hætta við" class="btn btn-sm btn-danger"><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða færslunni &quot;<strong><wo:IMValue object="$selectedObject" /></strong>&quot;?</p><p align="center"><wo:link action="$deleteObject" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessari færslu</wo:link></p></div></wo:AjaxModalContainer>
 							<wo:link action="$returnToCallingComponent" class="btn btn-sm btn-default">Til baka</wo:link>
 							<wo:submit action="$saveChangesAndReturn" class="btn btn-sm btn-default" value="Vista og loka" />

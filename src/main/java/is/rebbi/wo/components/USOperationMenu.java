@@ -8,6 +8,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
+import is.rebbi.wo.components.admin.USStartPage;
 import is.rebbi.wo.operations.Operation;
 import is.rebbi.wo.operations.Operations;
 
@@ -44,8 +45,6 @@ public class USOperationMenu extends ERXNonSynchronizingComponent {
 	}
 
 	public WOActionResults viewTags() {
-		// return Inspection.editObjectInContextUsingComponent(
-		// selectedObject(), context(), SWTaggingPage.class );
 		return null;
 	}
 
@@ -53,4 +52,7 @@ public class USOperationMenu extends ERXNonSynchronizingComponent {
 		return null;
 	}
 
+	public WOActionResults admin() {
+		return pageWithName( USStartPage.class );
+	}
 }
