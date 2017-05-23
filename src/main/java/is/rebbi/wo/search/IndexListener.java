@@ -3,18 +3,19 @@ package is.rebbi.wo.search;
 import org.apache.cayenne.Cayenne;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.ObjectId;
-import org.apache.cayenne.lifecycle.changemap.ChangeMap;
-import org.apache.cayenne.lifecycle.changemap.ObjectChange;
-import org.apache.cayenne.lifecycle.changemap.ObjectChangeType;
-import org.apache.cayenne.lifecycle.postcommit.PostCommitListener;
+import org.apache.cayenne.commitlog.CommitLogListener;
+import org.apache.cayenne.commitlog.model.ChangeMap;
+import org.apache.cayenne.commitlog.model.ObjectChange;
+import org.apache.cayenne.commitlog.model.ObjectChangeType;
 
 import is.rebbi.core.search.Indexable;
 import is.rebbi.wo.util.PKSerializer;
 
-public class IndexListener implements PostCommitListener {
+public class IndexListener implements CommitLogListener {
 
 	/**
-	 * Key set in EC userinfo indicating that this manager should be disabled in them.
+	 * Key set in EC userinfo indicating that this manager should be disabled in
+	 * them.
 	 */
 	private static final String DISABLED_MARKER = "DISABLED" + IndexListener.class.getSimpleName();
 
@@ -35,7 +36,7 @@ public class IndexListener implements PostCommitListener {
 	/**
 	 * @return A unique ID for the record in the index.
 	 *
-	 * TODO: This probably belongs in Indexable or IndexRecord.
+	 *         TODO: This probably belongs in Indexable or IndexRecord.
 	 */
 	private static String uniqueIDFromObjectId( ObjectId objectId ) {
 		return objectId.getEntityName() + PKSerializer.serialize( objectId );

@@ -132,7 +132,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cayenne</groupId>
-			<artifactId>cayenne-postcommit</artifactId>
+			<artifactId>cayenne-commitlog</artifactId>
 			<version>4.0.M6-SNAPSHOT</version>
 		</dependency>
 		<dependency>
