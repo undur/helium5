@@ -8,7 +8,6 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
-import is.rebbi.wo.components.admin.USStartPage;
 import is.rebbi.wo.operations.Operation;
 import is.rebbi.wo.operations.Operations;
 
@@ -42,17 +41,5 @@ public class USOperationMenu extends ERXNonSynchronizingComponent {
 
 	public String currentOperationClass() {
 		return "glyphicon glyphicon-" + currentOperation.iconName();
-	}
-
-	public WOActionResults viewTags() {
-		return null;
-	}
-
-	public WOActionResults viewTransactions() {
-		return null;
-	}
-
-	public WOActionResults admin() {
-		return pageWithName( USStartPage.class );
 	}
 }
