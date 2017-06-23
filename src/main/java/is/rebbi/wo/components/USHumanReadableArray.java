@@ -17,7 +17,7 @@ public class USHumanReadableArray extends ERXStatelessComponent {
 	public int currentIndex;
 	public Object currentObject;
 
-	public USHumanReadableArray(WOContext context) {
+	public USHumanReadableArray( WOContext context ) {
 		super( context );
 	}
 
@@ -35,6 +35,16 @@ public class USHumanReadableArray extends ERXStatelessComponent {
 
 	public List<?> objects() {
 		return (List<?>)valueForBinding( "objects" );
+	}
+
+	public String lastSeparator() {
+		String lastSeparator = stringValueForBinding( "lastSeparator" );
+
+		if( lastSeparator == null ) {
+			lastSeparator = "og";
+		}
+
+		return lastSeparator;
 	}
 
 	public boolean hasObjects() {
@@ -72,7 +82,7 @@ public class USHumanReadableArray extends ERXStatelessComponent {
 		}
 
 		if( currentIndex == objects().size() - 2 ) {
-			return " og ";
+			return " " + lastSeparator() + " ";
 		}
 
 		return ", ";

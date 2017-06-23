@@ -9,5 +9,6 @@
     <binding name="valueWhenEmpty"/>
     <binding name="forceLowercase"/>
     <binding defaults="Boolean" name="disabled"/>
+    <binding name="lastSeparator"/>
     </wo>
 </wodefinitions>
