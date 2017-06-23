@@ -18,7 +18,7 @@ public abstract class USTask {
 	public static List<Class<? extends USTask>> taskClasses() {
 		if( _taskClasses == null ) {
 			_taskClasses = new ArrayList<>();
-			_taskClasses.add( FlushComponentDefinitionCacheTask.class );
+			_taskClasses.add( FlushCachesTask.class );
 			_taskClasses.add( FlushEntityViewDefinitionCacheTask.class );
 			_taskClasses.add( ReloadEntityViewDefinitionCacheTask.class );
 			_taskClasses.add( RegenerateIndexTask.class );
