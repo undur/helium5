@@ -32,7 +32,7 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 	public String filename;
 	public DataObject currentObject;
 
-	public USViewPageGeneric(WOContext context) {
+	public USViewPageGeneric( WOContext context ) {
 		super( context );
 	}
 
@@ -47,25 +47,25 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 	 */
 	public List<ObjAttribute> attributes() {
 		ArrayList<ObjAttribute> attributes = new ArrayList<>( entity().getAttributes() );
-
-		ObjAttribute modificationDate = entity().getAttribute( "modificationDate" );
-
-		if( modificationDate != null ) {
-			attributes.remove( modificationDate );
-		}
-
-		ObjAttribute creationDate = entity().getAttribute( "creationDate" );
-
-		if( creationDate != null ) {
-			attributes.remove( creationDate );
-		}
-
-		ObjAttribute uniqueID = entity().getAttribute( "uniqueID" );
-
-		if( uniqueID != null ) {
-			attributes.remove( uniqueID );
-		}
-
+		/*
+				ObjAttribute modificationDate = entity().getAttribute( "modificationDate" );
+		
+				if( modificationDate != null ) {
+					attributes.remove( modificationDate );
+				}
+		
+				ObjAttribute creationDate = entity().getAttribute( "creationDate" );
+		
+				if( creationDate != null ) {
+					attributes.remove( creationDate );
+				}
+		
+				ObjAttribute uniqueID = entity().getAttribute( "uniqueID" );
+		
+				if( uniqueID != null ) {
+					attributes.remove( uniqueID );
+				}
+		*/
 		return attributes;
 	}
 
