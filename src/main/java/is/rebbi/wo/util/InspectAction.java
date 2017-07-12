@@ -100,7 +100,7 @@ public class InspectAction extends ERXDirectAction {
 	/**
 	 * @return The requested URL, either from a URL parameter or Apache's 404 handler
 	 */
-	private String url() {
+	protected String url() {
 		String url = request().stringFormValueForKey( "url" );
 
 		if( url == null ) {
