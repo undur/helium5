@@ -1,5 +1,8 @@
 package is.rebbi.wo.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,13 +11,13 @@ import com.webobjects.appserver.WORequest;
 import com.webobjects.foundation.NSDictionary;
 
 import er.extensions.appserver.ERXDirectAction;
-import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.components.USListPageView;
 import is.rebbi.wo.components.admin.USLoginPage;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.search.USSearchAction;
-import is.rebbi.wo.urls.URLProviderDataObject;
 import is.rebbi.wo.urls.USStaticURLs;
+import is.rebbi.wo.urls.handlers.URLHandler;
+import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
 
 /**
  * Main entry point into the system.
@@ -29,8 +32,19 @@ public class InspectAction extends ERXDirectAction {
 	private static final String SEARCH_PREFIX = "/search/";
 	public static final String PASSWORD_RESET_REQUEST_PREFIX = "/passwordResetRequest/";
 
+	private static List<URLHandler> _urlHandlers;
+
 	public InspectAction( WORequest r ) {
 		super( r );
+	}
+
+	public static List<URLHandler> urlHandlers() {
+		if( _urlHandlers == null ) {
+			_urlHandlers = new ArrayList<>();
+			_urlHandlers.add( new URLHandlerDataObject() );
+		}
+
+		return _urlHandlers;
 	}
 
 	/**
@@ -47,16 +61,11 @@ public class InspectAction extends ERXDirectAction {
 			return USHTTPUtilities.redirectTemporary( redirectURL );
 		}
 
-		if( url.startsWith( INSPECTION_PREFIX ) ) {
-			EntityViewDefinition def = URLProviderDataObject.viewDefinitionFromURL( url );
-
-			Object object = URLProviderDataObject.objectFromURL( USCayenne.defaultObjectContext( session() ), url );
-
-			if( object == null ) {
-				return response404();
+		for( URLHandler urlHandler : urlHandlers() ) {
+			if( url.startsWith( urlHandler.prefix() ) ) {
+				System.out.println( "Found URL handler!" );
+				return urlHandler.execute().apply( url, context() );
 			}
-
-			return Inspection.inspectObjectInContext( object, context() );
 		}
 
 		if( url.startsWith( LIST_PREFIX ) ) {
@@ -93,7 +102,7 @@ public class InspectAction extends ERXDirectAction {
 			return USHTTPUtilities.redirectTemporary( searchURL );
 		}
 
-		return response404();
+		return response404( url() );
 	}
 
 	/**
@@ -109,8 +118,8 @@ public class InspectAction extends ERXDirectAction {
 		return url;
 	}
 
-	private WOActionResults response404() {
-		return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + url() );
+	public static WOActionResults response404( String url ) {
+		return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + url );
 	}
 
 	public WOActionResults loginAction() {

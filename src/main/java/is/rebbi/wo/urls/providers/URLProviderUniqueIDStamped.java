@@ -1,4 +1,4 @@
-package is.rebbi.wo.urls;
+package is.rebbi.wo.urls.providers;
 
 import com.webobjects.appserver.WOContext;
 
