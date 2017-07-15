@@ -19,7 +19,7 @@ public class PointsToPersistentLink extends ERXStatelessComponent {
 	}
 
 	public String href() {
-		ObjectId oid = new ObjectId( object().targetEntityName(), object().targetID(), context() );
+		ObjectId oid = new ObjectId( object().targetEntityName(), "id", object().targetID() );
 		return USURLProvider.urlForObjectInContext( oid, context() );
 	}
 }
