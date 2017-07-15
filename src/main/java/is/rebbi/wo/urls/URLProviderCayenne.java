@@ -138,7 +138,6 @@ public class URLProviderCayenne extends URLProvider {
 	/**
 	 * @return A URL for the given object.
 	 */
-	@Override
 	public String urlForObject( String entityName, Object serializedID, WOContext context ) {
 		String typeIdentifier = urlPrefix( entityName );
 		String objectIdentifier = objectIdentifier( serializedID );

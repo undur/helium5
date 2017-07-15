@@ -9,6 +9,4 @@ import com.webobjects.appserver.WOContext;
 public abstract class URLProvider {
 
 	public abstract String urlForObject( Object object, WOContext context );
-
-	public abstract String urlForObject( String entityName, Object identifier, WOContext context );
 }

@@ -1,11 +1,13 @@
 package is.rebbi.wo.urls;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.cayenne.DataObject;
+import org.apache.cayenne.ObjectId;
 
 import com.webobjects.appserver.WOContext;
-import com.webobjects.foundation.NSMutableDictionary;
 
 import er.extensions.appserver.ERXApplication;
 import is.rebbi.wo.definitions.EntityViewDefinition;
@@ -33,24 +35,25 @@ public abstract class USURLProvider {
 		return urlProvider.urlForObject( object, context );
 	}
 
-	/**
-	 * @return The URL for viewing the given object.
-	 */
-	public static String urlForObjectInContext( String entityName, Object id, WOContext context ) {
-		Class clazz = EntityViewDefinition.get( entityName ).entityClass();
-		URLProvider urlProvider = urlProviderForClass( clazz );
-
-		if( urlProvider == null ) {
-			throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
+	private static Map<Class, URLProvider> urlProviders() {
+		if( _urlProviders == null ) {
+			_urlProviders = new HashMap<>();
+			_urlProviders.put( DataObject.class, new URLProviderCayenne() );
+			_urlProviders.put( ObjectId.class, new URLProviderObjectId() );
 		}
 
-		String url = urlProvider.urlForObject( entityName, id, context );
+		return _urlProviders;
+	}
 
-		if( !SWSettings.generateFriendlyURLs( context.request() ) ) {
-			url = URLUtilities.makeURLDeveloperFriendly( url, context );
+	private static URLProvider urlProviderForClass( Class<?> clazz ) {
+
+		for( Entry<Class, URLProvider> provider : urlProviders().entrySet() ) {
+			if( provider.getKey().isAssignableFrom( clazz ) ) {
+				return provider.getValue();
+			}
 		}
 
-		return url;
+		throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
 	}
 
 	/**
@@ -64,23 +67,6 @@ public abstract class USURLProvider {
 		}
 
 		return url;
-	}
-
-	private static Map<Class, URLProvider> urlProviders() {
-		if( _urlProviders == null ) {
-			_urlProviders = new NSMutableDictionary<>();
-		}
-
-		return _urlProviders;
-	}
-
-	public static URLProvider urlProviderForClass( Class<?> clazz ) {
-
-		if( DataObject.class.isAssignableFrom( clazz ) ) {
-			return new URLProviderCayenne();
-		}
-
-		return urlProviders().get( clazz );
 	}
 
 	public static String absoluteURL( String url, WOContext context ) {

@@ -1,5 +1,7 @@
 package is.rebbi.wo.components.links;
 
+import org.apache.cayenne.ObjectId;
+
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXStatelessComponent;
@@ -17,6 +19,7 @@ public class PointsToPersistentLink extends ERXStatelessComponent {
 	}
 
 	public String href() {
-		return USURLProvider.urlForObjectInContext( object().targetEntityName(), object().targetID(), context() );
+		ObjectId oid = new ObjectId( object().targetEntityName(), object().targetID(), context() );
+		return USURLProvider.urlForObjectInContext( oid, context() );
 	}
 }
