@@ -8,8 +8,10 @@ import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectId;
 
 import com.webobjects.appserver.WOContext;
+import com.webobjects.foundation.NSMutableDictionary;
 
 import er.extensions.appserver.ERXApplication;
+import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.SWSettings;
 import is.rebbi.wo.util.USHTTPUtilities;
@@ -63,7 +65,7 @@ public abstract class USURLProvider {
 		String url = "/l/" + EntityViewDefinition.get( entityName ).urlPrefix();
 
 		if( ERXApplication.erxApplication().isDevelopmentMode() ) {
-			url = URLUtilities.makeURLDeveloperFriendly( url, context );
+			url = USURLProvider.makeURLDeveloperFriendly( url, context );
 		}
 
 		return url;
@@ -77,9 +79,21 @@ public abstract class USURLProvider {
 		}
 
 		if( !SWSettings.generateFriendlyURLs( context.request() ) ) {
-			url = URLUtilities.makeURLDeveloperFriendly( url, context );
+			url = USURLProvider.makeURLDeveloperFriendly( url, context );
 		}
 
 		return "http://" + host + url;
+	}
+
+	/**
+	 * @return A direct connect version of the URL.
+	 */
+	public static String makeURLDeveloperFriendly( String url, WOContext context ) {
+		NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
+		d.setObjectForKey( url, "url" );
+		// FIXME: url = context.directActionURLForActionNamed( InspectAction.class.getSimpleName() + "/handler", d );
+		url = context.directActionURLForActionNamed( "InspectAction/handler", d );
+		url = StringUtilities.replace( url, "&", "&amp;" );
+		return url;
 	}
 }
