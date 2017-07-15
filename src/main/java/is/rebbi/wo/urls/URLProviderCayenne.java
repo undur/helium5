@@ -25,31 +25,31 @@ public class URLProviderCayenne extends URLProvider {
 	/**
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
 	 */
-	protected static final String PK_IDENTIFIER_PREFIX = "id-";
+	private static final String PK_IDENTIFIER_PREFIX = "id-";
 
 	/**
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
 	 */
-	protected static final String ENTITY_IDENTIFIER_PREFIX = "entity-";
+	private static final String ENTITY_IDENTIFIER_PREFIX = "entity-";
 
 	/**
 	 * @return A friendly URL without the domain.
 	 */
-	protected static String urlWithoutDomain( String typeIdentifier, String objectIdentifier ) {
+	private static String urlWithoutDomain( String typeIdentifier, String objectIdentifier ) {
 		return friendlyURL( null, null, typeIdentifier, objectIdentifier );
 	}
 
 	/**
 	 * @return A friendly URL including the domain.
 	 */
-	protected static String urlWithDomain( String typeIdentifier, String objectIdentifier ) {
+	private static String urlWithDomain( String typeIdentifier, String objectIdentifier ) {
 		return friendlyURL( "http", SWSettings.defaultDomainName(), typeIdentifier, objectIdentifier );
 	}
 
 	/**
 	 * @return A friendly URL.
 	 */
-	protected static String friendlyURL( String protocol, String host, String typeIdentifier, String objectIdentifier ) {
+	private static String friendlyURL( String protocol, String host, String typeIdentifier, String objectIdentifier ) {
 		StringBuilder b = new StringBuilder();
 
 		if( protocol != null ) {
@@ -72,32 +72,25 @@ public class URLProviderCayenne extends URLProvider {
 	/**
 	 * @return true if the given identifier is based on an object's primary key, rather than system generated.
 	 */
-	protected static boolean objectIdentiferIsGeneric( String objectIdentifier ) {
+	private static boolean objectIdentiferIsGeneric( String objectIdentifier ) {
 		return objectIdentifier.startsWith( PK_IDENTIFIER_PREFIX );
 	}
 
-	/**
-	 * @return true if the given identifier is based on an object's primary key, rather than system generated.
-	 */
-	protected static boolean typeIdentifierIsGeneric( String typeIdentifier ) {
-		return typeIdentifier.startsWith( ENTITY_IDENTIFIER_PREFIX );
-	}
-
-	protected static String entityNameFromTypeIdentifier( String urlPrefix ) {
+	private static String entityNameFromTypeIdentifier( String urlPrefix ) {
 		return EntityViewDefinition.definitionForURLPrefix( urlPrefix ).name();
 	}
 
 	/**
 	 * @return URL identifier for objects based on primary key.
 	 */
-	static String objectIdentifier( Object primaryKey ) {
+	private static String objectIdentifier( Object primaryKey ) {
 		return PK_IDENTIFIER_PREFIX + primaryKey;
 	}
 
 	/**
 	 * @return The url prefix for the given object.
 	 */
-	protected static String urlPrefix( String entityName ) {
+	private static String urlPrefix( String entityName ) {
 		EntityViewDefinition type = EntityViewDefinition.get( entityName );
 
 		if( type != null ) {
@@ -190,7 +183,7 @@ public class URLProviderCayenne extends URLProvider {
 		}
 	}
 
-	public static DataObject objectFromIdentifier( ObjectContext oc, String objEntityName, String identifier ) {
+	private static DataObject objectFromIdentifier( ObjectContext oc, String objEntityName, String identifier ) {
 		ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
 		Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
 		String[] components = identifier.split( "\\|" );
