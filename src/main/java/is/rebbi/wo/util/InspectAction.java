@@ -11,13 +11,12 @@ import com.webobjects.appserver.WORequest;
 import com.webobjects.foundation.NSDictionary;
 
 import er.extensions.appserver.ERXDirectAction;
-import is.rebbi.wo.components.USListPageView;
 import is.rebbi.wo.components.admin.USLoginPage;
-import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.search.USSearchAction;
 import is.rebbi.wo.urls.USStaticURLs;
 import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
+import is.rebbi.wo.urls.handlers.URLHandlerList;
 
 /**
  * Main entry point into the system.
@@ -27,8 +26,6 @@ public class InspectAction extends ERXDirectAction {
 
 	private static final Logger logger = LoggerFactory.getLogger( InspectAction.class );
 
-	private static final String INSPECTION_PREFIX = "/i/";
-	private static final String LIST_PREFIX = "/l/";
 	private static final String SEARCH_PREFIX = "/search/";
 	public static final String PASSWORD_RESET_REQUEST_PREFIX = "/passwordResetRequest/";
 
@@ -42,6 +39,7 @@ public class InspectAction extends ERXDirectAction {
 		if( _urlHandlers == null ) {
 			_urlHandlers = new ArrayList<>();
 			_urlHandlers.add( new URLHandlerDataObject() );
+			_urlHandlers.add( new URLHandlerList() );
 		}
 
 		return _urlHandlers;
@@ -66,24 +64,6 @@ public class InspectAction extends ERXDirectAction {
 				System.out.println( "Found URL handler!" );
 				return urlHandler.execute().apply( url, context() );
 			}
-		}
-
-		if( url.startsWith( LIST_PREFIX ) ) {
-			String entityIdentifier = url.substring( LIST_PREFIX.length() );
-
-			EntityViewDefinition t = null;
-
-			if( entityIdentifier.startsWith( "entity-" ) ) {
-				entityIdentifier = entityIdentifier.substring( "entity-".length(), entityIdentifier.length() );
-				t = EntityViewDefinition.get( entityIdentifier );
-			}
-			else {
-				t = EntityViewDefinition.definitionForURLPrefix( entityIdentifier );
-			}
-
-			USListPageView nextPage = pageWithName( USListPageView.class );
-			nextPage.setSelectedViewDefinition( t );
-			return nextPage;
 		}
 
 		if( url.startsWith( SEARCH_PREFIX ) ) {
