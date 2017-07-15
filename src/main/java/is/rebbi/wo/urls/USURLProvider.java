@@ -34,7 +34,13 @@ public abstract class USURLProvider {
 			throw new NullPointerException( "No URLProvider registered for objects of class: " + object.getClass() );
 		}
 
-		return urlProvider.urlForObject( object, context );
+		String url = urlProvider.urlForObject( object, context );
+
+		if( ERXApplication.erxApplication().isDevelopmentMode() ) {
+			url = USURLProvider.makeURLDeveloperFriendly( url, context );
+		}
+
+		return url;
 	}
 
 	private static Map<Class, URLProvider> urlProviders() {
@@ -88,10 +94,10 @@ public abstract class USURLProvider {
 	/**
 	 * @return A direct connect version of the URL.
 	 */
-	public static String makeURLDeveloperFriendly( String url, WOContext context ) {
+	private static String makeURLDeveloperFriendly( String url, WOContext context ) {
 		NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
 		d.setObjectForKey( url, "url" );
-		// FIXME: url = context.directActionURLForActionNamed( InspectAction.class.getSimpleName() + "/handler", d );
+		// url = context.directActionURLForActionNamed( InspectAction.class.getSimpleName() + "/handler", d );
 		url = context.directActionURLForActionNamed( "InspectAction/handler", d );
 		url = StringUtilities.replace( url, "&", "&amp;" );
 		return url;

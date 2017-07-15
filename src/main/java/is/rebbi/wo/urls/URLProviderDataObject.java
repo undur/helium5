@@ -142,6 +142,8 @@ public class URLProviderDataObject extends URLProvider {
 		String typeIdentifier = urlPrefix( entityName );
 		String objectIdentifier = objectIdentifier( serializedID );
 
+		System.out.println( "typeIdentifier: " + typeIdentifier );
+		System.out.println( "objectIdentifier: " + objectIdentifier );
 		if( context == null ) {
 			return absoluteURL( typeIdentifier, objectIdentifier );
 		}
