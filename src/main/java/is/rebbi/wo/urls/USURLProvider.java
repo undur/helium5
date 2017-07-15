@@ -44,7 +44,13 @@ public abstract class USURLProvider {
 			throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
 		}
 
-		return urlProvider.urlForObject( entityName, id, context );
+		String url = urlProvider.urlForObject( entityName, id, context );
+
+		if( !SWSettings.generateFriendlyURLs( context.request() ) ) {
+			url = URLUtilities.makeURLDeveloperFriendly( url, context );
+		}
+
+		return url;
 	}
 
 	/**

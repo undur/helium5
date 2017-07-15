@@ -91,7 +91,7 @@ public class URLProviderCayenne extends URLProvider {
 	 * @return The url prefix for the given object.
 	 */
 	private static String urlPrefix( String entityName ) {
-		EntityViewDefinition type = EntityViewDefinition.get( entityName );
+		EntityViewDefinition<?, ?, ?> type = EntityViewDefinition.get( entityName );
 
 		if( type != null ) {
 			String urlPrefix = type.urlPrefix();
@@ -104,7 +104,7 @@ public class URLProviderCayenne extends URLProvider {
 		return ENTITY_IDENTIFIER_PREFIX + entityName;
 	}
 
-	public static EntityViewDefinition viewDefinitionFromURL( String url ) {
+	public static EntityViewDefinition<?, ?, ?> viewDefinitionFromURL( String url ) {
 		String[] smu = url.split( "/" );
 		String typeIdentifier = smu[2];
 		String entityName = entityNameFromTypeIdentifier( typeIdentifier );
@@ -147,13 +147,7 @@ public class URLProviderCayenne extends URLProvider {
 			return urlWithDomain( typeIdentifier, objectIdentifier );
 		}
 		else {
-			String url = urlWithoutDomain( typeIdentifier, objectIdentifier );
-
-			if( !SWSettings.generateFriendlyURLs( context.request() ) ) {
-				url = URLUtilities.makeURLDeveloperFriendly( url, context );
-			}
-
-			return url;
+			return urlWithoutDomain( typeIdentifier, objectIdentifier );
 		}
 	}
 
@@ -196,7 +190,7 @@ public class URLProviderCayenne extends URLProvider {
 			keyMap.put( attribute.getName(), components[i++] );
 		}
 
-		SelectQuery q = new SelectQuery( objEntityName );
+		SelectQuery<?> q = new SelectQuery<>( objEntityName );
 		Expression e = ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO );
 		q.setQualifier( e );
 		DataObject object = (DataObject)q.selectOne( oc );
