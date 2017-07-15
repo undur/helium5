@@ -15,6 +15,8 @@ import is.rebbi.wo.urls.USStaticURLs;
 import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
 import is.rebbi.wo.urls.handlers.URLHandlerList;
+import is.rebbi.wo.urls.handlers.URLHandlerPasswordReset;
+import is.rebbi.wo.urls.handlers.URLHandlerSearch;
 
 /**
  * Main entry point into the system.
@@ -35,6 +37,8 @@ public class InspectAction extends ERXDirectAction {
 			_urlHandlers = new ArrayList<>();
 			_urlHandlers.add( new URLHandlerDataObject() );
 			_urlHandlers.add( new URLHandlerList() );
+			_urlHandlers.add( new URLHandlerSearch() );
+			_urlHandlers.add( new URLHandlerPasswordReset() );
 		}
 
 		return _urlHandlers;
@@ -56,7 +60,6 @@ public class InspectAction extends ERXDirectAction {
 
 		for( URLHandler urlHandler : urlHandlers() ) {
 			if( url.startsWith( urlHandler.prefix() ) ) {
-				System.out.println( "Found URL handler!" );
 				return urlHandler.execute().apply( url, context() );
 			}
 		}
