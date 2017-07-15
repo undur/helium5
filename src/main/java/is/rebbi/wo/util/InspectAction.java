@@ -32,7 +32,7 @@ public class InspectAction extends ERXDirectAction {
 		super( r );
 	}
 
-	public static List<URLHandler> urlHandlers() {
+	private static List<URLHandler> urlHandlers() {
 		if( _urlHandlers == null ) {
 			_urlHandlers = new ArrayList<>();
 			_urlHandlers.add( new URLHandlerDataObject() );

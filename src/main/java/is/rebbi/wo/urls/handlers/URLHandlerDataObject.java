@@ -54,7 +54,7 @@ public class URLHandlerDataObject implements URLHandler {
 	/**
 	 * @return The object the user wanted from the URL.
 	 */
-	public static DataObject objectFromURL( ObjectContext oc, String url ) {
+	private static DataObject objectFromURL( ObjectContext oc, String url ) {
 		String[] smu = url.split( "/" );
 		String typeIdentifier = smu[2];
 		String objectIdentifier = smu[3];
@@ -92,8 +92,7 @@ public class URLHandlerDataObject implements URLHandler {
 		SelectQuery<?> q = new SelectQuery<>( objEntityName );
 		Expression e = ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO );
 		q.setQualifier( e );
-		DataObject object = (DataObject)q.selectOne( oc );
-		return object;
+		return (DataObject)q.selectOne( oc );
 	}
 
 	/**
