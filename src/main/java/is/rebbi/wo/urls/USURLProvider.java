@@ -13,8 +13,7 @@ import com.webobjects.foundation.NSMutableDictionary;
 import er.extensions.appserver.ERXApplication;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.definitions.EntityViewDefinition;
-import is.rebbi.wo.util.SWSettings;
-import is.rebbi.wo.util.USHTTPUtilities;
+import is.rebbi.wo.util.InspectAction;
 
 /**
  * Generates URLs.
@@ -46,6 +45,7 @@ public abstract class USURLProvider {
 	private static Map<Class, URLProvider> urlProviders() {
 		if( _urlProviders == null ) {
 			_urlProviders = new HashMap<>();
+			// _urlProviders.put( UniqueIDStamped.class, new URLProviderUniqueIDStamped() );
 			_urlProviders.put( DataObject.class, new URLProviderDataObject() );
 			_urlProviders.put( ObjectId.class, new URLProviderObjectId() );
 		}
@@ -77,28 +77,13 @@ public abstract class USURLProvider {
 		return url;
 	}
 
-	public static String absoluteURL( String url, WOContext context ) {
-		String host = USHTTPUtilities.host( context.request() );
-
-		if( host == null ) {
-			host = SWSettings.defaultDomainName();
-		}
-
-		if( !SWSettings.generateFriendlyURLs( context.request() ) ) {
-			url = USURLProvider.makeURLDeveloperFriendly( url, context );
-		}
-
-		return "http://" + host + url;
-	}
-
 	/**
 	 * @return A direct connect version of the URL.
 	 */
-	private static String makeURLDeveloperFriendly( String url, WOContext context ) {
+	public static String makeURLDeveloperFriendly( String url, WOContext context ) {
 		NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
 		d.setObjectForKey( url, "url" );
-		// url = context.directActionURLForActionNamed( InspectAction.class.getSimpleName() + "/handler", d );
-		url = context.directActionURLForActionNamed( "InspectAction/handler", d );
+		url = context.directActionURLForActionNamed( InspectAction.class.getSimpleName() + "/handler", d );
 		url = StringUtilities.replace( url, "&", "&amp;" );
 		return url;
 	}

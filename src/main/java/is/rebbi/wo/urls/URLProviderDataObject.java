@@ -33,20 +33,6 @@ public class URLProviderDataObject extends URLProvider {
 	private static final String ENTITY_IDENTIFIER_PREFIX = "entity-";
 
 	/**
-	 * @return A friendly URL without the domain.
-	 */
-	private static String relativeURL( String typeIdentifier, String objectIdentifier ) {
-		return friendlyURL( null, null, typeIdentifier, objectIdentifier );
-	}
-
-	/**
-	 * @return A friendly URL including the domain.
-	 */
-	private static String absoluteURL( String typeIdentifier, String objectIdentifier ) {
-		return friendlyURL( "http", SWSettings.defaultDomainName(), typeIdentifier, objectIdentifier );
-	}
-
-	/**
 	 * @return A friendly URL.
 	 */
 	private static String friendlyURL( String protocol, String host, String typeIdentifier, String objectIdentifier ) {
@@ -78,13 +64,6 @@ public class URLProviderDataObject extends URLProvider {
 
 	private static String entityNameFromTypeIdentifier( String urlPrefix ) {
 		return EntityViewDefinition.definitionForURLPrefix( urlPrefix ).name();
-	}
-
-	/**
-	 * @return URL identifier for objects based on primary key.
-	 */
-	private static String objectIdentifier( Object primaryKey ) {
-		return PK_IDENTIFIER_PREFIX + primaryKey;
 	}
 
 	/**
@@ -140,15 +119,13 @@ public class URLProviderDataObject extends URLProvider {
 	 */
 	public String urlForObject( String entityName, Object serializedID, WOContext context ) {
 		String typeIdentifier = urlPrefix( entityName );
-		String objectIdentifier = objectIdentifier( serializedID );
+		String objectIdentifier = PK_IDENTIFIER_PREFIX + serializedID;
 
-		System.out.println( "typeIdentifier: " + typeIdentifier );
-		System.out.println( "objectIdentifier: " + objectIdentifier );
 		if( context == null ) {
-			return absoluteURL( typeIdentifier, objectIdentifier );
+			return friendlyURL( "http", SWSettings.defaultDomainName(), typeIdentifier, objectIdentifier );
 		}
 		else {
-			return relativeURL( typeIdentifier, objectIdentifier );
+			return friendlyURL( null, null, typeIdentifier, objectIdentifier );
 		}
 	}
 
@@ -170,8 +147,7 @@ public class URLProviderDataObject extends URLProvider {
 		if( objectIdentiferIsGeneric( objectIdentifier ) ) {
 			String objEntityName = entityNameFromTypeIdentifier( typeIdentifier );
 			String identifier = objectIdentifier.substring( PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
-			DataObject object = objectFromIdentifier( oc, objEntityName, identifier );
-			return object;
+			return objectFromIdentifier( oc, objEntityName, identifier );
 		}
 		else {
 			throw new RuntimeException( "Unsupported URL format" );
