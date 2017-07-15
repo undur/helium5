@@ -1,9 +1,10 @@
 package is.rebbi.wo.urls;
 
+import java.util.Map;
+
 import org.apache.cayenne.DataObject;
 
 import com.webobjects.appserver.WOContext;
-import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableDictionary;
 
 import er.extensions.appserver.ERXApplication;
@@ -17,7 +18,7 @@ import is.rebbi.wo.util.USHTTPUtilities;
 
 public abstract class USURLProvider {
 
-	private static NSDictionary<Class, URLProvider> _urlProviders;
+	private static Map<Class, URLProvider> _urlProviders;
 
 	/**
 	 * @return The URL for viewing the given object.
@@ -59,7 +60,7 @@ public abstract class USURLProvider {
 		return url;
 	}
 
-	private static NSDictionary<Class, URLProvider> urlProviders() {
+	private static Map<Class, URLProvider> urlProviders() {
 		if( _urlProviders == null ) {
 			_urlProviders = new NSMutableDictionary<>();
 		}
@@ -73,7 +74,7 @@ public abstract class USURLProvider {
 			return new URLProviderCayenne();
 		}
 
-		return urlProviders().objectForKey( clazz );
+		return urlProviders().get( clazz );
 	}
 
 	public static String absoluteURL( String url, WOContext context ) {

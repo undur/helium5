@@ -14,7 +14,6 @@ import is.rebbi.wo.components.admin.USLoginPage;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.search.USSearchAction;
 import is.rebbi.wo.urls.URLProviderCayenne;
-import is.rebbi.wo.urls.URLProviderPersistent;
 import is.rebbi.wo.urls.USStaticURLs;
 
 /**
@@ -49,7 +48,7 @@ public class InspectAction extends ERXDirectAction {
 		}
 
 		if( url.startsWith( INSPECTION_PREFIX ) ) {
-			EntityViewDefinition def = URLProviderPersistent.viewDefinitionFromURL( url );
+			EntityViewDefinition def = URLProviderCayenne.viewDefinitionFromURL( url );
 
 			Object object = URLProviderCayenne.objectFromURL( USCayenne.defaultObjectContext( session() ), url );
 
