@@ -8,11 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WORequest;
-import com.webobjects.foundation.NSDictionary;
 
 import er.extensions.appserver.ERXDirectAction;
 import is.rebbi.wo.components.admin.USLoginPage;
-import is.rebbi.wo.search.USSearchAction;
 import is.rebbi.wo.urls.USStaticURLs;
 import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
@@ -25,9 +23,6 @@ import is.rebbi.wo.urls.handlers.URLHandlerList;
 public class InspectAction extends ERXDirectAction {
 
 	private static final Logger logger = LoggerFactory.getLogger( InspectAction.class );
-
-	private static final String SEARCH_PREFIX = "/search/";
-	public static final String PASSWORD_RESET_REQUEST_PREFIX = "/passwordResetRequest/";
 
 	private static List<URLHandler> _urlHandlers;
 
@@ -64,22 +59,6 @@ public class InspectAction extends ERXDirectAction {
 				System.out.println( "Found URL handler!" );
 				return urlHandler.execute().apply( url, context() );
 			}
-		}
-
-		if( url.startsWith( SEARCH_PREFIX ) ) {
-			String afterPrefix = url.substring( SEARCH_PREFIX.length() );
-			logger.info( "searchString: " + afterPrefix );
-			String directActionName = USSearchAction.class.getSimpleName() + "/search";
-			NSDictionary<String, Object> params = new NSDictionary<>( afterPrefix, "searchString_field" );
-			String searchURL = context().directActionURLForActionNamed( directActionName, params );
-			return USHTTPUtilities.redirectTemporary( searchURL );
-		}
-
-		if( url.startsWith( PASSWORD_RESET_REQUEST_PREFIX ) ) {
-			String afterPrefix = url.substring( PASSWORD_RESET_REQUEST_PREFIX.length() );
-			NSDictionary<String, Object> params = new NSDictionary<>( afterPrefix, "key" );
-			String searchURL = context().directActionURLForActionNamed( "SWPasswordResetAction" /* FIXME: SWPasswordResetAction.class.getSimpleName() */, params );
-			return USHTTPUtilities.redirectTemporary( searchURL );
 		}
 
 		return response404( url() );
