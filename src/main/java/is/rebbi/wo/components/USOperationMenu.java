@@ -8,12 +8,12 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
-import is.rebbi.wo.operations.Operation;
-import is.rebbi.wo.operations.Operations;
+import is.rebbi.wo.operations.DataObjectOperation;
+import is.rebbi.wo.operations.DataObjectOperations;
 
 public class USOperationMenu extends ERXNonSynchronizingComponent {
 
-	public Operation currentOperation;
+	public DataObjectOperation currentOperation;
 
 	public USOperationMenu( WOContext context ) {
 		super( context );
@@ -23,8 +23,8 @@ public class USOperationMenu extends ERXNonSynchronizingComponent {
 		return (DataObject)valueForBinding( "selectedObject" );
 	}
 
-	public List<Operation> operations() {
-		return Operations.operations();
+	public List<DataObjectOperation> operations() {
+		return DataObjectOperations.operations();
 	}
 
 	public WOActionResults selectOperation() {

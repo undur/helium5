@@ -9,7 +9,7 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.util.Inspection;
 
-public class EditOperation implements Operation {
+public class EditOperation implements DataObjectOperation {
 
 	@Override
 	public String name() {

@@ -7,7 +7,7 @@ import org.apache.cayenne.DataObject;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
-public interface Operation {
+public interface DataObjectOperation {
 
 	/**
 	 * Name of the operation (shown in the UI)

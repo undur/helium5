@@ -10,7 +10,7 @@ import com.webobjects.appserver.WOContext;
 import is.rebbi.wo.urls.USURLProvider;
 import is.rebbi.wo.util.Inspection;
 
-public class ViewOperation implements Operation {
+public class ViewOperation implements DataObjectOperation {
 
 	@Override
 	public String name() {

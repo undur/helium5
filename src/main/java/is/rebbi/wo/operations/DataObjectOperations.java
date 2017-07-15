@@ -3,11 +3,11 @@ package is.rebbi.wo.operations;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Operations {
+public class DataObjectOperations {
 
-	private static List<Operation> _operations;
+	private static List<DataObjectOperation> _operations;
 
-	public static List<Operation> operations() {
+	public static List<DataObjectOperation> operations() {
 		if( _operations == null ) {
 			_operations = new ArrayList<>();
 			_operations.add( new EditOperation() );
@@ -19,7 +19,7 @@ public class Operations {
 		return _operations;
 	}
 
-	public static void addOperation( Operation operation ) {
+	public static void addOperation( DataObjectOperation operation ) {
 		operations().add( operation );
 	}
 }
