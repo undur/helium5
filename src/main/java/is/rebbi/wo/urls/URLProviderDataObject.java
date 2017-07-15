@@ -20,7 +20,7 @@ import com.webobjects.appserver.WOContext;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.SWSettings;
 
-public class URLProviderCayenne extends URLProvider {
+public class URLProviderDataObject extends URLProvider {
 
 	/**
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.

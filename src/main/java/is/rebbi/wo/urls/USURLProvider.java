@@ -40,7 +40,7 @@ public abstract class USURLProvider {
 	private static Map<Class, URLProvider> urlProviders() {
 		if( _urlProviders == null ) {
 			_urlProviders = new HashMap<>();
-			_urlProviders.put( DataObject.class, new URLProviderCayenne() );
+			_urlProviders.put( DataObject.class, new URLProviderDataObject() );
 			_urlProviders.put( ObjectId.class, new URLProviderObjectId() );
 		}
 

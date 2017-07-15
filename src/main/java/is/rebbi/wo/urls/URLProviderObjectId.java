@@ -11,6 +11,6 @@ public class URLProviderObjectId extends URLProvider {
 	@Override
 	public String urlForObject( Object object, WOContext context ) {
 		ObjectId oid = (ObjectId)object;
-		return new URLProviderCayenne().urlForObject( oid.getEntityName(), PKSerializer.serialize( oid ), context );
+		return new URLProviderDataObject().urlForObject( oid.getEntityName(), PKSerializer.serialize( oid ), context );
 	}
 }
