@@ -11,10 +11,10 @@ import com.webobjects.appserver.WORequest;
 
 import er.extensions.appserver.ERXDirectAction;
 import is.rebbi.wo.components.admin.USLoginPage;
-import is.rebbi.wo.urls.USStaticURLs;
 import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
 import is.rebbi.wo.urls.handlers.URLHandlerList;
+import is.rebbi.wo.urls.handlers.URLHandlerLogin;
 import is.rebbi.wo.urls.handlers.URLHandlerPasswordReset;
 import is.rebbi.wo.urls.handlers.URLHandlerSearch;
 
@@ -39,6 +39,7 @@ public class InspectAction extends ERXDirectAction {
 			_urlHandlers.add( new URLHandlerList() );
 			_urlHandlers.add( new URLHandlerSearch() );
 			_urlHandlers.add( new URLHandlerPasswordReset() );
+			_urlHandlers.add( new URLHandlerLogin() );
 		}
 
 		return _urlHandlers;
@@ -51,12 +52,6 @@ public class InspectAction extends ERXDirectAction {
 		String url = url();
 
 		logger.info( "Handling URL: {}", url );
-
-		String redirectURL = USStaticURLs.url( url, context() );
-
-		if( redirectURL != null ) {
-			return USHTTPUtilities.redirectTemporary( redirectURL );
-		}
 
 		for( URLHandler urlHandler : urlHandlers() ) {
 			if( url.startsWith( urlHandler.prefix() ) ) {
