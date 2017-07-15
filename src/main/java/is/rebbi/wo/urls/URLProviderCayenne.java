@@ -35,14 +35,14 @@ public class URLProviderCayenne extends URLProvider {
 	/**
 	 * @return A friendly URL without the domain.
 	 */
-	private static String urlWithoutDomain( String typeIdentifier, String objectIdentifier ) {
+	private static String relativeURL( String typeIdentifier, String objectIdentifier ) {
 		return friendlyURL( null, null, typeIdentifier, objectIdentifier );
 	}
 
 	/**
 	 * @return A friendly URL including the domain.
 	 */
-	private static String urlWithDomain( String typeIdentifier, String objectIdentifier ) {
+	private static String absoluteURL( String typeIdentifier, String objectIdentifier ) {
 		return friendlyURL( "http", SWSettings.defaultDomainName(), typeIdentifier, objectIdentifier );
 	}
 
@@ -144,10 +144,10 @@ public class URLProviderCayenne extends URLProvider {
 		String objectIdentifier = objectIdentifier( serializedID );
 
 		if( context == null ) {
-			return urlWithDomain( typeIdentifier, objectIdentifier );
+			return absoluteURL( typeIdentifier, objectIdentifier );
 		}
 		else {
-			return urlWithoutDomain( typeIdentifier, objectIdentifier );
+			return relativeURL( typeIdentifier, objectIdentifier );
 		}
 	}
 
