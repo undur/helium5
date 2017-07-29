@@ -71,9 +71,8 @@ public class URLHandlerDataObject implements URLHandler {
 			String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
 			return objectFromIdentifier( oc, objEntityName, identifier );
 		}
-		else {
-			throw new RuntimeException( "Unsupported URL format" );
-		}
+
+		throw new RuntimeException( "Unsupported URL format" );
 	}
 
 	private static DataObject objectFromIdentifier( ObjectContext oc, String objEntityName, String identifier ) {
