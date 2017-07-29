@@ -65,7 +65,7 @@ public interface HasFakeRelationship extends DataObject, PointsToPersistent {
 		 */
 		public static <E extends HasFakeRelationship> void setTargetObject( E link, DataObject targetObject ) {
 			link.setTargetEntityName( targetObject.getObjectId().getEntityName() );
-			link.setTargetID( PKSerializer.serialize( targetObject ) );
+			link.setTargetID( PKSerializer.serialize( targetObject.getObjectId() ) );
 		}
 
 		public static int relatedObjectCount( Class entityClass, DataObject targetObject ) {
@@ -80,7 +80,7 @@ public interface HasFakeRelationship extends DataObject, PointsToPersistent {
 
 			List<Expression> a = new ArrayList<>();
 			a.add( TARGET_ENTITY_NAME.eq( targetObject.getObjectId().getEntityName() ) );
-			a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject ) ) );
+			a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject.getObjectId() ) ) );
 			Expression q = ExpressionFactory.and( a );
 
 			SelectQuery<E> query = new SelectQuery<>( entityClass );

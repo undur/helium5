@@ -1,15 +1,12 @@
 package is.rebbi.wo.urls.providers;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.cayenne.DataObject;
+import org.apache.cayenne.ObjectId;
 
 import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.util.PKSerializer;
 
 public class URLProviderDataObject extends URLProvider<DataObject> {
 
@@ -26,14 +23,14 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	/**
 	 * @return The url prefix for the given object.
 	 */
-	private static String urlPrefix( String entityName ) {
+	private static String typeIdentifierForEntityName( String entityName ) {
 		EntityViewDefinition<?, ?, ?> type = EntityViewDefinition.get( entityName );
 
 		if( type != null ) {
-			String urlPrefix = type.urlPrefix();
+			String typeIdentifier = type.urlPrefix();
 
-			if( urlPrefix != null ) {
-				return urlPrefix;
+			if( typeIdentifier != null ) {
+				return typeIdentifier;
 			}
 		}
 
@@ -42,30 +39,16 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 
 	@Override
 	public String urlForObject( DataObject dataObject, WOContext context ) {
-		Map<String, Object> idSnapshot = dataObject.getObjectId().getIdSnapshot();
-		List<String> keys = new ArrayList<>( idSnapshot.keySet() );
-		keys.sort( Comparator.naturalOrder() );
-
-		StringBuilder b = new StringBuilder();
-
-		int i = 0;
-
-		for( String key : keys ) {
-			if( i++ > 0 ) {
-				b.append( "|" );
-			}
-
-			b.append( idSnapshot.get( key ) );
-		}
-
-		return urlForObject( dataObject.getObjectId().getEntityName(), b.toString(), context );
+		ObjectId oid = dataObject.getObjectId();
+		String idString = PKSerializer.serialize( oid );
+		return urlForObject( oid.getEntityName(), idString, context );
 	}
 
 	/**
 	 * @return A URL for the given object.
 	 */
 	public String urlForObject( String entityName, Object serializedID, WOContext context ) {
-		String typeIdentifier = urlPrefix( entityName );
+		String typeIdentifier = typeIdentifierForEntityName( entityName );
 		String objectIdentifier = PK_IDENTIFIER_PREFIX + serializedID;
 
 		StringBuilder b = new StringBuilder();

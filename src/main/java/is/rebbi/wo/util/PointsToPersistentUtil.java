@@ -19,8 +19,8 @@ import jambalaya.CayenneUtils;
 
 public class PointsToPersistentUtil {
 
-	private static final Property<String> TARGET_ENTITY_NAME = new Property<>( "targetEntityName" );
-	private static final Property<String> TARGET_ID = new Property<>( "targetID" );
+	private static final Property<String> TARGET_ENTITY_NAME = Property.create( "targetEntityName", String.class );
+	private static final Property<String> TARGET_ID = Property.create( "targetID", String.class );
 
 	/**
 	 * @return The target object of the given fake relationship container object.
@@ -70,14 +70,14 @@ public class PointsToPersistentUtil {
 	 */
 	public static <E extends HasFakeRelationship> void setTargetObject( E link, DataObject targetObject ) {
 		link.setTargetEntityName( targetObject.getObjectId().getEntityName() );
-		link.setTargetID( PKSerializer.serialize( targetObject ) );
+		link.setTargetID( PKSerializer.serialize( targetObject.getObjectId() ) );
 	}
 
 	public static int relatedObjectCount( ObjectContext oc, Class entityClass, DataObject targetObject ) {
 
 		List<Expression> a = new ArrayList<>();
 		a.add( TARGET_ENTITY_NAME.eq( targetObject.getObjectId().getEntityName() ) );
-		a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject ) ) );
+		a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject.getObjectId() ) ) );
 		Expression q = ExpressionFactory.and( a );
 
 		return (int)CayenneUtils.count( oc, entityClass, q );
@@ -87,7 +87,7 @@ public class PointsToPersistentUtil {
 
 		List<Expression> a = new ArrayList<>();
 		a.add( TARGET_ENTITY_NAME.eq( targetObject.getObjectId().getEntityName() ) );
-		a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject ) ) );
+		a.add( TARGET_ID.eq( PKSerializer.serialize( targetObject.getObjectId() ) ) );
 		Expression q = ExpressionFactory.and( a );
 
 		SelectQuery<E> query = new SelectQuery<>( entityClass );

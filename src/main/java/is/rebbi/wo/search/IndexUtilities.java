@@ -9,7 +9,7 @@ public class IndexUtilities {
 
 	public static IndexRecord create( DataObject obj ) {
 		String entityName = obj.getObjectId().getEntityName();
-		String targetID = PKSerializer.serialize( obj );
+		String targetID = PKSerializer.serialize( obj.getObjectId() );
 		return IndexRecord.create( entityName, targetID );
 	}
 }
