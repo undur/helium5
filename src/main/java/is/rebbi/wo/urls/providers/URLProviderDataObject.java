@@ -10,7 +10,6 @@ import org.apache.cayenne.DataObject;
 import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
-import is.rebbi.wo.util.SWSettings;
 
 public class URLProviderDataObject extends URLProvider {
 
@@ -23,29 +22,6 @@ public class URLProviderDataObject extends URLProvider {
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
 	 */
 	public static final String ENTITY_IDENTIFIER_PREFIX = "entity-";
-
-	/**
-	 * @return A friendly URL.
-	 */
-	private static String friendlyURL( String protocol, String host, String typeIdentifier, String objectIdentifier ) {
-		StringBuilder b = new StringBuilder();
-
-		if( protocol != null ) {
-			b.append( protocol );
-			b.append( "://" );
-		}
-
-		if( host != null ) {
-			b.append( host );
-		}
-
-		b.append( "/i/" );
-		b.append( typeIdentifier );
-		b.append( "/" );
-		b.append( objectIdentifier );
-
-		return b.toString();
-	}
 
 	/**
 	 * @return The url prefix for the given object.
@@ -84,8 +60,7 @@ public class URLProviderDataObject extends URLProvider {
 			b.append( idSnapshot.get( key ) );
 		}
 
-		String serializedID = b.toString();
-		return urlForObject( dataObject.getObjectId().getEntityName(), serializedID, context );
+		return urlForObject( dataObject.getObjectId().getEntityName(), b.toString(), context );
 	}
 
 	/**
@@ -95,11 +70,11 @@ public class URLProviderDataObject extends URLProvider {
 		String typeIdentifier = urlPrefix( entityName );
 		String objectIdentifier = PK_IDENTIFIER_PREFIX + serializedID;
 
-		if( context == null ) {
-			return friendlyURL( "http", SWSettings.defaultDomainName(), typeIdentifier, objectIdentifier );
-		}
-		else {
-			return friendlyURL( null, null, typeIdentifier, objectIdentifier );
-		}
+		StringBuilder b = new StringBuilder();
+		b.append( "/i/" );
+		b.append( typeIdentifier );
+		b.append( "/" );
+		b.append( objectIdentifier );
+		return b.toString();
 	}
 }

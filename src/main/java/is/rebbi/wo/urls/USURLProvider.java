@@ -18,6 +18,7 @@ import is.rebbi.wo.urls.providers.URLProvider;
 import is.rebbi.wo.urls.providers.URLProviderDataObject;
 import is.rebbi.wo.urls.providers.URLProviderObjectId;
 import is.rebbi.wo.util.InspectAction;
+import is.rebbi.wo.util.SWSettings;
 
 /**
  * Generates URLs.
@@ -43,7 +44,20 @@ public abstract class USURLProvider {
 			url = USURLProvider.makeURLDeveloperFriendly( url, context );
 		}
 
+		if( context == null ) {
+			url = addProtocolAndHost( url );
+		}
+
 		return url;
+	}
+
+	private static String addProtocolAndHost( String url ) {
+		StringBuilder b = new StringBuilder();
+		b.append( "http" );
+		b.append( "://" );
+		b.append( SWSettings.defaultDomainName() );
+		b.append( url );
+		return b.toString();
 	}
 
 	private static Map<Class, URLProvider> urlProviders() {
@@ -76,6 +90,10 @@ public abstract class USURLProvider {
 
 		if( ERXApplication.erxApplication().isDevelopmentMode() ) {
 			url = USURLProvider.makeURLDeveloperFriendly( url, context );
+		}
+
+		if( context == null ) {
+			url = addProtocolAndHost( url );
 		}
 
 		return url;
