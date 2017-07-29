@@ -22,16 +22,16 @@ public class EditOperation implements DataObjectOperation {
 	}
 
 	@Override
-	public BiFunction<DataObject, WOContext, WOActionResults> execute() {
+	public BiFunction<DataObject, WOContext, Boolean> show() {
 		return ( dataObject, context ) -> {
-			return Inspection.editObjectInContext( dataObject, context );
+			return dataObject != null;
 		};
 	}
 
 	@Override
-	public BiFunction<DataObject, WOContext, Boolean> show() {
+	public BiFunction<DataObject, WOContext, WOActionResults> execute() {
 		return ( dataObject, context ) -> {
-			return dataObject != null;
+			return Inspection.editObjectInContext( dataObject, context );
 		};
 	}
 }

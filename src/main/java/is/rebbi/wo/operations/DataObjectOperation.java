@@ -20,8 +20,7 @@ public interface DataObjectOperation {
 	public String iconName();
 
 	/**
-	 * Defines a function that will be run when the button is clicked, passing
-	 * the selectedObject if any.
+	 * Defines a function that will be run when the button is clicked, passing the selectedObject if any.
 	 */
 	public BiFunction<DataObject, WOContext, WOActionResults> execute();
 
