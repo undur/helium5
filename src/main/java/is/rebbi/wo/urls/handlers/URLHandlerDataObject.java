@@ -102,7 +102,7 @@ public class URLHandlerDataObject implements URLHandler {
 		return objectIdentifier.startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX );
 	}
 
-	public static String entityNameFromTypeIdentifier( String urlPrefix ) {
+	private static String entityNameFromTypeIdentifier( String urlPrefix ) {
 		return EntityViewDefinition.definitionForURLPrefix( urlPrefix ).name();
 	}
 }
