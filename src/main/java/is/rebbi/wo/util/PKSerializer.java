@@ -3,6 +3,7 @@ package is.rebbi.wo.util;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.cayenne.Cayenne;
 import org.apache.cayenne.DataObject;
@@ -18,9 +19,25 @@ public class PKSerializer {
 	}
 
 	public static String serialize( ObjectId oid ) {
-		List<String> keys = new ArrayList<>( oid.getIdSnapshot().keySet() );
+
+		Map<String, Object> idSnapshot = oid.getIdSnapshot();
+		List<String> keys = new ArrayList<>( idSnapshot.keySet() );
 		keys.sort( Comparator.naturalOrder() );
-		return String.join( PK_ELEMENT_SEPARATOR, keys );
+
+		StringBuilder b = new StringBuilder();
+
+		int i = 0;
+
+		for( String key : keys ) {
+			if( i++ > 0 ) {
+				b.append( PK_ELEMENT_SEPARATOR );
+			}
+
+			b.append( idSnapshot.get( key ) );
+		}
+
+		return b.toString();
+
 	}
 
 	public static DataObject eo( ObjectContext ec, String entityName, String pkString ) {
