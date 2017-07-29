@@ -2,10 +2,12 @@ package is.rebbi.wo.urls.providers;
 
 import com.webobjects.appserver.WOContext;
 
-public class URLProviderUniqueIDStamped extends URLProvider {
+import jambalaya.interfaces.UniqueIDStamped;
+
+public class URLProviderUniqueIDStamped extends URLProvider<UniqueIDStamped> {
 
 	@Override
-	public String urlForObject( Object object, WOContext context ) {
+	public String urlForObject( UniqueIDStamped object, WOContext context ) {
 		return null;
 	}
 }

@@ -11,7 +11,7 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
 
-public class URLProviderDataObject extends URLProvider {
+public class URLProviderDataObject extends URLProvider<DataObject> {
 
 	/**
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
@@ -41,9 +41,7 @@ public class URLProviderDataObject extends URLProvider {
 	}
 
 	@Override
-	public String urlForObject( Object object, WOContext context ) {
-		DataObject dataObject = (DataObject)object;
-
+	public String urlForObject( DataObject dataObject, WOContext context ) {
 		Map<String, Object> idSnapshot = dataObject.getObjectId().getIdSnapshot();
 		List<String> keys = new ArrayList<>( idSnapshot.keySet() );
 		keys.sort( Comparator.naturalOrder() );

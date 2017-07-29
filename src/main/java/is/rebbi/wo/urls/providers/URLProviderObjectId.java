@@ -6,11 +6,10 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.util.PKSerializer;
 
-public class URLProviderObjectId extends URLProvider {
+public class URLProviderObjectId extends URLProvider<ObjectId> {
 
 	@Override
-	public String urlForObject( Object object, WOContext context ) {
-		ObjectId oid = (ObjectId)object;
+	public String urlForObject( ObjectId oid, WOContext context ) {
 		return new URLProviderDataObject().urlForObject( oid.getEntityName(), PKSerializer.serialize( oid ), context );
 	}
 }
