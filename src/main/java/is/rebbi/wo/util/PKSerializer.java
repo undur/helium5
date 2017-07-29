@@ -23,7 +23,7 @@ public class PKSerializer {
 		return String.join( PK_ELEMENT_SEPARATOR, keys );
 	}
 
-	public static DataObject eo( ObjectContext ec, String entityName, String string ) {
-		return (DataObject)Cayenne.objectForPK( ec, entityName, string );
+	public static DataObject eo( ObjectContext ec, String entityName, String pkString ) {
+		return (DataObject)Cayenne.objectForPK( ec, entityName, pkString );
 	}
 }
