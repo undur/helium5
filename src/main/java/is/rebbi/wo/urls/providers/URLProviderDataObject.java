@@ -39,17 +39,15 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 
 	@Override
 	public String urlForObject( DataObject dataObject, WOContext context ) {
-		ObjectId oid = dataObject.getObjectId();
-		String idString = PKSerializer.serialize( oid );
-		return urlForObject( oid.getEntityName(), idString, context );
+		return urlForObjectId( dataObject.getObjectId(), context );
 	}
 
 	/**
 	 * @return A URL for the given object.
 	 */
-	public String urlForObject( String entityName, Object serializedID, WOContext context ) {
-		String typeIdentifier = typeIdentifierForEntityName( entityName );
-		String objectIdentifier = PK_IDENTIFIER_PREFIX + serializedID;
+	public static String urlForObjectId( ObjectId oid, WOContext context ) {
+		String typeIdentifier = typeIdentifierForEntityName( oid.getEntityName() );
+		String objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
 
 		StringBuilder b = new StringBuilder();
 		b.append( "/i/" );
