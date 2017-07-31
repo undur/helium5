@@ -37,7 +37,6 @@ public class PKSerializer {
 		}
 
 		return b.toString();
-
 	}
 
 	public static DataObject eo( ObjectContext ec, String entityName, String pkString ) {
