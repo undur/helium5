@@ -24,8 +24,8 @@ public interface HasFakeRelationship extends DataObject, PointsToPersistent {
 
 	public static class Util {
 
-		private static final Property<String> TARGET_ENTITY_NAME = new Property<>( "targetEntityName" );
-		private static final Property<String> TARGET_ID = new Property<>( "targetID" );
+		private static final Property<String> TARGET_ENTITY_NAME = Property.create( "targetEntityName", String.class );
+		private static final Property<String> TARGET_ID = Property.create( "targetID", String.class );
 
 		/**
 		 * @return The target object of the given fake relationship container object.
