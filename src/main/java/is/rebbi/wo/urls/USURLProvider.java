@@ -92,10 +92,6 @@ public abstract class USURLProvider {
 			url = USURLProvider.makeURLDeveloperFriendly( url, context );
 		}
 
-		if( context == null ) {
-			url = addProtocolAndHost( url );
-		}
-
 		return url;
 	}
 
