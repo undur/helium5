@@ -3,8 +3,6 @@ package is.rebbi.wo.urls.providers;
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectId;
 
-import com.webobjects.appserver.WOContext;
-
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.PKSerializer;
 
@@ -38,14 +36,14 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	}
 
 	@Override
-	public String urlForObject( DataObject dataObject, WOContext context ) {
-		return urlForObjectId( dataObject.getObjectId(), context );
+	public String urlForObject( DataObject dataObject ) {
+		return urlForObjectId( dataObject.getObjectId() );
 	}
 
 	/**
 	 * @return A URL for the given object.
 	 */
-	public static String urlForObjectId( ObjectId oid, WOContext context ) {
+	public static String urlForObjectId( ObjectId oid ) {
 		String typeIdentifier = typeIdentifierForEntityName( oid.getEntityName() );
 		String objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
 

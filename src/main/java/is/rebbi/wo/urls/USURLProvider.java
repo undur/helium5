@@ -38,7 +38,7 @@ public abstract class USURLProvider {
 			throw new NullPointerException( "No URLProvider registered for objects of class: " + object.getClass() );
 		}
 
-		String url = urlProvider.urlForObject( object, context );
+		String url = urlProvider.urlForObject( object );
 
 		if( ERXApplication.erxApplication().isDevelopmentMode() ) {
 			url = USURLProvider.makeURLDeveloperFriendly( url, context );
