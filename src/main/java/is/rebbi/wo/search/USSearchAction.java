@@ -7,9 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
+import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.foundation.NSArray;
 
+import er.extensions.appserver.ERXApplication;
 import er.extensions.appserver.ERXDirectAction;
 import is.rebbi.wo.search.components.USSearchPage;
 import is.rebbi.wo.util.USHTTPUtilities;
@@ -18,13 +20,16 @@ public class USSearchAction extends ERXDirectAction {
 
 	private static final Logger logger = LoggerFactory.getLogger( USSearchAction.class );
 
-	public USSearchAction(WORequest r) {
+	public USSearchAction( WORequest r ) {
 		super( r );
 	}
 
 	public WOActionResults searchAction() {
-
 		String searchString = request().stringFormValueForKey( "searchString_field" );
+		return search( searchString, context() );
+	}
+
+	public static WOActionResults search( String searchString, WOContext context ) {
 
 		if( searchString == null ) {
 			searchString = "";
@@ -34,7 +39,7 @@ public class USSearchAction extends ERXDirectAction {
 
 		String queryString = SearchTermConstructor.constructQueryString( searchString, null, useInflection );
 
-		USSearchPage nextPage = pageWithName( USSearchPage.class );
+		USSearchPage nextPage = ERXApplication.erxApplication().pageWithName( USSearchPage.class, context );
 		nextPage.setSearchString( searchString );
 		nextPage.setQueryString( queryString );
 		nextPage.setUseInflection( useInflection );
