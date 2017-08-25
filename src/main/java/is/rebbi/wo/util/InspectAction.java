@@ -45,6 +45,10 @@ public class InspectAction extends ERXDirectAction {
 		return _urlHandlers;
 	}
 
+	public static void addURLHandler( URLHandler urlHandler ) {
+		urlHandlers().add( urlHandler );
+	}
+
 	/**
 	 * @return A page for inspecting the specified object.
 	 */
