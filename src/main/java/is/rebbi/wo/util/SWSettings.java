@@ -264,14 +264,14 @@ public class SWSettings {
 	 * @return The default admin username.
 	 */
 	public static String adminUsername() {
-		return stringForKey( DEFAULT_USERNAME, "admin" );
+		return stringForKey( DEFAULT_USERNAME );
 	}
 
 	/**
 	 * @return The default admin password.
 	 */
 	public static String adminPassword() {
-		return stringForKey( DEFAULT_PASSWORD, "admin" );
+		return stringForKey( DEFAULT_PASSWORD );
 	}
 
 	/**
