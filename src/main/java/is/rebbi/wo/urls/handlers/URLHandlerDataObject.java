@@ -68,12 +68,13 @@ public class URLHandlerDataObject implements URLHandler {
 
 		if( objectIdentiferIsGeneric( objectIdentifier ) ) {
 			String objEntityName = entityNameFromTypeIdentifier( typeIdentifier );
+
 			if( objectIdentifier.startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX ) ) {
 				String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
 				return objectFromPK( oc, objEntityName, identifier );
 			}
 			else {
-				String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
+				String identifier = objectIdentifier.substring( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
 				return objectFromUniqueID( oc, objEntityName, identifier );
 			}
 		}
