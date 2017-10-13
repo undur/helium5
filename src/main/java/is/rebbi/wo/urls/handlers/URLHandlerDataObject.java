@@ -68,14 +68,26 @@ public class URLHandlerDataObject implements URLHandler {
 
 		if( objectIdentiferIsGeneric( objectIdentifier ) ) {
 			String objEntityName = entityNameFromTypeIdentifier( typeIdentifier );
-			String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
-			return objectFromIdentifier( oc, objEntityName, identifier );
+			if( objectIdentifier.startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX ) ) {
+				String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
+				return objectFromPK( oc, objEntityName, identifier );
+			}
+			else {
+				String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
+				return objectFromUniqueID( oc, objEntityName, identifier );
+			}
 		}
 
 		throw new RuntimeException( "Unsupported URL format" );
 	}
 
-	private static DataObject objectFromIdentifier( ObjectContext oc, String objEntityName, String identifier ) {
+	private static DataObject objectFromUniqueID( ObjectContext oc, String objEntityName, String uid ) {
+		SelectQuery<?> q = new SelectQuery<>( objEntityName );
+		q.setQualifier( ExpressionFactory.matchExp( "uniqueID", uid ) );
+		return (DataObject)q.selectOne( oc );
+	}
+
+	private static DataObject objectFromPK( ObjectContext oc, String objEntityName, String identifier ) {
 		ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
 		Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
 		String[] components = identifier.split( "\\|" );

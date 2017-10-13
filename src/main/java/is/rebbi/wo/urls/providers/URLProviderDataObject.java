@@ -5,6 +5,8 @@ import org.apache.cayenne.ObjectId;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.PKSerializer;
+import jambalaya.Jambalaya;
+import jambalaya.interfaces.UniqueIDStamped;
 
 public class URLProviderDataObject extends URLProvider<DataObject> {
 
@@ -12,6 +14,11 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
 	 */
 	public static final String PK_IDENTIFIER_PREFIX = "id-";
+
+	/**
+	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
+	 */
+	public static final String UNIQUE_ID_IDENTIFIER_PREFIX = "uid-";
 
 	/**
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
@@ -45,7 +52,16 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	 */
 	public static String urlForObjectId( ObjectId oid ) {
 		String typeIdentifier = typeIdentifierForEntityName( oid.getEntityName() );
-		String objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
+		String objectIdentifier;
+
+		boolean isUniqueIDStamped = UniqueIDStamped.class.isAssignableFrom( Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( oid.getEntityName() ).getJavaClass() );
+
+		if( isUniqueIDStamped ) {
+			objectIdentifier = UNIQUE_ID_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
+		}
+		else {
+			objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
+		}
 
 		StringBuilder b = new StringBuilder();
 		b.append( "/i/" );
