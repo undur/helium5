@@ -20,7 +20,6 @@ import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSMutableArray;
 
 import er.extensions.appserver.ERXApplication;
-import er.extensions.components.ERXComponent;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import is.rebbi.wo.util.USCRUDUtilities;
 import is.rebbi.wo.util.USGenericComparator;
@@ -55,8 +54,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	 */
 	private String _icelandicName;
 
-	private Class<? extends ERXComponent> _searchResultComponentClass;
-
 	/**
 	 * Icelandic plural name.
 	 */
@@ -66,16 +63,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	 * Icelandic description.
 	 */
 	private String _text;
-
-	/**
-	 * Class of component used to view objects if this type.
-	 */
-	private Class<T> _viewComponentClass;
-
-	/**
-	 * Class of component used to edit objects if this type.
-	 */
-	private Class<V> _editComponentClass;
 
 	/**
 	 * Prefix used in URLs to access objects of this type.
@@ -106,6 +93,16 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	 * The class that represents this entity. Can be null if the entity does not have a corresponding class.
 	 */
 	private Class<E> _entityClass;
+
+	/**
+	 * Class of component used to view objects if this type.
+	 */
+	private Class<T> _viewComponentClass;
+
+	/**
+	 * Class of component used to edit objects if this type.
+	 */
+	private Class<V> _editComponentClass;
 
 	/**
 	 * List of all objects that provide the system with EntityViewDefinitions.
@@ -267,10 +264,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 			e.setEditComponentClass( editComponentClass() );
 		}
 
-		if( searchResultComponentClass() != null ) {
-			e.setSearchResultComponentClass( searchResultComponentClass() );
-		}
-
 		if( _attributeViewDefinitions != null ) {
 			e._attributeViewDefinitions = _attributeViewDefinitions;
 		}
@@ -366,14 +359,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 	public void setEditComponentClass( Class<V> value ) {
 		_editComponentClass = value;
-	}
-
-	public Class<? extends ERXComponent> searchResultComponentClass() {
-		return _searchResultComponentClass;
-	}
-
-	public void setSearchResultComponentClass( Class<? extends ERXComponent> clazz ) {
-		_searchResultComponentClass = clazz;
 	}
 
 	public String urlPrefix() {
@@ -599,7 +584,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 	@Override
 	public String toString() {
-		return "EntityViewDefinition [_attributeViewDefinitions=" + _attributeViewDefinitions + ", _name=" + _name + ", _icelandicName=" + _icelandicName + ", _searchResultComponentClass=" + _searchResultComponentClass + ", _icelandicNamePlural=" + _icelandicNamePlural + ", _text=" + _text + ", _viewComponentClass=" + _viewComponentClass + ", _editComponentClass=" + _editComponentClass + ", _urlPrefix=" + _urlPrefix + ", _iconFileName=" + _iconFileName + ", _showInList=" + _showInList + ", _categoryName=" + _categoryName + ", _attributesToShow=" + _attributesToShow + "]";
+		return "EntityViewDefinition [_attributeViewDefinitions=" + _attributeViewDefinitions + ", _name=" + _name + ", _icelandicName=" + _icelandicName + ", _icelandicNamePlural=" + _icelandicNamePlural + ", _text=" + _text + ", _viewComponentClass=" + _viewComponentClass + ", _editComponentClass=" + _editComponentClass + ", _urlPrefix=" + _urlPrefix + ", _iconFileName=" + _iconFileName + ", _showInList=" + _showInList + ", _categoryName=" + _categoryName + ", _attributesToShow=" + _attributesToShow + ", _entityClass=" + _entityClass + "]";
 	}
 
 	@Override
