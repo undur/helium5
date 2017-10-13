@@ -142,21 +142,17 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 	private static Map<String, EntityViewDefinition> definitions() {
 		if( _definitions == null ) {
-			reloadAllDefinitions();
+			_definitions = new HashMap<>();
+
+			for( ProvidesEntityViewDefinitions provider : entityViewDefinitionProviders() ) {
+				logger.info( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
+				for( EntityViewDefinition e : provider.entityViewDefinitions() ) {
+					e.register();
+				}
+			}
 		}
 
 		return _definitions;
-	}
-
-	public static void reloadAllDefinitions() {
-		_definitions = new HashMap<>();
-
-		for( ProvidesEntityViewDefinitions provider : entityViewDefinitionProviders() ) {
-			logger.info( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
-			for( EntityViewDefinition e : provider.entityViewDefinitions() ) {
-				e.register();
-			}
-		}
 	}
 
 	private static Class<?> classForEntity( String entityName ) {
