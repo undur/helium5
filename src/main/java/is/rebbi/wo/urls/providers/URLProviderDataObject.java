@@ -5,7 +5,6 @@ import org.apache.cayenne.ObjectId;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.PKSerializer;
-import jambalaya.Jambalaya;
 import jambalaya.interfaces.UniqueIDStamped;
 
 public class URLProviderDataObject extends URLProvider<DataObject> {
@@ -44,6 +43,10 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 
 	@Override
 	public String urlForObject( DataObject dataObject ) {
+		if( dataObject instanceof UniqueIDStamped ) {
+			return urlForUniqueID( dataObject.getObjectId(), ((UniqueIDStamped)dataObject).uniqueID() );
+		}
+
 		return urlForObjectId( dataObject.getObjectId() );
 	}
 
@@ -52,17 +55,21 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	 */
 	public static String urlForObjectId( ObjectId oid ) {
 		String typeIdentifier = typeIdentifierForEntityName( oid.getEntityName() );
-		String objectIdentifier;
+		String objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
+		StringBuilder b = new StringBuilder();
+		b.append( "/i/" );
+		b.append( typeIdentifier );
+		b.append( "/" );
+		b.append( objectIdentifier );
+		return b.toString();
+	}
 
-		boolean isUniqueIDStamped = UniqueIDStamped.class.isAssignableFrom( Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( oid.getEntityName() ).getJavaClass() );
-
-		if( isUniqueIDStamped ) {
-			objectIdentifier = UNIQUE_ID_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
-		}
-		else {
-			objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
-		}
-
+	/**
+	 * @return A URL for the given object.
+	 */
+	public static String urlForUniqueID( ObjectId oid, String uniqueID ) {
+		String typeIdentifier = typeIdentifierForEntityName( oid.getEntityName() );
+		String objectIdentifier = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
 		StringBuilder b = new StringBuilder();
 		b.append( "/i/" );
 		b.append( typeIdentifier );

@@ -110,7 +110,7 @@ public class URLHandlerDataObject implements URLHandler {
 	 * @return true if the given identifier is based on an object's primary key, rather than system generated.
 	 */
 	private static boolean objectIdentiferIsGeneric( String objectIdentifier ) {
-		return objectIdentifier.startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX );
+		return objectIdentifier.startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX ) || objectIdentifier.startsWith( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX );
 	}
 
 	private static String entityNameFromTypeIdentifier( String urlPrefix ) {
