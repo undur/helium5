@@ -44,7 +44,7 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	@Override
 	public String urlForObject( DataObject dataObject ) {
 		if( dataObject instanceof UniqueIDStamped ) {
-			return urlForUniqueID( dataObject.getObjectId(), ((UniqueIDStamped)dataObject).uniqueID() );
+			return urlForUniqueID( dataObject.getObjectId().getEntityName(), ((UniqueIDStamped)dataObject).uniqueID() );
 		}
 
 		return urlForObjectId( dataObject.getObjectId() );
@@ -67,8 +67,8 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	/**
 	 * @return A URL for the given object.
 	 */
-	public static String urlForUniqueID( ObjectId oid, String uniqueID ) {
-		String typeIdentifier = typeIdentifierForEntityName( oid.getEntityName() );
+	public static String urlForUniqueID( String entityName, String uniqueID ) {
+		String typeIdentifier = typeIdentifierForEntityName( entityName );
 		String objectIdentifier = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
 		StringBuilder b = new StringBuilder();
 		b.append( "/i/" );
