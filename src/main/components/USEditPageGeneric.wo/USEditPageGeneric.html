@@ -1,7 +1,7 @@
 <wo:repetition list="$attributes" item="$currentAttribute">
 	<div class="form-group">
 		<wo:USLabel object="$selectedObject" key="$currentAttribute.name" />
-		<wo:if condition="$attributeIsShortString"><wo:textfield value="$currentAttributeValue" class="form-control" /></wo:if>
+		<wo:if condition="$attributeIsShortString"><wo:text value="$currentAttributeValue" class="form-control" style="height: 50px" /></wo:if>
 		<wo:if condition="$attributeIsLongString"><wo:text value="$currentAttributeValue" class="form-control" style="height: 250px" /></wo:if>
 		<wo:if condition="$attributeIsInteger"><wo:textfield value="$currentAttributeValue" numberformat="#,##0.##" class="form-control" /></wo:if>
 		<wo:if condition="$attributeIsDecimal"><wo:textfield value="$currentAttributeValue" formatter="$decimalFormat" class="form-control" /></wo:if>
