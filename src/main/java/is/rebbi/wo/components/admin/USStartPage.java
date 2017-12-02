@@ -6,7 +6,6 @@ import java.util.List;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.components.USListPageEdit;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.USGenericComparator;

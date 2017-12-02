@@ -1,4 +1,4 @@
-package is.rebbi.wo.components;
+package is.rebbi.wo.components.admin;
 
 import com.webobjects.appserver.WOContext;
 

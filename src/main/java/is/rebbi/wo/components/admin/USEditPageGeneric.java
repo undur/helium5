@@ -1,4 +1,4 @@
-package is.rebbi.wo.components;
+package is.rebbi.wo.components.admin;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -17,6 +17,7 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSData;
 import com.webobjects.foundation.NSKeyValueCoding;
 
+import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.CayenneUtils;
 

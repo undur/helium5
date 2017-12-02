@@ -11,7 +11,7 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSKeyValueCoding;
 
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.components.USListPageEdit;
+import is.rebbi.wo.components.admin.USListPageEdit;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 
 public class USRelationshipTargetSelection extends USListPageEdit {

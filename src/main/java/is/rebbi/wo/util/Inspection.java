@@ -8,12 +8,12 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.appserver.ERXWOContext;
-import is.rebbi.wo.components.USEditPageGeneric;
-import is.rebbi.wo.components.USEditWrapper;
-import is.rebbi.wo.components.USListPageEdit;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.components.USViewPageGeneric;
 import is.rebbi.wo.components.USViewWrapper;
+import is.rebbi.wo.components.admin.USEditPageGeneric;
+import is.rebbi.wo.components.admin.USEditWrapper;
+import is.rebbi.wo.components.admin.USListPageEdit;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 
