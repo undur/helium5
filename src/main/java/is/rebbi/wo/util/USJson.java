@@ -1,11 +1,24 @@
 package is.rebbi.wo.util;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.Locale;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.TypeAdapter;
 import com.google.gson.internal.bind.DateTypeAdapter;
+import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
 import com.webobjects.foundation.NSArray;
@@ -15,10 +28,15 @@ import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSMutableDictionary;
 
 import er.extensions.appserver.ERXResponse;
+import is.rebbi.core.util.DateUtilities;
 
 public class USJson {
 
-	private static final Gson _gson = new GsonBuilder().registerTypeHierarchyAdapter( Date.class, new DateTypeAdapter() ).setPrettyPrinting().create();
+	private static final Gson _gson = new GsonBuilder()
+			.registerTypeHierarchyAdapter( Date.class, new DateTypeAdapter() )
+			.registerTypeAdapter( LocalDate.class, new LocalDateThatLooksLikeDateAdapter() )
+			.setPrettyPrinting()
+			.create();
 
 	public static String toJson( Object object ) {
 		return _gson.toJson( object );
@@ -132,5 +150,47 @@ public class USJson {
 		}
 
 		return d;
+	}
+
+	private static class LocalDateThatLooksLikeDateAdapter extends TypeAdapter<LocalDate> {
+
+		private final DateFormat enUsFormat = DateFormat.getDateTimeInstance( DateFormat.DEFAULT, DateFormat.DEFAULT, Locale.US );
+		private final DateFormat localFormat = DateFormat.getDateTimeInstance( DateFormat.DEFAULT, DateFormat.DEFAULT );
+
+		@Override
+		public LocalDate read( JsonReader in ) throws IOException {
+			if( in.peek() == JsonToken.NULL ) {
+				in.nextNull();
+				return null;
+			}
+			return deserializeToDate( in.nextString() );
+		}
+
+		private synchronized LocalDate deserializeToDate( String json ) {
+			try {
+				return DateUtilities.toLocalDate( localFormat.parse( json ) );
+			}
+			catch( ParseException ignored ) {}
+			try {
+				return DateUtilities.toLocalDate( enUsFormat.parse( json ) );
+			}
+			catch( ParseException ignored ) {}
+			try {
+				return DateUtilities.toLocalDate( ISO8601Utils.parse( json, new ParsePosition( 0 ) ) );
+			}
+			catch( ParseException e ) {
+				throw new JsonSyntaxException( json, e );
+			}
+		}
+
+		@Override
+		public synchronized void write( JsonWriter out, LocalDate value ) throws IOException {
+			if( value == null ) {
+				out.nullValue();
+				return;
+			}
+			String dateFormatAsString = enUsFormat.format( Date.from( value.atStartOfDay().atZone( ZoneId.systemDefault() ).toInstant() ) );
+			out.value( dateFormatAsString );
+		}
 	}
 }
