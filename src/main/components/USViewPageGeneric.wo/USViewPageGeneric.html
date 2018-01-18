@@ -1,38 +1,42 @@
 <div class="row">
-	<div class="col-md-11">
-		<h2><wo:str value="$selectedObject.objectId.entityName" /></h2>
+	<div class="col-md-12">
+		<h2><wo:ListLink entityName="$selectedObject.objectId.entityName"><wo:str value="$selectedObject.objectId.entityName" /></wo:ListLink></h2>
 
 		<h3>Eigindi</h3>
-		<table class="table table-condensed">
+		<table class="table table-condensed table-striped">
 			<wo:repetition list="$attributes" item="$currentAttribute">
 				<tr>
 					<td>
-						<strong><wo:str value="$currentAttribute.name" /></strong>
+						<strong><wo:str value="$currentAttribute.name" /></strong></em>
 					</td>
+					<td><em style="color: rgb(200,200,200)"><wo:str value="$currentAttribute.javaClass.simpleName" /></td>
 					<td>
 						<wo:if condition="$attributeIsString"><wo:str value="$currentAttributeValue" /></wo:if>
 						<wo:if condition="$attributeIsNumeric"><wo:str value="$currentAttributeValue" numberformat="0" /></wo:if>
 						<wo:if condition="$attributeIsDate"><wo:str value="$currentAttributeValue" dateformat="%d.%m.%Y - %H:%M" /></wo:if>
+						<wo:if condition="$attributeIsLocalDateTime"><wo:str value="$currentAttributeValue" /></wo:if>
 					</td>
 				</tr>
 			</wo:repetition>
 			<tr>
-				<td colspan="2"><h3>Vensl</h3></td>
+				<td colspan="3"><h3>Vensl</h3></td>
 			</tr>
 			<wo:repetition list="$relationships" item="$currentRelationship">
 				<tr>
 					<td>
-						<strong><wo:str value="$currentRelationship.name" /></strong><br />
-						<em style="color: gray"><wo:str value="$currentRelationship.targetEntity.name" /><wo:conditional condition="$currentRelationship.isToMany"> - <wo:str value="$currentRelationshipValue.size // VALID" /></wo:conditional></em>
+						<strong><wo:str value="$currentRelationship.name" /></strong>
 					</td>
+					<td><em style="color: rgb(200,200,200)"><wo:str value="$currentRelationship.targetEntity.name" /> <wo:if condition="$currentRelationship.isToMany">&gt;&gt; (<wo:str value="$currentRelationshipValue.size" />)</wo:if><wo:if condition="$currentRelationship.isToMany" negate="$true">&gt;</wo:if></em></td>
 					<td>
 						<wo:if condition="$currentRelationship.isToMany" negate="$true"><wo:ViewLink object="$currentRelationshipValue"><wo:str value="$currentRelationshipValueHumanReadable" /></wo:ViewLink></wo:if>
 						<wo:if condition="$currentRelationship.isToMany">
-							<ul>
+							<table>
 								<wo:repetition list="$currentRelationshipValue" item="$currentObject">
-									<li><wo:ViewLink object="$currentObject"><wo:str value="$currentObjectHumanReadable" /></wo:ViewLink></li>
+									<tr>
+										<td><wo:ViewLink object="$currentObject"><wo:str value="$currentObjectHumanReadable" /></wo:ViewLink></td>
+									</tr>
 								</wo:repetition>
-							</ul>
+							</table>
 						</wo:if>
 					</td>
 				</tr>

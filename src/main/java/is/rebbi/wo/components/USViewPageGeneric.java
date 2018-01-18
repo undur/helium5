@@ -137,6 +137,10 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 		boolean isLong = "text".equals( currentAttribute.getName() ) || "history".equals( currentAttribute.getName() );
 		return attributeIsString() && isLong;
 	}
+	
+	public boolean attributeIsLocalDateTime() {
+	    return CayenneUtils.attributeIsLocalDateTime( currentAttribute );
+	}
 
 	public boolean attributeIsDate() {
 		return CayenneUtils.attributeIsDate( currentAttribute );

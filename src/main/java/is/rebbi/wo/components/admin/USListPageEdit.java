@@ -140,8 +140,6 @@ public class USListPageEdit extends USBaseComponent {
 		Expression fromKeyPaths = CayenneUtils.allExpression( oc(), searchString, selectedViewDefinition().entityClass(), keyPathsToShow() );
 		Expression e = ExpressionFactory.or( fromEntity, fromKeyPaths );
 
-		e = CayenneUtils.convertToOuter( e );
-
 		return e;
 	}
 
