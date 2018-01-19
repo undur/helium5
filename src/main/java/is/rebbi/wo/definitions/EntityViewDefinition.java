@@ -42,7 +42,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	/**
 	 * The attributes of this entity
 	 */
-	private Map<String, AttributeViewDefinition> _attributeViewDefinitions = new HashMap<>();
+	private Map<String, AttributeViewDefinition> _attributeViewDefinitions;
 
 	/**
 	 * Name of the entity this view definition defines.
@@ -134,7 +134,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 	public AttributeViewDefinition addAttributeViewDefinition( AttributeViewDefinition a ) {
 		if( a.name() != null ) {
-			_attributeViewDefinitions.put( a.name(), a );
+			attributeViewDefinitions().put( a.name(), a );
 		}
 
 		return a;
@@ -411,7 +411,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 			return null;
 		}
 
-		AttributeViewDefinition result = _attributeViewDefinitions.get( attributeName );
+		AttributeViewDefinition result = attributeViewDefinitions().get( attributeName );
 
 		if( result == null ) {
 			result = new AttributeViewDefinition();
@@ -423,12 +423,20 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	}
 
 	public List<AttributeViewDefinition> attributes() {
-		return new ArrayList<>( _attributeViewDefinitions.values() );
+		return new ArrayList<>( attributeViewDefinitions().values() );
+	}
+
+	public Map<String, AttributeViewDefinition> attributeViewDefinitions() {
+	    if( _attributeViewDefinitions == null ) {
+	        _attributeViewDefinitions = new HashMap<>();
+	    }
+	    
+	    return _attributeViewDefinitions;
 	}
 
 	public List<AttributeViewDefinition> attributesToShow() {
 		if( _attributesToShow == null ) {
-			_attributesToShow = new ArrayList<>( _attributeViewDefinitions.values() );
+			_attributesToShow = new ArrayList<>( attributeViewDefinitions().values() );
 			_attributesToShow = _attributesToShow.stream().filter( AttributeViewDefinition::show ).collect( Collectors.toList() );
 			Collections.sort( _attributesToShow, new USGenericComparator( "name", true, false ) );
 			Collections.sort( _attributesToShow, new USGenericComparator( "sortOrder", true, false ) );
