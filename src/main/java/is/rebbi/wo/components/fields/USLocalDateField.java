@@ -41,11 +41,24 @@ public class USLocalDateField extends USBaseComponent {
 
 	public String stringValue() {
 		LocalDate value = (LocalDate)valueForBinding( "value" );
+
+		if( value == null ) {
+		    return null;
+		}
+
 		return DATE_TIME_FORMATTER_WITHOUT_TIME.format( value );
 	}
 
 	public void setStringValue( String value ) {
-		TemporalAccessor localDate = LocalDate.parse( value, DATE_TIME_FORMATTER_WITHOUT_TIME );
+		TemporalAccessor localDate;
+		
+		if( value != null ) {
+		    localDate = LocalDate.parse( value, DATE_TIME_FORMATTER_WITHOUT_TIME );
+		}
+		else {
+		    localDate = null;
+		}
+
 		setValueForBinding( localDate, "value" );
 	}
 }
