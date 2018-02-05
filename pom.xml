@@ -59,6 +59,7 @@
 			</plugin>
 		</plugins>
 	</build>
+
 	<distributionManagement>
 		<site>
 			<id>rebbi</id>
@@ -71,6 +72,22 @@
 			<url>scp://root@maven.rebbi.is/rebbi/is.rebbi.maven/html</url>
 		</repository>
 	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>rebbi</id>
+			<name>Rebbi</name>
+			<url>http://maven.rebbi.is</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>wonder.core</groupId>
