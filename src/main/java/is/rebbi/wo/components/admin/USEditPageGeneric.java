@@ -93,7 +93,7 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 	}
 
 	public boolean attributeIsInteger() {
-		return CayenneUtils.attributeIsInteger( currentAttribute );
+		return CayenneUtils.attributeIsInteger( currentAttribute ) || CayenneUtils.attributeIsLong( currentAttribute ); 
 	}
 
 	public boolean attributeIsDecimal() {
