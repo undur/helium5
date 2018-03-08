@@ -20,14 +20,16 @@ public interface DataObjectOperation {
 	public String iconName();
 
 	/**
-	 * Defines a function that will be run when the button is clicked, passing the selectedObject if any.
-	 */
-	public BiFunction<DataObject, WOContext, WOActionResults> execute();
-
-	/**
 	 * A function that decides if the operation should be shown to the user.
 	 */
 	public BiFunction<DataObject, WOContext, Boolean> show();
+
+   /**
+     * Defines a function that will be run when the button is clicked, passing the selectedObject if any.
+     */
+    public default BiFunction<DataObject, WOContext, WOActionResults> execute() {
+        return null;
+    }
 
 	/**
 	 * A function that generates the URL for the current operation.
