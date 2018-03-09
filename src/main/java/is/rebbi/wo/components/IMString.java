@@ -69,12 +69,13 @@ public class IMString extends ERXStatelessComponent {
 
 	public boolean hasValue() {
 
-		if( value() == null ) {
-			return false;
-		}
-
-		if( value() instanceof String ) {
-			return !value().isEmpty();
+		if( value() != null ) {
+		    if( value() instanceof String ) {
+		        return !value().isEmpty();
+		    }
+		    else {
+		        return true;
+		    }
 		}
 
 		return false;
