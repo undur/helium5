@@ -1,1 +1,1 @@
-<wo:conditional condition="$hasValue"><wo:str value="$value" escapeHTML="$false" /></wo:conditional><wo:conditional condition="$value.length  // VALID" negate="$true"><span class="sw-valueWhenEmpty"><wo:str value="$valueWhenEmpty" escapeHTML="$false" /></span></wo:conditional>
+<wo:if condition="$hasValue"><wo:str value="$value" escapeHTML="$false" /></wo:if><wo:if condition="$value.length  // VALID" negate="$true"><span class="sw-valueWhenEmpty"><wo:str value="$valueWhenEmpty" escapeHTML="$false" /></span></wo:if>
