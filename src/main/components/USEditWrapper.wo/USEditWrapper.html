@@ -12,7 +12,7 @@
 							<wo:USOperationMenu selectedObject="$selectedObject" />
 							<wo:AjaxModalContainer label="Eyða" closeLabel="Hætta við" class="btn btn-sm btn-danger"><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða færslunni &quot;<strong><wo:IMValue object="$selectedObject" /></strong>&quot;?</p><p align="center"><wo:link action="$deleteObject" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessari færslu</wo:link></p></div></wo:AjaxModalContainer>
 							<wo:link action="$returnToCallingComponent" class="btn btn-sm btn-default">Til baka</wo:link>
-							<wo:submit action="$saveChangesAndReturn" class="btn btn-sm btn-default" value="Vista og loka" />
+							<wo:submit action="$saveChangesAndReturn" class="btn btn-sm btn-default" accesskey="d" value="Vista og loka" />
 							<wo:AjaxSubmitButton action="$saveChanges" updateContainerID="main" class="btn btn-sm btn-primary" accesskey="s" value="Vista" />
 						</div>
 					</div>

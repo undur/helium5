@@ -115,6 +115,14 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 		boolean isLong = "text".equals( currentAttribute.getName() ) || "history".equals( currentAttribute.getName() ) || "testText".equals( currentAttribute.getName() ) || "expectedResult".equals( currentAttribute.getName() ) || "jsonRequestText".equals( currentAttribute.getName() );
 		return attributeIsString() && isLong;
 	}
+	
+	public boolean attributeIsLocalDate() {
+	    return CayenneUtils.attributeIsLocalDate( currentAttribute );
+	}
+
+   public boolean attributeIsLocalDateTime() {
+        return CayenneUtils.attributeIsLocalDateTime( currentAttribute );
+    }
 
 	public boolean attributeIsDate() {
 		return CayenneUtils.attributeIsDate( currentAttribute );
