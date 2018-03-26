@@ -3,6 +3,7 @@ package is.rebbi.wo.components;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -17,6 +18,7 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSData;
 import com.webobjects.foundation.NSKeyValueCoding;
 
+import is.rebbi.core.formatters.FormatterWrapperNullSafe;
 import is.rebbi.core.humanreadable.HumanReadableUtils;
 import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.CayenneUtils;
@@ -49,23 +51,23 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 		ArrayList<ObjAttribute> attributes = new ArrayList<>( entity().getAttributes() );
 		/*
 				ObjAttribute modificationDate = entity().getAttribute( "modificationDate" );
-		
+
 				if( modificationDate != null ) {
 					attributes.remove( modificationDate );
 				}
-		
+
 				ObjAttribute creationDate = entity().getAttribute( "creationDate" );
-		
+
 				if( creationDate != null ) {
 					attributes.remove( creationDate );
 				}
-		
+
 				ObjAttribute uniqueID = entity().getAttribute( "uniqueID" );
-		
+
 				if( uniqueID != null ) {
 					attributes.remove( uniqueID );
 				}
-		*/
+		 */
 		return attributes;
 	}
 
@@ -137,9 +139,9 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 		boolean isLong = "text".equals( currentAttribute.getName() ) || "history".equals( currentAttribute.getName() );
 		return attributeIsString() && isLong;
 	}
-	
+
 	public boolean attributeIsLocalDateTime() {
-	    return CayenneUtils.attributeIsLocalDateTime( currentAttribute );
+		return CayenneUtils.attributeIsLocalDateTime( currentAttribute );
 	}
 
 	public boolean attributeIsDate() {
@@ -166,5 +168,10 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 		symbols.setGroupingSeparator( '.' );
 		symbols.setMonetaryDecimalSeparator( ',' );
 		return new DecimalFormat( "##.####", symbols );
+	}
+
+	public Format dateFormatterWithTime() {
+		SimpleDateFormat format = new SimpleDateFormat( "dd.MM.yyyy HH:mm" );
+		return new FormatterWrapperNullSafe( format );
 	}
 }

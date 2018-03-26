@@ -13,7 +13,7 @@
 					<td>
 						<wo:if condition="$attributeIsString"><wo:str value="$currentAttributeValue" /></wo:if>
 						<wo:if condition="$attributeIsNumeric"><wo:str value="$currentAttributeValue" numberformat="0" /></wo:if>
-						<wo:if condition="$attributeIsDate"><wo:str value="$currentAttributeValue" dateformat="%d.%m.%Y - %H:%M" /></wo:if>
+						<wo:if condition="$attributeIsDate"><wo:str value="$currentAttributeValue" formatter="$dateFormatterWithTime" /></wo:if>
 						<wo:if condition="$attributeIsLocalDateTime"><wo:str value="$currentAttributeValue" /></wo:if>
 					</td>
 				</tr>

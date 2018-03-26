@@ -10,5 +10,6 @@
     
     
     
+    <binding name="value"/>
     </wo>
 </wodefinitions>
