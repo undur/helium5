@@ -57,6 +57,15 @@ public class IMString extends ERXStatelessComponent {
             }
         }
 
+        if( Boolean.class.isAssignableFrom( value.getClass() ) ) {
+            if( (boolean)value == true ) {
+                value = "Já";
+            }
+            else {
+                value = "";
+            }
+        }
+
         if( !(value instanceof String) ) {
             value = HumanReadableUtils.toStringHuman( value );
         }
