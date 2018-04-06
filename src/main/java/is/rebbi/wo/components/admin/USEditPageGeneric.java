@@ -93,7 +93,7 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 	}
 
 	public boolean attributeIsInteger() {
-		return CayenneUtils.attributeIsInteger( currentAttribute ) || CayenneUtils.attributeIsLong( currentAttribute ); 
+		return CayenneUtils.attributeIsInteger( currentAttribute ) || CayenneUtils.attributeIsLong( currentAttribute );
 	}
 
 	public boolean attributeIsDecimal() {
@@ -115,14 +115,14 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 		boolean isLong = "text".equals( currentAttribute.getName() ) || "history".equals( currentAttribute.getName() ) || "testText".equals( currentAttribute.getName() ) || "expectedResult".equals( currentAttribute.getName() ) || "jsonRequestText".equals( currentAttribute.getName() );
 		return attributeIsString() && isLong;
 	}
-	
+
 	public boolean attributeIsLocalDate() {
-	    return CayenneUtils.attributeIsLocalDate( currentAttribute );
+		return CayenneUtils.attributeIsLocalDate( currentAttribute );
 	}
 
-   public boolean attributeIsLocalDateTime() {
-        return CayenneUtils.attributeIsLocalDateTime( currentAttribute );
-    }
+	public boolean attributeIsLocalDateTime() {
+		return CayenneUtils.attributeIsLocalDateTime( currentAttribute );
+	}
 
 	public boolean attributeIsDate() {
 		return CayenneUtils.attributeIsDate( currentAttribute );
