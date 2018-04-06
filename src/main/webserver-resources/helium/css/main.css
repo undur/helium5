@@ -102,7 +102,6 @@ body {
     width: 100%;
     padding: 0;
     margin: 0 auto;
-    overflow-x: hidden;
     -webkit-transition: background-color 0.2s ease-out, opacity 0.3s ease-out;
     transition: background-color 0.2s ease-out, opacity 0.3s ease-out;
 }
