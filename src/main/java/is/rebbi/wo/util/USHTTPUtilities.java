@@ -462,7 +462,7 @@ public class USHTTPUtilities {
 			data = new NSData( bytes );
 		}
 		
-		return responseWithDataAndMimeType( filename, data, mimeType, false );
+		return responseWithDataAndMimeType( filename, data, mimeType, forceDownload );
 	}
 
 	/**
