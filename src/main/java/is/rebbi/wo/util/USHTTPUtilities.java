@@ -448,13 +448,20 @@ public class USHTTPUtilities {
 	 * Creates a WOResponse containing the given data.
 	 */
 	public static WOResponse responseWithDataAndMimeType( String filename, byte[] bytes, String mimeType ) {
-
+		return responseWithDataAndMimeType( filename, bytes, mimeType, false );
+	}
+	
+	/**
+	 * Creates a WOResponse containing the given data.
+	 */
+	public static WOResponse responseWithDataAndMimeType( String filename, byte[] bytes, String mimeType, boolean forceDownload ) {
+		
 		NSData data = NSData.EmptyData;
-
+		
 		if( bytes != null ) {
 			data = new NSData( bytes );
 		}
-
+		
 		return responseWithDataAndMimeType( filename, data, mimeType, false );
 	}
 
