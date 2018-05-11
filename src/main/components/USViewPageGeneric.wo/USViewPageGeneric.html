@@ -7,16 +7,10 @@
 			<wo:repetition list="$attributes" item="$currentAttribute">
 				<tr>
 					<td>
-						<strong><wo:str value="$currentAttribute.name" /></strong></em>
+						<strong><wo:str value="$currentAttribute.name" /></strong>
 					</td>
 					<td><em style="color: rgb(200,200,200)"><wo:str value="$currentAttribute.javaClass.simpleName" /></em></td>
-					<td>
-						<wo:if condition="$attributeIsString"><wo:str value="$currentAttributeValue" /></wo:if>
-						<wo:if condition="$attributeIsNumeric"><wo:str value="$currentAttributeValue" numberformat="0" /></wo:if>
-						<wo:if condition="$attributeIsDate"><wo:str value="$currentAttributeValue" formatter="$dateFormatterWithTime" /></wo:if>
-						<wo:if condition="$attributeIsLocalDate"><wo:str value="$currentAttributeValue" /></wo:if>
-						<wo:if condition="$attributeIsLocalDateTime"><wo:str value="$currentAttributeValue" /></wo:if>
-					</td>
+					<td><wo:IMValue object="$currentAttributeValue" /></td>
 				</tr>
 			</wo:repetition>
 			<tr>
