@@ -19,9 +19,8 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 	public ERXComponent callingComponent;
 	public DataObject object;
 	public String key;
-	public boolean saveOnSelect;
 
-	public USRelationshipTargetSelection(WOContext context) {
+	public USRelationshipTargetSelection( WOContext context ) {
 		super( context );
 	}
 
@@ -60,10 +59,6 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 			NSKeyValueCoding.Utility.takeValueForKey( object, currentObject, key );
 		}
 
-		if( saveOnSelect ) {
-			oc().commitChanges();
-		}
-
 		return callingComponent;
 	}
 
@@ -100,10 +95,6 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 	}
 
 	public WOActionResults linkSelected() {
-		if( saveOnSelect ) {
-			oc().commitChanges();
-		}
-
 		return callingComponent;
 	}
 }

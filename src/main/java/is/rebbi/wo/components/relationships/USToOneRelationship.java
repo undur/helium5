@@ -57,13 +57,12 @@ public class USToOneRelationship extends USBaseComponent {
 		String destinationEntityName = relationship().getTargetEntityName();
 		Persistent newObject = dc.newObject( destinationEntityName );
 		NSKeyValueCoding.Utility.takeValueForKey( object(), newObject, relationship().getName() );
-		dc.commitChanges();
 		return Inspection.editObjectInContext( newObject, context() );
 	}
 
 	public WOActionResults removeObject() {
 		NSKeyValueCoding.Utility.takeValueForKey( object(), null, relationship().getName() );
-		//		object().removeObjectFromBothSidesOfRelationshipWithKey( destinationObject(), key() ); // Make sure this works.
+		// object().removeObjectFromBothSidesOfRelationshipWithKey( destinationObject(), key() ); // Make sure this works.
 		return null;
 	}
 
@@ -85,7 +84,7 @@ public class USToOneRelationship extends USBaseComponent {
 		nextPage.object = object();
 		nextPage.key = key();
 		nextPage.callingComponent = (ERXComponent)context().page();
-		//		nextPage.resetDG();
+		// nextPage.resetDG();
 		return nextPage;
 	}
 }

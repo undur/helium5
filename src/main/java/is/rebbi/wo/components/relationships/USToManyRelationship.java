@@ -25,7 +25,7 @@ public class USToManyRelationship extends USBaseComponent {
 
 	public DataObject currentObject;
 
-	public USToManyRelationship(WOContext context) {
+	public USToManyRelationship( WOContext context ) {
 		super( context );
 	}
 
@@ -59,7 +59,6 @@ public class USToManyRelationship extends USBaseComponent {
 		String destinationEntityName = relationship().getTargetEntityName();
 		Persistent newObject = dc.newObject( destinationEntityName );
 		object().addToManyTarget( relationship().getName(), (DataObject)newObject, true );
-		dc.commitChanges();
 		return Inspection.editObjectInContext( newObject, context() );
 	}
 
@@ -86,7 +85,7 @@ public class USToManyRelationship extends USBaseComponent {
 		nextPage.object = object();
 		nextPage.key = key();
 		nextPage.callingComponent = (ERXComponent)context().page();
-		//		nextPage.resetDG();
+		// nextPage.resetDG();
 		return nextPage;
 	}
 }
