@@ -115,6 +115,12 @@ public class URLHandlerDataObject implements URLHandler {
 	}
 
 	private static String entityNameFromTypeIdentifier( String urlPrefix ) {
-		return EntityViewDefinition.definitionForURLPrefix( urlPrefix ).name();
+		EntityViewDefinition viewDefinition = EntityViewDefinition.definitionForURLPrefix( urlPrefix );
+
+		if( viewDefinition == null ) {
+			throw new RuntimeException( "No view definition found for URL prefix: " + urlPrefix );
+		}
+
+		return viewDefinition.name();
 	}
 }
