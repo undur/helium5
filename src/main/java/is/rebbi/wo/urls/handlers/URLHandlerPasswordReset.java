@@ -13,7 +13,7 @@ public class URLHandlerPasswordReset implements URLHandler {
 	public static final String PASSWORD_RESET_REQUEST_PREFIX = "/passwordResetRequest/";
 
 	@Override
-	public String prefix() {
+	public String pattern() {
 		return PASSWORD_RESET_REQUEST_PREFIX;
 	}
 

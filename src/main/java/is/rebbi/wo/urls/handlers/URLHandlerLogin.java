@@ -11,7 +11,7 @@ import is.rebbi.wo.components.admin.USLoginPage;
 public class URLHandlerLogin implements URLHandler {
 
 	@Override
-	public String prefix() {
+	public String pattern() {
 		return "/login";
 	}
 

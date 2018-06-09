@@ -1,19 +1,28 @@
 package is.rebbi.wo.urls.handlers;
 
-import java.util.function.BiFunction;
-
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
-public interface URLHandler {
+public abstract class URLHandler {
 
-	/**
-	 * URL prefix to handle
-	 */
-	public String prefix();
+    private String _url;
+    private WOContext _context;
+
+    public URLHandler( String url, WOContext context ) {
+        _url = url;
+        _context = context;
+    }
+    
+    public String url() {
+        return _url;
+    }
+
+    public WOContext context() {
+        return _context;
+    }
 
 	/**
 	 * Defines a function that will be run when the button is clicked, passing the selectedObject if any.
 	 */
-	public BiFunction<String, WOContext, WOActionResults> execute();
+	public abstract WOActionResults generateResponse();
 }

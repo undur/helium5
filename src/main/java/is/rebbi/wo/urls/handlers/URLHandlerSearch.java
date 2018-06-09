@@ -10,14 +10,14 @@ import is.rebbi.wo.search.USSearchAction;
 public class URLHandlerSearch implements URLHandler {
 
 	@Override
-	public String prefix() {
+	public String pattern() {
 		return "/search/";
 	}
 
 	@Override
 	public BiFunction<String, WOContext, WOActionResults> execute() {
 		return ( url, context ) -> {
-			String searchString = url.substring( prefix().length() );
+			String searchString = url.substring( pattern().length() );
 			return USSearchAction.search( searchString, context );
 		};
 	}

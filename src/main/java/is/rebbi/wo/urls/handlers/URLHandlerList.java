@@ -14,7 +14,7 @@ public class URLHandlerList implements URLHandler {
 	private static final String LIST_PREFIX = "/l/";
 
 	@Override
-	public String prefix() {
+	public String pattern() {
 		return "/l/";
 	}
 
