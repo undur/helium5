@@ -167,7 +167,20 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	 * Define view definition for an entity.
 	 */
 	public static EntityViewDefinition create( String name, String icelandicName, String icelandicNamePlural, String categoryName, String text, String urlPrefix, String iconFileName, boolean showInLists, Class viewComponentClass, Class editComponentClass ) {
-		return create( classForEntity( name ), icelandicName, icelandicNamePlural, categoryName, text, urlPrefix, iconFileName, showInLists, viewComponentClass, editComponentClass );
+		EntityViewDefinition e = new EntityViewDefinition();
+		e.setEntityClass( classForEntity( name ) );
+		e.setName( name );
+		e.setIcelandicName( icelandicName );
+		e.setIcelandicNamePlural( icelandicNamePlural );
+		e.setCategoryName( categoryName );
+		e.setText( text );
+		e.setUrlPrefix( urlPrefix );
+		e.setIconFileName( iconFileName );
+		e.setShowInList( showInLists );
+		e.setViewComponentClass( viewComponentClass );
+		e.setEditComponentClass( editComponentClass );
+
+		return e;
 	}
 
 	/**
