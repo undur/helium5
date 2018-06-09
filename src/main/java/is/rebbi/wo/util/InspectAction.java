@@ -2,9 +2,7 @@ package is.rebbi.wo.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -31,27 +29,27 @@ public class InspectAction extends ERXDirectAction {
 
 	private static final Logger logger = LoggerFactory.getLogger( InspectAction.class );
 
-	private static Map<String,Class<? extends URLHandler>> _urlHandlers;
+	private static Map<String, Class<? extends URLHandler>> _urlHandlers;
 
 	public InspectAction( WORequest r ) {
 		super( r );
 	}
 
-	private static Map<String,Class<? extends URLHandler>> urlHandlers() {
+	private static Map<String, Class<? extends URLHandler>> urlHandlers() {
 		if( _urlHandlers == null ) {
 			_urlHandlers = new HashMap<>();
 			_urlHandlers.put( "/i/", URLHandlerDataObject.class );
-//			_urlHandlers.add( new URLHandlerList() );
-//			_urlHandlers.add( new URLHandlerSearch() );
-//			_urlHandlers.add( new URLHandlerPasswordReset() );
-//			_urlHandlers.add( new URLHandlerLogin() );
+			_urlHandlers.put( "/l/", URLHandlerList.class );
+			_urlHandlers.put( "/search/", URLHandlerSearch.class );
+			_urlHandlers.put( "/passwordResetRequest/", URLHandlerPasswordReset.class );
+			_urlHandlers.put( "/login", URLHandlerLogin.class );
 		}
 
 		return _urlHandlers;
 	}
 
 	public static <E extends URLHandler> void addURLHandler( E urlHandler ) {
-//		urlHandlers().add( urlHandler );
+		// urlHandlers().add( urlHandler );
 	}
 
 	/**
@@ -65,16 +63,16 @@ public class InspectAction extends ERXDirectAction {
 		for( String pattern : urlHandlers().keySet() ) {
 			if( url.startsWith( pattern ) ) {
 				try {
-                    Constructor<? extends URLHandler> constructor = urlHandlers().get( pattern ).getConstructor( String.class, WOContext.class );
-                    URLHandler urlHandler = constructor.newInstance( url, context() );
-                    return urlHandler.generateResponse();
-                }
-                catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
-                    e.printStackTrace();
-                }
+					Constructor<? extends URLHandler> constructor = urlHandlers().get( pattern ).getConstructor( String.class, WOContext.class );
+					URLHandler urlHandler = constructor.newInstance( url, context() );
+					return urlHandler.generateResponse();
+				}
+				catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
+					e.printStackTrace();
+				}
 			}
 		}
-		
+
 		return response404( url() );
 	}
 

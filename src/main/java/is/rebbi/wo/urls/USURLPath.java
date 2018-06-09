@@ -2,9 +2,8 @@ package is.rebbi.wo.urls;
 
 /**
  * Wraps URL paths for easy access to its components.
- * 
- * - only stores the path (no hostname, no protocol)
- * - does not differentiate between relative and absolute urls
+ *
+ * - only stores the path (no hostname, no protocol) - does not differentiate between relative and absolute urls
  */
 
 public class USURLPath {
@@ -48,7 +47,7 @@ public class USURLPath {
 		return _url;
 	}
 
-	private String[] parts() {
+	private String[] pathElements() {
 		if( _pathElements == null ) {
 			_pathElements = _url.split( "/" );
 		}
@@ -61,11 +60,11 @@ public class USURLPath {
 	 */
 	public String getString( int index, String defaultValue ) {
 
-		if( index > parts().length - 1 ) {
+		if( index > pathElements().length - 1 ) {
 			return defaultValue;
 		}
 
-		return parts()[index];
+		return pathElements()[index];
 	}
 
 	/**
@@ -96,6 +95,6 @@ public class USURLPath {
 	}
 
 	public int length() {
-		return parts().length;
+		return pathElements().length;
 	}
 }

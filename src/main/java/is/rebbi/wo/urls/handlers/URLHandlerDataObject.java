@@ -3,7 +3,6 @@ package is.rebbi.wo.urls.handlers;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
@@ -18,7 +17,6 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.definitions.EntityViewDefinition;
-import is.rebbi.wo.urls.USURLPath;
 import is.rebbi.wo.urls.providers.URLProviderDataObject;
 import is.rebbi.wo.util.InspectAction;
 import is.rebbi.wo.util.Inspection;
@@ -26,8 +24,8 @@ import is.rebbi.wo.util.Inspection;
 public class URLHandlerDataObject extends URLHandler {
 
 	public URLHandlerDataObject( String url, WOContext context ) {
-        super( url, context );
-    }
+		super( url, context );
+	}
 
 	@Override
 	public WOActionResults generateResponse() {
@@ -37,20 +35,36 @@ public class URLHandlerDataObject extends URLHandler {
 			return InspectAction.response404( url() );
 		}
 
-		return Inspection.inspectObjectInContext( object, context() );
+		if( operationIdentifier() == null || operationIdentifier().equals( "view" ) ) {
+			return Inspection.inspectObjectInContext( object, context() );
+		}
+
+		// if( operationIdentifier() == null || operationIdentifier().equals( "edit" ) ) {
+		// return Inspection.editObjectInContext( object, context() );
+		// }
+
+		return InspectAction.response404( url() );
 	}
 
+	/**
+	 * Identifies the type of the requested object.
+	 */
 	private String typeIdentifier() {
-	    return url().split( "/" )[2];
+		return path().getString( 2 );
 	}
 
 	private String objectIdentifier() {
-	    return url().split( "/" )[3];
+		return path().getString( 3 );
 	}
 
-    public ObjectContext oc() {
-        return USCayenne.defaultObjectContext( context().session() );
-    }
+	// FIXME: Implement // Hugi 2018-06-09
+	private String operationIdentifier() {
+		return path().getString( 4 );
+	}
+
+	public ObjectContext oc() {
+		return USCayenne.defaultObjectContext( context().session() );
+	}
 
 	/**
 	 * @return The object the user wanted from the URL.
@@ -63,10 +77,10 @@ public class URLHandlerDataObject extends URLHandler {
 			String identifier = objectIdentifier().substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
 			return objectFromPKString( oc(), objEntityName, identifier );
 		}
-		
+
 		if( objectIdentifier().startsWith( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX ) ) {
-		    String identifier = objectIdentifier().substring( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
-		    return objectFromUniqueID( oc(), objEntityName, identifier );
+			String identifier = objectIdentifier().substring( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
+			return objectFromUniqueID( oc(), objEntityName, identifier );
 		}
 
 		throw new RuntimeException( "Unsupported URL format" );
@@ -94,11 +108,11 @@ public class URLHandlerDataObject extends URLHandler {
 		return (DataObject)q.selectOne( oc );
 	}
 
-	private static String entityNameFromTypeIdentifier( String urlPrefix ) {
-		EntityViewDefinition viewDefinition = EntityViewDefinition.definitionForURLPrefix( urlPrefix );
+	private static String entityNameFromTypeIdentifier( String typeIdentifier ) {
+		EntityViewDefinition viewDefinition = EntityViewDefinition.definitionForURLPrefix( typeIdentifier );
 
 		if( viewDefinition == null ) {
-			throw new RuntimeException( "No view definition found for URL prefix: " + urlPrefix );
+			throw new RuntimeException( "No view definition found for URL prefix: " + typeIdentifier );
 		}
 
 		return viewDefinition.name();

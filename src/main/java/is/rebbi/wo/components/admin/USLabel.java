@@ -1,11 +1,12 @@
 package is.rebbi.wo.components.admin;
 
+import org.apache.cayenne.DataObject;
+
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
 import is.rebbi.wo.definitions.AttributeViewDefinition;
 import is.rebbi.wo.definitions.EntityViewDefinition;
-import is.rebbi.wo.util.USCRUDUtilities;
 
 /**
  * Shows a label accompanying fields of information.
@@ -19,26 +20,16 @@ public class USLabel extends ERXNonSynchronizingComponent {
 		super( context );
 	}
 
-	private Object object() {
-		return valueForBinding( "object" );
+	private DataObject object() {
+		return (DataObject)valueForBinding( "object" );
 	}
 
-	public String entityName() {
-		String entityName = (String)valueForBinding( "entityName" );
-
-		if( entityName == null && object() != null ) {
-			entityName = USCRUDUtilities.entityNameFromObject( object() );
-		}
-
-		return entityName;
-	}
-
-	public String key() {
+	private String key() {
 		return stringValueForBinding( "key" );
 	}
 
-	public EntityViewDefinition viewDefinition() {
-		return EntityViewDefinition.get( entityName() );
+	private EntityViewDefinition viewDefinition() {
+		return EntityViewDefinition.get( object().getClass() );
 	}
 
 	private AttributeViewDefinition meta() {

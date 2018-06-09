@@ -10,20 +10,13 @@ import java.util.stream.Collectors;
 import org.apache.cayenne.access.DataDomain;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.map.EntityResolver;
-import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.webobjects.eocontrol.EOSortOrdering;
-import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSMutableArray;
-
 import er.extensions.appserver.ERXApplication;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
-import is.rebbi.wo.util.USCRUDUtilities;
 import is.rebbi.wo.util.USGenericComparator;
-import jambalaya.CayenneUtils;
 import jambalaya.Jambalaya;
 
 /**
@@ -265,8 +258,11 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		}
 	}
 
-	public static EntityViewDefinition forObject( Object object ) {
-		return EntityViewDefinition.get( USCRUDUtilities.entityNameFromObject( object ) );
+	/**
+	 * @return The definition for the given class
+	 */
+	public static <T> EntityViewDefinition get( Class<T> entityClass ) {
+		return get( entityClass.getSimpleName() );
 	}
 
 	/**
@@ -287,13 +283,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		}
 
 		return e;
-	}
-
-	/**
-	 * @return The definition for the given class
-	 */
-	public static <T> EntityViewDefinition get( Class<T> entityClass ) {
-		return get( entityClass.getSimpleName() );
 	}
 
 	public String name() {
@@ -427,11 +416,11 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	}
 
 	public Map<String, AttributeViewDefinition> attributeViewDefinitions() {
-	    if( _attributeViewDefinitions == null ) {
-	        _attributeViewDefinitions = new HashMap<>();
-	    }
-	    
-	    return _attributeViewDefinitions;
+		if( _attributeViewDefinitions == null ) {
+			_attributeViewDefinitions = new HashMap<>();
+		}
+
+		return _attributeViewDefinitions;
 	}
 
 	public List<AttributeViewDefinition> attributesToShow() {
@@ -443,32 +432,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		}
 
 		return _attributesToShow;
-	}
-
-	/**
-	 * @return Default sort orderings based on attributes shown.
-	 */
-	public NSArray<EOSortOrdering> defaultSortOrderings() {
-		NSArray<EOSortOrdering> a = new NSMutableArray<>();
-
-		for( AttributeViewDefinition attributeDefinition : attributesToShow() ) {
-			ObjAttribute attribute = entity().getAttribute( attributeDefinition.name() );
-
-			if( attribute != null ) {
-				EOSortOrdering s;
-
-				if( CayenneUtils.attributeIsString( attribute ) ) {
-					s = new EOSortOrdering( attributeDefinition.name(), EOSortOrdering.CompareCaseInsensitiveAscending );
-				}
-				else {
-					s = new EOSortOrdering( attributeDefinition.name(), EOSortOrdering.CompareAscending );
-				}
-
-				a.add( s );
-			}
-		}
-
-		return a;
 	}
 
 	public static List<EntityViewDefinition> all() {
