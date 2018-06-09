@@ -35,4 +35,11 @@ public class ViewLink extends ERXStatelessComponent {
 	public String href() {
 		return USURLProvider.urlForObjectInContext( object(), context() );
 	}
+
+	/**
+	 * @return The operation to link to. If no operation is specified, the default is the "view" operation.
+	 */
+	public String operation() {
+		return stringValueForBinding( "operation" );
+	}
 }

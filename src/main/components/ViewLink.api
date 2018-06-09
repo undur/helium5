@@ -8,5 +8,6 @@
     <binding name="target"/>
     <binding name="class"/>
     <binding name="id"/>
+    <binding name="operation"/>
     </wo>
 </wodefinitions>
