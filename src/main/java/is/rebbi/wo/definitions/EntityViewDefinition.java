@@ -167,20 +167,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	 * Define view definition for an entity.
 	 */
 	public static EntityViewDefinition create( String name, String icelandicName, String icelandicNamePlural, String categoryName, String text, String urlPrefix, String iconFileName, boolean showInLists, Class viewComponentClass, Class editComponentClass ) {
-		EntityViewDefinition e = new EntityViewDefinition();
-		e.setEntityClass( classForEntity( name ) );
-		e.setName( name );
-		e.setIcelandicName( icelandicName );
-		e.setIcelandicNamePlural( icelandicNamePlural );
-		e.setCategoryName( categoryName );
-		e.setText( text );
-		e.setUrlPrefix( urlPrefix );
-		e.setIconFileName( iconFileName );
-		e.setShowInList( showInLists );
-		e.setViewComponentClass( viewComponentClass );
-		e.setEditComponentClass( editComponentClass );
-
-		return e;
+		return create( classForEntity( name ), icelandicName, icelandicNamePlural, categoryName, text, urlPrefix, iconFileName, showInLists, viewComponentClass, editComponentClass );
 	}
 
 	/**
@@ -306,7 +293,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	}
 
 	public String icelandicName() {
-
 		if( _icelandicName == null ) {
 			_icelandicName = name();
 		}
@@ -427,8 +413,8 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		if( _attributesToShow == null ) {
 			_attributesToShow = new ArrayList<>( attributeViewDefinitions().values() );
 			_attributesToShow = _attributesToShow.stream().filter( AttributeViewDefinition::show ).collect( Collectors.toList() );
-			Collections.sort( _attributesToShow, new USGenericComparator( "name", true, false ) );
-			Collections.sort( _attributesToShow, new USGenericComparator( "sortOrder", true, false ) );
+			Collections.sort( _attributesToShow, new USGenericComparator<>( "name", true, false ) );
+			Collections.sort( _attributesToShow, new USGenericComparator<>( "sortOrder", true, false ) );
 		}
 
 		return _attributesToShow;
@@ -441,7 +427,7 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 			all.add( EntityViewDefinition.get( entityName ) );
 		}
 
-		Collections.sort( all, new USGenericComparator( "icelandicName", true, true ) );
+		Collections.sort( all, new USGenericComparator<>( "icelandicName", true, true ) );
 
 		return all;
 	}
