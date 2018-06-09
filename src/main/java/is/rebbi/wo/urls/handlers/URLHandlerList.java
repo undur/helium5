@@ -15,7 +15,7 @@ public class URLHandlerList extends URLHandler {
 
 	@Override
 	public WOActionResults generateResponse() {
-		String entityIdentifier = path().getString( 2 );
+		String entityIdentifier = path().getString( 1 );
 
 		EntityViewDefinition t = null;
 

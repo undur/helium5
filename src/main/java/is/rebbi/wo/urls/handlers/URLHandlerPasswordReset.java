@@ -14,7 +14,7 @@ public class URLHandlerPasswordReset extends URLHandler {
 
 	@Override
 	public WOActionResults generateResponse() {
-		NSDictionary<String, Object> params = new NSDictionary<>( path().getString( 2 ), "key" );
+		NSDictionary<String, Object> params = new NSDictionary<>( path().getString( 1 ), "key" );
 		String searchURL = context().directActionURLForActionNamed( "SWPasswordResetAction" /* FIXME: SWPasswordResetAction.class.getSimpleName() */, params );
 		return USHTTPUtilities.redirectTemporary( searchURL );
 	}

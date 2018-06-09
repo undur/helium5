@@ -13,7 +13,7 @@ public class URLHandlerSearch extends URLHandler {
 
 	@Override
 	public WOActionResults generateResponse() {
-		String searchString = path().getString( 3 );
+		String searchString = path().getString( 1 );
 		return USSearchAction.search( searchString, context() );
 	}
 }

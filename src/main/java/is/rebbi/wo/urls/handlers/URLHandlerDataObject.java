@@ -50,16 +50,16 @@ public class URLHandlerDataObject extends URLHandler {
 	 * Identifies the type of the requested object.
 	 */
 	private String typeIdentifier() {
-		return path().getString( 2 );
+		return path().getString( 1 );
 	}
 
 	private String objectIdentifier() {
-		return path().getString( 3 );
+		return path().getString( 2 );
 	}
 
 	// FIXME: Implement // Hugi 2018-06-09
 	private String operationIdentifier() {
-		return path().getString( 4 );
+		return path().getString( 3 );
 	}
 
 	public ObjectContext oc() {
