@@ -26,87 +26,87 @@ import is.rebbi.wo.util.SWSettings;
 
 public abstract class USURLProvider {
 
-    private static Map<Class, URLProvider> _urlProviders;
+	private static Map<Class, URLProvider> _urlProviders;
 
-    /**
-     * @return The URL for viewing the given object.
-     */
-    public static String urlForObjectInContext( Object object, WOContext context ) {
-        URLProvider urlProvider = urlProviderForClass( object.getClass() );
+	/**
+	 * @return The URL for viewing the given object.
+	 */
+	public static String urlForObjectInContext( Object object, WOContext context ) {
+		URLProvider urlProvider = urlProviderForClass( object.getClass() );
 
-        if( urlProvider == null ) {
-            throw new NullPointerException( "No URLProvider registered for objects of class: " + object.getClass() );
-        }
+		if( urlProvider == null ) {
+			throw new NullPointerException( "No URLProvider registered for objects of class: " + object.getClass() );
+		}
 
-        String url = urlProvider.urlForObject( object );
+		String url = urlProvider.urlForObject( object );
 
-        if( ERXApplication.erxApplication().isDevelopmentMode() || SWSettings.forceDevelopmentURLs() ) {
-            url = USURLProvider.makeURLDeveloperFriendly( url, context );
-        }
+		if( ERXApplication.erxApplication().isDevelopmentMode() || SWSettings.forceDevelopmentURLs() ) {
+			url = USURLProvider.makeURLDeveloperFriendly( url, context );
+		}
 
-        if( context == null ) {
-            url = addProtocolAndHost( url );
-        }
+		if( context == null ) {
+			url = addProtocolAndHost( url );
+		}
 
-        return url;
-    }
+		return url;
+	}
 
-    private static String addProtocolAndHost( String url ) {
-        StringBuilder b = new StringBuilder();
-        b.append( "http" );
-        b.append( "://" );
-        b.append( SWSettings.defaultDomainName() );
-        b.append( url );
-        return b.toString();
-    }
+	private static String addProtocolAndHost( String url ) {
+		StringBuilder b = new StringBuilder();
+		b.append( "http" );
+		b.append( "://" );
+		b.append( SWSettings.defaultDomainName() );
+		b.append( url );
+		return b.toString();
+	}
 
-    private static Map<Class, URLProvider> urlProviders() {
-        if( _urlProviders == null ) {
-            _urlProviders = new HashMap<>();
-            _urlProviders.put( DataObject.class, new URLProviderDataObject() );
-            _urlProviders.put( ObjectId.class, new URLProviderObjectId() );
-        }
+	private static Map<Class, URLProvider> urlProviders() {
+		if( _urlProviders == null ) {
+			_urlProviders = new HashMap<>();
+			_urlProviders.put( DataObject.class, new URLProviderDataObject() );
+			_urlProviders.put( ObjectId.class, new URLProviderObjectId() );
+		}
 
-        return _urlProviders;
-    }
+		return _urlProviders;
+	}
 
-    private static URLProvider urlProviderForClass( Class<?> clazz ) {
+	private static URLProvider urlProviderForClass( Class<?> clazz ) {
 
-        for( Entry<Class, URLProvider> provider : urlProviders().entrySet() ) {
-            if( provider.getKey().isAssignableFrom( clazz ) ) {
-                return provider.getValue();
-            }
-        }
+		for( Entry<Class, URLProvider> provider : urlProviders().entrySet() ) {
+			if( provider.getKey().isAssignableFrom( clazz ) ) {
+				return provider.getValue();
+			}
+		}
 
-        throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
-    }
+		throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
+	}
 
-    /**
-     * @return The URL for viewing the default list of the specified entity.
-     */
-    public static String urlForListInContext( String entityName, WOContext context ) {
-        String url = "/l/" + EntityViewDefinition.get( entityName ).urlPrefix();
+	/**
+	 * @return The URL for viewing the default list of the specified entity.
+	 */
+	public static String urlForListInContext( String entityName, WOContext context ) {
+		String url = "/l/" + EntityViewDefinition.get( entityName ).urlPrefix();
 
-        if( ERXApplication.erxApplication().isDevelopmentMode() ) {
-            url = USURLProvider.makeURLDeveloperFriendly( url, context );
-        }
+		if( ERXApplication.erxApplication().isDevelopmentMode() ) {
+			url = USURLProvider.makeURLDeveloperFriendly( url, context );
+		}
 
-        return url;
-    }
+		return url;
+	}
 
-    /**
-     * @return A direct connect version of the URL.
-     */
-    public static String makeURLDeveloperFriendly( String url, WOContext context ) {
+	/**
+	 * @return A direct connect version of the URL.
+	 */
+	public static String makeURLDeveloperFriendly( String url, WOContext context ) {
 
-        if( context == null ) {
-            context = ERXWOContext.currentContext();
-        }
+		if( context == null ) {
+			context = ERXWOContext.currentContext();
+		}
 
-        NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
-        d.setObjectForKey( url, "url" );
-        url = context.directActionURLForActionNamed( InspectAction.class.getSimpleName() + "/handler", d );
-        url = StringUtilities.replace( url, "&", "&amp;" );
-        return url;
-    }
+		NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
+		d.setObjectForKey( url, "url" );
+		url = context.directActionURLForActionNamed( InspectAction.class.getSimpleName() + "/handler", d );
+		url = StringUtilities.replace( url, "&", "&amp;" );
+		return url;
+	}
 }
