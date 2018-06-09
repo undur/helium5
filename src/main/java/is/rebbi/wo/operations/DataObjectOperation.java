@@ -15,7 +15,7 @@ public interface DataObjectOperation {
 	public String name();
 
 	/**
-	 * Name of glyphicon to show.
+	 * Name of glyphicon to show when included in the operations menu.
 	 */
 	public String iconName();
 
@@ -24,12 +24,12 @@ public interface DataObjectOperation {
 	 */
 	public BiFunction<DataObject, WOContext, Boolean> show();
 
-   /**
-     * Defines a function that will be run when the button is clicked, passing the selectedObject if any.
-     */
-    public default BiFunction<DataObject, WOContext, WOActionResults> execute() {
-        return null;
-    }
+	/**
+	 * Defines a function that will be run when the button is clicked, passing the selectedObject if any.
+	 */
+	public default BiFunction<DataObject, WOContext, WOActionResults> execute() {
+		return null;
+	}
 
 	/**
 	 * A function that generates the URL for the current operation.
