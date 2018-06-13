@@ -50,11 +50,11 @@
 						</a>
 					</li>
 				</ul>
-				<form action="/search" method="post" class="navbar-form-custom" role="search">
+				<wo:form action="$search" class="navbar-form-custom" role="search">
 					<div class="form-group">
-						<input type="text" id="top-search" name="top-search" class="form-control" placeholder="Leita..">
+						<wo:textfield value="$searchString" id="top-search" name="top-search" class="form-control" placeholder="Leita.." />
 					</div>
-				</form>
+				</wo:form>
 				<ul class="nav navbar-nav-custom pull-right">
 				</ul>
 			</header>

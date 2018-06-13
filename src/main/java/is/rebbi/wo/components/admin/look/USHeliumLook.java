@@ -1,5 +1,15 @@
 package is.rebbi.wo.components.admin.look;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.cayenne.DataObject;
+import org.apache.cayenne.exp.Expression;
+import org.apache.cayenne.exp.ExpressionFactory;
+import org.apache.cayenne.map.ObjEntity;
+import org.apache.cayenne.query.ObjectSelect;
+
+import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
 
@@ -9,13 +19,42 @@ import er.extensions.appserver.ERXResponseRewriter.TagMissingBehavior;
 import er.extensions.crypting.ERXCrypto;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USViewPage;
+import is.rebbi.wo.components.admin.USAdminSearchResults;
 import is.rebbi.wo.menu.USMenu;
 import is.rebbi.wo.util.SWSettings;
+import jambalaya.interfaces.UniqueIDStamped;
 
 public class USHeliumLook extends USViewPage {
 
+    public String searchString;
+
 	public USHeliumLook(WOContext context) {
 		super( context );
+	}
+
+	public WOActionResults search() {
+	    USAdminSearchResults nextPage = pageWithName( USAdminSearchResults.class );
+	    List results = new ArrayList<>();
+	    
+	    for( ObjEntity objEntity : oc().getEntityResolver().getObjEntities() ) {
+	        Class<?> clazz = objEntity.getJavaClass();
+	        Expression e = null;
+
+            if( objEntity.getAttribute( "uuid" ) != null && !objEntity.isAbstract() ) {
+                e = ExpressionFactory.matchExp( "uuid", searchString );
+	        }
+            
+            if( UniqueIDStamped.class.isAssignableFrom( clazz ) ) {
+                e = ExpressionFactory.matchExp( "uniqueID", searchString ); 
+            }
+
+            if( e != null ) {
+                results.addAll( ObjectSelect.query( clazz ).where( e ).select( oc() ) );
+            }
+        }
+	    
+	    nextPage.list = results;
+        return nextPage;
 	}
 
 	@Override
