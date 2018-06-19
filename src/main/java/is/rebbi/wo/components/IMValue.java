@@ -20,7 +20,15 @@ public class IMValue extends ERXStatelessComponent {
 	}
 
 	public Object object() {
-		return valueForBinding( "object" );
+	    if( hasBinding( "object" ) ) {
+	        return valueForBinding( "object" );
+	    }
+
+	    if( hasBinding( "value" ) ) {
+	        return valueForBinding( "value" );
+	    }
+	    
+	    return null;
 	}
 
 	public String keyPath() {
@@ -43,7 +51,7 @@ public class IMValue extends ERXStatelessComponent {
 		return false;
 	}
 
-	public Object value() {
+	public Object valueForDisplay() {
 	    if( keyPath() != null ) {
 			return NSKeyValueCodingAdditions.Utility.valueForKeyPath( object(), keyPath() );
 		}
