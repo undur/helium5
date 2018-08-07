@@ -12,6 +12,7 @@ import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.ObjAttribute;
+import org.apache.cayenne.query.ObjectSelect;
 import org.apache.cayenne.query.Ordering;
 import org.apache.cayenne.query.PrefetchTreeNode;
 import org.apache.cayenne.query.SelectQuery;
@@ -170,19 +171,20 @@ public class USListPageEdit extends USBaseComponent {
 	}
 
 	public List<?> objects() {
-		SelectQuery<?> query = new SelectQuery<>( selectedViewDefinition().entityClass() );
-		query.setFetchLimit( batchSize );
-		query.setFetchOffset( firstObjectIndex() );
+		ObjectSelect<?> query = ObjectSelect.query( selectedViewDefinition().entityClass() );
+
+		query.limit( batchSize );
+		query.offset( firstObjectIndex() );
 
 		for( String keyPath : CayenneUtils.keyPathsToPrefetch( oc(), selectedViewDefinition().entityClass(), keyPathsToShow() ) ) {
-			query.addPrefetch( PrefetchTreeNode.withPath( keyPath, PrefetchTreeNode.DISJOINT_BY_ID_PREFETCH_SEMANTICS ) );
+			query.prefetch( PrefetchTreeNode.withPath( keyPath, PrefetchTreeNode.DISJOINT_BY_ID_PREFETCH_SEMANTICS ) );
 		}
 
-		query.setQualifier( expression() );
-		query.addOrderings( orderings() );
+		query.where( expression() );
+//		query.orderBy( orderings() ); // FIXME: This is currently changing the query. Need to find out what's happening.
 
 		_numberOfObjects = null;
-		return oc().select( query );
+		return query.select( oc() );
 	}
 
 	public EntityViewDefinition selectedViewDefinition() {
