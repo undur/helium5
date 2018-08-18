@@ -74,8 +74,6 @@ public class USMenu {
 		}
 
 		List<EntityViewDefinition> a = filteredArrayWithQualifier( EntityViewDefinition.all(), q );
-		// EOSortOrdering s = new EOSortOrdering( "icelandicName",
-		// EOSortOrdering.CompareCaseInsensitiveAscending );
 		Collections.sort( a, new USGenericComparator( "icelandicName", true, true ) );
 		return a;
 	}
