@@ -1,19 +1,19 @@
 package is.rebbi.wo.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class TestUSGenericComparator {
 
 	public class Person {
 		public String _icelandicName;
 
-		public Person(String icelandicName) {
+		public Person( String icelandicName ) {
 			_icelandicName = icelandicName;
 		}
 

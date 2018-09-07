@@ -1,8 +1,9 @@
 package is.rebbi.wo.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.webobjects.appserver.WORequest;
 
@@ -45,9 +46,11 @@ public class TestUSHTTPUtilities {
 		actual = USHTTPUtilities.cookieHost( fakeReqestWithHostHeader( "apple.com" ) );
 	}
 
-	@Test( expected=IllegalArgumentException.class)
+	@Test
 	public void cookieHostThrowsIllegalArgumentExceptionOnNull() {
-		USHTTPUtilities.cookieHost( null );
+		assertThrows( IllegalArgumentException.class, () -> {
+			USHTTPUtilities.cookieHost( null );
+		} );
 	}
 
 	@Test
