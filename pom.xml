@@ -11,7 +11,7 @@
 	<properties>
 		<webobjects.version>5.4.3</webobjects.version>
 		<wonder.version>7.1-SNAPSHOT</wonder.version>
-		<cayenne.version>4.1.M1</cayenne.version>
+		<cayenne.version>4.1.M2</cayenne.version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
