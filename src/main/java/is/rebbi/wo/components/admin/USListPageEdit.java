@@ -15,7 +15,6 @@ import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.query.ObjectSelect;
 import org.apache.cayenne.query.Ordering;
 import org.apache.cayenne.query.PrefetchTreeNode;
-import org.apache.cayenne.query.SelectQuery;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
@@ -181,7 +180,7 @@ public class USListPageEdit extends USBaseComponent {
 		}
 
 		query.where( expression() );
-//		query.orderBy( orderings() ); // FIXME: This is currently changing the query. Need to find out what's happening.
+		query.orderBy( orderings() ); // FIXME: This is currently changing the query. Need to find out what's happening.
 
 		_numberOfObjects = null;
 		return query.select( oc() );
