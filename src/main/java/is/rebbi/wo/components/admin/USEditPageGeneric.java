@@ -74,7 +74,12 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 
 	public void setCurrentAttributeValue( Object value ) {
 		if( value != null ) {
-			NSKeyValueCoding.Utility.takeValueForKey( selectedObject(), value, currentAttribute.getName() );
+			if( attributeIsData() ) {
+				NSKeyValueCoding.Utility.takeValueForKey( selectedObject(), ((NSData)value).bytes(), currentAttribute.getName() );
+			}
+			else {
+				NSKeyValueCoding.Utility.takeValueForKey( selectedObject(), value, currentAttribute.getName() );
+			}
 		}
 
 		if( value == null ) {
