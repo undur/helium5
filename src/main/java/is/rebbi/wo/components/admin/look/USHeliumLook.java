@@ -3,7 +3,6 @@ package is.rebbi.wo.components.admin.look;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.ObjEntity;
@@ -26,35 +25,10 @@ import jambalaya.interfaces.UniqueIDStamped;
 
 public class USHeliumLook extends USViewPage {
 
-    public String searchString;
+	public String searchString;
 
-	public USHeliumLook(WOContext context) {
+	public USHeliumLook( WOContext context ) {
 		super( context );
-	}
-
-	public WOActionResults search() {
-	    USAdminSearchResults nextPage = pageWithName( USAdminSearchResults.class );
-	    List results = new ArrayList<>();
-	    
-	    for( ObjEntity objEntity : oc().getEntityResolver().getObjEntities() ) {
-	        Class<?> clazz = objEntity.getJavaClass();
-	        Expression e = null;
-
-            if( objEntity.getAttribute( "uuid" ) != null && !objEntity.isAbstract() ) {
-                e = ExpressionFactory.matchExp( "uuid", searchString );
-	        }
-            
-            if( UniqueIDStamped.class.isAssignableFrom( clazz ) ) {
-                e = ExpressionFactory.matchExp( "uniqueID", searchString ); 
-            }
-
-            if( e != null ) {
-                results.addAll( ObjectSelect.query( clazz ).where( e ).select( oc() ) );
-            }
-        }
-	    
-	    nextPage.list = results;
-        return nextPage;
 	}
 
 	@Override
@@ -71,7 +45,7 @@ public class USHeliumLook extends USViewPage {
 		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "helium/js/plugins.js" );
 		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "helium/js/app.js" );
 		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "helium/js/pages/index.js" );
-		//		AjaxUtils.addScriptResourceInHead( c, r, "app", "jquery-textcomplete/jquery.textcomplete.min.js" );
+		// AjaxUtils.addScriptResourceInHead( c, r, "app", "jquery-textcomplete/jquery.textcomplete.min.js" );
 
 		ERXResponseRewriter.addResourceInHead( r, c, Primary.frameworkBundleName(), "helium/img/favicon.ico", "<link rel=\"shortcut icon\" href=\"", "\">" );
 
@@ -85,6 +59,31 @@ public class USHeliumLook extends USViewPage {
 
 		ERXResponseRewriter.insertInResponseBeforeHead( r, c, "<script type=\"text/javascript\"> $.noConflict(); </script>", TagMissingBehavior.SkipAndWarn );
 		AjaxUtils.addScriptResourceInHead( context(), r, "helium", "bootstrap_prototype_conflict_fix.js" );
+	}
+
+	public WOActionResults search() {
+		USAdminSearchResults nextPage = pageWithName( USAdminSearchResults.class );
+		List results = new ArrayList<>();
+
+		for( ObjEntity objEntity : oc().getEntityResolver().getObjEntities() ) {
+			Class<?> clazz = objEntity.getJavaClass();
+			Expression e = null;
+
+			if( objEntity.getAttribute( "uuid" ) != null && !objEntity.isAbstract() ) {
+				e = ExpressionFactory.matchExp( "uuid", searchString );
+			}
+
+			if( UniqueIDStamped.class.isAssignableFrom( clazz ) ) {
+				e = ExpressionFactory.matchExp( "uniqueID", searchString );
+			}
+
+			if( e != null ) {
+				results.addAll( ObjectSelect.query( clazz ).where( e ).select( oc() ) );
+			}
+		}
+
+		nextPage.list = results;
+		return nextPage;
 	}
 
 	private void addAppleTouchIcon( WOResponse r, WOContext c, String filename, String sizes ) {
