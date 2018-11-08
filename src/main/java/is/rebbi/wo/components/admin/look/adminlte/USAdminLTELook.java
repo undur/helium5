@@ -7,6 +7,7 @@ import er.ajax.AjaxUtils;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.menu.USMenu;
+import is.rebbi.wo.util.SWSettings;
 
 public class USAdminLTELook extends USViewPage {
 
@@ -17,7 +18,6 @@ public class USAdminLTELook extends USViewPage {
 	@Override
 	public void appendToResponse( WOResponse r, WOContext c ) {
 		super.appendToResponse( r, c );
-		// ERXResponseRewriter.insertInResponseBeforeHead( r, c, "<script type=\"text/javascript\"> $.noConflict(); </script>", TagMissingBehavior.SkipAndWarn );
 		AjaxUtils.addScriptResourceInHead( context(), r, "helium", "bootstrap_prototype_conflict_fix.js" );
 	}
 
@@ -27,5 +27,9 @@ public class USAdminLTELook extends USViewPage {
 
 	public USMenu menu() {
 		return USMenu.defaultMenu();
+	}
+
+	public String siteName() {
+		return SWSettings.name();
 	}
 }
