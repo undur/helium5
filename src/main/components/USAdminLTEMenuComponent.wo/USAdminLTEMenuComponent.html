@@ -1,6 +1,6 @@
 <ul class="sidebar-menu" data-widget="tree">
 	<wo:repetition item="$currentMenuItem" list="$items">
-		<li class="active"><wo:link action="$action"><i class="fa fa-link"></i> <span><wo:str value="$currentMenuItem.name" /></span></wo:link></li>
+		<wo:container elementName="li" class="$currentLIClass"><wo:link action="$action"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span></wo:link></wo:container>
 	</wo:repetition>
 
 	<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
