@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wodefinitions>
+            
+    
+    <wo class="USAdminLTEMenuComponent" wocomponentcontent="false">
+            
+        <binding name="items"/>
+        <validation message="'items' is a required binding.">
+            <unbound name="items"/>
+        </validation>
+    </wo>
+        
+
+</wodefinitions>
