@@ -1,5 +1,6 @@
 package is.rebbi.wo.components.admin.look.adminlte;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -46,19 +47,6 @@ public class USAdminLTEMenuComponent extends ERXNonSynchronizingComponent {
 		return StringUtils.isEmpty( currentMenuItemClass() );
 	}
 
-	public String sidebarLinkClass() {
-		StringBuilder b = new StringBuilder();
-
-		if( level() == 1 ) {
-			b.append( "sidebar-nav-menu" );
-		}
-		else {
-			b.append( "sidebar-nav-submenu" );
-		}
-
-		return b.toString();
-	}
-
 	public String actionLinkClass() {
 		boolean equals = currentMenuItem.equals( selectedMenuItem() );
 		return equals ? "active" : null;
@@ -82,6 +70,25 @@ public class USAdminLTEMenuComponent extends ERXNonSynchronizingComponent {
 	}
 
 	public String currentLIClass() {
-		return isOpen() ? "open active" : null;
+		List<String> classes = new ArrayList<>();
+
+		if( isOpen() ) {
+			classes.add( "open" );
+			classes.add( "active" );
+		}
+
+		if( !currentMenuItem.children().isEmpty() ) {
+			classes.add( "treeview" );
+		}
+
+		return String.join( " ", classes );
+	}
+
+	public String dataWidget() {
+		if( rootClass().equals( "sidebar-menu" ) ) {
+			return "tree";
+		}
+
+		return null;
 	}
 }

@@ -1,18 +1,20 @@
-<ul class="sidebar-menu" data-widget="tree">
+<wo:container elementName="ul" class="$rootClass" data-widget="$dataWidget">
 	<wo:repetition item="$currentMenuItem" list="$items">
-		<wo:container elementName="li" class="$currentLIClass"><wo:link action="$action"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span></wo:link></wo:container>
+		<wo:if condition="$currentMenuItem.children.size" negate="$true">
+			<wo:container elementName="li" class="$currentLIClass">
+				<wo:link action="$action"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span></wo:link>
+			</wo:container>
+		</wo:if>
+		<wo:if condition="$currentMenuItem.children.size">
+			<wo:container elementName="li" class="$currentLIClass">
+				<wo:link href="#"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span>
+					<span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</wo:link>
+					
+				<wo:USAdminLTEMenuComponent items="$currentMenuItem.children" rootClass="treeview-menu" previousLevel="$level" />
+			</wo:container>
+		</wo:if>
 	</wo:repetition>
-
-	<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-	<li class="treeview">
-		<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-		<span class="pull-right-container">
-		<i class="fa fa-angle-left pull-right"></i>
-		</span>
-		</a>
-		<ul class="treeview-menu">
-			<li><a href="#">Link in level 2</a></li>
-			<li><a href="#">Link in level 2</a></li>
-		</ul>
-	</li>
-</ul>
+</wo:container>
