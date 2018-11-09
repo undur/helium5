@@ -11,18 +11,18 @@ import com.webobjects.appserver.WOContext;
 import er.extensions.appserver.ERXSession;
 import er.extensions.components.ERXNonSynchronizingComponent;
 import is.rebbi.core.util.HierarchyUtilities;
-import is.rebbi.wo.menu.USMenuItemPage;
+import is.rebbi.wo.menu.USMenuItem;
 
 public class USAdminLTEMenuComponent extends ERXNonSynchronizingComponent {
 
-	public USMenuItemPage currentMenuItem;
+	public USMenuItem currentMenuItem;
 
 	public USAdminLTEMenuComponent( WOContext context ) {
 		super( context );
 	}
 
-	public List<USMenuItemPage> items() {
-		return (List<USMenuItemPage>)valueForBinding( "items" );
+	public List<USMenuItem> items() {
+		return (List<USMenuItem>)valueForBinding( "items" );
 	}
 
 	public int previousLevel() {
@@ -61,8 +61,8 @@ public class USAdminLTEMenuComponent extends ERXNonSynchronizingComponent {
 		((ERXSession)session()).objectStore().takeValueForKey( currentMenuItem, "selectedMenuItem" );
 	}
 
-	private USMenuItemPage selectedMenuItem() {
-		return (USMenuItemPage)((ERXSession)session()).objectStore().valueForKey( "selectedMenuItem" );
+	private USMenuItem selectedMenuItem() {
+		return (USMenuItem)((ERXSession)session()).objectStore().valueForKey( "selectedMenuItem" );
 	}
 
 	private boolean isOpen() {

@@ -10,18 +10,18 @@ import com.webobjects.appserver.WOContext;
 import er.extensions.appserver.ERXSession;
 import er.extensions.components.ERXNonSynchronizingComponent;
 import is.rebbi.core.util.HierarchyUtilities;
-import is.rebbi.wo.menu.USMenuItemPage;
+import is.rebbi.wo.menu.USMenuItem;
 
 public class USHeliumMenuComponent extends ERXNonSynchronizingComponent {
 
-	public USMenuItemPage currentMenuItem;
+	public USMenuItem currentMenuItem;
 
 	public USHeliumMenuComponent( WOContext context ) {
 		super( context );
 	}
 
-	public List<USMenuItemPage> items() {
-		return (List<USMenuItemPage>)valueForBinding( "items" );
+	public List<USMenuItem> items() {
+		return (List<USMenuItem>)valueForBinding( "items" );
 	}
 
 	public int previousLevel() {
@@ -39,6 +39,7 @@ public class USHeliumMenuComponent extends ERXNonSynchronizingComponent {
 	public String currentMenuItemClass() {
 		StringBuilder b = new StringBuilder();
 		b.append( currentMenuItem.iconClasses() );
+		b.append( " sidebar-nav-icon" );
 		return b.toString();
 	}
 
@@ -73,8 +74,8 @@ public class USHeliumMenuComponent extends ERXNonSynchronizingComponent {
 		((ERXSession)session()).objectStore().takeValueForKey( currentMenuItem, "selectedMenuItem" );
 	}
 
-	private USMenuItemPage selectedMenuItem() {
-		return (USMenuItemPage)((ERXSession)session()).objectStore().valueForKey( "selectedMenuItem" );
+	private USMenuItem selectedMenuItem() {
+		return (USMenuItem)((ERXSession)session()).objectStore().valueForKey( "selectedMenuItem" );
 	}
 
 	private boolean isOpen() {

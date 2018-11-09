@@ -27,14 +27,14 @@ public class USMenu {
 	/**
 	 * Menu items in the root of the menu.
 	 */
-	private List<USMenuItemPage> _rootItems = new ArrayList<>();
+	private List<USMenuItem> _rootItems = new ArrayList<>();
 
 	/**
 	 * Default menu for the Helium system.
 	 */
 	private static USMenu _defaultMenu;
 
-	public List<USMenuItemPage> rootItems() {
+	public List<USMenuItem> rootItems() {
 		return _rootItems;
 	}
 
@@ -125,17 +125,18 @@ public class USMenu {
 		return systemItem;
 	}
 
-	public USMenuItemPage addAtTop( USMenuItemPage item ) {
+	public USMenuItem addAtTop( USMenuItem item ) {
 		rootItems().add( 0, item );
 		return item;
 	}
 
-	public USMenuItemPage addAtBottom( USMenuItemPage item ) {
+	public USMenuItem addAtBottom( USMenuItem item ) {
 		rootItems().add( item );
 		return item;
 	}
 
-	public USMenuItemPage addAtBottom( String name, String iconClasses, Class<? extends ERXComponent> pageClass ) {
+	@Deprecated
+	public USMenuItem addAtBottom( String name, String iconClasses, Class<? extends ERXComponent> pageClass ) {
 		return addAtBottom( USMenuItemPage.create( name, iconClasses, pageClass ) );
 	}
 

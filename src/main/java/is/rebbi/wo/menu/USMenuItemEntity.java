@@ -5,7 +5,7 @@ import com.webobjects.appserver.WOActionResults;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.Inspection;
 
-public class USMenuItemEntity extends USMenuItemPage {
+public class USMenuItemEntity extends USMenuItem {
 
 	private String _entityName;
 
