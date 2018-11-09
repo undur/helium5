@@ -2,6 +2,7 @@ package is.rebbi.wo.components;
 
 import com.webobjects.appserver.WOContext;
 
+import er.extensions.appserver.ERXSession;
 import er.extensions.components.ERXComponent;
 import er.extensions.foundation.ERXStringUtilities;
 import is.rebbi.core.util.StringUtilities;
@@ -54,6 +55,12 @@ public abstract class USBaseComponent extends ERXComponent {
 			return lookName;
 		}
 
+		lookName = lookNameInSession( (ERXSession)session() );
+
+		if( lookName != null ) {
+			return lookName;
+		}
+
 		lookName = SWSettings.defaultLookName();
 
 		if( lookName == null ) {
@@ -61,6 +68,14 @@ public abstract class USBaseComponent extends ERXComponent {
 		}
 
 		return lookName;
+	}
+
+	public static void setLookNameInSession( ERXSession session, String lookName ) {
+		session.objectStore().takeValueForKey( lookName, "look" );
+	}
+
+	private static String lookNameInSession( ERXSession session ) {
+		return (String)session.objectStore().valueForKey( "look" );
 	}
 
 	/**
