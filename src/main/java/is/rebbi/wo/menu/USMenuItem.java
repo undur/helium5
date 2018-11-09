@@ -62,9 +62,10 @@ public abstract class USMenuItem implements Hierarchy {
 		return _children;
 	}
 
-	public void addChild( USMenuItem item ) {
+	public USMenuItem addChild( USMenuItem item ) {
 		item._parent = this;
 		_children.add( item );
+		return item;
 	}
 
 	public void setChildren( List<USMenuItem> value ) {
