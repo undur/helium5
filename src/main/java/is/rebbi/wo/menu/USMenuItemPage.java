@@ -17,16 +17,6 @@ public class USMenuItemPage extends USMenuItem {
 		_pageClass = value;
 	}
 
-	@Override
-	public WOActionResults action() {
-
-		if( pageClass() == null ) {
-			return null;
-		}
-
-		return ERXApplication.erxApplication().pageWithName( pageClass() );
-	}
-
 	public static USMenuItemPage create( String name, String iconClasses, Class<? extends ERXComponent> pageClass ) {
 
 		if( name == null ) {
@@ -38,5 +28,15 @@ public class USMenuItemPage extends USMenuItem {
 		item.setIconClasses( iconClasses );
 		item.setPageClass( pageClass );
 		return item;
+	}
+
+	@Override
+	public WOActionResults action() {
+
+		if( pageClass() == null ) {
+			return null;
+		}
+
+		return ERXApplication.erxApplication().pageWithName( pageClass() );
 	}
 }
