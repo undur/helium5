@@ -6,6 +6,8 @@ import er.extensions.appserver.ERXSession;
 import er.extensions.components.ERXComponent;
 import er.extensions.foundation.ERXStringUtilities;
 import is.rebbi.core.util.StringUtilities;
+import is.rebbi.wo.components.admin.look.USHeliumLook;
+import is.rebbi.wo.components.admin.look.adminlte.USAdminLTELook;
 import is.rebbi.wo.util.SWSettings;
 
 public abstract class USBaseComponent extends ERXComponent {
@@ -92,6 +94,11 @@ public abstract class USBaseComponent extends ERXComponent {
 
 		if( lookName == null ) {
 			lookName = USStandardLook.class.getSimpleName();
+		}
+
+		// FIXME: Temporary standby override for look name
+		if( lookName.equals( USHeliumLook.class.getSimpleName() ) ) {
+			lookName = USAdminLTELook.class.getSimpleName();
 		}
 
 		return lookName;
