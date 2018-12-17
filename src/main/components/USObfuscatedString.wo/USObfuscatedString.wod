@@ -1,3 +1,0 @@
-STRING: WOString {
-	value = obfuscatedValue;
-}
