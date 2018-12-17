@@ -18,7 +18,7 @@ import is.rebbi.core.formatters.DurationFormatter;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.util.SessionManager;
 
-public class USSystemInfo extends ERXComponent {
+public class USSystemInfoPage extends ERXComponent {
 
 	private static final String PATH_SEPARATOR = ERXProperties.stringForKey( "path.separator" );
 	private static final int psLength = PATH_SEPARATOR.length();
@@ -26,7 +26,7 @@ public class USSystemInfo extends ERXComponent {
 	public String currentPropertyKey;
 	private final NSDictionary _properties = new NSDictionary( java.lang.System.getProperties() );
 
-	public USSystemInfo( WOContext context ) {
+	public USSystemInfoPage( WOContext context ) {
 		super( context );
 	}
 

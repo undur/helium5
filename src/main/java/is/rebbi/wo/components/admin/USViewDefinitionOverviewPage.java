@@ -7,11 +7,11 @@ import com.webobjects.appserver.WOContext;
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 
-public class USViewDefinitionOverview extends ERXComponent {
+public class USViewDefinitionOverviewPage extends ERXComponent {
 
 	public EntityViewDefinition current;
 
-	public USViewDefinitionOverview(WOContext context) {
+	public USViewDefinitionOverviewPage(WOContext context) {
 		super( context );
 	}
 

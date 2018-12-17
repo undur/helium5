@@ -16,12 +16,12 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXComponent;
 
-public class USLoggingConfiguration extends ERXComponent {
+public class USLoggingConfigurationPage extends ERXComponent {
 
 	public Logger currentLogger;
 	public Level currentLevel;
 
-	public USLoggingConfiguration( WOContext context ) {
+	public USLoggingConfigurationPage( WOContext context ) {
 		super( context );
 	}
 

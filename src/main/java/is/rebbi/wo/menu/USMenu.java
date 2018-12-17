@@ -13,10 +13,10 @@ import com.webobjects.foundation.NSComparator.ComparisonException;
 import com.webobjects.foundation.NSMutableSet;
 
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.components.admin.USLoggingConfiguration;
-import is.rebbi.wo.components.admin.USSystemInfo;
+import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
+import is.rebbi.wo.components.admin.USSystemInfoPage;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
-import is.rebbi.wo.components.admin.USViewDefinitionOverview;
+import is.rebbi.wo.components.admin.USViewDefinitionOverviewPage;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.USGenericComparator;
 
@@ -119,9 +119,9 @@ public class USMenu {
 	private static USMenuItemPage systemMenuItem() {
 		USMenuItemPage systemItem = USMenuItemPage.create( "Kerfi", "fa fa-wrench sidebar-nav-icon", null );
 		systemItem.addChild( USMenuItemPage.create( "Aðgerðir", null, USTaskRunnerPage.class ) );
-		systemItem.addChild( USMenuItemPage.create( "Birting", null, USViewDefinitionOverview.class ) );
-		systemItem.addChild( USMenuItemPage.create( "Umhverfi", null, USSystemInfo.class ) );
-		systemItem.addChild( USMenuItemPage.create( "Loggar", null, USLoggingConfiguration.class ) );
+		systemItem.addChild( USMenuItemPage.create( "Birting", null, USViewDefinitionOverviewPage.class ) );
+		systemItem.addChild( USMenuItemPage.create( "Umhverfi", null, USSystemInfoPage.class ) );
+		systemItem.addChild( USMenuItemPage.create( "Loggar", null, USLoggingConfigurationPage.class ) );
 		return systemItem;
 	}
 

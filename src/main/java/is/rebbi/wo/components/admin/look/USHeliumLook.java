@@ -18,7 +18,7 @@ import er.extensions.appserver.ERXResponseRewriter.TagMissingBehavior;
 import er.extensions.crypting.ERXCrypto;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USViewPage;
-import is.rebbi.wo.components.admin.USAdminSearchResults;
+import is.rebbi.wo.components.admin.USAdminSearchResultsPage;
 import is.rebbi.wo.menu.USMenu;
 import is.rebbi.wo.util.SWSettings;
 import jambalaya.interfaces.UniqueIDStamped;
@@ -62,7 +62,7 @@ public class USHeliumLook extends USViewPage {
 	}
 
 	public WOActionResults search() {
-		USAdminSearchResults nextPage = pageWithName( USAdminSearchResults.class );
+		USAdminSearchResultsPage nextPage = pageWithName( USAdminSearchResultsPage.class );
 		List results = new ArrayList<>();
 
 		for( ObjEntity objEntity : oc().getEntityResolver().getObjEntities() ) {

@@ -8,12 +8,12 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.components.USBaseComponent;
 
-public class USAdminSearchResults extends USBaseComponent {
+public class USAdminSearchResultsPage extends USBaseComponent {
     
     public DataObject item;
     public List<DataObject> list;
 
-    public USAdminSearchResults( WOContext context ) {
+    public USAdminSearchResultsPage( WOContext context ) {
         super( context );
     }
 }
