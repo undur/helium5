@@ -35,6 +35,8 @@ public abstract class USMenuItem implements Hierarchy {
 	 */
 	private List<USMenuItem> _children = new ArrayList<>();
 
+	public boolean forceOpen;
+
 	USMenuItem() {
 		_identifier = UUID.randomUUID().toString();
 	}

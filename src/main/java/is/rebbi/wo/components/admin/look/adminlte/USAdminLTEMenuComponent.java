@@ -66,7 +66,7 @@ public class USAdminLTEMenuComponent extends ERXNonSynchronizingComponent {
 	}
 
 	private boolean isOpen() {
-		return HierarchyUtilities.isParentNodeOfNode( currentMenuItem, selectedMenuItem(), true );
+		return currentMenuItem.forceOpen || HierarchyUtilities.isParentNodeOfNode( currentMenuItem, selectedMenuItem(), true );
 	}
 
 	public String currentLIClass() {
