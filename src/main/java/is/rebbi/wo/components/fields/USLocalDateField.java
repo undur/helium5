@@ -16,7 +16,7 @@ import is.rebbi.wo.components.USBaseComponent;
 
 public class USLocalDateField extends USBaseComponent {
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER_WITHOUT_TIME = DateTimeFormatter.ofPattern( "dd.MM.yyyy" );
+	private static final DateTimeFormatter DATE_TIME_FORMATTER_WITHOUT_TIME = DateTimeFormatter.ofPattern( "d.M.yyyy" );
 
 	public USLocalDateField( WOContext context ) {
 		super( context );
@@ -43,7 +43,7 @@ public class USLocalDateField extends USBaseComponent {
 		LocalDate value = (LocalDate)valueForBinding( "value" );
 
 		if( value == null ) {
-		    return null;
+			return null;
 		}
 
 		return DATE_TIME_FORMATTER_WITHOUT_TIME.format( value );
@@ -51,12 +51,12 @@ public class USLocalDateField extends USBaseComponent {
 
 	public void setStringValue( String value ) {
 		TemporalAccessor localDate;
-		
+
 		if( value != null ) {
-		    localDate = LocalDate.parse( value, DATE_TIME_FORMATTER_WITHOUT_TIME );
+			localDate = LocalDate.parse( value, DATE_TIME_FORMATTER_WITHOUT_TIME );
 		}
 		else {
-		    localDate = null;
+			localDate = null;
 		}
 
 		setValueForBinding( localDate, "value" );
