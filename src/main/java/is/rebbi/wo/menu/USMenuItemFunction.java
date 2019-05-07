@@ -10,10 +10,6 @@ public class USMenuItemFunction extends USMenuItem {
 	private Function<WOContext, WOActionResults> _function;
 	private WOContext _context;
 
-	private Function<WOContext, WOActionResults> function() {
-		return _function;
-	}
-
 	private void setFunction( Function<WOContext, WOActionResults> function ) {
 		_function = function;
 	}
