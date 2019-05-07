@@ -2,7 +2,12 @@
 	<wo:repetition item="$currentMenuItem" list="$items">
 		<wo:if condition="$currentMenuItem.children.size" negate="$true">
 			<wo:container elementName="li" class="$currentLIClass">
-				<wo:link action="$action"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span></wo:link>
+				<wo:if condition="$currentMenuItem.url">
+					<wo:link href="$currentMenuItem.url"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span></wo:link>
+				</wo:if>
+				<wo:if condition="$currentMenuItem.url" negate="$true">
+					<wo:link href="$action"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span></wo:link>
+				</wo:if>
 			</wo:container>
 		</wo:if>
 		<wo:if condition="$currentMenuItem.children.size">

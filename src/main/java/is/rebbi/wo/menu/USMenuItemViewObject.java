@@ -6,6 +6,7 @@ import com.webobjects.appserver.WOActionResults;
 
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.wo.components.USViewPage;
+import is.rebbi.wo.urls.USURLProvider;
 import is.rebbi.wo.util.Inspection;
 
 public class USMenuItemViewObject extends USMenuItem {
@@ -34,6 +35,9 @@ public class USMenuItemViewObject extends USMenuItem {
 		return item;
 	}
 
+	/**
+	 * FIXME: This should be removed once we are using theis to invoke operations and operations have routes.
+	 */
 	@Override
 	public WOActionResults action() {
 		if( _viewComponentClass != null ) {
@@ -41,5 +45,14 @@ public class USMenuItemViewObject extends USMenuItem {
 		}
 
 		return Inspection.inspectObjectInContext( object(), ERXWOContext.currentContext() );
+	}
+
+	@Override
+	public String url() {
+		if( _viewComponentClass != null ) {
+			return null; // FIXME: FIX to allow custom view components.
+		}
+
+		return USURLProvider.urlForObjectInContext( object(), ERXWOContext.currentContext() );
 	}
 }

@@ -43,6 +43,10 @@ public abstract class USMenuItem implements Hierarchy {
 
 	public abstract WOActionResults action();
 
+	public String url() {
+		return null;
+	}
+
 	public String name() {
 		return _name;
 	}
