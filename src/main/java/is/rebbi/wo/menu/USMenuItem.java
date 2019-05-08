@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.webobjects.appserver.WOActionResults;
 
 import is.rebbi.core.util.Hierarchy;
+import is.rebbi.core.util.HierarchyUtilities;
 
 public abstract class USMenuItem implements Hierarchy {
 
@@ -42,6 +43,17 @@ public abstract class USMenuItem implements Hierarchy {
 	}
 
 	public abstract WOActionResults action();
+
+	public String id() {
+		List<USMenuItem> everyParent = HierarchyUtilities.everyParentNode( this, true );
+		StringBuilder b = new StringBuilder();
+
+		for( USMenuItem parent : everyParent ) {
+			b.append( parent.name() );
+		}
+
+		return b.toString();
+	}
 
 	public String url() {
 		return null;
@@ -107,12 +119,12 @@ public abstract class USMenuItem implements Hierarchy {
 			return false;
 		}
 		USMenuItem other = (USMenuItem)obj;
-		if( _identifier == null ) {
-			if( other._identifier != null ) {
+		if( _name == null ) {
+			if( other._name != null ) {
 				return false;
 			}
 		}
-		else if( !_identifier.equals( other._identifier ) ) {
+		else if( !_name.equals( other._name ) ) {
 			return false;
 		}
 		return true;
