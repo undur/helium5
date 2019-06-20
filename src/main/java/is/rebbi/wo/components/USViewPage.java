@@ -7,9 +7,9 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
+import jambalaya.Jambalaya;
 
 /**
  * Common functionality for client and admin side components.
@@ -75,7 +75,7 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 				_oc = ((DataObject)selectedObject()).getObjectContext();
 			}
 			else {
-				_oc = USCayenne.defaultObjectContext( session() );
+				_oc = Jambalaya.newContext();
 			}
 		}
 
