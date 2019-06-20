@@ -1,5 +1,7 @@
 package is.rebbi.wo.components.admin;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.webobjects.appserver.WOContext;
@@ -11,11 +13,13 @@ public class USViewDefinitionOverviewPage extends ERXComponent {
 
 	public EntityViewDefinition current;
 
-	public USViewDefinitionOverviewPage(WOContext context) {
+	public USViewDefinitionOverviewPage( WOContext context ) {
 		super( context );
 	}
 
 	public List<EntityViewDefinition> all() {
-		return EntityViewDefinition.all();
+		List<EntityViewDefinition> list = EntityViewDefinition.all();
+		Collections.sort( list, Comparator.comparing( EntityViewDefinition::name ) );
+		return list;
 	}
 }
