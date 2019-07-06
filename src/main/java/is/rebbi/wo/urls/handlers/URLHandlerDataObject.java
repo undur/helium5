@@ -15,11 +15,11 @@ import org.apache.cayenne.query.SelectQuery;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.urls.providers.URLProviderDataObject;
 import is.rebbi.wo.util.InspectAction;
 import is.rebbi.wo.util.Inspection;
+import jambalaya.Jambalaya;
 
 public class URLHandlerDataObject extends URLHandler {
 
@@ -62,25 +62,21 @@ public class URLHandlerDataObject extends URLHandler {
 		return path().getString( 3 );
 	}
 
-	public ObjectContext oc() {
-		return USCayenne.defaultObjectContext( context().session() );
-	}
-
 	/**
 	 * @return The object the user wanted from the URL.
 	 */
 	public DataObject selectedObject() {
 
-		String objEntityName = entityNameFromTypeIdentifier( typeIdentifier() );
+		final String objEntityName = entityNameFromTypeIdentifier( typeIdentifier() );
 
 		if( objectIdentifier().startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX ) ) {
 			String identifier = objectIdentifier().substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
-			return objectFromPKString( oc(), objEntityName, identifier );
+			return objectFromPKString( Jambalaya.newContext(), objEntityName, identifier );
 		}
 
 		if( objectIdentifier().startsWith( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX ) ) {
 			String identifier = objectIdentifier().substring( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
-			return objectFromUniqueID( oc(), objEntityName, identifier );
+			return objectFromUniqueID( Jambalaya.newContext(), objEntityName, identifier );
 		}
 
 		throw new RuntimeException( "Unsupported URL format" );
