@@ -22,7 +22,6 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.cayenne.USCayenne;
 import is.rebbi.wo.components.USBaseComponent;
 import is.rebbi.wo.definitions.AttributeViewDefinition;
 import is.rebbi.wo.definitions.EntityViewDefinition;
@@ -101,7 +100,7 @@ public class USListPageEdit extends USBaseComponent {
 
 	protected ObjectContext oc() {
 		if( _oc == null ) {
-			_oc = USCayenne.defaultObjectContext( session() );
+			_oc = Jambalaya.newContext();
 		}
 
 		return _oc;
