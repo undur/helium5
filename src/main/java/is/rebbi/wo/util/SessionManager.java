@@ -1,8 +1,10 @@
 package is.rebbi.wo.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOSession;
-import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSNotification;
 import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
@@ -27,7 +29,7 @@ public class SessionManager {
 	/**
 	 * List of all currently active sessions.
 	 */
-	private NSMutableArray<ERXSession> _activeSessions = new NSMutableArray<>();
+	private Map<String,ERXSession> _activeSessions = new HashMap<>();
 
 	/**
 	 * @return The session manager singleton.
@@ -57,7 +59,7 @@ public class SessionManager {
 	/**
 	 * @return A list of all active sessions.
 	 */
-	public NSMutableArray<ERXSession> activeSessions() {
+	public Map<String,ERXSession> activeSessions() {
 		return _activeSessions;
 	}
 
@@ -73,24 +75,18 @@ public class SessionManager {
 
 	public void sessionDidTimeOut( NSNotification notification ) {
 		String sessionID = (String)notification.object();
-
 		if( sessionID != null ) {
-			for( int i = activeSessions().count(); i > 0; i-- ) {
-				ERXSession session = activeSessions().objectAtIndex( i - 1 );
-
-				if( session.sessionID().equals( sessionID ) ) {
-					activeSessions().removeObject( session );
-				}
-			}
+			activeSessions().remove( sessionID );
 		}
 	}
 
 	public synchronized void addSessionIfMissing( ERXSession session ) {
 		if( session != null ) {
 			touchSession( session );
+			final String sessionID = session.sessionID();
 
-			if( !activeSessions().contains( session ) ) {
-				activeSessions().addObject( session );
+			if( !activeSessions().containsKey( sessionID ) ) {
+				activeSessions().put( sessionID, session );
 
 				WOContext context = session.context();
 
