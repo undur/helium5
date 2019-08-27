@@ -75,12 +75,13 @@ public class SessionManager {
 
 	public void sessionDidTimeOut( NSNotification notification ) {
 		String sessionID = (String)notification.object();
+
 		if( sessionID != null ) {
 			activeSessions().remove( sessionID );
 		}
 	}
 
-	public synchronized void addSessionIfMissing( ERXSession session ) {
+	public void addSessionIfMissing( ERXSession session ) {
 		if( session != null ) {
 			touchSession( session );
 			final String sessionID = session.sessionID();
@@ -88,10 +89,10 @@ public class SessionManager {
 			if( !activeSessions().containsKey( sessionID ) ) {
 				activeSessions().put( sessionID, session );
 
-				WOContext context = session.context();
+				final WOContext context = session.context();
 
 				if( context != null ) {
-					String ipAddress = USHTTPUtilities.ipAddressFromRequest( context.request() );
+					final String ipAddress = USHTTPUtilities.ipAddressFromRequest( context.request() );
 
 					if( ipAddress != null ) {
 						session.objectStore().takeValueForKey( ipAddress, "remoteHostAddress" );
