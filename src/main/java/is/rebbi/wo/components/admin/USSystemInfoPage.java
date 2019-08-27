@@ -132,8 +132,4 @@ public class USSystemInfoPage extends ERXComponent {
 	public DurationFormatter durationFormatter() {
 		return new DurationFormatter();
 	}
-
-	public NSArray<ERXSession> activeUserSessions() {
-		return SessionManager.singleton().activeSessions();
-	}
 }
