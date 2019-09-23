@@ -3,7 +3,7 @@ package is.rebbi.wo.search;
 import org.apache.cayenne.DataObject;
 
 import is.rebbi.core.search.IndexRecord;
-import is.rebbi.wo.util.PKSerializer;
+import jambalaya.PKSerializer;
 
 public class IndexUtilities {
 

@@ -13,8 +13,8 @@ import org.apache.cayenne.query.SelectQuery;
 
 import is.rebbi.core.search.PointsToPersistent;
 import is.rebbi.core.util.ListUtilities;
-import is.rebbi.wo.util.PKSerializer;
 import is.rebbi.wo.util.PointsToPersistentUtil;
+import jambalaya.PKSerializer;
 
 /**
  * Implements a fake relationship to a table, based on an object ID and an entity name.

@@ -16,6 +16,7 @@ import is.rebbi.core.search.PointsToPersistent;
 import is.rebbi.core.util.ListUtilities;
 import is.rebbi.wo.interfaces.HasFakeRelationship;
 import jambalaya.CayenneUtils;
+import jambalaya.PKSerializer;
 
 public class PointsToPersistentUtil {
 

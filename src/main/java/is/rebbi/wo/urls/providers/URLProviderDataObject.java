@@ -4,7 +4,7 @@ import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectId;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
-import is.rebbi.wo.util.PKSerializer;
+import jambalaya.PKSerializer;
 import jambalaya.interfaces.UniqueIDStamped;
 
 public class URLProviderDataObject extends URLProvider<DataObject> {

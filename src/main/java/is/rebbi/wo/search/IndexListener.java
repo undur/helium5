@@ -9,7 +9,7 @@ import org.apache.cayenne.commitlog.model.ObjectChange;
 import org.apache.cayenne.commitlog.model.ObjectChangeType;
 
 import is.rebbi.core.search.Indexable;
-import is.rebbi.wo.util.PKSerializer;
+import jambalaya.PKSerializer;
 
 public class IndexListener implements CommitLogListener {
 
