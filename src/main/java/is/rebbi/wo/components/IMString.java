@@ -71,7 +71,8 @@ public class IMString extends ERXStatelessComponent {
         }
 
         if( maxLength() != null ) {
-            value = StringUtilities.abbreviate( value.toString(), maxLength() );
+        	final String abbreviationPostfix = stringValueForBinding( "abbreviationPostfix" );
+            value = StringUtilities.abbreviate( value.toString(), maxLength(), abbreviationPostfix );
         }
 
         return (String)value;
