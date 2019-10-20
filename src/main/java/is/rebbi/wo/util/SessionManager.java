@@ -1,7 +1,7 @@
 package is.rebbi.wo.util;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOSession;
@@ -29,7 +29,7 @@ public class SessionManager {
 	/**
 	 * List of all currently active sessions.
 	 */
-	private Map<String,ERXSession> _activeSessions = new HashMap<>();
+	private Map<String,ERXSession> _activeSessions = new ConcurrentHashMap<>();
 
 	/**
 	 * @return The session manager singleton.
