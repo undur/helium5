@@ -1,5 +1,7 @@
 package is.rebbi.wo.components.links;
 
+import org.apache.cayenne.DataObject;
+
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXStatelessComponent;
@@ -19,7 +21,16 @@ public class ViewLink extends ERXStatelessComponent {
 	 * Disable the link if the object is null.
 	 */
 	public boolean disabled() {
+
+		if( isTemporary() ) {
+			return true;
+		}
+
 		return object() == null || booleanValueForBinding( "disabled" );
+	}
+
+	private boolean isTemporary() {
+		return object() instanceof DataObject && ((DataObject)object()).getObjectId().isTemporary();
 	}
 
 	/**
@@ -33,6 +44,11 @@ public class ViewLink extends ERXStatelessComponent {
 	 * @return The URL for the link.
 	 */
 	public String href() {
+
+		if( isTemporary() ) {
+			return null;
+		}
+
 		return USURLProvider.urlForObjectInContext( object(), context() );
 	}
 
@@ -41,5 +57,17 @@ public class ViewLink extends ERXStatelessComponent {
 	 */
 	public String operation() {
 		return stringValueForBinding( "operation" );
+	}
+
+	public boolean showPlaceholder() {
+		if( disabled() && valueForBinding( "class" ) != null ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public String disabledClass() {
+		return valueForBinding( "class" ) + " disabled";
 	}
 }
