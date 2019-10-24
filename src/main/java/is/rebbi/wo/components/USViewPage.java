@@ -51,12 +51,12 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 	}
 
 	public WOActionResults saveChanges() {
-		oc().commitChanges();
+		((DataObject)selectedObject()).getObjectContext().commitChanges();
 		return null;
 	}
 
 	public WOActionResults deleteObject() {
-		oc().deleteObject( selectedObject() );
+		((DataObject)selectedObject()).getObjectContext().deleteObject( selectedObject() );
 		saveChanges();
 		return returnToCallingComponent();
 	}
