@@ -41,8 +41,6 @@ public class USMenu {
 	public static USMenu defaultMenu() {
 		if( _defaultMenu == null ) {
 			_defaultMenu = new USMenu();
-			_defaultMenu.addAtBottom( databaseMenuItem() );
-			_defaultMenu.addAtBottom( systemMenuItem() );
 		}
 
 		return _defaultMenu;
@@ -116,6 +114,11 @@ public class USMenu {
 		}
 	}
 
+	public static void addSystemMenuItems() {
+		defaultMenu().addChild( databaseMenuItem() );
+		defaultMenu().addChild( systemMenuItem() );
+	}
+
 	private static USMenuItemPage systemMenuItem() {
 		USMenuItemPage systemItem = USMenuItemPage.create( "Kerfi", "fa fa-wrench sidebar-nav-icon", null );
 		systemItem.addChild( USMenuItemPage.create( "Aðgerðir", null, USTaskRunnerPage.class ) );
@@ -130,7 +133,13 @@ public class USMenu {
 		return item;
 	}
 
+	@Deprecated
 	public USMenuItem addAtBottom( USMenuItem item ) {
+		rootItems().add( item );
+		return item;
+	}
+
+	public USMenuItem addChild( USMenuItem item ) {
 		rootItems().add( item );
 		return item;
 	}
