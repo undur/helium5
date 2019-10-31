@@ -5,6 +5,8 @@ import java.text.DecimalFormatSymbols;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,36 +45,18 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 	}
 
 	/**
-	 * FIXME: Migrate to a utility class
-	 *
 	 * @return A list of attributes
 	 */
 	public List<ObjAttribute> attributes() {
-		ArrayList<ObjAttribute> attributes = new ArrayList<>( entity().getAttributes() );
-		/*
-				ObjAttribute modificationDate = entity().getAttribute( "modificationDate" );
-
-				if( modificationDate != null ) {
-					attributes.remove( modificationDate );
-				}
-
-				ObjAttribute creationDate = entity().getAttribute( "creationDate" );
-
-				if( creationDate != null ) {
-					attributes.remove( creationDate );
-				}
-
-				ObjAttribute uniqueID = entity().getAttribute( "uniqueID" );
-
-				if( uniqueID != null ) {
-					attributes.remove( uniqueID );
-				}
-		 */
+		final ArrayList<ObjAttribute> attributes = new ArrayList<>( entity().getAttributes() );
+		Collections.sort( attributes, Comparator.comparing( ObjAttribute::getName ) );
 		return attributes;
 	}
 
 	public List<ObjRelationship> relationships() {
-		return new ArrayList<>( entity().getRelationships() );
+		final ArrayList<ObjRelationship> relationships = new ArrayList<>( entity().getRelationships() );
+		Collections.sort( relationships, Comparator.comparing( ObjRelationship::getName ) );
+		return relationships;
 	}
 
 	private ObjEntity entity() {
@@ -139,7 +123,7 @@ public class USViewPageGeneric<E extends DataObject> extends USViewPage<E> {
 		boolean isLong = "text".equals( currentAttribute.getName() ) || "history".equals( currentAttribute.getName() );
 		return attributeIsString() && isLong;
 	}
-	
+
 	public boolean attributeIsLocalDate() {
 		return CayenneUtils.attributeIsLocalDate( currentAttribute );
 	}
