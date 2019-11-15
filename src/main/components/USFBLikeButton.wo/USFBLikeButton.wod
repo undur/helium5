@@ -1,8 +1,0 @@
-LIKE_IFRAME : WOGenericContainer {
-	elementName = "iframe";
-	src = iframeSRC;
-	scrolling = "no";
-	frameborder = "0";
-	allowTransparency = "true";
-	style = iframeStyle; 
-}
