@@ -6,6 +6,7 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
 
 import er.ajax.AjaxUtils;
+import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USBaseComponent;
 
 /**
@@ -29,11 +30,9 @@ public class USDateField extends USBaseComponent {
 	@Override
 	public void appendToResponse( WOResponse r, WOContext c ) {
 		super.appendToResponse( r, c );
-		// AjaxUtils.addStylesheetResourceInHead( context(), r, "helium", "jquery-ui.min.css" );
-		// AjaxUtils.addScriptResourceInHead( context(), r, "helium", "jquery-ui.min.js" );
-		AjaxUtils.addStylesheetResourceInHead( context(), r, "helium", "smoothness/jquery-ui-1.8.22.custom.css" );
-		AjaxUtils.addScriptResourceInHead( context(), r, "helium", "jquery-ui-1.8.22.custom.min.js" );
-		AjaxUtils.addScriptResourceInHead( context(), r, "helium", "jquery.ui.datepicker-is.js" );
+		AjaxUtils.addStylesheetResourceInHead( context(), r, Primary.frameworkBundleName(), "smoothness/jquery-ui-1.8.22.custom.css" );
+		AjaxUtils.addScriptResourceInHead( context(), r, Primary.frameworkBundleName(), "jquery-ui-1.8.22.custom.min.js" );
+		AjaxUtils.addScriptResourceInHead( context(), r, Primary.frameworkBundleName(), "jquery.ui.datepicker-is.js" );
 	}
 
 	public SimpleDateFormat formatter() {
