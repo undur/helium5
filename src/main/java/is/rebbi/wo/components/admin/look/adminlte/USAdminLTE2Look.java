@@ -9,9 +9,9 @@ import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.menu.USMenu;
 import is.rebbi.wo.util.SWSettings;
 
-public class USAdminLTELook extends USViewPage {
+public class USAdminLTE2Look extends USViewPage {
 
-	public USAdminLTELook( WOContext context ) {
+	public USAdminLTE2Look( WOContext context ) {
 		super( context );
 	}
 

@@ -13,11 +13,11 @@ import er.extensions.components.ERXNonSynchronizingComponent;
 import is.rebbi.core.util.HierarchyUtilities;
 import is.rebbi.wo.menu.USMenuItem;
 
-public class USAdminLTEMenuComponent extends ERXNonSynchronizingComponent {
+public class USAdminLTE2MenuComponent extends ERXNonSynchronizingComponent {
 
 	public USMenuItem currentMenuItem;
 
-	public USAdminLTEMenuComponent( WOContext context ) {
+	public USAdminLTE2MenuComponent( WOContext context ) {
 		super( context );
 	}
 
