@@ -30,7 +30,7 @@ public class USMenu {
 	private List<USMenuItem> _rootItems = new ArrayList<>();
 
 	/**
-	 * Default menu for the Helium system.
+	 * Default menu
 	 */
 	private static USMenu _defaultMenu;
 

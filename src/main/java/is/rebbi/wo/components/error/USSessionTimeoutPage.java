@@ -17,8 +17,8 @@ public class USSessionTimeoutPage extends ERXComponent {
 	@Override
 	public void appendToResponse( WOResponse r, WOContext c ) {
 		super.appendToResponse( r, c );
-		AjaxUtils.addStylesheetResourceInHead( c, r, Primary.frameworkBundleName(), "helium/css/bootstrap.min.css" );
-		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "helium/js/vendor/bootstrap.min.js" );
+		AjaxUtils.addStylesheetResourceInHead( c, r, Primary.frameworkBundleName(), "bootstrap-3.4.1/css/bootstrap.min.css" );
+		AjaxUtils.addScriptResourceInHead( c, r, Primary.frameworkBundleName(), "bootstrap-3.4.1/bootstrap.min.js" );
 	}
 
 	public static WOResponse handleSessionRestorationErrorInContext( WOContext context ) {

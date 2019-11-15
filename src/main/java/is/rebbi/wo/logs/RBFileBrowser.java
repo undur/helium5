@@ -10,6 +10,7 @@ import com.webobjects.foundation.NSTimestamp;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
+import is.rebbi.wo.Primary;
 
 /**
  * A file system browsing component
@@ -131,7 +132,7 @@ public class RBFileBrowser extends ERXComponent {
 	}
 
 	public String currentIconSRC() {
-		return ERXApplication.erxApplication().resourceManager().urlForResourceNamed( currentIconName(), "helium", null, context().request() );
+		return ERXApplication.erxApplication().resourceManager().urlForResourceNamed( currentIconName(), Primary.frameworkBundleName(), null, context().request() );
 	}
 
 	@Override

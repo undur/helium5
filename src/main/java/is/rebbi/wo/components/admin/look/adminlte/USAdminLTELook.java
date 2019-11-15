@@ -18,7 +18,7 @@ public class USAdminLTELook extends USViewPage {
 	@Override
 	public void appendToResponse( WOResponse r, WOContext c ) {
 		super.appendToResponse( r, c );
-		AjaxUtils.addScriptResourceInHead( context(), r, "helium", "bootstrap_prototype_conflict_fix.js" );
+		AjaxUtils.addScriptResourceInHead( context(), r, Primary.frameworkBundleName(), "bootstrap_prototype_conflict_fix.js" );
 	}
 
 	public String frameworkBundleName() {
