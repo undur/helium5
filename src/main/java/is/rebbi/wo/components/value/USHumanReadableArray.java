@@ -1,4 +1,4 @@
-package is.rebbi.wo.components;
+package is.rebbi.wo.components.value;
 
 import java.util.List;
 
