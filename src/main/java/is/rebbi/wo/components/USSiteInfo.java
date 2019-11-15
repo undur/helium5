@@ -9,11 +9,11 @@ import is.rebbi.wo.Primary;
 import is.rebbi.wo.util.SoftUser;
 import is.rebbi.wo.util.USHTTPUtilities;
 
-public class SiteInfo extends ERXComponent {
+public class USSiteInfo extends ERXComponent {
 
 	private static final String buildDate = ERXStringUtilities.stringFromResource( "buildDate", "txt", null );
 
-	public SiteInfo(WOContext context) {
+	public USSiteInfo(WOContext context) {
 		super( context );
 	}
 
