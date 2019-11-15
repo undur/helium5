@@ -8,6 +8,7 @@ import er.ajax.AjaxUtils;
 import er.extensions.components.ERXComponent;
 import er.extensions.foundation.ERXStringUtilities;
 import is.rebbi.core.util.StringUtilities;
+import is.rebbi.wo.Primary;
 
 /**
  * A common superclass for form fields.
@@ -48,7 +49,7 @@ public abstract class USField extends ERXComponent {
 	@Override
 	public void appendToResponse( WOResponse response, WOContext context ) {
 		super.appendToResponse( response, context );
-		AjaxUtils.addStylesheetResourceInHead( context, response, "helium", "USField.css" );
+		AjaxUtils.addStylesheetResourceInHead( context, response, Primary.frameworkBundleName(), "USField.css" );
 	}
 
 	/**
