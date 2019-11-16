@@ -1,4 +1,4 @@
-package is.rebbi.wo.components.admin.look.adminlte;
+package is.rebbi.wo.components.admin.look.adminlte2;
 
 import java.util.ArrayList;
 import java.util.List;

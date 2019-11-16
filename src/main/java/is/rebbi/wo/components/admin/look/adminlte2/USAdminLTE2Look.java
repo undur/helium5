@@ -1,4 +1,4 @@
-package is.rebbi.wo.components.admin.look.adminlte;
+package is.rebbi.wo.components.admin.look.adminlte2;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
