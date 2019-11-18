@@ -135,8 +135,7 @@ public class USMenu {
 
 	@Deprecated
 	public USMenuItem addAtBottom( USMenuItem item ) {
-		rootItems().add( item );
-		return item;
+		return addChild( item );
 	}
 
 	public USMenuItem addChild( USMenuItem item ) {
