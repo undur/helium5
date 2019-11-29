@@ -40,7 +40,12 @@ public class USLocalDateField extends USBaseComponent {
 	}
 
 	public String stringValue() {
-		LocalDate value = (LocalDate)valueForBinding( "value" );
+
+		if( hasBinding("stringValue") ) {
+			return stringValueForBinding( "stringValue" );
+		}
+
+		final LocalDate value = (LocalDate)valueForBinding( "value" );
 
 		if( value == null ) {
 			return null;
@@ -50,15 +55,21 @@ public class USLocalDateField extends USBaseComponent {
 	}
 
 	public void setStringValue( String value ) {
-		TemporalAccessor localDate;
 
-		if( value != null ) {
-			localDate = LocalDate.parse( value, DATE_TIME_FORMATTER_WITHOUT_TIME );
+		if( hasBinding("stringValue") ) {
+			setValueForBinding( value, "stringValue" );
 		}
 		else {
-			localDate = null;
-		}
+			TemporalAccessor localDate;
 
-		setValueForBinding( localDate, "value" );
+			if( value != null ) {
+				localDate = LocalDate.parse( value, DATE_TIME_FORMATTER_WITHOUT_TIME );
+			}
+			else {
+				localDate = null;
+			}
+
+			setValueForBinding( localDate, "value" );
+		}
 	}
 }
