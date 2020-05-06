@@ -40,6 +40,7 @@ public abstract class USURLProvider {
 
 		String url = urlProvider.urlForObject( object );
 
+		// FIXME: The URL generator should not be referencing ERXApplication
 		if( (ERXApplication.erxApplication() != null && ERXApplication.erxApplication().isDevelopmentMode() ) || SWSettings.forceDevelopmentURLs() ) {
 			url = USURLProvider.makeURLDeveloperFriendly( url, context );
 		}
