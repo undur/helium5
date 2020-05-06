@@ -40,7 +40,7 @@ public abstract class USURLProvider {
 
 		String url = urlProvider.urlForObject( object );
 
-		if( ERXApplication.erxApplication().isDevelopmentMode() || SWSettings.forceDevelopmentURLs() ) {
+		if( (ERXApplication.erxApplication() != null && ERXApplication.erxApplication().isDevelopmentMode() ) || SWSettings.forceDevelopmentURLs() ) {
 			url = USURLProvider.makeURLDeveloperFriendly( url, context );
 		}
 
