@@ -44,7 +44,11 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	@Override
 	public String urlForObject( DataObject dataObject ) {
 		if( dataObject instanceof UniqueIDStamped ) {
-			return urlForUniqueID( dataObject.getObjectId().getEntityName(), ((UniqueIDStamped)dataObject).uniqueID() );
+			final String uniqueID = ((UniqueIDStamped)dataObject).uniqueID();
+
+			if( uniqueID != null ) {
+				return urlForUniqueID( dataObject.getObjectId().getEntityName(), uniqueID );
+			}
 		}
 
 		return urlForObjectId( dataObject.getObjectId() );
