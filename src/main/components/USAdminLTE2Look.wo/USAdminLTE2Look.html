@@ -18,8 +18,22 @@
 			$.noConflict();
 		</script>
 		<style>
+			html, body {
+			    height: 100%;
+			}
 			.container-fluid {
-				overflow-x: scroll !important;
+			    height: 100%;
+			    overflow-y: hidden; /* don't show content that exceeds my height */
+			}
+			.body-film {
+			    height: 100%;
+			    overflow-y: auto; // a value of 'scroll' will force scrollbars, even if they aren't necessary. This is cleaner.
+			    background-color: fadeout(@studio-bar-color, @studio-body-film-trans-delta);
+			}
+			.block-film {
+			    min-height: 100%;
+			    overflow-y: hidden; /* don't show content that exceeds my height */
+			    background-color: fadeout(@studio-bar-color, @studio-block-film-trans-delta);   
 			}
 		</style>
 	</head>
