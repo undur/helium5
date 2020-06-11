@@ -1,21 +1,34 @@
 <wo:USEditLook>
-	<table class="table table-condensed">
-		<tr>
-			<th>Level</th>
-			<th>Appender</th>
-			<th>Logger</th>
-		</tr>
-		<wo:repetition list="$loggers" item="$currentLogger">
-			<tr>
-				<td>
-					<wo:repetition list="$logLevels" item="$currentLevel">
-						<wo:link action="$selectLevel" class="$currentClass"><wo:str value="$currentLevel.toString" /></wo:link>
-					</wo:repetition>
-				</td>
-				<td><wo:str value="$currentAppenders" /></td>
-				<td><wo:str value="$currentLogger.name" /></td>
-			</tr>
-		</wo:repetition>
-	</table>
-	<p><wo:link action="$defaultSettings" class="btn btn-default">Reload</wo:link></p>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Logging settings</h3>
+					<div class="box-tools pull-right">
+						<p><wo:link action="$defaultSettings" class="btn btn-default">Reload</wo:link></p>
+					</div>
+				</div>
+				<div class="box-body-no-padding">
+					<table class="table table-condensed">
+						<tr>
+							<th>Level</th>
+							<th>Appender</th>
+							<th>Logger</th>
+						</tr>
+						<wo:repetition list="$loggers" item="$currentLogger">
+							<tr>
+								<td>
+									<wo:repetition list="$logLevels" item="$currentLevel">
+										<wo:link action="$selectLevel" class="$currentClass"><wo:str value="$currentLevel.toString" /></wo:link>
+									</wo:repetition>
+								</td>
+								<td><wo:str value="$currentAppenders" /></td>
+								<td><wo:str value="$currentLogger.name" /></td>
+							</tr>
+						</wo:repetition>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </wo:USEditLook>
