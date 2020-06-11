@@ -84,7 +84,7 @@ public class USMenu {
 			return list;
 		}
 		List<E> filteredList = new ArrayList<>( list.size() );
-		for( Iterator<E> iterator = list.iterator() ; iterator.hasNext() ; ) {
+		for( Iterator<E> iterator = list.iterator(); iterator.hasNext(); ) {
 			E object = iterator.next();
 			if( qualifier.evaluateWithObject( object ) ) {
 				filteredList.add( object );
@@ -114,6 +114,30 @@ public class USMenu {
 		}
 	}
 
+	public USMenuItem addAtTop( USMenuItem item ) {
+		rootItems().add( 0, item );
+		return item;
+	}
+
+	public USMenuItem addChild( USMenuItem item ) {
+		rootItems().add( item );
+		return item;
+	}
+
+	@Deprecated
+	public USMenuItem addAtBottom( USMenuItem item ) {
+		return addChild( item );
+	}
+
+	@Deprecated
+	public USMenuItem addAtBottom( String name, String iconClasses, Class<? extends ERXComponent> pageClass ) {
+		return addChild( USMenuItemPage.create( name, iconClasses, pageClass ) );
+	}
+
+	public void clear() {
+		_rootItems = new ArrayList<>();
+	}
+
 	public static void addSystemMenuItems() {
 		defaultMenu().addChild( databaseMenuItem() );
 		defaultMenu().addChild( systemMenuItem() );
@@ -126,29 +150,5 @@ public class USMenu {
 		systemItem.addChild( USMenuItemPage.create( "Umhverfi", null, USSystemInfoPage.class ) );
 		systemItem.addChild( USMenuItemPage.create( "Loggar", null, USLoggingConfigurationPage.class ) );
 		return systemItem;
-	}
-
-	public USMenuItem addAtTop( USMenuItem item ) {
-		rootItems().add( 0, item );
-		return item;
-	}
-
-	@Deprecated
-	public USMenuItem addAtBottom( USMenuItem item ) {
-		return addChild( item );
-	}
-
-	public USMenuItem addChild( USMenuItem item ) {
-		rootItems().add( item );
-		return item;
-	}
-
-	@Deprecated
-	public USMenuItem addAtBottom( String name, String iconClasses, Class<? extends ERXComponent> pageClass ) {
-		return addAtBottom( USMenuItemPage.create( name, iconClasses, pageClass ) );
-	}
-
-	public void clear() {
-		_rootItems = new ArrayList<>();
 	}
 }
