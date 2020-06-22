@@ -21,10 +21,10 @@ public class InspectAction extends ERXDirectAction {
 
 	private RouteTable routeTable() {
 		if( _routeTable == null ) {
-			_routeTable.addURLHandler( "/i/", URLHandlerDataObject.class );
-			_routeTable.addURLHandler( "/l/", URLHandlerList.class );
-			_routeTable.addURLHandler( "/search/", URLHandlerSearch.class );
-			_routeTable.addURLHandler( "/login", URLHandlerLogin.class );
+			_routeTable.map( "/i/", URLHandlerDataObject.class );
+			_routeTable.map( "/l/", URLHandlerList.class );
+			_routeTable.map( "/search/", URLHandlerSearch.class );
+			_routeTable.map( "/login", URLHandlerLogin.class );
 		}
 
 		return _routeTable;

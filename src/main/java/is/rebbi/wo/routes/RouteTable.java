@@ -12,20 +12,18 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.urls.handlers.URLHandler;
 
+/**
+ * Contains a list of handlers for URLs
+ */
+
 public class RouteTable {
 
 	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
 
-	private Map<String,RouteHandler> _routes = new HashMap<>();
-
 	private Map<String, Class<? extends URLHandler>> _urlHandlers = new HashMap<>();
 
-	public void map( final String routeString, final RouteHandler routeHandler ) {
-		_routes.put( routeString, routeHandler );
-	}
-
-	public void addURLHandler( final String urlPrefix, final Class<? extends URLHandler> handlerClass ) {
-		_urlHandlers.put( urlPrefix, handlerClass );
+	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
+		_urlHandlers.put( pattern, handlerClass );
 	}
 
 	private Map<String, Class<? extends URLHandler>> urlHandlers() {
