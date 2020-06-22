@@ -7,7 +7,7 @@ import is.rebbi.wo.definitions.EntityViewDefinition;
 import jambalaya.PKSerializer;
 import jambalaya.interfaces.UniqueIDStamped;
 
-public class URLProviderDataObject extends URLProvider<DataObject> {
+public class URLProviderDataObject implements URLProvider<DataObject> {
 
 	/**
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
@@ -22,7 +22,7 @@ public class URLProviderDataObject extends URLProvider<DataObject> {
 	/**
 	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
 	 */
-	public static final String ENTITY_IDENTIFIER_PREFIX = "entity-";
+	private static final String ENTITY_IDENTIFIER_PREFIX = "entity-";
 
 	/**
 	 * @return The url prefix for the given object.

@@ -2,7 +2,7 @@ package is.rebbi.wo.urls.providers;
 
 import org.apache.cayenne.ObjectId;
 
-public class URLProviderObjectId extends URLProvider<ObjectId> {
+public class URLProviderObjectId implements URLProvider<ObjectId> {
 
 	@Override
 	public String urlForObject( ObjectId oid ) {
