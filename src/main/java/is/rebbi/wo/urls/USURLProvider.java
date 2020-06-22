@@ -31,8 +31,8 @@ public abstract class USURLProvider {
 	/**
 	 * @return The URL for viewing the given object.
 	 */
-	public static String urlForObjectInContext( Object object, WOContext context ) {
-		URLProvider urlProvider = urlProviderForClass( object.getClass() );
+	public static String urlForObjectInContext( final Object object, final WOContext context ) {
+		final URLProvider urlProvider = urlProviderForClass( object.getClass() );
 
 		if( urlProvider == null ) {
 			throw new NullPointerException( "No URLProvider registered for objects of class: " + object.getClass() );
