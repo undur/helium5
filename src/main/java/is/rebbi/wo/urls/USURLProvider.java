@@ -98,7 +98,7 @@ public abstract class USURLProvider {
 	/**
 	 * @return A direct connect version of the URL.
 	 */
-	public static String makeURLDeveloperFriendly( String url, WOContext context ) {
+	private static String makeURLDeveloperFriendly( String url, WOContext context ) {
 
 		if( context == null ) {
 			context = ERXWOContext.currentContext();
