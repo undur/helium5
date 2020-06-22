@@ -12,9 +12,9 @@ public abstract class URLHandler {
 	private URLWrapper _path;
 
 	public URLHandler( final String url, final WOContext context ) {
-		_url = url;
 		_context = context;
-		_path = URLWrapper.create( _url );
+		_path = URLWrapper.create( url );
+		_url = url;
 	}
 
 	public String url() {
