@@ -5,11 +5,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.urls.handlers.URLHandler;
 
 public class RouteTable {
+
+	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
 
 	private Map<String,RouteHandler> _routes = new HashMap<>();
 
@@ -39,11 +44,12 @@ public class RouteTable {
 	}
 
 	public URLHandler handlerInstanceForURL( final String url, final WOContext context ) {
+		logger.info( "Handling URL: {}", url );
+
 		try {
 			Class<? extends URLHandler> handlerClass = handlerClassForURL( url );
 			Constructor<? extends URLHandler> constructor = handlerClass.getConstructor( String.class, WOContext.class );
-			URLHandler urlHandler = constructor.newInstance( url, context );
-			return urlHandler;
+			return constructor.newInstance( url, context );
 		}
 		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
 			throw new RuntimeException( "Failed to instantiate handler" );
