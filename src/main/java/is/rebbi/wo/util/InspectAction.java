@@ -6,29 +6,12 @@ import com.webobjects.appserver.WORequest;
 import er.extensions.appserver.ERXDirectAction;
 import is.rebbi.wo.components.admin.USLoginPage;
 import is.rebbi.wo.routes.RouteTable;
-import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
-import is.rebbi.wo.urls.handlers.URLHandlerList;
-import is.rebbi.wo.urls.handlers.URLHandlerLogin;
-import is.rebbi.wo.urls.handlers.URLHandlerSearch;
 
 /**
  * Main entry point into the system.
  */
 
 public class InspectAction extends ERXDirectAction {
-
-	private RouteTable _routeTable;
-
-	private RouteTable routeTable() {
-		if( _routeTable == null ) {
-			_routeTable.map( "/i/", URLHandlerDataObject.class );
-			_routeTable.map( "/l/", URLHandlerList.class );
-			_routeTable.map( "/search/", URLHandlerSearch.class );
-			_routeTable.map( "/login", URLHandlerLogin.class );
-		}
-
-		return _routeTable;
-	}
 
 	public InspectAction( WORequest r ) {
 		super( r );
@@ -38,7 +21,7 @@ public class InspectAction extends ERXDirectAction {
 	 * @return A page for inspecting the specified object.
 	 */
 	public WOActionResults handlerAction() {
-		return routeTable().handlerInstanceForURL( url(), context() ).generateResponse();
+		return RouteTable.defaultRouteTable().handlerInstanceForURL( url(), context() ).generateResponse();
 
 // 		FIXME: Here the 404 should indeed be returned.
 //		return response404( url() );

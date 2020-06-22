@@ -11,9 +11,18 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.urls.handlers.URLHandler;
+import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
+import is.rebbi.wo.urls.handlers.URLHandlerList;
+import is.rebbi.wo.urls.handlers.URLHandlerLogin;
+import is.rebbi.wo.urls.handlers.URLHandlerSearch;
 
 /**
  * Contains a list of handlers for URLs
+ *
+ * Routing allows a couple of types of wildcards
+ *
+ * - Named parameters are prefixed with a colon
+ * - Positional parameters are a star
  */
 
 public class RouteTable {
@@ -21,6 +30,20 @@ public class RouteTable {
 	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
 
 	private Map<String, Class<? extends URLHandler>> _urlHandlers = new HashMap<>();
+
+	private static RouteTable _defaultRouteTable;
+
+	public static RouteTable defaultRouteTable() {
+		if( _defaultRouteTable == null ) {
+			_defaultRouteTable = new RouteTable();
+			_defaultRouteTable.map( "/i/", URLHandlerDataObject.class );
+			_defaultRouteTable.map( "/l/", URLHandlerList.class );
+			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
+			_defaultRouteTable.map( "/login", URLHandlerLogin.class );
+		}
+
+		return _defaultRouteTable;
+	}
 
 	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
 		_urlHandlers.put( pattern, handlerClass );
