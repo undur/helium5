@@ -89,7 +89,7 @@ public abstract class USURLProvider {
 		String url = "/l/" + EntityViewDefinition.get( entityName ).urlPrefix();
 
 		if( ERXApplication.erxApplication().isDevelopmentMode() ) {
-			url = USURLProvider.makeURLDeveloperFriendly( url, context );
+			url = makeURLDeveloperFriendly( url, context );
 		}
 
 		return url;
