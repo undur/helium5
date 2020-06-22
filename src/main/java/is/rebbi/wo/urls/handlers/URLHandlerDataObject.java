@@ -70,41 +70,41 @@ public class URLHandlerDataObject extends URLHandler {
 		final String objEntityName = entityNameFromTypeIdentifier( typeIdentifier() );
 
 		if( objectIdentifier().startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX ) ) {
-			String identifier = objectIdentifier().substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
+			final String identifier = objectIdentifier().substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
 			return objectFromPKString( Jambalaya.newContext(), objEntityName, identifier );
 		}
 
 		if( objectIdentifier().startsWith( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX ) ) {
-			String identifier = objectIdentifier().substring( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
+			final String identifier = objectIdentifier().substring( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX.length(), objectIdentifier().length() );
 			return objectFromUniqueID( Jambalaya.newContext(), objEntityName, identifier );
 		}
 
 		throw new RuntimeException( "Unsupported URL format" );
 	}
 
-	private static DataObject objectFromUniqueID( ObjectContext oc, String objEntityName, String uid ) {
-		SelectQuery<?> q = new SelectQuery<>( objEntityName, ExpressionFactory.matchExp( "uniqueID", uid ) );
+	private static DataObject objectFromUniqueID( final ObjectContext oc, final String objEntityName, final String uniqueID ) {
+		final SelectQuery<?> q = new SelectQuery<>( objEntityName, ExpressionFactory.matchExp( "uniqueID", uniqueID ) );
 		return (DataObject)q.selectOne( oc );
 	}
 
-	private static DataObject objectFromPKString( ObjectContext oc, String objEntityName, String identifier ) {
-		ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
-		Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
-		String[] components = identifier.split( "\\|" );
+	private static DataObject objectFromPKString( final ObjectContext oc, final String objEntityName, final String identifier ) {
+		final ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
+		final Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
+		final String[] components = identifier.split( "\\|" );
 
-		Map<String, Object> keyMap = new HashMap<>();
+		final Map<String, Object> keyMap = new HashMap<>();
 
 		int i = 0;
 
-		for( DbAttribute attribute : primaryKeyAttributes ) {
+		for( final DbAttribute attribute : primaryKeyAttributes ) {
 			keyMap.put( attribute.getName(), components[i++] );
 		}
 
-		SelectQuery<?> q = new SelectQuery<>( objEntityName, ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO ) );
+		final SelectQuery<?> q = new SelectQuery<>( objEntityName, ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO ) );
 		return (DataObject)q.selectOne( oc );
 	}
 
-	private static String entityNameFromTypeIdentifier( String typeIdentifier ) {
+	private static String entityNameFromTypeIdentifier( final String typeIdentifier ) {
 		EntityViewDefinition viewDefinition = EntityViewDefinition.definitionForURLPrefix( typeIdentifier );
 
 		if( viewDefinition == null ) {
