@@ -7,9 +7,9 @@ import is.rebbi.wo.urls.URLWrapper;
 
 public abstract class URLHandler {
 
-	private URLWrapper _path;
-	private String _url;
 	private WOContext _context;
+	private String _url;
+	private URLWrapper _path;
 
 	public URLHandler( final String url, final WOContext context ) {
 		_url = url;
