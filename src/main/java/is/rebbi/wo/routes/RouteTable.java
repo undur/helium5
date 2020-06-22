@@ -52,7 +52,7 @@ public class RouteTable {
 			return constructor.newInstance( url, context );
 		}
 		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
-			throw new RuntimeException( "Failed to instantiate handler" );
+			throw new RuntimeException( "Failed to instantiate URL handler" );
 		}
 	}
 }

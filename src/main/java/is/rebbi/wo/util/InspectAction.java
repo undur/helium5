@@ -1,8 +1,5 @@
 package is.rebbi.wo.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WORequest;
 
@@ -19,8 +16,6 @@ import is.rebbi.wo.urls.handlers.URLHandlerSearch;
  */
 
 public class InspectAction extends ERXDirectAction {
-
-	private static final Logger logger = LoggerFactory.getLogger( InspectAction.class );
 
 	private RouteTable _routeTable;
 
