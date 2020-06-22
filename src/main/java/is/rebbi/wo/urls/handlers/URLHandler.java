@@ -11,7 +11,7 @@ public abstract class URLHandler {
 	private String _url;
 	private WOContext _context;
 
-	public URLHandler( String url, WOContext context ) {
+	public URLHandler( final String url, final WOContext context ) {
 		_url = url;
 		_context = context;
 		_path = URLWrapper.create( _url );
@@ -29,8 +29,5 @@ public abstract class URLHandler {
 		return _context;
 	}
 
-	/**
-	 * Defines a function that will be run when the button is clicked, passing the selectedObject if any.
-	 */
 	public abstract WOActionResults generateResponse();
 }

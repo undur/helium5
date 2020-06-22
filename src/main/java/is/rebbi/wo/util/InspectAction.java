@@ -18,7 +18,6 @@ import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
 import is.rebbi.wo.urls.handlers.URLHandlerList;
 import is.rebbi.wo.urls.handlers.URLHandlerLogin;
-import is.rebbi.wo.urls.handlers.URLHandlerPasswordReset;
 import is.rebbi.wo.urls.handlers.URLHandlerSearch;
 
 /**
@@ -41,15 +40,10 @@ public class InspectAction extends ERXDirectAction {
 			_urlHandlers.put( "/i/", URLHandlerDataObject.class );
 			_urlHandlers.put( "/l/", URLHandlerList.class );
 			_urlHandlers.put( "/search/", URLHandlerSearch.class );
-			_urlHandlers.put( "/passwordResetRequest/", URLHandlerPasswordReset.class );
 			_urlHandlers.put( "/login", URLHandlerLogin.class );
 		}
 
 		return _urlHandlers;
-	}
-
-	public static <E extends URLHandler> void addURLHandler( E urlHandler ) {
-		// urlHandlers().add( urlHandler );
 	}
 
 	/**
