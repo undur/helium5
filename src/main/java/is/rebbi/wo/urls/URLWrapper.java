@@ -6,7 +6,7 @@ package is.rebbi.wo.urls;
  * - only stores the path (no hostname, no protocol) - does not differentiate between relative and absolute urls
  */
 
-public class USURLPath {
+public class URLWrapper {
 
 	/**
 	 * The stored full URL, without preceding slashes
@@ -21,9 +21,9 @@ public class USURLPath {
 	/**
 	 * Instances are constructed using the create() method.
 	 */
-	private USURLPath() {}
+	private URLWrapper() {}
 
-	public static USURLPath create( String url ) {
+	public static URLWrapper create( String url ) {
 
 		if( url == null ) {
 			url = "";
@@ -37,7 +37,7 @@ public class USURLPath {
 			url = url.substring( 0, url.length() - 1 );
 		}
 
-		USURLPath object = new USURLPath();
+		URLWrapper object = new URLWrapper();
 		object._url = url;
 		return object;
 	}
