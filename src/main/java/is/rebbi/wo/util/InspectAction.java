@@ -16,10 +16,6 @@ public class InspectAction extends RouteAction {
 		super( r );
 	}
 
-	public static WOActionResults response404( String url ) {
-		return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + url );
-	}
-
 	public WOActionResults loginAction() {
 		return pageWithName( USLoginPage.class );
 	}
