@@ -17,8 +17,8 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.urls.providers.URLProviderDataObject;
-import is.rebbi.wo.util.InspectAction;
 import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.util.RouteAction;
 import jambalaya.Jambalaya;
 
 public class URLHandlerDataObject extends URLHandler {
@@ -29,21 +29,13 @@ public class URLHandlerDataObject extends URLHandler {
 
 	@Override
 	public WOActionResults generateResponse() {
-		Object object = selectedObject();
+		final Object object = selectedObject();
 
 		if( object == null ) {
-			return InspectAction.response404( url() );
+			return RouteAction.response404( url() );
 		}
 
-		if( operationIdentifier() == null || operationIdentifier().equals( "view" ) ) {
-			return Inspection.inspectObjectInContext( object, context() );
-		}
-
-		// if( operationIdentifier() == null || operationIdentifier().equals( "edit" ) ) {
-		// return Inspection.editObjectInContext( object, context() );
-		// }
-
-		return InspectAction.response404( url() );
+		return Inspection.inspectObjectInContext( object, context() );
 	}
 
 	/**
@@ -55,11 +47,6 @@ public class URLHandlerDataObject extends URLHandler {
 
 	private String objectIdentifier() {
 		return path().getString( 2 );
-	}
-
-	// FIXME: Implement // Hugi 2018-06-09
-	private String operationIdentifier() {
-		return path().getString( 3 );
 	}
 
 	/**
