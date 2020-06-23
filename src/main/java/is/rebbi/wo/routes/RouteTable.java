@@ -14,11 +14,11 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
+import is.rebbi.wo.components.admin.USLoginPage;
 import is.rebbi.wo.search.components.USSearchPage;
 import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
 import is.rebbi.wo.urls.handlers.URLHandlerList;
-import is.rebbi.wo.urls.handlers.URLHandlerLogin;
 import is.rebbi.wo.urls.handlers.URLHandlerSearch;
 
 /**
@@ -44,7 +44,7 @@ public class RouteTable {
 			_defaultRouteTable.map( "/i/", URLHandlerDataObject.class );
 			_defaultRouteTable.map( "/l/", URLHandlerList.class );
 			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
-			_defaultRouteTable.map( "/login", URLHandlerLogin.class );
+			_defaultRouteTable.mapComponent( "/login", USLoginPage.class );
 			_defaultRouteTable.map( "/smu", (url,context) -> { return ERXApplication.erxApplication().pageWithName( USSearchPage.class, context ); } );
 			_defaultRouteTable.mapComponent( "/bla", USSearchPage.class );
 		}
