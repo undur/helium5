@@ -13,6 +13,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
+import er.extensions.components.ERXComponent;
 import is.rebbi.wo.search.components.USSearchPage;
 import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
@@ -45,6 +46,7 @@ public class RouteTable {
 			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
 			_defaultRouteTable.map( "/login", URLHandlerLogin.class );
 			_defaultRouteTable.map( "/smu", (url,context) -> { return ERXApplication.erxApplication().pageWithName( USSearchPage.class, context ); } );
+			_defaultRouteTable.mapComponent( "/bla", USSearchPage.class );
 		}
 
 		return _defaultRouteTable;
@@ -68,16 +70,29 @@ public class RouteTable {
 		}
 	}
 
-	public static class URLHandlerBiFunction extends RouteHandler {
+	public static class BiFunctionHandler extends RouteHandler {
 		private BiFunction<String,WOContext,WOActionResults> _biFunction;
 
-		public URLHandlerBiFunction( final BiFunction<String,WOContext,WOActionResults> biFunction ) {
+		public BiFunctionHandler( final BiFunction<String,WOContext,WOActionResults> biFunction ) {
 			_biFunction = biFunction;
 		}
 
 		@Override
 		public WOActionResults handle( String url, WOContext context ) {
 			return _biFunction.apply( url, context );
+		}
+	}
+
+	public static class ComponentHandler extends RouteHandler {
+		private Class<? extends ERXComponent> _componentClass;
+
+		public ComponentHandler( final Class<? extends ERXComponent> componentClass ) {
+			_componentClass = componentClass;
+		}
+
+		@Override
+		public WOActionResults handle( String url, WOContext context ) {
+			return ERXApplication.erxApplication().pageWithName( _componentClass, context );
 		}
 	}
 
@@ -97,7 +112,12 @@ public class RouteTable {
 	}
 
 	public void map( final String pattern, final BiFunction<String,WOContext,WOActionResults> biFunction ) {
-		final URLHandlerBiFunction routeHandler = new URLHandlerBiFunction( biFunction );
+		final BiFunctionHandler routeHandler = new BiFunctionHandler( biFunction );
+		_routeHandlers.put( pattern, routeHandler );
+	}
+
+	public void mapComponent( final String pattern, final Class<? extends ERXComponent> componentClass ) {
+		final ComponentHandler routeHandler = new ComponentHandler( componentClass );
 		_routeHandlers.put( pattern, routeHandler );
 	}
 
