@@ -104,30 +104,34 @@ public class RouteTable {
 		return handlerForURL( url ).handle( url, context );
 	}
 
+	public void map( final String pattern, final RouteHandler routeHandler ) {
+		_routeHandlers.put( pattern, routeHandler );
+	}
+
 	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
 		final URLHandlerRouteHandler routeHandler = new URLHandlerRouteHandler( handlerClass );
-		_routeHandlers.put( pattern, routeHandler );
+		map( pattern, routeHandler );
 	}
 
 	public void map( final String pattern, final BiFunction<String,WOContext,WOActionResults> biFunction ) {
 		final BiFunctionHandler routeHandler = new BiFunctionHandler( biFunction );
-		_routeHandlers.put( pattern, routeHandler );
+		map( pattern, routeHandler );
 	}
 
 	public void mapComponent( final String pattern, final Class<? extends ERXComponent> componentClass ) {
 		final ComponentHandler routeHandler = new ComponentHandler( componentClass );
-		_routeHandlers.put( pattern, routeHandler );
+		map( pattern, routeHandler );
 	}
 
-	private Map<String,RouteHandler> routeHandlers() {
+	public Map<String,RouteHandler> routes() {
 		return _routeHandlers;
 	}
 
 	public RouteHandler handlerForURL( final String url ) {
 
-		for( String pattern : routeHandlers().keySet() ) {
+		for( String pattern : routes().keySet() ) {
 			if( url.startsWith( pattern ) ) {
-				return routeHandlers().get( pattern );
+				return _routeHandlers.get( pattern );
 			}
 		}
 
