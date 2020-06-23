@@ -1,6 +1,5 @@
 package is.rebbi.wo.routes;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.urls.handlers.URLHandler;
@@ -29,7 +29,7 @@ public class RouteTable {
 
 	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
 
-	private Map<String, Class<? extends URLHandler>> _urlHandlers = new HashMap<>();
+	private Map<String, RouteHandler> _routeHandlers = new HashMap<>();
 
 	private static RouteTable _defaultRouteTable;
 
@@ -45,32 +45,54 @@ public class RouteTable {
 		return _defaultRouteTable;
 	}
 
+	public static abstract class RouteHandler {
+		public abstract WOActionResults handle( String url, WOContext context );
+	}
+
+	public static class URLHandlerRouteHandler extends RouteHandler {
+		public Class<? extends URLHandler> _urlHandlerClass;
+
+		@Override
+		public WOActionResults handle( final String url, final WOContext context ) {
+			return RouteTable.defaultRouteTable().handlerInstance( _urlHandlerClass ).generateResponse();
+		}
+	}
+
+	/**
+	 * Handle the given URL
+	 *
+	 * FIXME: We should be returning a 404 response if no handler is found for the URL.
+	 */
+	public WOActionResults handle( final String url, final WOContext context ) {
+		logger.info( "Handling URL: {}", url );
+		return handlerForURL( url ).handle( url, context );
+	}
+
 	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
-		_urlHandlers.put( pattern, handlerClass );
+		URLHandlerRouteHandler routeHandler = new URLHandlerRouteHandler();
+		routeHandler._urlHandlerClass = handlerClass;
+		_routeHandlers.put( pattern, routeHandler );
 	}
 
-	private Map<String, Class<? extends URLHandler>> urlHandlers() {
-		return _urlHandlers;
+	private Map<String,RouteHandler> routeHandlers() {
+		return _routeHandlers;
 	}
 
-	public Class<? extends URLHandler> handlerClassForURL( final String url ) {
+	public RouteHandler handlerForURL( final String url ) {
 
-		for( String pattern : urlHandlers().keySet() ) {
+		for( String pattern : routeHandlers().keySet() ) {
 			if( url.startsWith( pattern ) ) {
-				return urlHandlers().get( pattern );
+				return routeHandlers().get( pattern );
 			}
 		}
 
 		throw new RuntimeException( "Unhandleable URL: " + url );
 	}
 
-	public URLHandler handlerInstanceForURL( final String url, final WOContext context ) {
-		logger.info( "Handling URL: {}", url );
+	public URLHandler handlerInstance( Class<? extends URLHandler> handlerClass ) {
 
 		try {
-			Class<? extends URLHandler> handlerClass = handlerClassForURL( url );
-			Constructor<? extends URLHandler> constructor = handlerClass.getConstructor( String.class, WOContext.class );
-			return constructor.newInstance( url, context );
+			return handlerClass.getConstructor().newInstance( new Object[] {} );
 		}
 		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
 			throw new RuntimeException( "Failed to instantiate URL handler" );

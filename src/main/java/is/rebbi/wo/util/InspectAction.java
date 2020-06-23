@@ -18,13 +18,10 @@ public class InspectAction extends ERXDirectAction {
 	}
 
 	/**
-	 * @return A page for inspecting the specified object.
+	 * @return The result of invoking the route with the URL provided.
 	 */
 	public WOActionResults handlerAction() {
-		return RouteTable.defaultRouteTable().handlerInstanceForURL( url(), context() ).generateResponse();
-
-// 		FIXME: Here the 404 should indeed be returned.
-//		return response404( url() );
+		return RouteTable.defaultRouteTable().handle( url(), context() );
 	}
 
 	/**
