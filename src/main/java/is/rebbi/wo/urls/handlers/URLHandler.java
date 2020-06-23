@@ -1,5 +1,8 @@
 package is.rebbi.wo.urls.handlers;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
@@ -27,6 +30,17 @@ public abstract class URLHandler {
 
 	public WOContext context() {
 		return _context;
+	}
+
+	public static URLHandler handlerInstance( final Class<? extends URLHandler> handlerClass, final String url, final WOContext context ) {
+
+		try {
+			Constructor<? extends URLHandler> constructor = handlerClass.getConstructor( String.class, WOContext.class );
+			return constructor.newInstance( url, context );
+		}
+		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
+			throw new RuntimeException( "Failed to instantiate URL handler" );
+		}
 	}
 
 	public abstract WOActionResults generateResponse();

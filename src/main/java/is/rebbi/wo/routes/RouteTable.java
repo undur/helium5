@@ -1,7 +1,5 @@
 package is.rebbi.wo.routes;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -66,7 +64,7 @@ public class RouteTable {
 
 		@Override
 		public WOActionResults handle( final String url, final WOContext context ) {
-			return RouteTable.defaultRouteTable().handlerInstance( _urlHandlerClass, url, context ).generateResponse();
+			return URLHandler.handlerInstance( _urlHandlerClass, url, context ).generateResponse();
 		}
 	}
 
@@ -134,16 +132,5 @@ public class RouteTable {
 		}
 
 		throw new RuntimeException( "Unhandleable URL: " + url );
-	}
-
-	public URLHandler handlerInstance( final Class<? extends URLHandler> handlerClass, final String url, final WOContext context ) {
-
-		try {
-			Constructor<? extends URLHandler> constructor = handlerClass.getConstructor( String.class, WOContext.class );
-			return constructor.newInstance( url, context );
-		}
-		catch( NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
-			throw new RuntimeException( "Failed to instantiate URL handler" );
-		}
 	}
 }
