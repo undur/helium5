@@ -138,11 +138,15 @@ public class RouteTable {
 	public RouteHandler handlerForURL( final String url ) {
 
 		for( Route route : routes() ) {
-			if( url.startsWith( route.pattern ) ) {
+			if( matches( route.pattern, url ) ) {
 				return route.routeHandler;
 			}
 		}
 
 		throw new RuntimeException( "Unhandleable URL: " + url );
+	}
+
+	public static boolean matches( final String pattern, final String url ) {
+		return url.startsWith( pattern );
 	}
 }
