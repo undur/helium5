@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
+import er.extensions.appserver.ERXApplication;
+import is.rebbi.wo.search.components.USSearchPage;
 import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
 import is.rebbi.wo.urls.handlers.URLHandlerList;
@@ -41,6 +44,7 @@ public class RouteTable {
 			_defaultRouteTable.map( "/l/", URLHandlerList.class );
 			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
 			_defaultRouteTable.map( "/login", URLHandlerLogin.class );
+			_defaultRouteTable.map( "/smu", (url,context) -> { return ERXApplication.erxApplication().pageWithName( USSearchPage.class, context ); } );
 		}
 
 		return _defaultRouteTable;
@@ -51,11 +55,29 @@ public class RouteTable {
 	}
 
 	public static class URLHandlerRouteHandler extends RouteHandler {
+
 		public Class<? extends URLHandler> _urlHandlerClass;
+
+		public URLHandlerRouteHandler( Class<? extends URLHandler> urlHandlerClass ) {
+			_urlHandlerClass = urlHandlerClass;
+		}
 
 		@Override
 		public WOActionResults handle( final String url, final WOContext context ) {
 			return RouteTable.defaultRouteTable().handlerInstance( _urlHandlerClass, url, context ).generateResponse();
+		}
+	}
+
+	public static class URLHandlerBiFunction extends RouteHandler {
+		private BiFunction<String,WOContext,WOActionResults> _biFunction;
+
+		public URLHandlerBiFunction( final BiFunction<String,WOContext,WOActionResults> biFunction ) {
+			_biFunction = biFunction;
+		}
+
+		@Override
+		public WOActionResults handle( String url, WOContext context ) {
+			return _biFunction.apply( url, context );
 		}
 	}
 
@@ -70,8 +92,12 @@ public class RouteTable {
 	}
 
 	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
-		URLHandlerRouteHandler routeHandler = new URLHandlerRouteHandler();
-		routeHandler._urlHandlerClass = handlerClass;
+		final URLHandlerRouteHandler routeHandler = new URLHandlerRouteHandler( handlerClass );
+		_routeHandlers.put( pattern, routeHandler );
+	}
+
+	public void map( final String pattern, final BiFunction<String,WOContext,WOActionResults> biFunction ) {
+		final URLHandlerBiFunction routeHandler = new URLHandlerBiFunction( biFunction );
 		_routeHandlers.put( pattern, routeHandler );
 	}
 
