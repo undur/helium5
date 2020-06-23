@@ -1,7 +1,7 @@
 package is.rebbi.wo.routes;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class RouteTable {
 
 	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
 
-	private Map<String, RouteHandler> _routeHandlers = new HashMap<>();
+	private List<Route> _routes = new ArrayList<>();
 
 	private static RouteTable _defaultRouteTable;
 
@@ -48,6 +48,11 @@ public class RouteTable {
 		}
 
 		return _defaultRouteTable;
+	}
+
+	public static class Route {
+		public String pattern;
+		public RouteHandler routeHandler;
 	}
 
 	public static abstract class RouteHandler {
@@ -105,7 +110,10 @@ public class RouteTable {
 	}
 
 	public void map( final String pattern, final RouteHandler routeHandler ) {
-		_routeHandlers.put( pattern, routeHandler );
+		Route r = new Route();
+		r.pattern = pattern;
+		r.routeHandler = routeHandler;
+		_routes.add( r );
 	}
 
 	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
@@ -123,15 +131,15 @@ public class RouteTable {
 		map( pattern, routeHandler );
 	}
 
-	public Map<String,RouteHandler> routes() {
-		return _routeHandlers;
+	public List<Route> routes() {
+		return _routes;
 	}
 
 	public RouteHandler handlerForURL( final String url ) {
 
-		for( String pattern : routes().keySet() ) {
-			if( url.startsWith( pattern ) ) {
-				return _routeHandlers.get( pattern );
+		for( Route route : routes() ) {
+			if( url.startsWith( route.pattern ) ) {
+				return route.routeHandler;
 			}
 		}
 
