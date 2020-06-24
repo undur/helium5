@@ -5,6 +5,7 @@ import com.webobjects.appserver.WORequest;
 
 import er.extensions.appserver.ERXDirectAction;
 import is.rebbi.wo.routes.RouteTable;
+import is.rebbi.wo.urls.WrappedURL;
 
 /**
  * Main entry point into the system.
@@ -20,7 +21,7 @@ public class RouteAction extends ERXDirectAction {
 	 * @return The result of invoking the route with the URL provided.
 	 */
 	public WOActionResults handlerAction() {
-		return RouteTable.defaultRouteTable().handle( url(), context() );
+		return RouteTable.defaultRouteTable().handle( WrappedURL.create( url() ), context() );
 	}
 
 	/**

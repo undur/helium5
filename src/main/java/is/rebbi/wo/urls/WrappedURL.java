@@ -9,7 +9,12 @@ package is.rebbi.wo.urls;
 public class WrappedURL {
 
 	/**
-	 * The stored full URL, without preceding slashes
+	 * The URL string this object was generated from.
+	 */
+	private String _sourceURL;
+
+	/**
+	 * The cleaned up URL
 	 */
 	private String _url;
 
@@ -23,7 +28,8 @@ public class WrappedURL {
 	 */
 	private WrappedURL() {}
 
-	public static WrappedURL create( String url ) {
+	public static WrappedURL create( final String sourceURL ) {
+		String url = sourceURL;
 
 		if( url == null ) {
 			url = "";
@@ -39,7 +45,12 @@ public class WrappedURL {
 
 		WrappedURL object = new WrappedURL();
 		object._url = url;
+		object._sourceURL = sourceURL;
 		return object;
+	}
+
+	public String sourceURL() {
+		return _sourceURL;
 	}
 
 	@Override
@@ -53,10 +64,6 @@ public class WrappedURL {
 		}
 
 		return _pathElements;
-	}
-
-	public String url() {
-		return _url;
 	}
 
 	/**

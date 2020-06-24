@@ -26,11 +26,11 @@ import jambalaya.Jambalaya;
 public class ObjectRouteHandler extends RouteHandler {
 
 	@Override
-	public WOActionResults handle( final String url, final WOContext context ) {
+	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
 		final Object object = selectedObject( url );
 
 		if( object == null ) {
-			return RouteAction.response404( url );
+			return RouteAction.response404( url.sourceURL() );
 		}
 
 		return Inspection.inspectObjectInContext( object, context );
@@ -39,8 +39,7 @@ public class ObjectRouteHandler extends RouteHandler {
 	/**
 	 * @return The object the user wanted from the URL.
 	 */
-	public static DataObject selectedObject( final String url ) {
-		final WrappedURL path = WrappedURL.create( url );
+	public static DataObject selectedObject( final WrappedURL path ) {
 		final String typeIdentifier = path.getString( 1 );
 		final String objectIdentifier = path.getString( 2 );
 

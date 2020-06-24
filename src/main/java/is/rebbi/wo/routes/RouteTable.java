@@ -14,6 +14,7 @@ import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.components.admin.USLoginPage;
 import is.rebbi.wo.search.components.USSearchPage;
+import is.rebbi.wo.urls.WrappedURL;
 import is.rebbi.wo.urls.handlers.URLHandler;
 import is.rebbi.wo.urls.handlers.URLHandlerList;
 import is.rebbi.wo.urls.handlers.URLHandlerSearch;
@@ -55,7 +56,7 @@ public class RouteTable {
 	}
 
 	public static abstract class RouteHandler {
-		public abstract WOActionResults handle( String url, WOContext context );
+		public abstract WOActionResults handle( WrappedURL url, WOContext context );
 	}
 
 	public static class URLHandlerRouteHandler extends RouteHandler {
@@ -67,20 +68,20 @@ public class RouteTable {
 		}
 
 		@Override
-		public WOActionResults handle( final String url, final WOContext context ) {
-			return URLHandler.handlerInstance( _urlHandlerClass, url, context ).generateResponse();
+		public WOActionResults handle( final WrappedURL url, final WOContext context ) {
+			return URLHandler.handlerInstance( _urlHandlerClass, url.sourceURL(), context ).generateResponse();
 		}
 	}
 
 	public static class BiFunctionHandler extends RouteHandler {
-		private BiFunction<String,WOContext,WOActionResults> _biFunction;
+		private BiFunction<WrappedURL,WOContext,WOActionResults> _biFunction;
 
-		public BiFunctionHandler( final BiFunction<String,WOContext,WOActionResults> biFunction ) {
+		public BiFunctionHandler( final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
 			_biFunction = biFunction;
 		}
 
 		@Override
-		public WOActionResults handle( String url, WOContext context ) {
+		public WOActionResults handle( WrappedURL url, WOContext context ) {
 			return _biFunction.apply( url, context );
 		}
 	}
@@ -93,7 +94,7 @@ public class RouteTable {
 		}
 
 		@Override
-		public WOActionResults handle( String url, WOContext context ) {
+		public WOActionResults handle( WrappedURL url, WOContext context ) {
 			return ERXApplication.erxApplication().pageWithName( _componentClass, context );
 		}
 	}
@@ -103,7 +104,7 @@ public class RouteTable {
 	 *
 	 * FIXME: We should be returning a 404 response if no handler is found for the URL.
 	 */
-	public WOActionResults handle( final String url, final WOContext context ) {
+	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
 		logger.info( "Handling URL: {}", url );
 		return handlerForURL( url ).handle( url, context );
 	}
@@ -120,7 +121,7 @@ public class RouteTable {
 		map( pattern, routeHandler );
 	}
 
-	public void map( final String pattern, final BiFunction<String,WOContext,WOActionResults> biFunction ) {
+	public void map( final String pattern, final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
 		final BiFunctionHandler routeHandler = new BiFunctionHandler( biFunction );
 		map( pattern, routeHandler );
 	}
@@ -134,10 +135,10 @@ public class RouteTable {
 		return _routes;
 	}
 
-	public RouteHandler handlerForURL( final String url ) {
+	public RouteHandler handlerForURL( final WrappedURL url ) {
 
 		for( Route route : routes() ) {
-			if( matches( route.pattern, url ) ) {
+			if( matches( route.pattern, url.sourceURL() ) ) {
 				return route.routeHandler;
 			}
 		}
