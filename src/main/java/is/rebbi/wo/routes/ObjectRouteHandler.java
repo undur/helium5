@@ -39,7 +39,7 @@ public class ObjectRouteHandler extends RouteHandler {
 	/**
 	 * @return The object the user wanted from the URL.
 	 */
-	public static DataObject selectedObject( final WrappedURL path ) {
+	private static DataObject selectedObject( final WrappedURL path ) {
 		final String typeIdentifier = path.getString( 1 );
 		final String objectIdentifier = path.getString( 2 );
 
