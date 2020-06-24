@@ -15,7 +15,6 @@ import er.extensions.components.ERXComponent;
 import is.rebbi.wo.components.admin.USLoginPage;
 import is.rebbi.wo.search.components.USSearchPage;
 import is.rebbi.wo.urls.handlers.URLHandler;
-import is.rebbi.wo.urls.handlers.URLHandlerDataObject;
 import is.rebbi.wo.urls.handlers.URLHandlerList;
 import is.rebbi.wo.urls.handlers.URLHandlerSearch;
 
@@ -39,7 +38,7 @@ public class RouteTable {
 	public static RouteTable defaultRouteTable() {
 		if( _defaultRouteTable == null ) {
 			_defaultRouteTable = new RouteTable();
-			_defaultRouteTable.map( "/i/", URLHandlerDataObject.class );
+			_defaultRouteTable.map( "/i/", new ObjectRouteHandler() );
 			_defaultRouteTable.map( "/l/", URLHandlerList.class );
 			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
 			_defaultRouteTable.mapComponent( "/login", USLoginPage.class );
