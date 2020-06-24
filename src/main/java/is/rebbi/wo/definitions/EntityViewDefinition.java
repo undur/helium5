@@ -166,26 +166,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	/**
 	 * Define view definition for an entity.
 	 */
-	public static EntityViewDefinition create( String name, String icelandicName, String icelandicNamePlural, String categoryName, String text, String urlPrefix, String iconFileName, boolean showInLists, Class viewComponentClass, Class editComponentClass ) {
-		EntityViewDefinition e = new EntityViewDefinition();
-		e.setEntityClass( classForEntity( name ) );
-		e.setName( name );
-		e.setIcelandicName( icelandicName );
-		e.setIcelandicNamePlural( icelandicNamePlural );
-		e.setCategoryName( categoryName );
-		e.setText( text );
-		e.setUrlPrefix( urlPrefix );
-		e.setIconFileName( iconFileName );
-		e.setShowInList( showInLists );
-		e.setViewComponentClass( viewComponentClass );
-		e.setEditComponentClass( editComponentClass );
-
-		return e;
-	}
-
-	/**
-	 * Define view definition for an entity.
-	 */
 	public static EntityViewDefinition create( Class<?> entityClass, String icelandicName, String icelandicNamePlural, String categoryName, String text, String urlPrefix, String iconFileName, boolean showInLists, Class viewComponentClass, Class editComponentClass ) {
 		EntityViewDefinition e = new EntityViewDefinition();
 		e.setEntityClass( entityClass );
@@ -199,7 +179,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		e.setText( text );
 		e.setUrlPrefix( urlPrefix );
 		e.setIconFileName( iconFileName );
-		e.setShowInList( showInLists );
 		e.setViewComponentClass( viewComponentClass );
 		e.setEditComponentClass( editComponentClass );
 		return e;
@@ -239,10 +218,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 		if( iconFileName() != null ) {
 			e.setIconFileName( iconFileName() );
-		}
-
-		if( e.showInList() != showInList() ) {
-			e.setShowInList( showInList() );
 		}
 
 		if( viewComponentClass() != null ) {
@@ -329,6 +304,14 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		_icelandicNamePlural = value;
 	}
 
+	public String text() {
+		return _text;
+	}
+
+	public void setText( String value ) {
+		_text = value;
+	}
+
 	public Class<T> viewComponentClass() {
 		return _viewComponentClass;
 	}
@@ -365,12 +348,10 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		_iconFileName = value;
 	}
 
+	// FIXME: remove
+	@Deprecated
 	public boolean showInList() {
-		return _showInList;
-	}
-
-	public void setShowInList( boolean showInList ) {
-		this._showInList = showInList;
+		return false;
 	}
 
 	public String categoryName() {
@@ -379,14 +360,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 	public void setCategoryName( String value ) {
 		_categoryName = value;
-	}
-
-	public String text() {
-		return _text;
-	}
-
-	public void setText( String value ) {
-		_text = value;
 	}
 
 	public ObjEntity entity() {
@@ -532,20 +505,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	public static void invalidateCache() {
 		logger.info( "Invalidating the EntityViewDefinition cache" );
 		_definitions = null;
-	}
-
-	public static List<EntityViewDefinition> typesToShowInList() {
-		List<EntityViewDefinition> results = new ArrayList<>();
-
-		for( EntityViewDefinition t : EntityViewDefinition.definitions().values() ) {
-			if( t.showInList() ) {
-				results.add( t );
-			}
-		}
-
-		Collections.sort( results, new USGenericComparator( "icelandicName", true, true ) );
-
-		return results;
 	}
 
 	@Override
