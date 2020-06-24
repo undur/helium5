@@ -16,7 +16,7 @@ public class WrappedURL {
 	/**
 	 * The cleaned up URL
 	 */
-	private String _url;
+	private String _parsedURL;
 
 	/**
 	 * cached copy of the url's elements
@@ -29,22 +29,22 @@ public class WrappedURL {
 	private WrappedURL() {}
 
 	public static WrappedURL create( final String sourceURL ) {
-		String url = sourceURL;
+		String parsedURL = sourceURL;
 
-		if( url == null ) {
-			url = "";
+		if( parsedURL == null ) {
+			parsedURL = "";
 		}
 
-		if( url.startsWith( "/" ) ) {
-			url = url.substring( 1 );
+		if( parsedURL.startsWith( "/" ) ) {
+			parsedURL = parsedURL.substring( 1 );
 		}
 
-		if( url.endsWith( "/" ) ) {
-			url = url.substring( 0, url.length() - 1 );
+		if( parsedURL.endsWith( "/" ) ) {
+			parsedURL = parsedURL.substring( 0, parsedURL.length() - 1 );
 		}
 
 		WrappedURL object = new WrappedURL();
-		object._url = url;
+		object._parsedURL = parsedURL;
 		object._sourceURL = sourceURL;
 		return object;
 	}
@@ -55,12 +55,12 @@ public class WrappedURL {
 
 	@Override
 	public String toString() {
-		return _url;
+		return _parsedURL;
 	}
 
 	private String[] pathElements() {
 		if( _pathElements == null ) {
-			_pathElements = _url.split( "/" );
+			_pathElements = _parsedURL.split( "/" );
 		}
 
 		return _pathElements;
@@ -105,6 +105,9 @@ public class WrappedURL {
 		return getInteger( index, null );
 	}
 
+	/**
+	 * @return The number of elements in the URL
+	 */
 	public int length() {
 		return pathElements().length;
 	}
