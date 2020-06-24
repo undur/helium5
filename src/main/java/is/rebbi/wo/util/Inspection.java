@@ -1,7 +1,6 @@
 package is.rebbi.wo.util;
 
 import org.apache.cayenne.DataObject;
-import org.apache.cayenne.ObjectContext;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
@@ -74,12 +73,6 @@ public class Inspection {
 		nextPage.setSelectedObject( object );
 		nextPage.setCallingComponent( context.page() );
 		return nextPage;
-	}
-
-	public static <A extends DataObject> WOActionResults createAndEditObject( ObjectContext ec, String entityName, WOContext context ) {
-		Class<?> javaClass = ec.getEntityResolver().getObjEntity( entityName ).getJavaClass();
-		DataObject eo = (DataObject)ec.newObject( javaClass );
-		return editObjectInContext( eo, context );
 	}
 
 	public static WOActionResults editObjectInContextUsingGenericComponent( Object selectedObject, WOContext context ) {
