@@ -17,7 +17,7 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.routes.RouteTable.RouteHandler;
-import is.rebbi.wo.urls.URLWrapper;
+import is.rebbi.wo.urls.WrappedURL;
 import is.rebbi.wo.urls.providers.URLProviderDataObject;
 import is.rebbi.wo.util.Inspection;
 import is.rebbi.wo.util.RouteAction;
@@ -40,7 +40,7 @@ public class ObjectRouteHandler extends RouteHandler {
 	 * @return The object the user wanted from the URL.
 	 */
 	public static DataObject selectedObject( final String url ) {
-		final URLWrapper path = URLWrapper.create( url );
+		final WrappedURL path = WrappedURL.create( url );
 		final String typeIdentifier = path.getString( 1 );
 		final String objectIdentifier = path.getString( 2 );
 

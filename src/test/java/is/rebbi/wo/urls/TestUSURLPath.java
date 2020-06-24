@@ -9,25 +9,25 @@ public class TestUSURLPath {
 
 	@Test
 	public void removesSlashAtStartAndEnd() {
-		URLWrapper u = URLWrapper.create( "/url/" );
+		WrappedURL u = WrappedURL.create( "/url/" );
 		assertEquals( u.toString(), "url" );
 	}
 
 	@Test
 	public void length() {
-		URLWrapper u = URLWrapper.create( "/url/gunnar/" );
+		WrappedURL u = WrappedURL.create( "/url/gunnar/" );
 		assertEquals( u.length(), 2 );
 	}
 
 	@Test
 	public void integerValue() {
-		URLWrapper u = URLWrapper.create( "/url/2/haha" );
+		WrappedURL u = WrappedURL.create( "/url/2/haha" );
 		assertEquals( u.getInteger( 1 ), Integer.valueOf( 2 ) );
 	}
 
 	@Test
 	public void stringValue() {
-		URLWrapper u = URLWrapper.create( "/url/2/haha" );
+		WrappedURL u = WrappedURL.create( "/url/2/haha" );
 		assertEquals( u.getString( 0 ), "url" );
 		assertEquals( u.getString( 1 ), "2" );
 		assertEquals( u.getString( 2 ), "haha" );
@@ -35,19 +35,19 @@ public class TestUSURLPath {
 
 	@Test
 	public void stringValueExceedingLengthIsNull() {
-		URLWrapper u = URLWrapper.create( "/url/2/haha" );
+		WrappedURL u = WrappedURL.create( "/url/2/haha" );
 		assertNull( u.getString( 4 ) );
 	}
 
 	@Test
 	public void integerValueExceedingLengthIsNull() {
-		URLWrapper u = URLWrapper.create( "/url/2/haha" );
+		WrappedURL u = WrappedURL.create( "/url/2/haha" );
 		assertNull( u.getInteger( 4 ) );
 	}
 
 	@Test
 	public void nullURLIsEmpty() {
-		URLWrapper u = URLWrapper.create( null );
+		WrappedURL u = WrappedURL.create( null );
 		assertEquals( u.length(), 1 );
 	}
 
