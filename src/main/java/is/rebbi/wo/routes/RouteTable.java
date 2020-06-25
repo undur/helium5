@@ -12,12 +12,8 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.components.admin.USLoginPage;
-import is.rebbi.wo.search.components.USSearchPage;
 import is.rebbi.wo.urls.WrappedURL;
 import is.rebbi.wo.urls.handlers.URLHandler;
-import is.rebbi.wo.urls.handlers.URLHandlerList;
-import is.rebbi.wo.urls.handlers.URLHandlerSearch;
 
 /**
  * Contains a list of handlers for URLs
@@ -40,21 +36,69 @@ public class RouteTable {
 		if( _defaultRouteTable == null ) {
 			_defaultRouteTable = new RouteTable();
 			_defaultRouteTable.map( "/i/", new ObjectRouteHandler() );
-			_defaultRouteTable.map( "/l/", URLHandlerList.class );
-			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
+//			_defaultRouteTable.map( "/l/", URLHandlerList.class );
+//			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
+//			_defaultRouteTable.mapComponent( "/login", USLoginPage.class );
 
-			_defaultRouteTable.mapComponent( "/login", USLoginPage.class );
-
-			_defaultRouteTable.map( "/search/:searchString", (parsedURL,context) -> {
-				final USSearchPage searchPage = ERXApplication.erxApplication().pageWithName( USSearchPage.class, context );
-				searchPage.setSearchString( parsedURL.getNamedParameter( "searchString" ) );
-				return searchPage;
-			} );
-
-			_defaultRouteTable.mapComponent( "/bla", USSearchPage.class );
+//			_defaultRouteTable.map( "/search/:searchString", (parsedURL,context) -> {
+//				final USSearchPage searchPage = ERXApplication.erxApplication().pageWithName( USSearchPage.class, context );
+//				searchPage.setSearchString( parsedURL.getNamedParameter( "searchString" ) );
+//				return searchPage;
+//			} );
 		}
 
 		return _defaultRouteTable;
+	}
+
+	private List<Route> routes() {
+		return _routes;
+	}
+
+	private RouteHandler handlerForURL( final WrappedURL url ) {
+
+		for( Route route : routes() ) {
+			if( matches( route.pattern, url.sourceURL() ) ) {
+				return route.routeHandler;
+			}
+		}
+
+		throw new RuntimeException( "No handler found for URL: " + url );
+	}
+
+	private static boolean matches( final String pattern, final String url ) {
+		return url.startsWith( pattern );
+	}
+
+	/**
+	 * Handle the given URL
+	 *
+	 * FIXME: We should be returning a 404 response if no handler is found for the URL.
+	 */
+	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
+		logger.info( "Handling URL: {}", url );
+		return handlerForURL( url ).handle( url, context );
+	}
+
+	public void map( final String pattern, final RouteHandler routeHandler ) {
+		Route r = new Route();
+		r.pattern = pattern;
+		r.routeHandler = routeHandler;
+		_routes.add( r );
+	}
+
+	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
+		final URLHandlerRouteHandler routeHandler = new URLHandlerRouteHandler( handlerClass );
+		map( pattern, routeHandler );
+	}
+
+	public void map( final String pattern, final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
+		final BiFunctionHandler routeHandler = new BiFunctionHandler( biFunction );
+		map( pattern, routeHandler );
+	}
+
+	public void mapComponent( final String pattern, final Class<? extends ERXComponent> componentClass ) {
+		final ComponentHandler routeHandler = new ComponentHandler( componentClass );
+		map( pattern, routeHandler );
 	}
 
 	public static class Route {
@@ -104,56 +148,5 @@ public class RouteTable {
 		public WOActionResults handle( WrappedURL url, WOContext context ) {
 			return ERXApplication.erxApplication().pageWithName( _componentClass, context );
 		}
-	}
-
-	/**
-	 * Handle the given URL
-	 *
-	 * FIXME: We should be returning a 404 response if no handler is found for the URL.
-	 */
-	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
-		logger.info( "Handling URL: {}", url );
-		return handlerForURL( url ).handle( url, context );
-	}
-
-	public void map( final String pattern, final RouteHandler routeHandler ) {
-		Route r = new Route();
-		r.pattern = pattern;
-		r.routeHandler = routeHandler;
-		_routes.add( r );
-	}
-
-	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
-		final URLHandlerRouteHandler routeHandler = new URLHandlerRouteHandler( handlerClass );
-		map( pattern, routeHandler );
-	}
-
-	public void map( final String pattern, final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
-		final BiFunctionHandler routeHandler = new BiFunctionHandler( biFunction );
-		map( pattern, routeHandler );
-	}
-
-	public void mapComponent( final String pattern, final Class<? extends ERXComponent> componentClass ) {
-		final ComponentHandler routeHandler = new ComponentHandler( componentClass );
-		map( pattern, routeHandler );
-	}
-
-	public List<Route> routes() {
-		return _routes;
-	}
-
-	public RouteHandler handlerForURL( final WrappedURL url ) {
-
-		for( Route route : routes() ) {
-			if( matches( route.pattern, url.sourceURL() ) ) {
-				return route.routeHandler;
-			}
-		}
-
-		throw new RuntimeException( "Unhandleable URL: " + url );
-	}
-
-	public static boolean matches( final String pattern, final String url ) {
-		return url.startsWith( pattern );
 	}
 }
