@@ -42,8 +42,15 @@ public class RouteTable {
 			_defaultRouteTable.map( "/i/", new ObjectRouteHandler() );
 			_defaultRouteTable.map( "/l/", URLHandlerList.class );
 			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
+
 			_defaultRouteTable.mapComponent( "/login", USLoginPage.class );
-			_defaultRouteTable.map( "/smu", (url,context) -> { return ERXApplication.erxApplication().pageWithName( USSearchPage.class, context ); } );
+
+			_defaultRouteTable.map( "/search/:searchString", (parsedURL,context) -> {
+				final USSearchPage searchPage = ERXApplication.erxApplication().pageWithName( USSearchPage.class, context );
+				searchPage.setSearchString( parsedURL.getNamedParameter( "searchString" ) );
+				return searchPage;
+			} );
+
 			_defaultRouteTable.mapComponent( "/bla", USSearchPage.class );
 		}
 

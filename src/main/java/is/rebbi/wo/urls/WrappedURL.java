@@ -111,4 +111,8 @@ public class WrappedURL {
 	public int length() {
 		return pathElements().length;
 	}
+
+	public String getNamedParameter( final String parameterName ) {
+		throw new RuntimeException( "Implement" ); // FIXME: Implement
+	}
 }
