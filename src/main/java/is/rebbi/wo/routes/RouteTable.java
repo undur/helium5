@@ -12,6 +12,8 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
+import is.rebbi.wo.components.admin.USLoginPage;
+import is.rebbi.wo.search.components.USSearchPage;
 import is.rebbi.wo.urls.WrappedURL;
 import is.rebbi.wo.urls.handlers.URLHandler;
 
@@ -28,8 +30,14 @@ public class RouteTable {
 
 	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
 
+	/**
+	 * A list of all routes mapped by this table
+	 */
 	private List<Route> _routes = new ArrayList<>();
 
+	/**
+	 * The default global route table used by RouteAction to access actions
+	 */
 	private static RouteTable _defaultRouteTable;
 
 	public static RouteTable defaultRouteTable() {
@@ -38,13 +46,13 @@ public class RouteTable {
 			_defaultRouteTable.map( "/i/", new ObjectRouteHandler() );
 //			_defaultRouteTable.map( "/l/", URLHandlerList.class );
 //			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
-//			_defaultRouteTable.mapComponent( "/login", USLoginPage.class );
+			_defaultRouteTable.mapComponent( "/login", USLoginPage.class );
 
-//			_defaultRouteTable.map( "/search/:searchString", (parsedURL,context) -> {
-//				final USSearchPage searchPage = ERXApplication.erxApplication().pageWithName( USSearchPage.class, context );
-//				searchPage.setSearchString( parsedURL.getNamedParameter( "searchString" ) );
-//				return searchPage;
-//			} );
+			_defaultRouteTable.map( "/search/:searchString", (url,context) -> {
+				final USSearchPage searchPage = app().pageWithName( USSearchPage.class, context );
+				searchPage.setSearchString( url.getNamedParameter( "searchString" ) );
+				return searchPage;
+			} );
 		}
 
 		return _defaultRouteTable;
@@ -148,5 +156,10 @@ public class RouteTable {
 		public WOActionResults handle( WrappedURL url, WOContext context ) {
 			return ERXApplication.erxApplication().pageWithName( _componentClass, context );
 		}
+	}
+
+	// FIXME: Remove
+	private static ERXApplication app() {
+		return ERXApplication.erxApplication();
 	}
 }
