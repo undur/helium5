@@ -47,9 +47,9 @@ public class USHTTPUtilities {
 	private static final String UNTITLED_FILENAME = "Untitled";
 
 	/**
-	 * Fetches the IP-address from a WORequest.
+	 * @return The IP-address that initiated the WORequest (if present)
 	 */
-	public static String ipAddressFromRequest( WORequest request ) {
+	public static String ipAddressFromRequest( final WORequest request ) {
 		String host = request.headerForKey( HEADER_REMOTE_HOST );
 
 		if( host != null ) {
@@ -78,9 +78,9 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * Returns the referer header.
+	 * @return The value of the referer header (if present)
 	 */
-	public static String referer( WORequest request ) {
+	public static String referer( final WORequest request ) {
 		return request.headerForKey( HEADER_REFERER );
 	}
 
@@ -89,15 +89,15 @@ public class USHTTPUtilities {
 	 *
 	 * @param targetURL The URL to redirect to
 	 */
-	public static WOResponse redirectTemporary( String targetURL ) {
-		WOResponse w = new WOResponse();
+	public static WOResponse redirectTemporary( final String targetURL ) {
+		final WOResponse response = new WOResponse();
 
-		w.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
-		w.setStatus( 302 );
-		w.setHeader( MIME_TYPE_HTML, HEADER_CONTENT_TYPE );
-		w.setHeader( "0", HEADER_CONTENT_LENGTH );
+		response.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
+		response.setStatus( 302 );
+		response.setHeader( MIME_TYPE_HTML, HEADER_CONTENT_TYPE );
+		response.setHeader( "0", HEADER_CONTENT_LENGTH );
 
-		return w;
+		return response;
 	}
 
 	/**
@@ -105,30 +105,30 @@ public class USHTTPUtilities {
 	 *
 	 * @param targetURL The URL to redirect to
 	 */
-	public static WOResponse redirectPermanent( String targetURL ) {
-		WOResponse w = new WOResponse();
+	public static WOResponse redirectPermanent( final String targetURL ) {
+		final WOResponse response = new WOResponse();
 
-		w.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
-		w.setStatus( 301 );
-		w.setHeader( MIME_TYPE_HTML, HEADER_CONTENT_TYPE );
-		w.setHeader( "0", HEADER_CONTENT_LENGTH );
+		response.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
+		response.setStatus( 301 );
+		response.setHeader( MIME_TYPE_HTML, HEADER_CONTENT_TYPE );
+		response.setHeader( "0", HEADER_CONTENT_LENGTH );
 
-		return w;
+		return response;
 	}
 
 	/**
 	 * Attempts to decode a referer string and get the host name from it.
 	 */
-	public static String hostFromURL( String url ) {
-		int beginningIndex = url.indexOf( "//" );
-		int endIndex = url.indexOf( "/", beginningIndex + 2 );
+	public static String hostFromURL( final String url ) {
+		final int beginningIndex = url.indexOf( "//" );
+		final int endIndex = url.indexOf( "/", beginningIndex + 2 );
 		return url.substring( beginningIndex + 2, endIndex );
 	}
 
 	/**
 	 * Attempts to decode a top level domain
 	 */
-	public static String domain( WORequest request ) {
+	public static String domain( final WORequest request ) {
 		return domainStringFromHostString( host( request ) );
 	}
 
@@ -172,7 +172,7 @@ public class USHTTPUtilities {
 	/**
 	 * An adaptor-agnostic way of determining the requested host name.
 	 */
-	public static String host( WORequest request ) {
+	public static String host( final WORequest request ) {
 		String host = request.headerForKey( HEADER_HOST_DEFAULT );
 
 		if( !StringUtilities.hasValue( host ) ) {
@@ -189,46 +189,46 @@ public class USHTTPUtilities {
 	/**
 	 * Returns the user agent string of the guest.
 	 */
-	public static String userAgent( WORequest r ) {
-		return r.headerForKey( HEADER_USER_AGENT );
+	public static String userAgent( final WORequest request ) {
+		return request.headerForKey( HEADER_USER_AGENT );
 	}
 
 	/**
 	 * If the WO app is used as a 404 handler, this method returns the requested URL.
 	 */
-	public static String redirectURL( WORequest r ) {
-		return r.headerForKey( HEADER_REDIRECT_URL );
+	public static String redirectURL( final WORequest request ) {
+		return request.headerForKey( HEADER_REDIRECT_URL );
 	}
 
 	/**
 	 * If the WO app is used as a 404 handler, this method returns the query string part of the requested URI.
 	 */
-	public static String redirectQueryString( WORequest r ) {
-		return r.headerForKey( HEADER_REDIRECT_QUERY_STRING );
+	public static String redirectQueryString( final WORequest request ) {
+		return request.headerForKey( HEADER_REDIRECT_QUERY_STRING );
 	}
 
 	/**
 	 * If the WO app is used as a 404 handler, this method returns the requested URL (that failed).
 	 */
-	public static String contentEncoding( WOResponse r ) {
-		return r.headerForKey( HEADER_CONTENT_ENCODING );
+	public static String contentEncoding( final WOResponse response ) {
+		return response.headerForKey( HEADER_CONTENT_ENCODING );
 	}
 
-	public static WOResponse responseWithDataAndMimeType( String filename, NSData data, String mimeType ) {
+	public static WOResponse responseWithDataAndMimeType( final String filename, final NSData data, final String mimeType ) {
 		return responseWithDataAndMimeType( filename, data, mimeType, false );
 	}
 
 	/**
 	 * Creates a WOResponse containing the given data.
 	 */
-	public static WOResponse responseWithDataAndMimeType( String filename, byte[] bytes, String mimeType ) {
+	public static WOResponse responseWithDataAndMimeType( final String filename, final byte[] bytes, final String mimeType ) {
 		return responseWithDataAndMimeType( filename, bytes, mimeType, false );
 	}
 
 	/**
 	 * Creates a WOResponse containing the given data.
 	 */
-	public static WOResponse responseWithDataAndMimeType( String filename, byte[] bytes, String mimeType, boolean forceDownload ) {
+	public static WOResponse responseWithDataAndMimeType( final String filename, byte[] bytes, final String mimeType, final boolean forceDownload ) {
 
 		NSData data = NSData.EmptyData;
 
@@ -242,16 +242,16 @@ public class USHTTPUtilities {
 	/**
 	 * Creates a WOResponse containing the given string, encoded in UTF-8.
 	 */
-	public static WOResponse responseWithDataAndMimeType( String filename, String string, String mimeType ) {
+	public static WOResponse responseWithDataAndMimeType( final String filename, String contentString, final String mimeType ) {
 
-		if( !StringUtilities.hasValue( string ) ) {
-			string = "";
+		if( !StringUtilities.hasValue( contentString ) ) {
+			contentString = "";
 		}
 
 		NSData data = NSData.EmptyData;
 
 		try {
-			data = new NSData( string.getBytes( "UTF-8" ) );
+			data = new NSData( contentString.getBytes( "UTF-8" ) );
 		}
 		catch( UnsupportedEncodingException e ) {
 			logger.debug( "Attempted to convert string to unsupported encoding", e );
@@ -345,8 +345,8 @@ public class USHTTPUtilities {
 	/**
 	 * @return A response with the given status and, if specified and HTML content string displayed to the user.
 	 */
-	public static WOResponse statusResponse( int status, String htmlContent ) {
-		WOResponse response = new WOResponse();
+	public static WOResponse statusResponse( final int status, final String htmlContent ) {
+		final WOResponse response = new WOResponse();
 
 		if( htmlContent != null ) {
 			response.setHeader( "text/html", HEADER_CONTENT_TYPE );
@@ -364,18 +364,18 @@ public class USHTTPUtilities {
 	 *
 	 * @param response The response to modify.
 	 */
-	public static void resetCookieHeaderInResponse( WOResponse response ) {
+	public static void resetCookieHeaderInResponse( final WOResponse response ) {
 
-		NSMutableArray<String> cookieHeaderStrings = new NSMutableArray<String>();
+		final NSMutableArray<String> cookieHeaderStrings = new NSMutableArray<String>();
 
-		for( WOCookie cookie : response.cookies() ) {
+		for( final WOCookie cookie : response.cookies() ) {
 			cookieHeaderStrings.addObject( cookie.headerString() );
 		}
 
 		response.setHeaders( cookieHeaderStrings, HEADER_SET_COOKIE );
 	}
 
-	public static String cookieHost( WORequest request ) {
+	public static String cookieHost( final WORequest request ) {
 
 		if( request == null ) {
 			throw new IllegalArgumentException( "request must not be null" );
