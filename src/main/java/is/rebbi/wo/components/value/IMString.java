@@ -11,7 +11,6 @@ import com.webobjects.appserver.WOContext;
 import er.extensions.components.ERXStatelessComponent;
 import is.rebbi.core.humanreadable.HumanReadableUtils;
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.util.USUtilities;
 
 /**
  * String component with some added sugar.
@@ -28,8 +27,8 @@ public class IMString extends ERXStatelessComponent {
         return true;
     }
 
-    private Integer maxLength() {
-        return USUtilities.integerFromObject( valueForBinding( "maxLength" ) );
+    private int maxLength() {
+        return intValueForBinding( "maxLength", -1 ); // FIXME: I kind of don't like this minus one value
     }
 
     private DateTimeFormatter dateTimeFormatter() {
@@ -70,7 +69,7 @@ public class IMString extends ERXStatelessComponent {
             value = HumanReadableUtils.toStringHuman( value );
         }
 
-        if( maxLength() != null ) {
+        if( maxLength() != -1 ) {
         	final String abbreviationPostfix = stringValueForBinding( "abbreviationPostfix" );
             value = StringUtilities.abbreviate( value.toString(), maxLength(), abbreviationPostfix );
         }
