@@ -7,9 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOApplication;
 import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSKeyValueCoding;
-
-import is.rebbi.core.util.StringUtilities;
 
 /**
  * Various utility methods.
@@ -20,48 +17,6 @@ public class USUtilities {
 	private static final Logger logger = LoggerFactory.getLogger( USUtilities.class );
 
 	private USUtilities() {}
-
-	/**
-	 * Finds out the value of Object and attempts to coerce it's value to an Integer
-	 */
-	public static Integer integerFromObject( Object o ) {
-
-		if( isNull( o ) ) {
-			return null;
-		}
-
-		try {
-			if( o instanceof Number ) {
-				return ((Number)o).intValue();
-			}
-
-			if( o instanceof String ) {
-				if( StringUtilities.isDigitsOnly( (String)o ) ) {
-					return Integer.valueOf( ((String)o) );
-				}
-				else {
-					Double d = Double.valueOf( (String)o );
-
-					if( d != null ) {
-						return d.intValue();
-					}
-				}
-			}
-		}
-		catch( Exception e ) {
-			logger.warn( "Could not convert to Integer from object: " + o, e );
-		}
-
-		return null;
-	}
-
-	/**
-	 * @param object The object to check
-	 * @return true if an object is null, or NSKeyValueCoding.NullValue.
-	 */
-	private static final boolean isNull( Object object ) {
-		return (object == null) || (object instanceof NSKeyValueCoding.Null);
-	}
 
 	/**
 	 * Reads data from the named resource and converts it to a string using UTF-8.
