@@ -117,7 +117,8 @@ public class USUtilities {
 	/**
 	 * Finds out the value of Object and attempts to coerce it's value to an Integer
 	 */
-	public static Long longFromObject( Object o ) {
+	@Deprecated
+	private static Long longFromObject( Object o ) {
 
 		if( isNull( o ) ) {
 			return null;
@@ -136,27 +137,6 @@ public class USUtilities {
 		}
 		catch( Exception e ) {
 			logger.warn( "Could not convert to Long from object: " + o, e );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Finds out the value of Object and attempts to coerce it's value to an Integer
-	 */
-	public static Double doubleFromObject( Object o ) {
-
-		if( isNull( o ) ) {
-			return null;
-		}
-
-		try {
-			if( o instanceof Number ) {
-				return ((Number)o).doubleValue();
-			}
-		}
-		catch( Exception e ) {
-			logger.warn( "Could not convert to double from object: " + o, e );
 		}
 
 		return null;
