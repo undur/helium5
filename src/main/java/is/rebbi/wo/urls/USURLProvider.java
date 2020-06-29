@@ -19,10 +19,6 @@ import is.rebbi.wo.urls.providers.URLProviderDataObject;
 import is.rebbi.wo.urls.providers.URLProviderObjectId;
 import is.rebbi.wo.util.SWSettings;
 
-/**
- * Generates URLs.
- */
-
 public abstract class USURLProvider {
 
 	private static Map<Class, URLProvider> _urlProviders;
