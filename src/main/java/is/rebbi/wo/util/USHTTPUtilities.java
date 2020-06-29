@@ -193,34 +193,6 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * Makes a filename cross-platform and cross browser friendly.
-	 */
-	public static String makeFilenameURLFriendly( String fileName, String extension ) {
-
-		if( StringUtilities.hasValue( fileName ) ) {
-			if( fileName.length() > 100 ) {
-				fileName = fileName.substring( 0, 100 );
-			}
-
-			fileName = StringUtilities.replace( fileName, "/", "_" );
-			fileName = StringUtilities.replace( fileName, "\\", "_" );
-			fileName = StringUtilities.replace( fileName, "\"", "_" );
-			fileName = StringUtilities.replace( fileName, ":", "_" );
-		}
-		else {
-			fileName = "Untitled";
-		}
-
-		if( StringUtilities.hasValue( extension ) ) {
-			if( !fileName.toLowerCase().endsWith( extension.toLowerCase() ) ) {
-				fileName = fileName + "." + extension;
-			}
-		}
-
-		return fileName;
-	}
-
-	/**
 	 * If the WO app is used as a 404 handler, this method returns the requested URL.
 	 */
 	public static String redirectURL( WORequest r ) {
