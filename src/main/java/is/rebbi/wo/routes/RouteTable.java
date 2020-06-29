@@ -120,9 +120,4 @@ public class RouteTable {
 			return ERXApplication.erxApplication().pageWithName( _componentClass, context );
 		}
 	}
-
-	// FIXME: Remove
-	private static ERXApplication app() {
-		return ERXApplication.erxApplication();
-	}
 }
