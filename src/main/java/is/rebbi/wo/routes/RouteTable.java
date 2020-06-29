@@ -12,7 +12,6 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.urls.handlers.URLHandler;
 
 /**
  * Contains a list of handlers for URLs
@@ -77,11 +76,6 @@ public class RouteTable {
 		_routes.add( r );
 	}
 
-	public void map( final String pattern, final Class<? extends URLHandler> handlerClass ) {
-		final URLHandlerRouteHandler routeHandler = new URLHandlerRouteHandler( handlerClass );
-		map( pattern, routeHandler );
-	}
-
 	public void map( final String pattern, final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
 		final BiFunctionHandler routeHandler = new BiFunctionHandler( biFunction );
 		map( pattern, routeHandler );
@@ -99,20 +93,6 @@ public class RouteTable {
 
 	public static abstract class RouteHandler {
 		public abstract WOActionResults handle( WrappedURL url, WOContext context );
-	}
-
-	public static class URLHandlerRouteHandler extends RouteHandler {
-
-		public Class<? extends URLHandler> _urlHandlerClass;
-
-		public URLHandlerRouteHandler( Class<? extends URLHandler> urlHandlerClass ) {
-			_urlHandlerClass = urlHandlerClass;
-		}
-
-		@Override
-		public WOActionResults handle( final WrappedURL url, final WOContext context ) {
-			return URLHandler.handlerInstance( _urlHandlerClass, url.sourceURL(), context ).generateResponse();
-		}
 	}
 
 	public static class BiFunctionHandler extends RouteHandler {
