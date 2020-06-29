@@ -151,18 +151,6 @@ public class USUtilities {
 	}
 
 	/**
-	 * Finds out the value of Object and attempts to coerce it's value to a String
-	 */
-	public static String stringFromObject( Object o ) {
-
-		if( isNull( o ) ) {
-			return null;
-		}
-
-		return o.toString();
-	}
-
-	/**
 	 * Transforms a W3 Document to it's (xml) String representation.
 	 */
 	public static String convertDOMDocumentToString( Document doc ) throws TransformerException {

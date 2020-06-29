@@ -32,9 +32,4 @@ public class TestUSUtilities {
 		assertFalse( USUtilities.booleanFromObject( "false" ) );
 		assertFalse( USUtilities.booleanFromObject( "fsdfsdf" ) );
 	}
-
-	@Test
-	public void stringFromObject() {
-		assertEquals( "1", USUtilities.stringFromObject( new Integer( 1 ) ) );
-	}
 }
