@@ -71,7 +71,6 @@ public class SWSettings {
     private static final String DEFAULT_DOMAIN_NAME = "defaultDomainName";
     private static final String GENERATE_FRIENDLY_URLS = "generateFriendlyURLs";
     private static final String FORCE_DEVELOPMENT_URLS = "forceDevelopmentURLs";
-    private static final String ALLOW_USER_REGISTRATION = "allowUserRegistration";
     private static final String IMAGE_PATH = "imageLocationOnDisk";
     private static final String IMAGE_URL = "imageLocationOnServer";
     public static final String VIEW_TOOLS_COMPONENT_NAME = "viewToolsComponentName";
@@ -478,10 +477,6 @@ public class SWSettings {
      */
     public static Integer sessionTimeOut() {
         return integerForKey( SESSION_TIME_OUT_IN_MINUTES );
-    }
-
-    public static boolean allowUserRegistration() {
-        return booleanForKey( ALLOW_USER_REGISTRATION );
     }
 
     public static String viewToolsComponentName() {
