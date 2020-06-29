@@ -12,8 +12,6 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.components.admin.USLoginPage;
-import is.rebbi.wo.search.components.USSearchPage;
 import is.rebbi.wo.urls.WrappedURL;
 import is.rebbi.wo.urls.handlers.URLHandler;
 
@@ -38,23 +36,9 @@ public class RouteTable {
 	/**
 	 * The default global route table used by RouteAction to access actions
 	 */
-	private static RouteTable _defaultRouteTable;
+	private static RouteTable _defaultRouteTable = new RouteTable();
 
 	public static RouteTable defaultRouteTable() {
-		if( _defaultRouteTable == null ) {
-			_defaultRouteTable = new RouteTable();
-			_defaultRouteTable.map( "/i/", new ObjectRouteHandler() );
-//			_defaultRouteTable.map( "/l/", URLHandlerList.class );
-//			_defaultRouteTable.map( "/search/", URLHandlerSearch.class );
-			_defaultRouteTable.mapComponent( "/login", USLoginPage.class );
-
-			_defaultRouteTable.map( "/search/:searchString", (url,context) -> {
-				final USSearchPage searchPage = app().pageWithName( USSearchPage.class, context );
-				searchPage.setSearchString( url.getNamedParameter( "searchString" ) );
-				return searchPage;
-			} );
-		}
-
 		return _defaultRouteTable;
 	}
 
