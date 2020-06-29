@@ -9,14 +9,8 @@ import jambalaya.interfaces.UniqueIDStamped;
 
 public class URLProviderDataObject implements URLProvider<DataObject> {
 
-	/**
-	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
-	 */
 	public static final String PK_IDENTIFIER_PREFIX = "id-";
 
-	/**
-	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
-	 */
 	public static final String UNIQUE_ID_IDENTIFIER_PREFIX = "uid-";
 
 	@Override
