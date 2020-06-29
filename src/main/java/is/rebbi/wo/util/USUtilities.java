@@ -2,8 +2,6 @@ package is.rebbi.wo.util;
 
 import java.io.UnsupportedEncodingException;
 
-import javax.mail.internet.InternetAddress;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,13 +141,6 @@ public class USUtilities {
 	}
 
 	/**
-	 * Reads data from the named resource in the application bundle and converts it to a string using UTF-8.
-	 */
-	public static String stringFromResource( String resourceName ) {
-		return stringFromResource( resourceName, null );
-	}
-
-	/**
 	 * Reads data from the named resource and converts it to a string using UTF-8.
 	 * If no framework name is specified, reads from the "app" bundle by default.
 	 */
@@ -161,7 +152,7 @@ public class USUtilities {
 	 * Reads data from the named resource and converts it to a string using UTF-8.
 	 * If no framework name is specified, reads from the "app" bundle by default.
 	 */
-	public static String stringFromResource( String resourceName, String frameworkName, String language ) {
+	private static String stringFromResource( String resourceName, String frameworkName, String language ) {
 		return stringFromResource( resourceName, frameworkName, language, null );
 	}
 
@@ -169,7 +160,7 @@ public class USUtilities {
 	 * Reads data from the named resource and converts it to a string using the given encoding.
 	 * If no framework name is specified, reads from the "app" bundle by default.
 	 */
-	public static String stringFromResource( String resourceName, String frameworkName, String language, String encoding ) {
+	private static String stringFromResource( String resourceName, String frameworkName, String language, String encoding ) {
 
 		if( frameworkName == null ) {
 			frameworkName = "app";
@@ -208,26 +199,5 @@ public class USUtilities {
 		}
 
 		return template;
-	}
-
-	/**
-	 * @return If the given e-mail address is properly formatted.
-	 */
-	public static boolean validateEmailAddress( String emailAddress ) {
-		boolean result = false;
-
-		try {
-			InternetAddress addr = new InternetAddress( emailAddress, true );
-			result = true;
-		}
-		catch( Exception e ) {
-			result = false;
-		}
-
-		if( !StringUtilities.validateEmailAddress( emailAddress ) ) {
-			result = false;
-		}
-
-		return result;
 	}
 }
