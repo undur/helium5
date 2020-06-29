@@ -16,7 +16,6 @@ import is.rebbi.wo.components.USBaseComponent;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.search.Indexer;
 import is.rebbi.wo.search.USSearchAction;
-import is.rebbi.wo.util.USUtilities;
 
 public class USSearchPage extends USBaseComponent {
 
@@ -123,8 +122,9 @@ public class USSearchPage extends USBaseComponent {
 
 	public Boolean useInflection() {
 		String s = context().request().stringFormValueForKey( "allar-ordmyndir" );
-		_useInflection = USUtilities.booleanFromObject( s );
-		return _useInflection;
+//		_useInflection = USUtilities.booleanFromObject( s );
+//		return _useInflection;
+		throw new RuntimeException( "Handle the parameter" );
 	}
 
 	public void setUseInflection( Boolean value ) {

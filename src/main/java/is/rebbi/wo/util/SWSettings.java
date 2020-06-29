@@ -208,7 +208,13 @@ public class SWSettings {
     }
 
     public static boolean booleanForKey( String key ) {
-        return USUtilities.booleanFromObject( objectForKey( key ) );
+    	String string = stringForKey( key );
+
+    	if( string == null ) {
+    		return false;
+    	}
+
+    	return string.toLowerCase().equals( "true" );
     }
 
     public static Integer integerForKey( String key ) {
