@@ -15,27 +15,14 @@ import com.webobjects.foundation.NSMutableArray;
 
 import is.rebbi.core.util.StringUtilities;
 
-/**
- * Various WO utility methods.
- */
-
 public class USHTTPUtilities {
-
-	public static final String MIME_TYPE_EXCEL = "application/excel";
-	public static final String MIME_TYPE_PDF = "application/pdf";
-	public static final String MIME_TYPE_XML = "text/xml";
-	public static final String MIME_TYPE_HTML = "text/html";
-	public static final String MIME_TYPE_PNG = "image/png";
-	public static final String MIME_TYPE_JPEG = "image/jpeg";
-	public static final String MIME_TYPE_GIF = "image/gif";
 
 	private static final Logger logger = LoggerFactory.getLogger( USHTTPUtilities.class );
 
-	public static final String HEADER_CONTENT_TYPE = "content-type";
-	public static final String HEADER_SET_COOKIE = "set-cookie";
-	public static final String HEADER_COOKIE = "cookie";
-	public static final String HEADER_REFERER = "referer";
-	public static final String HEADER_HOST_DEFAULT = "host";
+	private static final String HEADER_CONTENT_TYPE = "content-type";
+	private static final String HEADER_SET_COOKIE = "set-cookie";
+	private static final String HEADER_REFERER = "referer";
+	private static final String HEADER_HOST_DEFAULT = "host";
 	private static final String HEADER_REMOTE_HOST = "remote_host";
 	private static final String HEADER_REMOTE_ADDR = "remote_addr";
 	private static final String HEADER_REMOTE_USER = "remote_user";
@@ -46,17 +33,17 @@ public class USHTTPUtilities {
 	private static final String HEADER_CONTENT_ENCODING = "content-encoding";
 	private static final String HEADER_REDIRECT_URL = "redirect_url";
 	private static final String HEADER_REDIRECT_QUERY_STRING = "REDIRECT_QUERY_STRING";
-	private static final String HEADER_ACCEPT_ENCODING = "accept-encoding";
 	private static final String HEADER_PRAGMA = "pragma";
 	private static final String HEADER_CACHE_CONTROL = "cache-control";
-	public static final String HEADER_CONTENT_DISPOSITION = "content-disposition";
+	private static final String HEADER_CONTENT_DISPOSITION = "content-disposition";
 	private static final String HEADER_USER_AGENT = "user-agent";
 	private static final String HEADER_EXPIRES = "expires";
 	private static final String HEADER_CONTENT_INLINE = "inline";
 	private static final String HEADER_CONTENT_ATTACHMENT = "attachment";
 
+	private static final String MIME_TYPE_HTML = "text/html";
 	private static final String MIME_TYPE_OCTET_STREAM = "octet/stream";
-	private static final String CONTENT_ENCODING_GZIP = "gzip";
+
 	private static final String UNTITLED_FILENAME = "Untitled";
 
 	/**
