@@ -19,56 +19,7 @@ public class USUtilities {
 
 	private static final Logger logger = LoggerFactory.getLogger( USUtilities.class );
 
-	private static final String TRUE_STRING = "true";
-	private static final String FALSE_STRING = "false";
-
-	/**
-	 * No instances created, ever.
-	 */
 	private USUtilities() {}
-
-	/**
-	 * Finds out the value of Object and attempts to coerce it's value to a boolean.
-	 *
-	 * Returns true if:
-	 * - it's a boolean with the value of true
-	 * - it's string with value of "true" (case insensitive)
-	 * - If it's an integer larger than zero.
-	 */
-	public static boolean booleanFromObject( Object o ) {
-
-		if( isNull( o ) ) {
-			return false;
-		}
-
-		if( o instanceof Boolean ) {
-			return ((Boolean)o).booleanValue();
-		}
-
-		if( o instanceof String ) {
-			String value = ((String)o).toLowerCase();
-
-			if( value.equals( TRUE_STRING ) ) {
-				return true;
-			}
-
-			if( value.equals( FALSE_STRING ) ) {
-				return false;
-			}
-		}
-
-		Long i = longFromObject( o );
-
-		if( i == null ) {
-			return false;
-		}
-
-		if( i.longValue() != 0 ) {
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * Finds out the value of Object and attempts to coerce it's value to an Integer
@@ -99,34 +50,6 @@ public class USUtilities {
 		}
 		catch( Exception e ) {
 			logger.warn( "Could not convert to Integer from object: " + o, e );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Finds out the value of Object and attempts to coerce it's value to an Integer
-	 */
-	@Deprecated
-	private static Long longFromObject( Object o ) {
-
-		if( isNull( o ) ) {
-			return null;
-		}
-
-		try {
-			if( o instanceof Number ) {
-				return ((Number)o).longValue();
-			}
-
-			if( o instanceof String ) {
-				if( StringUtilities.isDigitsOnly( (String)o ) ) {
-					return Long.valueOf( (String)o );
-				}
-			}
-		}
-		catch( Exception e ) {
-			logger.warn( "Could not convert to Long from object: " + o, e );
 		}
 
 		return null;
