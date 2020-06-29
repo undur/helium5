@@ -13,10 +13,10 @@ import com.webobjects.foundation.NSMutableDictionary;
 import er.extensions.appserver.ERXApplication;
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
+import is.rebbi.wo.routes.RouteAction;
 import is.rebbi.wo.urls.providers.URLProvider;
 import is.rebbi.wo.urls.providers.URLProviderDataObject;
 import is.rebbi.wo.urls.providers.URLProviderObjectId;
-import is.rebbi.wo.util.InspectAction;
 import is.rebbi.wo.util.SWSettings;
 
 /**
@@ -41,7 +41,7 @@ public abstract class USURLProvider {
 
 		// FIXME: The URL generator should not be referencing ERXApplication
 		if( (ERXApplication.erxApplication() != null && ERXApplication.erxApplication().isDevelopmentMode() ) || SWSettings.forceDevelopmentURLs() ) {
-			url = USURLProvider.makeURLDeveloperFriendly( url, context );
+			url = USURLProvider.urlForDevelopment( url, context );
 		}
 
 		if( context == null ) {
@@ -80,10 +80,11 @@ public abstract class USURLProvider {
 
 		throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
 	}
+
 	/**
 	 * @return A direct connect version of the URL.
 	 */
-	public static String makeURLDeveloperFriendly( String url, WOContext context ) {
+	private static String urlForDevelopment( String url, WOContext context ) {
 
 		if( context == null ) {
 			context = ERXWOContext.currentContext();
@@ -91,7 +92,7 @@ public abstract class USURLProvider {
 
 		NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
 		d.setObjectForKey( url, "url" );
-		url = context.directActionURLForActionNamed( InspectAction.class.getSimpleName() + "/handler", d );
+		url = context.directActionURLForActionNamed( RouteAction.class.getSimpleName() + "/handler", d );
 		url = StringUtilities.replace( url, "&", "&amp;" );
 		return url;
 	}
