@@ -3,20 +3,15 @@ package is.rebbi.wo.util;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOCookie;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
-import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSData;
-import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableArray;
-import com.webobjects.foundation.NSRange;
 
 import is.rebbi.core.util.StringUtilities;
 
@@ -102,21 +97,6 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * Indicates if the given url is secure
-	 */
-	public static final boolean isSecure( String url ) {
-		if( url == null ) {
-			return false;
-		}
-
-		if( url.startsWith( "https" ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * This method creates a WOResponse with a temporary (302) redirect to the specified URL
 	 *
 	 * @param targetURL The URL to redirect to
@@ -149,43 +129,12 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * Creates a new WOContext with an empty WORequest.
-	 * Can be used to create WOContexts for unit tests.
-	 */
-	public static WOContext createWOContext( String method, String url ) {
-		WORequest worequest = new WORequest( method, url, "HTTP/1.0", NSDictionary.EmptyDictionary, NSData.EmptyData, NSDictionary.EmptyDictionary );
-		return new WOContext( worequest );
-	}
-
-	/**
-	 * Attempts a reverse DNS-lookup of the given IP-address string.
-	 */
-	public static String lookupIP( String ipAddress ) {
-		try {
-			return InetAddress.getByName( ipAddress ).getHostName();
-		}
-		catch( Exception e ) {
-			logger.error( "Failed to look up IP-address: " + ipAddress, e );
-			return null;
-		}
-	}
-
-	/**
 	 * Attempts to decode a referer string and get the host name from it.
 	 */
 	public static String hostFromURL( String url ) {
 		int beginningIndex = url.indexOf( "//" );
 		int endIndex = url.indexOf( "/", beginningIndex + 2 );
 		return url.substring( beginningIndex + 2, endIndex );
-	}
-
-	/**
-	 * Attempts to decode a referer string and get the domain from it.
-	 */
-	public static String domainFromURL( String url ) {
-		NSArray<String> a = NSArray.componentsSeparatedByString( hostFromURL( url ), "." );
-		a = a.subarrayWithRange( new NSRange( a.count() - 2, 2 ) );
-		return a.componentsJoinedByString( "." );
 	}
 
 	/**
@@ -257,77 +206,6 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * Indicates if the requesting user agent supports Gzip response compression
-	 */
-	public static boolean contentEncodingGzip( WOResponse response ) {
-		String s = contentEncoding( response );
-		return CONTENT_ENCODING_GZIP.equals( s );
-	}
-
-	/**
-	 * Indicates if the response has a content type of HTML.
-	 */
-	public static boolean contentTypeHTML( WOResponse response ) {
-		String s = contentType( response );
-		return s != null && s.contains( MIME_TYPE_HTML );
-	}
-
-	/**
-	 * Indicates if the response has a content type of XML.
-	 */
-	public static boolean contentTypeXML( WOResponse response ) {
-		String s = contentType( response );
-		return s != null && s.contains( MIME_TYPE_XML );
-	}
-
-	/**
-	 * Indicates if the content type of this response is either text or javascript.
-	 */
-	public static boolean contentTypeTextOrJavascript( WOResponse response ) {
-		String s = contentType( response );
-		return s != null && (s.contains( "text/" ) || s.contains( "javascript" ));
-	}
-
-	/**
-	 * Indicates if the content type of this response is either text or javascript.
-	 */
-	public static boolean contentTypeJavascript( WOResponse response ) {
-		String s = contentType( response );
-		return s != null && s.contains( "javascript" );
-	}
-
-	/**
-	 * Indicates if the browser initiating the given request can handle gzip compressed content.
-	 */
-	public static boolean supportsGzip( WORequest request ) {
-		String s = request.headerForKey( HEADER_ACCEPT_ENCODING );
-		return s != null && s.indexOf( CONTENT_ENCODING_GZIP ) > -1;
-	}
-
-	/**
-	 * WO is very strict when parsing cookies and a cookie with no value
-	 * can result in no cookies being available.
-	 * see: http://osdir.com/ml/web.webobjects.devel/2002-04/msg00764.html
-	 */
-	public static void removeNullCookies( WORequest request ) {
-		String cookieHeader = request.headerForKey( HEADER_COOKIE );
-		StringBuilder fixedCookieHeader = new StringBuilder();
-
-		if( cookieHeader != null ) {
-			String[] cookies = cookieHeader.split( ";" );
-			for( String cookie : cookies ) {
-				String[] pair = cookie.split( "=" );
-
-				//filter out cookies with no value
-				if( pair.length == 2 && pair[1] != null && !pair[1].equals( "" ) ) {
-					fixedCookieHeader.append( pair[0] + "=" + pair[1] + ";" );
-				}
-			}
-			request.setHeader( fixedCookieHeader.toString(), HEADER_COOKIE );
-		}
-	}
-
-	/**
 	 * Makes a filename cross-platform and cross browser friendly.
 	 */
 	public static String makeFilenameURLFriendly( String fileName, String extension ) {
@@ -356,28 +234,6 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * Makes a filename cross-platform and cross browser friendly.
-	 */
-	public static String makeFilenameURLFriendly( String fileName ) {
-
-		if( StringUtilities.hasValue( fileName ) ) {
-			if( fileName.length() > 100 ) {
-				fileName = fileName.substring( 0, 100 );
-			}
-
-			fileName = StringUtilities.replace( fileName, "/", "_" );
-			fileName = StringUtilities.replace( fileName, "\\", "_" );
-			fileName = StringUtilities.replace( fileName, "\"", "_" );
-			fileName = StringUtilities.replace( fileName, ":", "_" );
-		}
-		else {
-			fileName = "Untitled";
-		}
-
-		return fileName;
-	}
-
-	/**
 	 * If the WO app is used as a 404 handler, this method returns the requested URL.
 	 */
 	public static String redirectURL( WORequest r ) {
@@ -389,46 +245,6 @@ public class USHTTPUtilities {
 	 */
 	public static String redirectQueryString( WORequest r ) {
 		return r.headerForKey( HEADER_REDIRECT_QUERY_STRING );
-	}
-
-	/**
-	 * If the WO app is used as a 404 handler, this method returns the requested URL (that failed).
-	 */
-	public static String contentType( WOResponse r ) {
-		return r.headerForKey( HEADER_CONTENT_TYPE );
-	}
-
-	/**
-	 * Returns the value of the content length header.
-	 */
-	public static String contentLength( WOResponse r ) {
-		return r.headerForKey( HEADER_CONTENT_LENGTH );
-	}
-
-	/**
-	 * If the WO app is used as a 404 handler, this method returns the requested URL (that failed).
-	 */
-	public static void fixContentLengthHeader( WOResponse r ) {
-		NSData content = r.content();
-
-		if( content != null ) {
-			int contentLength = content.length();
-			r.setHeader( String.valueOf( contentLength ), HEADER_CONTENT_LENGTH );
-		}
-	}
-
-	/**
-	 * FIXME: Document streams
-	 */
-	public static void setContent( WOResponse response, NSData content ) {
-
-		if( content == null ) {
-			content = NSData.EmptyData;
-		}
-
-		response.setContent( content );
-		int contentLength = content.length();
-		response.setHeader( String.valueOf( contentLength ), HEADER_CONTENT_LENGTH );
 	}
 
 	/**
