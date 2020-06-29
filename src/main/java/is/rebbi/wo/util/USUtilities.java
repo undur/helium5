@@ -1,19 +1,11 @@
 package is.rebbi.wo.util;
 
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 
 import javax.mail.internet.InternetAddress;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 
 import com.webobjects.appserver.WOApplication;
 import com.webobjects.foundation.NSArray;
@@ -148,34 +140,6 @@ public class USUtilities {
 	 */
 	private static final boolean isNull( Object object ) {
 		return (object == null) || (object instanceof NSKeyValueCoding.Null);
-	}
-
-	/**
-	 * Transforms a W3 Document to it's (xml) String representation.
-	 */
-	public static String convertDOMDocumentToString( Document doc ) throws TransformerException {
-		DOMSource domSource = new DOMSource( doc );
-		return convertDOMDocumentToString( domSource );
-	}
-
-	/**
-	 * Transforms a W3 Node to it's (xml) String representation.
-	 */
-	public static String convertDOMDocumentToString( Node node ) throws TransformerException {
-		DOMSource domSource = new DOMSource( node );
-		return convertDOMDocumentToString( domSource );
-	}
-
-	/**
-	 * Transforms a W3 DOMSource to it's (xml) String representation.
-	 */
-	public static String convertDOMDocumentToString( DOMSource domSource ) throws TransformerException {
-		StringWriter writer = new StringWriter();
-		StreamResult result = new StreamResult( writer );
-		TransformerFactory tf = TransformerFactory.newInstance();
-		Transformer transformer = tf.newTransformer();
-		transformer.transform( domSource, result );
-		return writer.toString();
 	}
 
 	/**
