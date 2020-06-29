@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<wodefinitions>
-    <wo class="USEmbeddedList" wocomponentcontent="false">    <binding name="keyPaths"/>
-        <binding name="objects"/>
-    </wo>
-</wodefinitions>
