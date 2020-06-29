@@ -1,6 +1,7 @@
 package is.rebbi.wo.util;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +87,7 @@ public class SWSettings {
 
         if( WOApplication.application() != null ) {
             logger.info( "Loading application settings" );
-            String appSettingsString = USUtilities.stringFromResource( "sw.conf", null );
+            String appSettingsString = stringFromResource( "sw.conf", null );
             _appDictionary = new SWDictionary<>( appSettingsString );
         }
         else {
@@ -110,6 +111,40 @@ public class SWSettings {
     public static void register() {
         register( null );
     }
+
+	/**
+	 * Reads data from the named resource and converts it to a string using the given encoding.
+	 * If no framework name is specified, reads from the "app" bundle by default.
+	 */
+	private static String stringFromResource( String resourceName, String frameworkName ) {
+
+		if( frameworkName == null ) {
+			frameworkName = "app";
+		}
+
+		final NSArray<String> languages = NSArray.emptyArray();
+		final String encoding = "UTF-8";
+		final byte[] data = WOApplication.application().resourceManager().bytesForResourceNamed( resourceName, frameworkName, languages );
+
+		if( data == null ) {
+			return null;
+		}
+
+		if( data.length == 0 ) {
+			return "";
+		}
+
+		String template = null;
+
+		try {
+			template = new String( data, encoding );
+		}
+		catch( UnsupportedEncodingException e ) {
+			logger.debug( "Could not read string form resource", e );
+		}
+
+		return template;
+	}
 
     /**
      * Settings stored in memory.
