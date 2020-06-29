@@ -17,10 +17,8 @@ import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.routes.RouteTable.RouteHandler;
-import is.rebbi.wo.urls.WrappedURL;
 import is.rebbi.wo.urls.providers.URLProviderDataObject;
 import is.rebbi.wo.util.Inspection;
-import is.rebbi.wo.util.RouteAction;
 import jambalaya.Jambalaya;
 
 public class ObjectRouteHandler extends RouteHandler {

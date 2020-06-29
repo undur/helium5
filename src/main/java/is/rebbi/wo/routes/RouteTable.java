@@ -12,7 +12,6 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.urls.WrappedURL;
 import is.rebbi.wo.urls.handlers.URLHandler;
 
 /**

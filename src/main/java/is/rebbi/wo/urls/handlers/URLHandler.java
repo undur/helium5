@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.urls.WrappedURL;
+import is.rebbi.wo.routes.WrappedURL;
 
 public abstract class URLHandler {
 

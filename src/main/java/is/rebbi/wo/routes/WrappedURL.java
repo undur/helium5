@@ -1,4 +1,4 @@
-package is.rebbi.wo.urls;
+package is.rebbi.wo.routes;
 
 /**
  * Wraps URL paths for easy access to its components.
