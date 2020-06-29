@@ -50,29 +50,30 @@ public class USHTTPUtilities {
 	 * Fetches the IP-address from a WORequest.
 	 */
 	public static String ipAddressFromRequest( WORequest request ) {
-		String host = null;
+		String host = request.headerForKey( HEADER_REMOTE_HOST );
 
-		if( host == null ) {
-			host = request.headerForKey( HEADER_REMOTE_HOST );
-			if( host != null ) {
-				return host;
-			}
-
-			host = request.headerForKey( HEADER_REMOTE_ADDR );
-			if( host != null ) {
-				return host;
-			}
-
-			host = request.headerForKey( HEADER_REMOTE_USER );
-			if( host != null ) {
-				return host;
-			}
-
-			host = request.headerForKey( HEADER_WEBOBJECTS_REMOTE_ADDR );
-			if( host != null ) {
-				return host;
-			}
+		if( host != null ) {
+			return host;
 		}
+
+		host = request.headerForKey( HEADER_REMOTE_ADDR );
+
+		if( host != null ) {
+			return host;
+		}
+
+		host = request.headerForKey( HEADER_REMOTE_USER );
+
+		if( host != null ) {
+			return host;
+		}
+
+		host = request.headerForKey( HEADER_WEBOBJECTS_REMOTE_ADDR );
+
+		if( host != null ) {
+			return host;
+		}
+
 		return null;
 	}
 
