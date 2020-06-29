@@ -39,13 +39,6 @@ public class USUtilities {
 	private USUtilities() {}
 
 	/**
-	 * @return true if the provided number equals exactly 1
-	 */
-	public static boolean numberIsTrue( Number number ) {
-		return number != null && number.intValue() == 1;
-	}
-
-	/**
 	 * Finds out the value of Object and attempts to coerce it's value to a boolean.
 	 *
 	 * Returns true if:

@@ -34,14 +34,6 @@ public class TestUSUtilities {
 	}
 
 	@Test
-	public void numberIsTrue() {
-		assertFalse( USUtilities.numberIsTrue( null ) );
-		assertFalse( USUtilities.numberIsTrue( 0 ) );
-		assertFalse( USUtilities.numberIsTrue( 2 ) );
-		assertTrue( USUtilities.numberIsTrue( 1 ) );
-	}
-
-	@Test
 	public void stringFromObject() {
 		assertEquals( "1", USUtilities.stringFromObject( new Integer( 1 ) ) );
 	}
