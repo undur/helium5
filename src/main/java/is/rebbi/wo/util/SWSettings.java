@@ -207,18 +207,24 @@ public class SWSettings {
         return (String)objectForKey( key, defaultValue );
     }
 
-    public static boolean booleanForKey( String key ) {
-    	String string = stringForKey( key );
+    public static boolean booleanForKey( final String key ) {
+    	final String stringValue = stringForKey( key );
 
-    	if( string == null ) {
+    	if( stringValue == null ) {
     		return false;
     	}
 
-    	return string.toLowerCase().equals( "true" );
+    	return stringValue.toLowerCase().equals( "true" );
     }
 
     public static Integer integerForKey( String key ) {
-        return USUtilities.integerFromObject( objectForKey( key ) );
+    	final String stringValue = stringForKey( key );
+
+    	if( stringValue == null ) {
+    		return null;
+    	}
+
+    	return Integer.parseInt( stringValue );
     }
 
     /**
