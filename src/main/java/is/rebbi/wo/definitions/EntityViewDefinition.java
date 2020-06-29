@@ -68,11 +68,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	private String _iconFileName;
 
 	/**
-	 * Filename of the icon used when this type of object is displayed.
-	 */
-	private boolean _showInList;
-
-	/**
 	 * Name of the category for this entity view definition.
 	 */
 	private String _categoryName;
@@ -348,12 +343,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		_iconFileName = value;
 	}
 
-	// FIXME: remove
-	@Deprecated
-	public boolean showInList() {
-		return false;
-	}
-
 	public String categoryName() {
 		return _categoryName;
 	}
@@ -508,24 +497,10 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 	}
 
 	@Override
-	public String toString() {
-		return "EntityViewDefinition [_attributeViewDefinitions=" + _attributeViewDefinitions + ", _name=" + _name + ", _icelandicName=" + _icelandicName + ", _icelandicNamePlural=" + _icelandicNamePlural + ", _text=" + _text + ", _viewComponentClass=" + _viewComponentClass + ", _editComponentClass=" + _editComponentClass + ", _urlPrefix=" + _urlPrefix + ", _iconFileName=" + _iconFileName + ", _showInList=" + _showInList + ", _categoryName=" + _categoryName + ", _attributesToShow=" + _attributesToShow + ", _entityClass=" + _entityClass + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((_attributeViewDefinitions == null) ? 0 : _attributeViewDefinitions.hashCode());
-		result = prime * result + ((_attributesToShow == null) ? 0 : _attributesToShow.hashCode());
-		result = prime * result + ((_categoryName == null) ? 0 : _categoryName.hashCode());
-		result = prime * result + ((_icelandicName == null) ? 0 : _icelandicName.hashCode());
-		result = prime * result + ((_icelandicNamePlural == null) ? 0 : _icelandicNamePlural.hashCode());
-		result = prime * result + ((_iconFileName == null) ? 0 : _iconFileName.hashCode());
 		result = prime * result + ((_name == null) ? 0 : _name.hashCode());
-		result = prime * result + (_showInList ? 1231 : 1237);
-		result = prime * result + ((_text == null) ? 0 : _text.hashCode());
-		result = prime * result + ((_urlPrefix == null) ? 0 : _urlPrefix.hashCode());
 		return result;
 	}
 
@@ -541,79 +516,12 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 			return false;
 		}
 		EntityViewDefinition other = (EntityViewDefinition)obj;
-		if( _attributeViewDefinitions == null ) {
-			if( other._attributeViewDefinitions != null ) {
-				return false;
-			}
-		}
-		else if( !_attributeViewDefinitions.equals( other._attributeViewDefinitions ) ) {
-			return false;
-		}
-		if( _attributesToShow == null ) {
-			if( other._attributesToShow != null ) {
-				return false;
-			}
-		}
-		else if( !_attributesToShow.equals( other._attributesToShow ) ) {
-			return false;
-		}
-		if( _categoryName == null ) {
-			if( other._categoryName != null ) {
-				return false;
-			}
-		}
-		else if( !_categoryName.equals( other._categoryName ) ) {
-			return false;
-		}
-		if( _icelandicName == null ) {
-			if( other._icelandicName != null ) {
-				return false;
-			}
-		}
-		else if( !_icelandicName.equals( other._icelandicName ) ) {
-			return false;
-		}
-		if( _icelandicNamePlural == null ) {
-			if( other._icelandicNamePlural != null ) {
-				return false;
-			}
-		}
-		else if( !_icelandicNamePlural.equals( other._icelandicNamePlural ) ) {
-			return false;
-		}
-		if( _iconFileName == null ) {
-			if( other._iconFileName != null ) {
-				return false;
-			}
-		}
-		else if( !_iconFileName.equals( other._iconFileName ) ) {
-			return false;
-		}
 		if( _name == null ) {
 			if( other._name != null ) {
 				return false;
 			}
 		}
 		else if( !_name.equals( other._name ) ) {
-			return false;
-		}
-		if( _showInList != other._showInList ) {
-			return false;
-		}
-		if( _text == null ) {
-			if( other._text != null ) {
-				return false;
-			}
-		}
-		else if( !_text.equals( other._text ) ) {
-			return false;
-		}
-		if( _urlPrefix == null ) {
-			if( other._urlPrefix != null ) {
-				return false;
-			}
-		}
-		else if( !_urlPrefix.equals( other._urlPrefix ) ) {
 			return false;
 		}
 		return true;
