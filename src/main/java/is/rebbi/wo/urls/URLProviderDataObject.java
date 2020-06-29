@@ -4,7 +4,7 @@ import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectId;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
-import jambalaya.PKSerializer;
+import jambalaya.ObjectIdSerializer;
 import jambalaya.interfaces.UniqueIDStamped;
 
 public class URLProviderDataObject implements URLProvider<DataObject> {
@@ -28,7 +28,7 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 
 	public static String urlForObjectId( final ObjectId objectId ) {
 		final String typeIdentifierString = EntityViewDefinition.get( objectId.getEntityName() ).urlPrefix();
-		final String objectIdentifierString = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( objectId );
+		final String objectIdentifierString = PK_IDENTIFIER_PREFIX + ObjectIdSerializer.serialize( objectId );
 		return fullURL( typeIdentifierString, objectIdentifierString );
 	}
 
