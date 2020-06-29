@@ -1,4 +1,4 @@
-package is.rebbi.wo.urls.providers;
+package is.rebbi.wo.urls;
 
 import org.apache.cayenne.ObjectId;
 
