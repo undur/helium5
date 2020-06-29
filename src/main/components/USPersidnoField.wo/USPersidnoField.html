@@ -1,7 +1,0 @@
-<wo:AjaxUpdateContainer id="$updateContainerID" elementName="span" class="validatedField">
-	<wo:textfield value="$value" id="$fieldID" size="30"/><wo:AjaxObserveField observeFieldID="$fieldID" updateContainerID="$updateContainerID" action="$validateField" />
-	<wo:conditional condition="$hasValidated">
-		<wo:conditional condition="$errorString.length"><span class="error"><wo:str value="$errorString" /></span></wo:conditional>
-		<wo:conditional condition="$errorString.length" negate="$true"><span class="normal"><wo:img filename="checkmark_ok.png" framework="helium" /></span></wo:conditional>
-	</wo:conditional>
-</wo:AjaxUpdateContainer>
