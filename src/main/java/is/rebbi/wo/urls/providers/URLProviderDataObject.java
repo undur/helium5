@@ -19,28 +19,6 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 	 */
 	public static final String UNIQUE_ID_IDENTIFIER_PREFIX = "uid-";
 
-	/**
-	 * If an object does not implement UrlFriendlyNaming, the URL will contain this prefix and the Object's id.
-	 */
-	private static final String ENTITY_IDENTIFIER_PREFIX = "entity-";
-
-	/**
-	 * @return The url prefix for the given object.
-	 */
-	private static String typeIdentifierForEntityName( final String entityName ) {
-		final EntityViewDefinition<?, ?, ?> type = EntityViewDefinition.get( entityName );
-
-		if( type != null ) {
-			final String typeIdentifier = type.urlPrefix();
-
-			if( typeIdentifier != null ) {
-				return typeIdentifier;
-			}
-		}
-
-		return ENTITY_IDENTIFIER_PREFIX + entityName;
-	}
-
 	@Override
 	public String urlForObject( final DataObject dataObject ) {
 		if( dataObject instanceof UniqueIDStamped ) {
@@ -55,13 +33,13 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 	}
 
 	public static String urlForObjectId( final ObjectId objectId ) {
-		String typeIdentifierString = typeIdentifierForEntityName( objectId.getEntityName() );
-		String objectIdentifierString = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( objectId );
+		final String typeIdentifierString = EntityViewDefinition.get( objectId.getEntityName() ).urlPrefix();
+		final String objectIdentifierString = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( objectId );
 		return fullURL( typeIdentifierString, objectIdentifierString );
 	}
 
 	public static String urlForUniqueID( final String entityName, final String uniqueID ) {
-		final String typeIdentifierString = typeIdentifierForEntityName( entityName );
+		final String typeIdentifierString = EntityViewDefinition.get( entityName ).urlPrefix();
 		final String objectIdentifierString = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
 		return fullURL( typeIdentifierString, objectIdentifierString );
 	}
