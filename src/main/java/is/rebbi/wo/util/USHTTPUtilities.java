@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
-import java.util.zip.GZIPOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,6 @@ import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSRange;
 
-import er.extensions.foundation.ERXRefByteArrayOutputStream;
 import is.rebbi.core.util.StringUtilities;
 
 /**
@@ -450,18 +448,18 @@ public class USHTTPUtilities {
 	public static WOResponse responseWithDataAndMimeType( String filename, byte[] bytes, String mimeType ) {
 		return responseWithDataAndMimeType( filename, bytes, mimeType, false );
 	}
-	
+
 	/**
 	 * Creates a WOResponse containing the given data.
 	 */
 	public static WOResponse responseWithDataAndMimeType( String filename, byte[] bytes, String mimeType, boolean forceDownload ) {
-		
+
 		NSData data = NSData.EmptyData;
-		
+
 		if( bytes != null ) {
 			data = new NSData( bytes );
 		}
-		
+
 		return responseWithDataAndMimeType( filename, data, mimeType, forceDownload );
 	}
 
@@ -555,44 +553,6 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * Gzip compresses the content of the given response and modifies headers accordingly.
-	 */
-	public static void compressResponse( WOResponse response ) {
-		logger.debug( "compressing response" );
-		try {
-			ByteArrayInputStream in = response.content().stream();
-			ERXRefByteArrayOutputStream byteStream = new ERXRefByteArrayOutputStream();
-
-			GZIPOutputStream gzipStream = new GZIPOutputStream( byteStream );
-
-			byte[] buf = new byte[1024];
-			int len;
-			int totalSizeBefore = 0;
-
-			while( (len = in.read( buf )) > 0 ) {
-				totalSizeBefore += len;
-				gzipStream.write( buf, 0, len );
-			}
-
-			in.close();
-
-			gzipStream.finish();
-			gzipStream.close();
-
-			logger.debug( "Response size before compression: " + totalSizeBefore );
-			logger.debug( "Response size after compression: " + byteStream.size() );
-
-			NSData compressedData = byteStream.toNSData();
-			response.setContent( compressedData );
-			response.setHeader( CONTENT_ENCODING_GZIP, HEADER_CONTENT_ENCODING );
-			response.setHeader( String.valueOf( compressedData.length() ), HEADER_CONTENT_LENGTH );
-		}
-		catch( Exception e ) {
-			logger.error( "Failed to compress response", e );
-		}
-	}
-
-	/**
 	 * @return Response with HTTP status 404
 	 */
 	public static WOResponse response404() {
@@ -623,74 +583,6 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * Attempts to determine if a request originates with a human.
-	 *
-	 * TODO: Check out list of bots from Google or Yahoo.
-	 */
-	public static boolean isHuman( String userAgentString ) {
-
-		if( StringUtilities.hasValue( userAgentString ) ) {
-			userAgentString = userAgentString.toLowerCase();
-
-			if( userAgentString.indexOf( "bot" ) > 0 ) {
-				return false;
-			}
-
-			if( userAgentString.indexOf( "feed" ) > 0 ) {
-				return false;
-			}
-
-			if( userAgentString.indexOf( "apple-pubsub" ) > 0 ) {
-				return false;
-			}
-
-			if( userAgentString.indexOf( "slurp" ) > 0 ) {
-				return false;
-			}
-
-			if( userAgentString.indexOf( "bloglines" ) > 0 ) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Attempts to determine if a request originates with a bot.
-	 *
-	 * TODO: Check out list of bots from Google or Yahoo.
-	 */
-	public static boolean isBot( String userAgentString ) {
-		String u = userAgentString;
-		return c( u, "google" ) || c( u, "rss" ) || c( u, "bot" ) || c( u, "yahoo" ) || c( u, "feed" ) || c( u, "reader" );
-	}
-
-	/**
-	 * Returns true if the strings are not null and the buffer contains the substring.
-	 */
-	private static boolean c( String buffer, String substring ) {
-
-		if( buffer == null || substring == null ) {
-			return false;
-		}
-
-		return buffer.toLowerCase().contains( substring.toLowerCase() );
-	}
-
-	/**
-	 * Creates an xml-typed response and inserts the content string.
-	 *
-	 * @param contentString The Content of the response.
-	 */
-	public static WOResponse createXMLResponseWithContent( String contentString ) {
-		WOResponse r = new WOResponse();
-		r.setHeader( MIME_TYPE_XML, HEADER_CONTENT_TYPE );
-		r.setContent( contentString );
-		return r;
-	}
-
-	/**
 	 * After dispatchRequest has been fired, the "cookie" header in WOResponse has already been set.
 	 * If we make changes to cookies after that, we need to set the header manually.
 	 *
@@ -705,41 +597,6 @@ public class USHTTPUtilities {
 		}
 
 		response.setHeaders( cookieHeaderStrings, HEADER_SET_COOKIE );
-	}
-
-	/**
-	 * Creates a WOResponse containing the given PDF-data in a PDF-file with the given name.
-	 * You do not have to specify the ".pdf"-extension to the file name (the method till appends that to the name for you).
-	 */
-	public static WOResponse pdfResponseWithData( String filename, NSData data ) {
-
-		if( filename == null ) {
-			filename = "Untitled.pdf";
-		}
-
-		if( !filename.toLowerCase().endsWith( ".pdf" ) ) {
-			filename = filename + ".pdf";
-		}
-
-		return responseWithDataAndMimeType( filename, data, MIME_TYPE_PDF );
-	}
-
-	/**
-	 * @return The absolute URL that was used to invoke the given request.
-	 */
-	public static String absoluteURL( WORequest request ) {
-		StringBuilder b = new StringBuilder();
-
-		if( request.isSecure() ) {
-			b.append( "https://" );
-		}
-		else {
-			b.append( "http://" );
-		}
-
-		b.append( host( request ) );
-		b.append( request.uri() );
-		return b.toString();
 	}
 
 	public static String cookieHost( WORequest request ) {
