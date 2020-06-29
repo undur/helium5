@@ -307,34 +307,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		_text = value;
 	}
 
-	public Class<T> viewComponentClass() {
-		return _viewComponentClass;
-	}
-
-	public void setViewComponentClass( Class<T> value ) {
-		_viewComponentClass = value;
-	}
-
-	public Class<V> editComponentClass() {
-		return _editComponentClass;
-	}
-
-	public void setEditComponentClass( Class<V> value ) {
-		_editComponentClass = value;
-	}
-
-	public String urlPrefix() {
-		if( _urlPrefix == null ) {
-			_urlPrefix = name();
-		}
-
-		return _urlPrefix;
-	}
-
-	public void setUrlPrefix( String value ) {
-		_urlPrefix = value;
-	}
-
 	public String iconFileName() {
 		return _iconFileName;
 	}
@@ -349,6 +321,34 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 
 	public void setCategoryName( String value ) {
 		_categoryName = value;
+	}
+
+	public String urlPrefix() {
+		if( _urlPrefix == null ) {
+			_urlPrefix = name();
+		}
+
+		return _urlPrefix;
+	}
+
+	public void setUrlPrefix( String value ) {
+		_urlPrefix = value;
+	}
+
+	public Class<T> viewComponentClass() {
+		return _viewComponentClass;
+	}
+
+	public void setViewComponentClass( Class<T> value ) {
+		_viewComponentClass = value;
+	}
+
+	public Class<V> editComponentClass() {
+		return _editComponentClass;
+	}
+
+	public void setEditComponentClass( Class<V> value ) {
+		_editComponentClass = value;
 	}
 
 	public ObjEntity entity() {
