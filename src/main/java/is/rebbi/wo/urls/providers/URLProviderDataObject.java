@@ -27,11 +27,11 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 	/**
 	 * @return The url prefix for the given object.
 	 */
-	private static String typeIdentifierForEntityName( String entityName ) {
-		EntityViewDefinition<?, ?, ?> type = EntityViewDefinition.get( entityName );
+	private static String typeIdentifierForEntityName( final String entityName ) {
+		final EntityViewDefinition<?, ?, ?> type = EntityViewDefinition.get( entityName );
 
 		if( type != null ) {
-			String typeIdentifier = type.urlPrefix();
+			final String typeIdentifier = type.urlPrefix();
 
 			if( typeIdentifier != null ) {
 				return typeIdentifier;
@@ -42,7 +42,7 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 	}
 
 	@Override
-	public String urlForObject( DataObject dataObject ) {
+	public String urlForObject( final DataObject dataObject ) {
 		if( dataObject instanceof UniqueIDStamped ) {
 			final String uniqueID = ((UniqueIDStamped)dataObject).uniqueID();
 
@@ -57,9 +57,9 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 	/**
 	 * @return A URL for the given object.
 	 */
-	public static String urlForObjectId( ObjectId oid ) {
-		String typeIdentifier = typeIdentifierForEntityName( oid.getEntityName() );
-		String objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( oid );
+	public static String urlForObjectId( final ObjectId objectId ) {
+		String typeIdentifier = typeIdentifierForEntityName( objectId.getEntityName() );
+		String objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( objectId );
 		StringBuilder b = new StringBuilder();
 		b.append( "/i/" );
 		b.append( typeIdentifier );
@@ -71,9 +71,9 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 	/**
 	 * @return A URL for the given object.
 	 */
-	public static String urlForUniqueID( String entityName, String uniqueID ) {
-		String typeIdentifier = typeIdentifierForEntityName( entityName );
-		String objectIdentifier = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
+	public static String urlForUniqueID( final String entityName, final String uniqueID ) {
+		final String typeIdentifier = typeIdentifierForEntityName( entityName );
+		final String objectIdentifier = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
 		StringBuilder b = new StringBuilder();
 		b.append( "/i/" );
 		b.append( typeIdentifier );
