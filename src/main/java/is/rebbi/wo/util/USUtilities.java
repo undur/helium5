@@ -2,7 +2,6 @@ package is.rebbi.wo.util;
 
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 
 import javax.mail.internet.InternetAddress;
 import javax.xml.transform.Transformer;
@@ -110,31 +109,6 @@ public class USUtilities {
 		}
 		catch( Exception e ) {
 			logger.warn( "Could not convert to Integer from object: " + o, e );
-		}
-
-		return null;
-	}
-
-	/**
-	 * Finds out the value of Object and attempts to coerce it's value to an Integer
-	 */
-	public static BigDecimal bigDecimalFromObject( Object o ) {
-
-		if( isNull( o ) ) {
-			return null;
-		}
-
-		try {
-			if( o instanceof Number ) {
-				return new BigDecimal( ((Number)o).doubleValue() );
-			}
-
-			if( o instanceof String ) {
-				return new BigDecimal( (String)o );
-			}
-		}
-		catch( Exception e ) {
-			logger.warn( "Could not convert to BigDecimal from object: " + o, e );
 		}
 
 		return null;
