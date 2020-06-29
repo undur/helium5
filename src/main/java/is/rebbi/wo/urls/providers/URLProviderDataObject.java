@@ -54,31 +54,24 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 		return urlForObjectId( dataObject.getObjectId() );
 	}
 
-	/**
-	 * @return A URL for the given object.
-	 */
 	public static String urlForObjectId( final ObjectId objectId ) {
-		String typeIdentifier = typeIdentifierForEntityName( objectId.getEntityName() );
-		String objectIdentifier = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( objectId );
-		StringBuilder b = new StringBuilder();
-		b.append( "/i/" );
-		b.append( typeIdentifier );
-		b.append( "/" );
-		b.append( objectIdentifier );
-		return b.toString();
+		String typeIdentifierString = typeIdentifierForEntityName( objectId.getEntityName() );
+		String objectIdentifierString = PK_IDENTIFIER_PREFIX + PKSerializer.serialize( objectId );
+		return fullURL( typeIdentifierString, objectIdentifierString );
 	}
 
-	/**
-	 * @return A URL for the given object.
-	 */
 	public static String urlForUniqueID( final String entityName, final String uniqueID ) {
-		final String typeIdentifier = typeIdentifierForEntityName( entityName );
-		final String objectIdentifier = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
-		StringBuilder b = new StringBuilder();
+		final String typeIdentifierString = typeIdentifierForEntityName( entityName );
+		final String objectIdentifierString = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
+		return fullURL( typeIdentifierString, objectIdentifierString );
+	}
+
+	private static String fullURL( final String typeIdentifierString, final String objectIdentifierString ) {
+		final StringBuilder b = new StringBuilder();
 		b.append( "/i/" );
-		b.append( typeIdentifier );
+		b.append( typeIdentifierString );
 		b.append( "/" );
-		b.append( objectIdentifier );
+		b.append( objectIdentifierString );
 		return b.toString();
 	}
 }
