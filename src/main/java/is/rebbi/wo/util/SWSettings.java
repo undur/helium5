@@ -487,20 +487,4 @@ public class SWSettings {
     public static String viewToolsComponentName() {
         return stringForKey( VIEW_TOOLS_COMPONENT_NAME );
     }
-
-    public static String smtpHost() {
-        return ERXProperties.stringForKey( "er.javamail.smtpHost" );
-    }
-
-    public static String smtpPort() {
-        return ERXProperties.stringForKey( "er.javamail.smtpPort" );
-    }
-
-    public static String smtpUsername() {
-        return ERXProperties.stringForKey( "er.javamail.smtpUser" );
-    }
-
-    public static String smtpPassword() {
-        return ERXProperties.stringForKey( "er.javamail.smtpPassword" );
-    }
 }
