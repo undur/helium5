@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOApplication;
-import com.webobjects.appserver.WORequest;
 import com.webobjects.foundation.NSArray;
 
 import er.extensions.foundation.ERXProperties;
@@ -70,7 +69,6 @@ public class SWSettings {
     private static final String DEFAULT_LOOK_NAME = "defaultLookName";
     private static final String DEFAULT_DOMAIN_NAME = "defaultDomainName";
     private static final String GENERATE_FRIENDLY_URLS = "generateFriendlyURLs";
-    private static final String FORCE_DEVELOPMENT_URLS = "forceDevelopmentURLs";
     private static final String IMAGE_PATH = "imageLocationOnDisk";
     private static final String IMAGE_URL = "imageLocationOnServer";
     public static final String VIEW_TOOLS_COMPONENT_NAME = "viewToolsComponentName";
@@ -271,15 +269,8 @@ public class SWSettings {
     /**
      * Indicates if SEO should be active.
      */
-    public static boolean generateFriendlyURLs( WORequest r ) {
+    public static boolean generateFriendlyURLs() {
         return booleanForKey( GENERATE_FRIENDLY_URLS );
-    }
-
-    /**
-     * Indicates if SEO should be active.
-     */
-    public static boolean forceDevelopmentURLs() {
-        return booleanForKey( FORCE_DEVELOPMENT_URLS );
     }
 
     /**

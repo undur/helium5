@@ -10,7 +10,6 @@ import org.apache.cayenne.ObjectId;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSMutableDictionary;
 
-import er.extensions.appserver.ERXApplication;
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.routes.RouteAction;
@@ -23,21 +22,25 @@ public abstract class USURLProvider {
 
 	private static Map<Class, URLProvider> _urlProviders;
 
-	/**
-	 * @return The URL for viewing the given object.
-	 */
-	public static String urlForObjectInContext( final Object object, final WOContext context ) {
+	public static String urlForObject( final Object object ) {
 		final URLProvider urlProvider = urlProviderForClass( object.getClass() );
 
 		if( urlProvider == null ) {
 			throw new NullPointerException( "No URLProvider registered for objects of class: " + object.getClass() );
 		}
 
-		String url = urlProvider.urlForObject( object );
+		return urlProvider.urlForObject( object );
+	}
 
-		// FIXME: The URL generator should not be referencing ERXApplication
-		if( (ERXApplication.erxApplication() != null && ERXApplication.erxApplication().isDevelopmentMode() ) || SWSettings.forceDevelopmentURLs() ) {
-			url = USURLProvider.urlForDevelopment( url, context );
+	/**
+	 * @return The URL for viewing the given object.
+	 */
+	public static String urlForObjectInContext( final Object object, final WOContext context ) {
+
+		String url = urlForObject( object );
+
+		if( !SWSettings.generateFriendlyURLs() ) {
+			url = urlForDevelopment( url, context );
 		}
 
 		if( context == null ) {
