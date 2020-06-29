@@ -13,7 +13,6 @@ import com.webobjects.foundation.NSMutableDictionary;
 import er.extensions.appserver.ERXApplication;
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.urls.providers.URLProvider;
 import is.rebbi.wo.urls.providers.URLProviderDataObject;
 import is.rebbi.wo.urls.providers.URLProviderObjectId;
@@ -81,24 +80,10 @@ public abstract class USURLProvider {
 
 		throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
 	}
-
-	/**
-	 * @return The URL for viewing the default list of the specified entity.
-	 */
-	public static String urlForListInContext( String entityName, WOContext context ) {
-		String url = "/l/" + EntityViewDefinition.get( entityName ).urlPrefix();
-
-		if( ERXApplication.erxApplication().isDevelopmentMode() ) {
-			url = makeURLDeveloperFriendly( url, context );
-		}
-
-		return url;
-	}
-
 	/**
 	 * @return A direct connect version of the URL.
 	 */
-	private static String makeURLDeveloperFriendly( String url, WOContext context ) {
+	public static String makeURLDeveloperFriendly( String url, WOContext context ) {
 
 		if( context == null ) {
 			context = ERXWOContext.currentContext();
