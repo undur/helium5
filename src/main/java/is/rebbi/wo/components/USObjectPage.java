@@ -5,7 +5,7 @@ import com.webobjects.appserver.WOContext;
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 
-public class USObjectPage<E> extends ERXComponent implements HasSelectedObjectPage<E> {
+public abstract class USObjectPage<E> extends ERXComponent implements HasSelectedObjectPage<E> {
 
 	private E _selectedObject;
 
