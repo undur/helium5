@@ -1,5 +1,6 @@
 package is.rebbi.wo.components;
 
+import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXComponent;
@@ -8,6 +9,7 @@ import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 public abstract class USObjectPage<E> extends ERXComponent implements HasSelectedObjectPage<E> {
 
 	private E _selectedObject;
+	private WOComponent _componentToReturnTo;
 
 	public USObjectPage( WOContext context ) {
 		super( context );
@@ -20,5 +22,13 @@ public abstract class USObjectPage<E> extends ERXComponent implements HasSelecte
 
 	public void setSelectedObject( E value ) {
 		_selectedObject = value;
+	}
+
+	public WOComponent callingComponent() {
+		return _componentToReturnTo;
+	}
+
+	public void setCallingComponent( WOComponent value ) {
+		_componentToReturnTo = value;
 	}
 }

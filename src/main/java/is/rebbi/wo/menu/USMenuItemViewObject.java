@@ -5,14 +5,14 @@ import org.apache.cayenne.DataObject;
 import com.webobjects.appserver.WOActionResults;
 
 import er.extensions.appserver.ERXWOContext;
-import is.rebbi.wo.components.USViewPage;
+import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import is.rebbi.wo.urls.USURLProvider;
 import is.rebbi.wo.util.Inspection;
 
 public class USMenuItemViewObject extends USMenuItem {
 
 	private DataObject _object;
-	private Class<? extends USViewPage> _viewComponentClass;
+	private Class<? extends HasSelectedObjectPage> _viewComponentClass;
 
 	public DataObject object() {
 		return _object;
@@ -26,7 +26,7 @@ public class USMenuItemViewObject extends USMenuItem {
 		return create( name, iconClasses, object, null );
 	}
 
-	public static USMenuItemViewObject create( String name, String iconClasses, DataObject object, Class<? extends USViewPage> viewComponentClass ) {
+	public static USMenuItemViewObject create( String name, String iconClasses, DataObject object, Class<? extends HasSelectedObjectPage> viewComponentClass ) {
 		USMenuItemViewObject item = new USMenuItemViewObject();
 		item.setName( name );
 		item.setIconClasses( iconClasses );
