@@ -11,12 +11,10 @@ import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSTimestamp;
 
-import er.extensions.appserver.ERXSession;
 import er.extensions.components.ERXComponent;
 import er.extensions.foundation.ERXProperties;
 import is.rebbi.core.formatters.DurationFormatter;
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.util.SessionManager;
 
 public class USSystemInfoPage extends ERXComponent {
 
@@ -67,7 +65,7 @@ public class USSystemInfoPage extends ERXComponent {
 		b.append( reportPath( "java.class.path" ) );
 		b.append( "\n" );
 
-		return StringUtilities.convertBreakString( b.toString() );
+		return StringUtilities.replace( b.toString(), "\n", "<br />\n" );
 	}
 
 	private static NSArray<URL> urlClassPath() {
