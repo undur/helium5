@@ -19,6 +19,7 @@ import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.routes.RouteTable.RouteHandler;
 import is.rebbi.wo.urls.URLProviderDataObject;
 import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.Jambalaya;
 
 public class ObjectRouteHandler extends RouteHandler {
@@ -28,7 +29,7 @@ public class ObjectRouteHandler extends RouteHandler {
 		final Object object = selectedObject( url );
 
 		if( object == null ) {
-			return RouteAction.response404( url.sourceURL() );
+			return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + url );
 		}
 
 		return Inspection.inspectObjectInContext( object, context );

@@ -35,8 +35,4 @@ public class RouteAction extends ERXDirectAction {
 
 		return url;
 	}
-
-	public static WOActionResults response404( String url ) {
-		return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + url );
-	}
 }
