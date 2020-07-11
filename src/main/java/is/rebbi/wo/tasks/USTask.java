@@ -20,7 +20,6 @@ public abstract class USTask {
 			_taskClasses = new ArrayList<>();
 			_taskClasses.add( FlushCachesTask.class );
 			_taskClasses.add( FlushEntityViewDefinitionCacheTask.class );
-			_taskClasses.add( RegenerateSynonymIndexTask.class );
 		}
 
 		return _taskClasses;
