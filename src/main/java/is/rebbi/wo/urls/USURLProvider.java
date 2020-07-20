@@ -15,6 +15,10 @@ import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.routes.RouteAction;
 import is.rebbi.wo.util.SWSettings;
 
+/**
+ * Clean up this whole thing. It could really use some cleanup.
+ */
+
 public abstract class USURLProvider {
 
 	private static Map<Class, URLProvider> _urlProviders;
@@ -47,6 +51,7 @@ public abstract class USURLProvider {
 		return url;
 	}
 
+	@Deprecated
 	private static String addProtocolAndHost( String url ) {
 		StringBuilder b = new StringBuilder();
 		b.append( "http" );
