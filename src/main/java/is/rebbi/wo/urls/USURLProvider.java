@@ -85,7 +85,7 @@ public abstract class USURLProvider {
 	/**
 	 * @return A direct connect version of the URL.
 	 */
-	private static String urlForDevelopment( String url, WOContext context ) {
+	public static String urlForDevelopment( String url, WOContext context ) {
 
 		if( context == null ) {
 			context = ERXWOContext.currentContext();

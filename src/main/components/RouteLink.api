@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wodefinitions>
+            
+    
+    <wo class="RouteLink" wocomponentcontent="false">
+            
+        <binding name="url"/>
+        <validation message="'url' is a required binding.">
+            <unbound name="url"/>
+        </validation>
+    </wo>
+        
+
+</wodefinitions>
