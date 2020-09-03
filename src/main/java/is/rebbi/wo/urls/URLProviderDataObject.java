@@ -1,10 +1,13 @@
 package is.rebbi.wo.urls;
 
+import java.util.UUID;
+
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectId;
 
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import jambalaya.ObjectIdSerializer;
+import jambalaya.interfaces.UUIDStamped;
 import jambalaya.interfaces.UniqueIDStamped;
 
 public class URLProviderDataObject implements URLProvider<DataObject> {
@@ -15,11 +18,20 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 
 	@Override
 	public String urlForObject( final DataObject dataObject ) {
+
 		if( dataObject instanceof UniqueIDStamped ) {
 			final String uniqueID = ((UniqueIDStamped)dataObject).uniqueID();
 
 			if( uniqueID != null ) {
 				return urlForUniqueID( dataObject.getObjectId().getEntityName(), uniqueID );
+			}
+		}
+
+		if( dataObject instanceof UUIDStamped ) {
+			final UUID uniqueID = ((UUIDStamped)dataObject).uniqueID();
+
+			if( uniqueID != null ) {
+				return urlForUniqueID( dataObject.getObjectId().getEntityName(), uniqueID.toString() );
 			}
 		}
 
