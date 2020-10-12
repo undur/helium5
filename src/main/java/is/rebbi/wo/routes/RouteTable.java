@@ -46,7 +46,7 @@ public class RouteTable {
 
 	private RouteHandler handlerForURL( final WrappedURL url ) {
 
-		for( Route route : routes() ) {
+		for( final Route route : routes() ) {
 			if( matches( route.pattern, url.sourceURL() ) ) {
 				return route.routeHandler;
 			}
@@ -77,17 +77,28 @@ public class RouteTable {
 	}
 
 	public void map( final String pattern, final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
-		final BiFunctionHandler routeHandler = new BiFunctionHandler( biFunction );
+		final BiFunctionRouteHandler routeHandler = new BiFunctionRouteHandler( biFunction );
 		map( pattern, routeHandler );
 	}
 
 	public void mapComponent( final String pattern, final Class<? extends ERXComponent> componentClass ) {
-		final ComponentHandler routeHandler = new ComponentHandler( componentClass );
+		final ComponentRouteHandler routeHandler = new ComponentRouteHandler( componentClass );
 		map( pattern, routeHandler );
 	}
 
+	/**
+	 * Maps a URL pattern to a given RouteHandler
+	 */
 	public static class Route {
+
+		/**
+		 * The pattern this route uses
+		 */
 		public String pattern;
+
+		/**
+		 * The routeHandler that will handle requests passed to this route
+		 */
 		public RouteHandler routeHandler;
 	}
 
@@ -95,10 +106,10 @@ public class RouteTable {
 		public abstract WOActionResults handle( WrappedURL url, WOContext context );
 	}
 
-	public static class BiFunctionHandler extends RouteHandler {
+	public static class BiFunctionRouteHandler extends RouteHandler {
 		private BiFunction<WrappedURL,WOContext,WOActionResults> _biFunction;
 
-		public BiFunctionHandler( final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
+		public BiFunctionRouteHandler( final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
 			_biFunction = biFunction;
 		}
 
@@ -108,10 +119,10 @@ public class RouteTable {
 		}
 	}
 
-	public static class ComponentHandler extends RouteHandler {
+	public static class ComponentRouteHandler extends RouteHandler {
 		private Class<? extends ERXComponent> _componentClass;
 
-		public ComponentHandler( final Class<? extends ERXComponent> componentClass ) {
+		public ComponentRouteHandler( final Class<? extends ERXComponent> componentClass ) {
 			_componentClass = componentClass;
 		}
 

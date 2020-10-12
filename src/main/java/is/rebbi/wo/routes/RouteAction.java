@@ -7,7 +7,10 @@ import er.extensions.appserver.ERXDirectAction;
 import is.rebbi.wo.util.USHTTPUtilities;
 
 /**
- * Main entry point into the system.
+ * A Direct Action class that takes care of passing requests on to a RouteHandler.
+ *
+ * URLs are be passed to the handler action either by query parameter ("url")
+ * or are retrieved from the redirect_url header passed in by Apache's 404 handler.
  */
 
 public class RouteAction extends ERXDirectAction {
@@ -17,14 +20,18 @@ public class RouteAction extends ERXDirectAction {
 	}
 
 	/**
-	 * @return The result of invoking the route with the URL provided.
+	 * @return The result of invoking the route mathing the provided URL.
 	 */
 	public WOActionResults handlerAction() {
 		return RouteTable.defaultRouteTable().handle( WrappedURL.create( url() ), context() );
 	}
 
 	/**
-	 * @return The requested URL, either from a URL parameter or Apache's 404 handler
+	 * @return The requested URL
+	 *
+	 * Either
+	 *  - from the "URL"query parameter (usually used for development)
+	 *  - or from the redirect_url header provided by Apache's 404 handler
 	 */
 	protected String url() {
 		String url = request().stringFormValueForKey( "url" );
