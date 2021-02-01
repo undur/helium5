@@ -15,7 +15,7 @@ public interface DataObjectOperation {
 	public String name();
 
 	/**
-	 * Name of glyphicon to show when included in the operations menu.
+	 * Name of icon shown in the UI (as specified by font-awesome)
 	 */
 	public String iconName();
 
