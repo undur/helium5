@@ -12,7 +12,6 @@ import com.webobjects.foundation.NSComparator;
 import com.webobjects.foundation.NSComparator.ComparisonException;
 import com.webobjects.foundation.NSMutableSet;
 
-import er.extensions.components.ERXComponent;
 import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
 import is.rebbi.wo.components.admin.USSystemInfoPage;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
@@ -122,16 +121,6 @@ public class USMenu {
 	public USMenuItem addChild( USMenuItem item ) {
 		rootItems().add( item );
 		return item;
-	}
-
-	@Deprecated
-	public USMenuItem addAtBottom( USMenuItem item ) {
-		return addChild( item );
-	}
-
-	@Deprecated
-	public USMenuItem addAtBottom( String name, String iconClasses, Class<? extends ERXComponent> pageClass ) {
-		return addChild( USMenuItemPage.create( name, iconClasses, pageClass ) );
 	}
 
 	public void clear() {
