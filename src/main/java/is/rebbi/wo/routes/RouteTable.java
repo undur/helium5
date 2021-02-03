@@ -66,6 +66,21 @@ public class RouteTable {
 	 */
 	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
 		logger.info( "Handling URL: {}", url );
+
+		// FIXME: Introduced this just to find a bug in NBServer
+		// Feb 03 10:11:45 NBServer[2002] (RouteTable.java:68) INFO  is.rebbi.wo.routes.RouteTable  (77c8aa24-df60-49f3-8828-900f81e605e6) - Handling URL: cgi-bin/WebObjects/NBServer.woa/wr
+		if( url != null && url.sourceURL().contains( "cgi-bin" ) ) {
+
+			try {
+				throw new RuntimeException( "Just wanted a stack trace, sorry about that." );
+			}
+			catch( Exception exceptionForStackTrace ) {
+				System.out.println( "======== START DEBUG ========" );
+				exceptionForStackTrace.printStackTrace();
+				System.out.println( "======== END DEBUG ========" );
+			}
+		}
+
 		return handlerForURL( url ).handle( url, context );
 	}
 
