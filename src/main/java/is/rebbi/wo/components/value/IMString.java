@@ -22,11 +22,6 @@ public class IMString extends ERXStatelessComponent {
         super( context );
     }
 
-    @Override
-    protected boolean useDefaultComponentCSS() {
-        return true;
-    }
-
     private int maxLength() {
         return intValueForBinding( "maxLength", -1 ); // FIXME: I kind of don't like this minus one value
     }
