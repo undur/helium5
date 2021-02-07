@@ -52,6 +52,7 @@ public class RouteTable {
 			}
 		}
 
+		// FIXME: This should be handled by a generic "no page found" handler.
 		throw new RuntimeException( "No handler found for URL: " + url );
 	}
 
