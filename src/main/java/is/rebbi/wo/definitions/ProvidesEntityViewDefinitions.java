@@ -15,4 +15,9 @@ public interface ProvidesEntityViewDefinitions {
 	public default int priority() {
 		return 0;
 	}
+
+	/**
+	 * FIXME: This definitely does not belong here.
+	 */
+	public void defineRoutes();
 }

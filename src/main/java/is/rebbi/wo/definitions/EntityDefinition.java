@@ -129,16 +129,18 @@ public class EntityDefinition<E> {
 		return a;
 	}
 
-	// FIXME: This should be private
-	public static Map<String, EntityDefinition> definitions() {
+	private static Map<String, EntityDefinition> definitions() {
 		if( _definitions == null ) {
 			_definitions = new HashMap<>();
 
 			for( ProvidesEntityViewDefinitions provider : entityViewDefinitionProviders() ) {
 				logger.info( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
 				for( EntityDefinition e : provider.entityViewDefinitions() ) {
-					e.register(); // FIXME: Remove cast.
+					e.register();
 				}
+
+				// FIXME: Don't do this here!
+				provider.defineRoutes();
 			}
 		}
 
