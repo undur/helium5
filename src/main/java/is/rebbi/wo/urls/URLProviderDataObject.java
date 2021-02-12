@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectId;
 
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.util.Inspection.InspectionRoute;
 import jambalaya.ObjectIdSerializer;
 import jambalaya.interfaces.UUIDStamped;
 import jambalaya.interfaces.UniqueIDStamped;
@@ -39,13 +39,13 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 	}
 
 	public static String urlForObjectId( final ObjectId objectId ) {
-		final String typeIdentifierString = EntityViewDefinition.get( objectId.getEntityName() ).urlPrefix();
+		final String typeIdentifierString = InspectionRoute.forEntityName( objectId.getEntityName() ).urlPrefix();
 		final String objectIdentifierString = PK_IDENTIFIER_PREFIX + ObjectIdSerializer.serialize( objectId );
 		return fullURL( typeIdentifierString, objectIdentifierString );
 	}
 
 	public static String urlForUniqueID( final String entityName, final String uniqueID ) {
-		final String typeIdentifierString = EntityViewDefinition.get( entityName ).urlPrefix();
+		final String typeIdentifierString = InspectionRoute.forEntityName( entityName ).urlPrefix();
 		final String objectIdentifierString = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
 		return fullURL( typeIdentifierString, objectIdentifierString );
 	}

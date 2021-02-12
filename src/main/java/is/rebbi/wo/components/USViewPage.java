@@ -7,7 +7,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import jambalaya.Jambalaya;
 
@@ -33,8 +33,8 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 		super( context );
 	}
 
-	public EntityViewDefinition viewDefinition() {
-		return EntityViewDefinition.get( selectedObject().getClass() );
+	public EntityDefinition viewDefinition() {
+		return EntityDefinition.get( selectedObject().getClass() );
 	}
 
 	public WOComponent callingComponent() {

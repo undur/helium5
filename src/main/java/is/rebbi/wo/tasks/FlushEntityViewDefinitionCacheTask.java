@@ -1,6 +1,6 @@
 package is.rebbi.wo.tasks;
 
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 
 public class FlushEntityViewDefinitionCacheTask extends USTask {
 
@@ -11,6 +11,6 @@ public class FlushEntityViewDefinitionCacheTask extends USTask {
 
 	@Override
 	public void run() {
-		EntityViewDefinition.invalidateCache();
+		EntityDefinition.invalidateCache();
 	}
 }

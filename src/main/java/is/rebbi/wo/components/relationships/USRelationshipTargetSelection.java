@@ -12,7 +12,7 @@ import com.webobjects.foundation.NSKeyValueCoding;
 
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.components.admin.USListPageEdit;
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 
 public class USRelationshipTargetSelection extends USListPageEdit {
 
@@ -25,15 +25,15 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 	}
 
 	public String sourceEntityName() {
-		return EntityViewDefinition.icelandicName( object.getObjectId().getEntityName() );
+		return EntityDefinition.icelandicName( object.getObjectId().getEntityName() );
 	}
 
 	public String destinationEntityName() {
-		return EntityViewDefinition.icelandicName( relationship().getTargetEntityName() );
+		return EntityDefinition.icelandicName( relationship().getTargetEntityName() );
 	}
 
 	public String destinationEntityNamePlural() {
-		return EntityViewDefinition.icelandicNamePlural( relationship().getTargetEntityName() );
+		return EntityDefinition.icelandicNamePlural( relationship().getTargetEntityName() );
 	}
 
 	public ObjRelationship relationship() {
@@ -41,8 +41,8 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 	}
 
 	@Override
-	public EntityViewDefinition selectedViewDefinition() {
-		return EntityViewDefinition.get( relationship().getTargetEntityName() );
+	public EntityDefinition selectedViewDefinition() {
+		return EntityDefinition.get( relationship().getTargetEntityName() );
 	}
 
 	public WOActionResults cancel() {

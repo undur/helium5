@@ -24,7 +24,7 @@ import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.components.USBaseComponent;
 import is.rebbi.wo.definitions.AttributeDefinition;
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 import is.rebbi.wo.util.Inspection;
 import jambalaya.CayenneUtils;
 import jambalaya.Jambalaya;
@@ -44,7 +44,7 @@ public class USListPageEdit extends USBaseComponent {
 	/**
 	 * The selected entityViewDefinition
 	 */
-	private EntityViewDefinition _selectedViewDefinition;
+	private EntityDefinition _selectedViewDefinition;
 
 	/**
 	 * the object currently being iterated over in lists.
@@ -185,11 +185,11 @@ public class USListPageEdit extends USBaseComponent {
 		return query.select( oc() );
 	}
 
-	public EntityViewDefinition selectedViewDefinition() {
+	public EntityDefinition selectedViewDefinition() {
 		return _selectedViewDefinition;
 	}
 
-	public void setSelectedViewDefinition( EntityViewDefinition value ) {
+	public void setSelectedViewDefinition( EntityDefinition value ) {
 		_selectedViewDefinition = value;
 	}
 

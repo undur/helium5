@@ -2,7 +2,7 @@ package is.rebbi.wo.menu;
 
 import com.webobjects.appserver.WOActionResults;
 
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 import is.rebbi.wo.util.Inspection;
 
 public class USMenuItemEntity extends USMenuItem {
@@ -18,7 +18,7 @@ public class USMenuItemEntity extends USMenuItem {
 
 	@Override
 	public String name() {
-		return EntityViewDefinition.get( _entityName ).icelandicNamePlural();
+		return EntityDefinition.get( _entityName ).icelandicNamePlural();
 	}
 
 	public String entityName() {
@@ -31,6 +31,6 @@ public class USMenuItemEntity extends USMenuItem {
 
 	@Override
 	public WOActionResults action() {
-		return Inspection.openListPage( EntityViewDefinition.get( _entityName ).entityClass() );
+		return Inspection.openListPage( EntityDefinition.get( _entityName ).entityClass() );
 	}
 }

@@ -15,10 +15,10 @@ import org.apache.cayenne.query.SelectQuery;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.routes.RouteTable.RouteHandler;
 import is.rebbi.wo.urls.URLProviderDataObject;
 import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.util.Inspection.InspectionRoute;
 import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.Jambalaya;
 
@@ -79,13 +79,16 @@ public class ObjectRouteHandler extends RouteHandler {
 		return (DataObject)q.selectOne( oc );
 	}
 
+	/**
+	 * FIXME: Evaluate this method
+	 */
 	private static String entityNameFromTypeIdentifier( final String typeIdentifier ) {
-		EntityViewDefinition viewDefinition = EntityViewDefinition.definitionForURLPrefix( typeIdentifier );
+		InspectionRoute inspectionRoute = InspectionRoute.forURLPrefix( typeIdentifier );
 
-		if( viewDefinition == null ) {
+		if( inspectionRoute == null ) {
 			throw new RuntimeException( "No view definition found for URL prefix: " + typeIdentifier );
 		}
 
-		return viewDefinition.name();
+		return inspectionRoute.entityClass().getName();
 	}
 }

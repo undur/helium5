@@ -16,7 +16,7 @@ import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
 import is.rebbi.wo.components.admin.USSystemInfoPage;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
 import is.rebbi.wo.components.admin.USViewDefinitionOverviewPage;
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 import is.rebbi.wo.util.USGenericComparator;
 
 public class USMenu {
@@ -52,7 +52,7 @@ public class USMenu {
 			USMenuItemPage categoryLevel = USMenuItemPage.create( categoryName, null, null );
 			dataTablesLevel.addChild( categoryLevel );
 
-			for( EntityViewDefinition e : viewDefinitions( categoryName ) ) {
+			for( EntityDefinition e : viewDefinitions( categoryName ) ) {
 				categoryLevel.addChild( USMenuItemEntity.create( e.name(), null ) );
 			}
 		}
@@ -60,7 +60,7 @@ public class USMenu {
 		return dataTablesLevel;
 	}
 
-	public static List<EntityViewDefinition> viewDefinitions( String currentCategoryName ) {
+	public static List<EntityDefinition> viewDefinitions( String currentCategoryName ) {
 		EOQualifier q = null;
 
 		if( currentCategoryName.equals( UNCATEGORIZED_CATEGORY_NAME ) ) {
@@ -70,7 +70,7 @@ public class USMenu {
 			q = new EOKeyValueQualifier( "categoryName", EOQualifier.QualifierOperatorEqual, currentCategoryName );
 		}
 
-		List<EntityViewDefinition> a = filteredArrayWithQualifier( EntityViewDefinition.all(), q );
+		List<EntityDefinition> a = filteredArrayWithQualifier( EntityDefinition.all(), q );
 		Collections.sort( a, new USGenericComparator( "icelandicName", true, true ) );
 		return a;
 	}
@@ -95,7 +95,7 @@ public class USMenu {
 	public static NSArray<String> categoryNames() {
 		NSMutableSet<String> results = new NSMutableSet<>();
 
-		for( EntityViewDefinition d : EntityViewDefinition.all() ) {
+		for( EntityDefinition d : EntityDefinition.all() ) {
 			String categoryName = d.categoryName();
 
 			if( categoryName == null ) {

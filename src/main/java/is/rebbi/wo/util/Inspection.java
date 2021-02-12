@@ -1,5 +1,8 @@
 package is.rebbi.wo.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.cayenne.DataObject;
 
 import com.webobjects.appserver.WOActionResults;
@@ -13,7 +16,7 @@ import is.rebbi.wo.components.USViewWrapper;
 import is.rebbi.wo.components.admin.USEditPageGeneric;
 import is.rebbi.wo.components.admin.USEditWrapper;
 import is.rebbi.wo.components.admin.USListPageEdit;
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 
 /**
@@ -22,11 +25,107 @@ import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 
 public class Inspection {
 
+	public static class InspectionRoute {
+
+		// FIXME: Make this private
+		public static final Map<Class, InspectionRoute> _inspectionRoutes = new HashMap<>();
+
+		public static final Map<Class, InspectionRoute> inspectionRoutes() {
+			return _inspectionRoutes;
+		}
+
+		public static void add( Class entityClass, String urlPrefix, Class viewComponentClass, Class editComponentClass ) {
+			final InspectionRoute ir = new InspectionRoute();
+			ir.setEntityClass( entityClass );
+			ir.setUrlPrefix( urlPrefix );
+			ir.setViewComponentClass( viewComponentClass );
+			ir.setEditComponentClass( editComponentClass );
+			inspectionRoutes().put( editComponentClass, ir );
+		}
+
+		private Class _entityClass;
+
+		/**
+		 * Prefix used in URLs to access objects of this type.
+		 */
+		private String _urlPrefix;
+
+		/**
+		 * Class of component used to view objects if this type.
+		 */
+		private Class _viewComponentClass;
+
+		/**
+		 * Class of component used to edit objects if this type.
+		 */
+		private Class _editComponentClass;
+
+		public Class entityClass() {
+			return _entityClass;
+		}
+
+		public void setEntityClass( final Class value ) {
+			_entityClass = value;
+		}
+
+		// FIXME: Auto-generate a prefix if not provided
+		public String urlPrefix() {
+			return _urlPrefix;
+		}
+
+		public void setUrlPrefix( String value ) {
+			_urlPrefix = value;
+		}
+
+		public Class viewComponentClass() {
+			return _viewComponentClass;
+		}
+
+		public void setViewComponentClass( Class value ) {
+			_viewComponentClass = value;
+		}
+
+		public Class editComponentClass() {
+			return _editComponentClass;
+		}
+
+		public void setEditComponentClass( Class value ) {
+			_editComponentClass = value;
+		}
+
+		/**
+		 * @return The definition for the given URL prefix.
+		 */
+		public static InspectionRoute forURLPrefix( String urlPrefix ) {
+			for( InspectionRoute o : inspectionRoutes().values() ) {
+				if( urlPrefix.equals( o.urlPrefix() ) ) {
+					return o;
+				}
+			}
+
+			return null;
+		}
+
+		/**
+		 * @return The definition for the given URL prefix.
+		 */
+		public static InspectionRoute forEntityName( String entityName ) {
+			for( InspectionRoute o : inspectionRoutes().values() ) {
+				if( entityName.equals( o.entityClass().getSimpleName() ) ) {
+					return o;
+				}
+			}
+
+			return null;
+		}
+	}
+
 	/**
 	 * @return The given object opened in the default view page.
 	 */
 	public static WOActionResults inspectObjectInContext( Object object, WOContext context ) {
-		Class<? extends HasSelectedObjectPage> componentClass = EntityViewDefinition.get( object.getClass() ).viewComponentClass();
+		//		Class<? extends HasSelectedObjectPage> componentClass = EntityViewDefinition.get( object.getClass() ).viewComponentClass();
+		Class<? extends HasSelectedObjectPage> componentClass = InspectionRoute.inspectionRoutes().get( object.getClass() ).viewComponentClass();
 
 		if( componentClass != null ) {
 			return inspectObjectInContextUsingComponent( object, context, componentClass );
@@ -39,7 +138,8 @@ public class Inspection {
 	 * @return The given object opened in the default edit page.
 	 */
 	public static WOActionResults editObjectInContext( Object object, WOContext context ) {
-		Class<? extends USViewPage> componentClass = EntityViewDefinition.get( object.getClass() ).editComponentClass();
+		//		Class<? extends USViewPage> componentClass = EntityViewDefinition.get( object.getClass() ).editComponentClass();
+		Class<? extends USViewPage> componentClass = InspectionRoute.inspectionRoutes().get( object.getClass() ).editComponentClass();
 
 		if( componentClass != null ) {
 			return editObjectInContextUsingComponent( object, context, componentClass );
@@ -49,7 +149,7 @@ public class Inspection {
 	}
 
 	public static WOActionResults openListPage( Class entityClass ) {
-		EntityViewDefinition viewDefinition = EntityViewDefinition.get( entityClass );
+		EntityDefinition viewDefinition = EntityDefinition.get( entityClass );
 		USListPageEdit nextPage = ERXApplication.erxApplication().pageWithName( USListPageEdit.class );
 		nextPage.setSelectedViewDefinition( viewDefinition );
 		return nextPage;

@@ -7,19 +7,19 @@ import java.util.List;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 
 public class USViewDefinitionOverviewPage extends ERXComponent {
 
-	public EntityViewDefinition current;
+	public EntityDefinition current;
 
 	public USViewDefinitionOverviewPage( WOContext context ) {
 		super( context );
 	}
 
-	public List<EntityViewDefinition> all() {
-		List<EntityViewDefinition> list = EntityViewDefinition.all();
-		Collections.sort( list, Comparator.comparing( EntityViewDefinition::name ) );
+	public List<EntityDefinition> all() {
+		List<EntityDefinition> list = EntityDefinition.all();
+		Collections.sort( list, Comparator.comparing( EntityDefinition::name ) );
 		return list;
 	}
 }

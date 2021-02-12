@@ -6,7 +6,7 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
 import is.rebbi.wo.definitions.AttributeDefinition;
-import is.rebbi.wo.definitions.EntityViewDefinition;
+import is.rebbi.wo.definitions.EntityDefinition;
 
 /**
  * Shows a label accompanying fields of information.
@@ -28,8 +28,8 @@ public class USLabel extends ERXNonSynchronizingComponent {
 		return stringValueForBinding( "key" );
 	}
 
-	private EntityViewDefinition viewDefinition() {
-		return EntityViewDefinition.get( object().getClass() );
+	private EntityDefinition viewDefinition() {
+		return EntityDefinition.get( object().getClass() );
 	}
 
 	private AttributeDefinition meta() {

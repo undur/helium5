@@ -81,6 +81,25 @@ public class EntityDefinition<E> {
 		setAttributeDefinitions( new HashMap<>() );
 	}
 
+	/**
+	 * Define view definition for an entity.
+	 */
+	public static EntityDefinition create( final Class<?> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName, final String text, final String iconFileName ) {
+		EntityDefinition e = new EntityDefinition();
+		e.setEntityClass( entityClass );
+
+		final String name = Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
+
+		e.setName( name );
+		e.setIcelandicName( icelandicName );
+		e.setIcelandicNamePlural( icelandicNamePlural );
+		e.setCategoryName( categoryName );
+		e.setText( text );
+		e.setIconFileName( iconFileName );
+
+		return e;
+	}
+
 	private static List<ProvidesEntityViewDefinitions> entityViewDefinitionProviders() {
 		if( _entityDefinitionProviders == null ) {
 			_entityDefinitionProviders = new ArrayList<>();
@@ -117,8 +136,8 @@ public class EntityDefinition<E> {
 
 			for( ProvidesEntityViewDefinitions provider : entityViewDefinitionProviders() ) {
 				logger.info( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
-				for( EntityViewDefinition e : provider.entityViewDefinitions() ) {
-					((EntityDefinition)e).register(); // FIXME: Remove cast.
+				for( EntityDefinition e : provider.entityViewDefinitions() ) {
+					e.register(); // FIXME: Remove cast.
 				}
 			}
 		}
@@ -147,7 +166,7 @@ public class EntityDefinition<E> {
 	private void register() {
 		logger.info( "Defining view for: {}", name() );
 
-		EntityViewDefinition e = get( name() );
+		EntityDefinition e = get( name() );
 
 		if( entityClass() != null ) {
 			e.setEntityClass( entityClass() );
@@ -173,46 +192,32 @@ public class EntityDefinition<E> {
 			e.setIconFileName( iconFileName() );
 		}
 
-		// FIXME: Remove the cast here once we're done abusing Java.
 		if( !attributeDefinitions().isEmpty() ) {
-			((EntityDefinition)e).setAttributeDefinitions( attributeDefinitions() );
-		}
-
-		// FIXME: We're entering weird territory by casting ourselves.
-		if( ((EntityViewDefinition)this).urlPrefix() != null ) {
-			e.setUrlPrefix( ((EntityViewDefinition)this).urlPrefix() );
-		}
-
-		if( ((EntityViewDefinition)this).viewComponentClass() != null ) {
-			e.setViewComponentClass( ((EntityViewDefinition)this).viewComponentClass() );
-		}
-
-		if( ((EntityViewDefinition)this).editComponentClass() != null ) {
-			e.setEditComponentClass( ((EntityViewDefinition)this).editComponentClass() );
+			e.setAttributeDefinitions( attributeDefinitions() );
 		}
 	}
 
 	/**
 	 * @return The definition for the given class
 	 */
-	public static <T> EntityViewDefinition get( Class<T> entityClass ) {
+	public static <T> EntityDefinition get( Class<T> entityClass ) {
 		return get( entityClass.getSimpleName() );
 	}
 
 	/**
 	 * @return The definition for the given entityName
 	 */
-	public static EntityViewDefinition get( String entityName ) {
+	public static EntityDefinition get( String entityName ) {
 
 		if( entityName == null ) {
 			throw new IllegalArgumentException( "[entityName] cannot be null" );
 		}
 
 		// FIXME: Remove the cast once we're done
-		EntityViewDefinition e = (EntityViewDefinition)definitions().get( entityName );
+		EntityDefinition e = definitions().get( entityName );
 
 		if( e == null ) {
-			e = new EntityViewDefinition();
+			e = new EntityDefinition();
 			e.setName( entityName );
 			definitions().put( entityName, e );
 		}
@@ -332,11 +337,11 @@ public class EntityDefinition<E> {
 		return _attributesToShow;
 	}
 
-	public static List<EntityViewDefinition> all() {
-		List<EntityViewDefinition> all = new ArrayList<>();
+	public static List<EntityDefinition> all() {
+		List<EntityDefinition> all = new ArrayList<>();
 
 		for( String entityName : allCayenneEntityNames() ) {
-			all.add( EntityViewDefinition.get( entityName ) );
+			all.add( EntityDefinition.get( entityName ) );
 		}
 
 		Collections.sort( all, new USGenericComparator<>( "icelandicName", true, true ) );
@@ -359,7 +364,7 @@ public class EntityDefinition<E> {
 	 * @return Icelandic name of object associated with the named entity.
 	 */
 	public static String icelandicName( String entityName ) {
-		EntityViewDefinition type = get( entityName );
+		EntityDefinition type = get( entityName );
 
 		if( type != null ) {
 			String name = type.icelandicName();
@@ -376,7 +381,7 @@ public class EntityDefinition<E> {
 	 * @return Icelandic name of object associated with the named entity.
 	 */
 	public static String icelandicNamePlural( String entityName ) {
-		EntityViewDefinition type = get( entityName );
+		EntityDefinition type = get( entityName );
 
 		if( type != null ) {
 			String name = type.icelandicNamePlural();
