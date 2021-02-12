@@ -40,8 +40,11 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 		return oc().getEntityResolver().getObjEntity( object.getObjectId().getEntityName() ).getRelationship( key );
 	}
 
+	/**
+	 * FIXME: Should this definitely be overridden?
+	 */
 	@Override
-	public EntityDefinition selectedViewDefinition() {
+	public EntityDefinition entityDefinition() {
 		return EntityDefinition.get( relationship().getTargetEntityName() );
 	}
 

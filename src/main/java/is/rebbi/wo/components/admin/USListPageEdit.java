@@ -44,7 +44,7 @@ public class USListPageEdit extends USBaseComponent {
 	/**
 	 * The selected entityViewDefinition
 	 */
-	private EntityDefinition _selectedViewDefinition;
+	private Class _entityClass;
 
 	/**
 	 * the object currently being iterated over in lists.
@@ -135,8 +135,8 @@ public class USListPageEdit extends USBaseComponent {
 			return null;
 		}
 
-		Expression fromEntity = CayenneUtils.allQualifier( oc(), searchString, selectedViewDefinition().entityClass() );
-		Expression fromKeyPaths = CayenneUtils.allExpression( oc(), searchString, selectedViewDefinition().entityClass(), keyPathsToShow() );
+		Expression fromEntity = CayenneUtils.allQualifier( oc(), searchString, entityClass() );
+		Expression fromKeyPaths = CayenneUtils.allExpression( oc(), searchString, entityClass(), keyPathsToShow() );
 		Expression e = ExpressionFactory.or( fromEntity, fromKeyPaths );
 
 		return e;
@@ -144,7 +144,7 @@ public class USListPageEdit extends USBaseComponent {
 
 	public long numberOfObjects() {
 		if( _numberOfObjects == null ) {
-			_numberOfObjects = CayenneUtils.count( oc(), selectedViewDefinition().entityClass(), expression() );
+			_numberOfObjects = CayenneUtils.count( oc(), entityClass(), expression() );
 		}
 
 		return _numberOfObjects;
@@ -169,12 +169,12 @@ public class USListPageEdit extends USBaseComponent {
 	}
 
 	public List<?> objects() {
-		ObjectSelect<?> query = ObjectSelect.query( selectedViewDefinition().entityClass() );
+		ObjectSelect<?> query = ObjectSelect.query( entityClass() );
 
 		query.limit( batchSize );
 		query.offset( firstObjectIndex() );
 
-		for( String keyPath : CayenneUtils.keyPathsToPrefetch( oc(), selectedViewDefinition().entityClass(), keyPathsToShow() ) ) {
+		for( String keyPath : CayenneUtils.keyPathsToPrefetch( oc(), entityDefinition().entityClass(), keyPathsToShow() ) ) {
 			query.prefetch( PrefetchTreeNode.withPath( keyPath, PrefetchTreeNode.DISJOINT_BY_ID_PREFETCH_SEMANTICS ) );
 		}
 
@@ -185,12 +185,16 @@ public class USListPageEdit extends USBaseComponent {
 		return query.select( oc() );
 	}
 
-	public EntityDefinition selectedViewDefinition() {
-		return _selectedViewDefinition;
+	public EntityDefinition entityDefinition() {
+		return EntityDefinition.get( entityClass() );
 	}
 
-	public void setSelectedViewDefinition( EntityDefinition value ) {
-		_selectedViewDefinition = value;
+	public void setEntityClass( Class value ) {
+		_entityClass = value;
+	}
+
+	public Class entityClass() {
+		return _entityClass;
 	}
 
 	public Object currentValue() {
@@ -198,13 +202,13 @@ public class USListPageEdit extends USBaseComponent {
 	}
 
 	public List<String> keyPathsToShow() {
-		List<AttributeDefinition> attributesToShow = selectedViewDefinition().attributesToShow();
+		List<AttributeDefinition> attributesToShow = entityDefinition().attributesToShow();
 
 		if( !attributesToShow.isEmpty() ) {
 			return attributesToShow.stream().map( AttributeDefinition::name ).collect( Collectors.toList() );
 		}
 		else {
-			return Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( selectedViewDefinition().entityClass() ).getAttributes().stream().map( ObjAttribute::getName ).collect( Collectors.toList() );
+			return Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass() ).getAttributes().stream().map( ObjAttribute::getName ).collect( Collectors.toList() );
 		}
 	}
 
@@ -222,12 +226,12 @@ public class USListPageEdit extends USBaseComponent {
 	}
 
 	public AttributeDefinition currentAttributeViewDefinition() {
-		return selectedViewDefinition().attributeNamed( currentKeyPath );
+		return entityDefinition().attributeNamed( currentKeyPath );
 	}
 
 	public WOActionResults createObject() {
 		ObjectContext childContext = Jambalaya.newContext( oc() );
-		Object object = childContext.newObject( selectedViewDefinition().entityClass() );
+		Object object = childContext.newObject( entityClass() );
 		WOActionResults nextPage = Inspection.editObjectInContext( object, context() );
 		return nextPage;
 	}

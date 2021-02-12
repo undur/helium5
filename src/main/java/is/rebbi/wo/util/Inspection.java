@@ -17,7 +17,6 @@ import is.rebbi.wo.components.admin.USEditPageGeneric;
 import is.rebbi.wo.components.admin.USEditWrapper;
 import is.rebbi.wo.components.admin.USListPageEdit;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
-import jambalaya.definitions.EntityDefinition;
 
 /**
  * Central class for the inspection stuff.
@@ -125,7 +124,6 @@ public class Inspection {
 	 * @return The given object opened in the default view page.
 	 */
 	public static WOActionResults inspectObjectInContext( Object object, WOContext context ) {
-		//		Class<? extends HasSelectedObjectPage> componentClass = EntityViewDefinition.get( object.getClass() ).viewComponentClass();
 		Class<? extends HasSelectedObjectPage> componentClass = InspectionRoute.inspectionRoutes().get( object.getClass() ).viewComponentClass();
 
 		if( componentClass != null ) {
@@ -139,7 +137,6 @@ public class Inspection {
 	 * @return The given object opened in the default edit page.
 	 */
 	public static WOActionResults editObjectInContext( Object object, WOContext context ) {
-		//		Class<? extends USViewPage> componentClass = EntityViewDefinition.get( object.getClass() ).editComponentClass();
 		Class<? extends USViewPage> componentClass = InspectionRoute.inspectionRoutes().get( object.getClass() ).editComponentClass();
 
 		if( componentClass != null ) {
@@ -150,9 +147,8 @@ public class Inspection {
 	}
 
 	public static WOActionResults openListPage( Class entityClass ) {
-		EntityDefinition viewDefinition = EntityDefinition.get( entityClass );
 		USListPageEdit nextPage = ERXApplication.erxApplication().pageWithName( USListPageEdit.class );
-		nextPage.setSelectedViewDefinition( viewDefinition );
+		nextPage.setEntityClass( entityClass );
 		return nextPage;
 	}
 
