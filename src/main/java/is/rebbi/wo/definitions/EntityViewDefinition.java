@@ -73,34 +73,6 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		_editComponentClass = value;
 	}
 
-
-
-	/**
-	 * @return The component class used to view the given type of object.
-	 */
-	public static Class viewComponentClass( Class entityClass ) {
-		EntityViewDefinition type = get( entityClass );
-
-		if( type != null ) {
-			return type.viewComponentClass();
-		}
-
-		return null;
-	}
-
-	/**
-	 * @return The component class used to edit the given type of object.
-	 */
-	public static Class editComponentClass( Class entityClass ) {
-		EntityViewDefinition type = get( entityClass );
-
-		if( type != null ) {
-			return type.editComponentClass();
-		}
-
-		return null;
-	}
-
 	/**
 	 * @return The definition for the given URL prefix.
 	 *

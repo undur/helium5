@@ -26,7 +26,7 @@ public class Inspection {
 	 * @return The given object opened in the default view page.
 	 */
 	public static WOActionResults inspectObjectInContext( Object object, WOContext context ) {
-		Class<? extends HasSelectedObjectPage> componentClass = EntityViewDefinition.viewComponentClass( object.getClass() );
+		Class<? extends HasSelectedObjectPage> componentClass = EntityViewDefinition.get( object.getClass() ).viewComponentClass();
 
 		if( componentClass != null ) {
 			return inspectObjectInContextUsingComponent( object, context, componentClass );
@@ -39,7 +39,7 @@ public class Inspection {
 	 * @return The given object opened in the default edit page.
 	 */
 	public static WOActionResults editObjectInContext( Object object, WOContext context ) {
-		Class<? extends USViewPage> componentClass = EntityViewDefinition.editComponentClass( object.getClass() );
+		Class<? extends USViewPage> componentClass = EntityViewDefinition.get( object.getClass() ).editComponentClass();
 
 		if( componentClass != null ) {
 			return editObjectInContextUsingComponent( object, context, componentClass );
