@@ -6,7 +6,7 @@ import org.apache.cayenne.exp.Property;
  * Defines the display of an attribute.
  */
 
-public class AttributeViewDefinition {
+public class AttributeDefinition {
 
 	private Property<?> _property;
 	private String _name;
@@ -15,9 +15,9 @@ public class AttributeViewDefinition {
 	private boolean _show;
 	private Integer _sortOrder;
 
-	public AttributeViewDefinition() {}
+	public AttributeDefinition() {}
 
-	public AttributeViewDefinition( Integer sortOrder, Property<?> property, String icelandicName, boolean show ) {
+	public AttributeDefinition( Integer sortOrder, Property<?> property, String icelandicName, boolean show ) {
 		setSortOrder( sortOrder );
 		setName( property.getName() );
 		setProperty( property );
@@ -25,7 +25,7 @@ public class AttributeViewDefinition {
 		setShow( show );
 	}
 
-	public AttributeViewDefinition( Integer sortOrder, String name, String icelandicName, boolean show ) {
+	public AttributeDefinition( Integer sortOrder, String name, String icelandicName, boolean show ) {
 		setSortOrder( sortOrder );
 		setName( name );
 		setProperty( Property.create( name, null ) );
@@ -33,7 +33,7 @@ public class AttributeViewDefinition {
 		setShow( show );
 	}
 
-	public AttributeViewDefinition( String name, String icelandicName, boolean show ) {
+	public AttributeDefinition( String name, String icelandicName, boolean show ) {
 		setName( name );
 		setProperty( Property.create( name, null ) );
 		setIcelandicName( icelandicName );
@@ -115,7 +115,7 @@ public class AttributeViewDefinition {
 		if( getClass() != obj.getClass() ) {
 			return false;
 		}
-		AttributeViewDefinition other = (AttributeViewDefinition)obj;
+		AttributeDefinition other = (AttributeDefinition)obj;
 		if( _icelandicName == null ) {
 			if( other._icelandicName != null ) {
 				return false;

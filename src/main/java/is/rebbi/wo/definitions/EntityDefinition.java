@@ -30,7 +30,7 @@ public class EntityDefinition<E> {
 	/**
 	 * The attributes of this entity
 	 */
-	private Map<String, AttributeViewDefinition> _attributeViewDefinitions;
+	private Map<String, AttributeDefinition> _attributeViewDefinitions;
 
 	/**
 	 * Name of the entity this view definition defines.
@@ -65,7 +65,7 @@ public class EntityDefinition<E> {
 	/**
 	 * Cached list of attributes to show.
 	 */
-	private List<AttributeViewDefinition> _attributesToShow;
+	private List<AttributeDefinition> _attributesToShow;
 
 	/**
 	 * The class that represents this entity. Can be null if the entity does not have a corresponding class.
@@ -100,7 +100,7 @@ public class EntityDefinition<E> {
 		invalidateCache();
 	}
 
-	public AttributeViewDefinition addAttributeViewDefinition( AttributeViewDefinition a ) {
+	public AttributeDefinition addAttributeViewDefinition( AttributeDefinition a ) {
 		if( a.name() != null ) {
 			attributeViewDefinitions().put( a.name(), a );
 		}
@@ -289,16 +289,16 @@ public class EntityDefinition<E> {
 		return Jambalaya.newContext().getEntityResolver().getObjEntity( name() );
 	}
 
-	public AttributeViewDefinition attributeNamed( String attributeName ) {
+	public AttributeDefinition attributeNamed( String attributeName ) {
 
 		if( attributeName == null ) {
 			return null;
 		}
 
-		AttributeViewDefinition result = attributeViewDefinitions().get( attributeName );
+		AttributeDefinition result = attributeViewDefinitions().get( attributeName );
 
 		if( result == null ) {
-			result = new AttributeViewDefinition();
+			result = new AttributeDefinition();
 			result.setName( attributeName );
 			addAttributeViewDefinition( result );
 		}
@@ -306,11 +306,11 @@ public class EntityDefinition<E> {
 		return result;
 	}
 
-	public List<AttributeViewDefinition> attributes() {
+	public List<AttributeDefinition> attributes() {
 		return new ArrayList<>( attributeViewDefinitions().values() );
 	}
 
-	public Map<String, AttributeViewDefinition> attributeViewDefinitions() {
+	public Map<String, AttributeDefinition> attributeViewDefinitions() {
 		if( _attributeViewDefinitions == null ) {
 			_attributeViewDefinitions = new HashMap<>();
 		}
@@ -318,10 +318,10 @@ public class EntityDefinition<E> {
 		return _attributeViewDefinitions;
 	}
 
-	public List<AttributeViewDefinition> attributesToShow() {
+	public List<AttributeDefinition> attributesToShow() {
 		if( _attributesToShow == null ) {
 			_attributesToShow = new ArrayList<>( attributeViewDefinitions().values() );
-			_attributesToShow = _attributesToShow.stream().filter( AttributeViewDefinition::show ).collect( Collectors.toList() );
+			_attributesToShow = _attributesToShow.stream().filter( AttributeDefinition::show ).collect( Collectors.toList() );
 			Collections.sort( _attributesToShow, new USGenericComparator<>( "name", true, false ) );
 			Collections.sort( _attributesToShow, new USGenericComparator<>( "sortOrder", true, false ) );
 		}

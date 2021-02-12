@@ -5,7 +5,7 @@ import org.apache.cayenne.DataObject;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
-import is.rebbi.wo.definitions.AttributeViewDefinition;
+import is.rebbi.wo.definitions.AttributeDefinition;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 
 /**
@@ -14,7 +14,7 @@ import is.rebbi.wo.definitions.EntityViewDefinition;
 
 public class USLabel extends ERXNonSynchronizingComponent {
 
-	private AttributeViewDefinition _viewDefinition;
+	private AttributeDefinition _viewDefinition;
 
 	public USLabel( WOContext context ) {
 		super( context );
@@ -32,7 +32,7 @@ public class USLabel extends ERXNonSynchronizingComponent {
 		return EntityViewDefinition.get( object().getClass() );
 	}
 
-	private AttributeViewDefinition meta() {
+	private AttributeDefinition meta() {
 		if( _viewDefinition == null ) {
 			_viewDefinition = viewDefinition().attributeNamed( key() );
 		}

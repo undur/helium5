@@ -23,7 +23,7 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.components.USBaseComponent;
-import is.rebbi.wo.definitions.AttributeViewDefinition;
+import is.rebbi.wo.definitions.AttributeDefinition;
 import is.rebbi.wo.definitions.EntityViewDefinition;
 import is.rebbi.wo.util.Inspection;
 import jambalaya.CayenneUtils;
@@ -198,10 +198,10 @@ public class USListPageEdit extends USBaseComponent {
 	}
 
 	public List<String> keyPathsToShow() {
-		List<AttributeViewDefinition> attributesToShow = selectedViewDefinition().attributesToShow();
+		List<AttributeDefinition> attributesToShow = selectedViewDefinition().attributesToShow();
 
 		if( !attributesToShow.isEmpty() ) {
-			return attributesToShow.stream().map( AttributeViewDefinition::name ).collect( Collectors.toList() );
+			return attributesToShow.stream().map( AttributeDefinition::name ).collect( Collectors.toList() );
 		}
 		else {
 			return Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( selectedViewDefinition().entityClass() ).getAttributes().stream().map( ObjAttribute::getName ).collect( Collectors.toList() );
@@ -221,7 +221,7 @@ public class USListPageEdit extends USBaseComponent {
 		return currentAttributeViewDefinition().icelandicName();
 	}
 
-	public AttributeViewDefinition currentAttributeViewDefinition() {
+	public AttributeDefinition currentAttributeViewDefinition() {
 		return selectedViewDefinition().attributeNamed( currentKeyPath );
 	}
 
