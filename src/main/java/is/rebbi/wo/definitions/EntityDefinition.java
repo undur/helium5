@@ -84,6 +84,22 @@ public class EntityDefinition<E> {
 	/**
 	 * Define view definition for an entity.
 	 */
+	public static EntityDefinition create( final Class<?> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName ) {
+		final EntityDefinition e = new EntityDefinition();
+		e.setEntityClass( entityClass );
+
+		final String name = Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
+		e.setName( name );
+		e.setIcelandicName( icelandicName );
+		e.setIcelandicNamePlural( icelandicNamePlural );
+		e.setCategoryName( categoryName );
+		return e;
+	}
+
+	/**
+	 * Define view definition for an entity.
+	 */
+	@Deprecated
 	public static EntityDefinition create( final Class<?> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName, final String text, final String iconFileName ) {
 		EntityDefinition e = new EntityDefinition();
 		e.setEntityClass( entityClass );
