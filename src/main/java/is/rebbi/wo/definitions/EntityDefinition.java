@@ -77,7 +77,9 @@ public class EntityDefinition<E> {
 	 */
 	private static List<ProvidesEntityViewDefinitions> _entityDefinitionProviders;
 
-	protected EntityDefinition() {}
+	protected EntityDefinition() {
+		setAttributeDefinitions( new HashMap<>() );
+	}
 
 	private static List<ProvidesEntityViewDefinitions> entityViewDefinitionProviders() {
 		if( _entityDefinitionProviders == null ) {
@@ -171,8 +173,9 @@ public class EntityDefinition<E> {
 			e.setIconFileName( iconFileName() );
 		}
 
-		if( _attributeDefinitions != null ) {
-			((EntityDefinition)e)._attributeDefinitions = _attributeDefinitions; // FIXME: Remove the cast here once we're done abusing Java.
+		// FIXME: Remove the cast here once we're done abusing Java.
+		if( !attributeDefinitions().isEmpty() ) {
+			((EntityDefinition)e).setAttributeDefinitions( attributeDefinitions() );
 		}
 
 		// FIXME: We're entering weird territory by casting ourselves.
@@ -311,11 +314,11 @@ public class EntityDefinition<E> {
 	}
 
 	public Map<String, AttributeDefinition> attributeDefinitions() {
-		if( _attributeDefinitions == null ) {
-			_attributeDefinitions = new HashMap<>();
-		}
-
 		return _attributeDefinitions;
+	}
+
+	public void setAttributeDefinitions( final Map<String, AttributeDefinition> value ) {
+		_attributeDefinitions = value;
 	}
 
 	public List<AttributeDefinition> attributesToShow() {
