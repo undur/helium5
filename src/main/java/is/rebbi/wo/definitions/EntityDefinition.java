@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.cayenne.DataObject;
 import org.apache.cayenne.access.DataDomain;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.map.EntityResolver;
@@ -18,7 +19,7 @@ import er.extensions.appserver.ERXApplication;
 import is.rebbi.wo.util.USGenericComparator;
 import jambalaya.Jambalaya;
 
-public class EntityDefinition<E> {
+public class EntityDefinition<E extends DataObject> {
 
 	private static final Logger logger = LoggerFactory.getLogger( EntityDefinition.class );
 
