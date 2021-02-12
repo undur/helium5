@@ -31,15 +31,16 @@ public class EntityViewDefinition<E, T extends HasSelectedObjectPage<E>, V exten
 		EntityViewDefinition e = new EntityViewDefinition();
 		e.setEntityClass( entityClass );
 
-		String name = Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
+		final String name = Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
 
 		e.setName( name );
 		e.setIcelandicName( icelandicName );
 		e.setIcelandicNamePlural( icelandicNamePlural );
 		e.setCategoryName( categoryName );
 		e.setText( text );
-		e.setUrlPrefix( urlPrefix );
 		e.setIconFileName( iconFileName );
+
+		e.setUrlPrefix( urlPrefix );
 		e.setViewComponentClass( viewComponentClass );
 		e.setEditComponentClass( editComponentClass );
 		return e;
