@@ -2,7 +2,7 @@ package is.rebbi.wo.definitions;
 
 import java.util.List;
 
-public interface ProvidesEntityViewDefinitions {
+public interface ProvidesEntityDefinitions {
 
 	/**
 	 * @return A list of EntityViewDefinitions this specifies.

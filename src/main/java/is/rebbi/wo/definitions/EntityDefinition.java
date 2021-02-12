@@ -76,7 +76,7 @@ public class EntityDefinition<E extends DataObject> {
 	/**
 	 * List of all objects that provide the system with EntityDefinitions.
 	 */
-	private static List<ProvidesEntityViewDefinitions> _entityDefinitionProviders;
+	private static List<ProvidesEntityDefinitions> _entityDefinitionProviders;
 
 	protected EntityDefinition() {
 		setAttributeDefinitions( new HashMap<>() );
@@ -117,14 +117,14 @@ public class EntityDefinition<E extends DataObject> {
 		return e;
 	}
 
-	private static List<ProvidesEntityViewDefinitions> entityViewDefinitionProviders() {
+	private static List<ProvidesEntityDefinitions> entityViewDefinitionProviders() {
 		if( _entityDefinitionProviders == null ) {
 			_entityDefinitionProviders = new ArrayList<>();
 
-			boolean appProvides = ERXApplication.application() instanceof ProvidesEntityViewDefinitions;
+			boolean appProvides = ERXApplication.application() instanceof ProvidesEntityDefinitions;
 
 			if( appProvides ) {
-				_entityDefinitionProviders.add( (ProvidesEntityViewDefinitions)ERXApplication.application() );
+				_entityDefinitionProviders.add( (ProvidesEntityDefinitions)ERXApplication.application() );
 			}
 		}
 
@@ -133,7 +133,7 @@ public class EntityDefinition<E extends DataObject> {
 		return _entityDefinitionProviders;
 	}
 
-	public static void registerEntityViewDefinitionProvider( ProvidesEntityViewDefinitions provider ) {
+	public static void registerEntityViewDefinitionProvider( ProvidesEntityDefinitions provider ) {
 		entityViewDefinitionProviders().add( provider );
 		invalidateCache();
 	}
@@ -150,7 +150,7 @@ public class EntityDefinition<E extends DataObject> {
 		if( _definitions == null ) {
 			_definitions = new HashMap<>();
 
-			for( ProvidesEntityViewDefinitions provider : entityViewDefinitionProviders() ) {
+			for( ProvidesEntityDefinitions provider : entityViewDefinitionProviders() ) {
 				logger.info( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
 				for( EntityDefinition e : provider.entityViewDefinitions() ) {
 					e.register();
