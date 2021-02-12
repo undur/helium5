@@ -135,9 +135,6 @@ public class EntityDefinition<E extends DataObject> {
 				for( EntityDefinition e : provider.entityDefinitions() ) {
 					e.register();
 				}
-
-				// FIXME: Don't do this here!
-				provider.defineRoutes();
 			}
 		}
 
