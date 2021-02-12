@@ -33,13 +33,6 @@ public class AttributeDefinition {
 		setShow( show );
 	}
 
-	public AttributeDefinition( String name, String icelandicName, boolean show ) {
-		setName( name );
-		setProperty( Property.create( name, null ) );
-		setIcelandicName( icelandicName );
-		setShow( show );
-	}
-
 	public String name() {
 		return _name;
 	}
