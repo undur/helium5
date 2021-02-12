@@ -152,7 +152,7 @@ public class EntityDefinition<E extends DataObject> {
 
 			for( ProvidesEntityDefinitions provider : entityViewDefinitionProviders() ) {
 				logger.info( "Loading Entity View Definitions from {} - priority {}", provider.getClass(), provider.priority() );
-				for( EntityDefinition e : provider.entityViewDefinitions() ) {
+				for( EntityDefinition e : provider.entityDefinitions() ) {
 					e.register();
 				}
 

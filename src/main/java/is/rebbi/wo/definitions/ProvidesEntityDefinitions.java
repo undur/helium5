@@ -7,7 +7,7 @@ public interface ProvidesEntityDefinitions {
 	/**
 	 * @return A list of EntityViewDefinitions this specifies.
 	 */
-	public List<EntityDefinition> entityViewDefinitions();
+	public List<EntityDefinition> entityDefinitions();
 
 	/**
 	 * @return The priority of this definition. Higher numbers override lower numbers.
