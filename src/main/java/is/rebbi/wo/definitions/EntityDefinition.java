@@ -2,6 +2,7 @@ package is.rebbi.wo.definitions;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,6 @@ import org.apache.cayenne.map.ObjEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import er.extensions.appserver.ERXApplication;
 import is.rebbi.wo.util.USGenericComparator;
 import jambalaya.Jambalaya;
 
@@ -100,15 +100,9 @@ public class EntityDefinition<E extends DataObject> {
 	private static List<ProvidesEntityDefinitions> entityViewDefinitionProviders() {
 		if( _entityDefinitionProviders == null ) {
 			_entityDefinitionProviders = new ArrayList<>();
-
-			boolean appProvides = ERXApplication.application() instanceof ProvidesEntityDefinitions;
-
-			if( appProvides ) {
-				_entityDefinitionProviders.add( (ProvidesEntityDefinitions)ERXApplication.application() );
-			}
 		}
 
-		Collections.sort( _entityDefinitionProviders, new USGenericComparator( "priority", true, false ) );
+		Collections.sort( _entityDefinitionProviders, Comparator.comparing( ProvidesEntityDefinitions::priority ) );
 
 		return _entityDefinitionProviders;
 	}
