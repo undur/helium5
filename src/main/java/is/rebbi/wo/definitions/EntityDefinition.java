@@ -34,7 +34,7 @@ public class EntityDefinition<E extends DataObject> {
 	private Map<String, AttributeDefinition> _attributeDefinitions;
 
 	/**
-	 * Name of the entity this view definition defines.
+	 * Name of the entity this definition defines. Equal to entityClass.getSimpleName()
 	 */
 	private String _name;
 
@@ -59,7 +59,7 @@ public class EntityDefinition<E extends DataObject> {
 	private String _iconFileName;
 
 	/**
-	 * Name of the category for this entity view definition.
+	 * Name of the category
 	 */
 	private String _categoryName;
 
@@ -83,7 +83,7 @@ public class EntityDefinition<E extends DataObject> {
 	}
 
 	/**
-	 * Define view definition for an entity.
+	 * Define an entity.
 	 */
 	public static EntityDefinition create( final Class<?> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName ) {
 		final EntityDefinition e = new EntityDefinition();
@@ -94,26 +94,6 @@ public class EntityDefinition<E extends DataObject> {
 		e.setIcelandicName( icelandicName );
 		e.setIcelandicNamePlural( icelandicNamePlural );
 		e.setCategoryName( categoryName );
-		return e;
-	}
-
-	/**
-	 * Define view definition for an entity.
-	 */
-	@Deprecated
-	public static EntityDefinition create( final Class<?> entityClass, final String icelandicName, final String icelandicNamePlural, final String categoryName, final String text, final String iconFileName ) {
-		EntityDefinition e = new EntityDefinition();
-		e.setEntityClass( entityClass );
-
-		final String name = Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass ).getName();
-
-		e.setName( name );
-		e.setIcelandicName( icelandicName );
-		e.setIcelandicNamePlural( icelandicNamePlural );
-		e.setCategoryName( categoryName );
-		e.setText( text );
-		e.setIconFileName( iconFileName );
-
 		return e;
 	}
 
