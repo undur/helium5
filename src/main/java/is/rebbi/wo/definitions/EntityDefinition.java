@@ -30,7 +30,7 @@ public class EntityDefinition<E> {
 	/**
 	 * The attributes of this entity
 	 */
-	private Map<String, AttributeDefinition> _attributeViewDefinitions;
+	private Map<String, AttributeDefinition> _attributeDefinitions;
 
 	/**
 	 * Name of the entity this view definition defines.
@@ -100,9 +100,9 @@ public class EntityDefinition<E> {
 		invalidateCache();
 	}
 
-	public AttributeDefinition addAttributeViewDefinition( AttributeDefinition a ) {
+	public AttributeDefinition addAttributeDefinition( AttributeDefinition a ) {
 		if( a.name() != null ) {
-			attributeViewDefinitions().put( a.name(), a );
+			attributeDefinitions().put( a.name(), a );
 		}
 
 		return a;
@@ -171,8 +171,8 @@ public class EntityDefinition<E> {
 			e.setIconFileName( iconFileName() );
 		}
 
-		if( _attributeViewDefinitions != null ) {
-			((EntityDefinition)e)._attributeViewDefinitions = _attributeViewDefinitions; // FIXME: Remove the cast here once we're done abusing Java.
+		if( _attributeDefinitions != null ) {
+			((EntityDefinition)e)._attributeDefinitions = _attributeDefinitions; // FIXME: Remove the cast here once we're done abusing Java.
 		}
 
 		// FIXME: We're entering weird territory by casting ourselves.
@@ -295,32 +295,32 @@ public class EntityDefinition<E> {
 			return null;
 		}
 
-		AttributeDefinition result = attributeViewDefinitions().get( attributeName );
+		AttributeDefinition result = attributeDefinitions().get( attributeName );
 
 		if( result == null ) {
 			result = new AttributeDefinition();
 			result.setName( attributeName );
-			addAttributeViewDefinition( result );
+			addAttributeDefinition( result );
 		}
 
 		return result;
 	}
 
 	public List<AttributeDefinition> attributes() {
-		return new ArrayList<>( attributeViewDefinitions().values() );
+		return new ArrayList<>( attributeDefinitions().values() );
 	}
 
-	public Map<String, AttributeDefinition> attributeViewDefinitions() {
-		if( _attributeViewDefinitions == null ) {
-			_attributeViewDefinitions = new HashMap<>();
+	public Map<String, AttributeDefinition> attributeDefinitions() {
+		if( _attributeDefinitions == null ) {
+			_attributeDefinitions = new HashMap<>();
 		}
 
-		return _attributeViewDefinitions;
+		return _attributeDefinitions;
 	}
 
 	public List<AttributeDefinition> attributesToShow() {
 		if( _attributesToShow == null ) {
-			_attributesToShow = new ArrayList<>( attributeViewDefinitions().values() );
+			_attributesToShow = new ArrayList<>( attributeDefinitions().values() );
 			_attributesToShow = _attributesToShow.stream().filter( AttributeDefinition::show ).collect( Collectors.toList() );
 			Collections.sort( _attributesToShow, new USGenericComparator<>( "name", true, false ) );
 			Collections.sort( _attributesToShow, new USGenericComparator<>( "sortOrder", true, false ) );

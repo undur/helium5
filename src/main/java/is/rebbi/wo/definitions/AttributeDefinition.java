@@ -156,6 +156,6 @@ public class AttributeDefinition {
 
 	@Override
 	public String toString() {
-		return "AttributeViewDefinition [_name=" + _name + ", _icelandicName=" + _icelandicName + ", _text=" + _text + ", _show=" + _show + ", _sortOrder=" + _sortOrder + "]";
+		return "AttributeDefinition [_name=" + _name + ", _icelandicName=" + _icelandicName + ", _text=" + _text + ", _show=" + _show + ", _sortOrder=" + _sortOrder + "]";
 	}
 }
