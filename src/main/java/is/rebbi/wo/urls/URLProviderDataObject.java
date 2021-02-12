@@ -39,13 +39,25 @@ public class URLProviderDataObject implements URLProvider<DataObject> {
 	}
 
 	public static String urlForObjectId( final ObjectId objectId ) {
-		final String typeIdentifierString = InspectionRoute.forEntityName( objectId.getEntityName() ).urlPrefix();
+		final InspectionRoute inspectionRoute = InspectionRoute.forEntityName( objectId.getEntityName() );
+
+		if( inspectionRoute == null ) {
+			return "no-route";
+		}
+
+		final String typeIdentifierString = inspectionRoute.urlPrefix();
 		final String objectIdentifierString = PK_IDENTIFIER_PREFIX + ObjectIdSerializer.serialize( objectId );
 		return fullURL( typeIdentifierString, objectIdentifierString );
 	}
 
 	public static String urlForUniqueID( final String entityName, final String uniqueID ) {
-		final String typeIdentifierString = InspectionRoute.forEntityName( entityName ).urlPrefix();
+		final InspectionRoute inspectionRoute = InspectionRoute.forEntityName( entityName );
+
+		if( inspectionRoute == null ) {
+			return "no-route";
+		}
+
+		final String typeIdentifierString = inspectionRoute.urlPrefix();
 		final String objectIdentifierString = UNIQUE_ID_IDENTIFIER_PREFIX + uniqueID;
 		return fullURL( typeIdentifierString, objectIdentifierString );
 	}

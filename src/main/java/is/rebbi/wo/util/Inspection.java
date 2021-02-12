@@ -40,7 +40,7 @@ public class Inspection {
 			ir.setUrlPrefix( urlPrefix );
 			ir.setViewComponentClass( viewComponentClass );
 			ir.setEditComponentClass( editComponentClass );
-			inspectionRoutes().put( editComponentClass, ir );
+			inspectionRoutes().put( entityClass, ir );
 		}
 
 		private Class _entityClass;
@@ -117,6 +117,7 @@ public class Inspection {
 			}
 
 			return null;
+//			throw new IllegalArgumentException( "EntityName not found: " +  entityName );
 		}
 	}
 

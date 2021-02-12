@@ -89,6 +89,6 @@ public class ObjectRouteHandler extends RouteHandler {
 			throw new RuntimeException( "No view definition found for URL prefix: " + typeIdentifier );
 		}
 
-		return inspectionRoute.entityClass().getName();
+		return inspectionRoute.entityClass().getSimpleName();
 	}
 }
