@@ -7,7 +7,7 @@ import java.util.List;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXComponent;
-import is.rebbi.wo.definitions.EntityDefinition;
+import jambalaya.definitions.EntityDefinition;
 
 public class USViewDefinitionOverviewPage extends ERXComponent {
 

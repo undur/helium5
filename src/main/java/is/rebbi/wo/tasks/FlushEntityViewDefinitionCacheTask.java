@@ -1,6 +1,6 @@
 package is.rebbi.wo.tasks;
 
-import is.rebbi.wo.definitions.EntityDefinition;
+import jambalaya.definitions.EntityDefinition;
 
 public class FlushEntityViewDefinitionCacheTask extends USTask {
 

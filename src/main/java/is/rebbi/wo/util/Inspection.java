@@ -16,8 +16,8 @@ import is.rebbi.wo.components.USViewWrapper;
 import is.rebbi.wo.components.admin.USEditPageGeneric;
 import is.rebbi.wo.components.admin.USEditWrapper;
 import is.rebbi.wo.components.admin.USListPageEdit;
-import is.rebbi.wo.definitions.EntityDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
+import jambalaya.definitions.EntityDefinition;
 
 /**
  * Central class for the inspection stuff.

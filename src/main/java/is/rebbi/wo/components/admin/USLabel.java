@@ -5,8 +5,8 @@ import org.apache.cayenne.DataObject;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
-import is.rebbi.wo.definitions.AttributeDefinition;
-import is.rebbi.wo.definitions.EntityDefinition;
+import jambalaya.definitions.AttributeDefinition;
+import jambalaya.definitions.EntityDefinition;
 
 /**
  * Shows a label accompanying fields of information.

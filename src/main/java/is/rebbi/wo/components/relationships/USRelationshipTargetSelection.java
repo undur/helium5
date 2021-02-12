@@ -12,7 +12,7 @@ import com.webobjects.foundation.NSKeyValueCoding;
 
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.components.admin.USListPageEdit;
-import is.rebbi.wo.definitions.EntityDefinition;
+import jambalaya.definitions.EntityDefinition;
 
 public class USRelationshipTargetSelection extends USListPageEdit {
 

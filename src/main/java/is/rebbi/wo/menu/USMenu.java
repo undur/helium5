@@ -16,8 +16,8 @@ import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
 import is.rebbi.wo.components.admin.USSystemInfoPage;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
 import is.rebbi.wo.components.admin.USViewDefinitionOverviewPage;
-import is.rebbi.wo.definitions.EntityDefinition;
 import is.rebbi.wo.util.USGenericComparator;
+import jambalaya.definitions.EntityDefinition;
 
 public class USMenu {
 

@@ -7,9 +7,9 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.definitions.EntityDefinition;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import jambalaya.Jambalaya;
+import jambalaya.definitions.EntityDefinition;
 
 /**
  * Common functionality for client and admin side components.
