@@ -18,16 +18,11 @@ import is.rebbi.wo.components.admin.USEditWrapper;
 import is.rebbi.wo.components.admin.USListPageEdit;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 
-/**
- * Central class for the inspection stuff.
- */
-
 public class Inspection {
 
 	public static class InspectionRoute {
 
-		// FIXME: Make this private
-		public static final Map<Class, InspectionRoute> _inspectionRoutes = new HashMap<>();
+		private static final Map<Class, InspectionRoute> _inspectionRoutes = new HashMap<>();
 
 		public static final Map<Class, InspectionRoute> inspectionRoutes() {
 			return _inspectionRoutes;
@@ -67,7 +62,6 @@ public class Inspection {
 			_entityClass = value;
 		}
 
-		// FIXME: Auto-generate a prefix if not provided
 		public String urlPrefix() {
 			return _urlPrefix;
 		}
@@ -116,7 +110,7 @@ public class Inspection {
 			}
 
 			return null;
-//			throw new IllegalArgumentException( "EntityName not found: " +  entityName );
+			//			throw new IllegalArgumentException( "EntityName not found: " +  entityName );
 		}
 	}
 
