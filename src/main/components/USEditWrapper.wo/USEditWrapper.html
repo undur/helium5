@@ -1,26 +1,29 @@
 <wo:USEditLook selectedObject="$selectedObject">
 	<wo:AjaxUpdateContainer id="main">
-		<wo:form role="form" enctype="multipart/form-data">
-			<div class="sw-edit-controls">
-				<div class="row">
-					<div class="col-md-6">
-						<wo:link action="$openListPage" class="label label-default"><wo:str value="$viewDefinition.icelandicName" /></wo:link>
-						<div class="sw-object-descriptor"><strong><wo:IMValue object="$selectedObject" /></strong> <span style="color:rgb(200,200,200)"></span></div>
-					</div>
-					<div class="col-md-6">
-						<div class="pull-right">
-							<wo:USOperationMenu selectedObject="$selectedObject" />
-							<wo:AjaxModalContainer label="Eyða" closeLabel="Hætta við" class="btn btn-sm btn-danger"><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða færslunni &quot;<strong><wo:IMValue object="$selectedObject" /></strong>&quot;?</p><p align="center"><wo:link action="$deleteObject" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessari færslu</wo:link></p></div></wo:AjaxModalContainer>
-							<wo:link action="$returnToCallingComponent" class="btn btn-sm btn-default">Til baka</wo:link>
-							<wo:submit action="$saveChangesAndReturn" class="btn btn-sm btn-default" accesskey="d" value="Vista og loka" />
-							<wo:AjaxSubmitButton action="$saveChanges" updateContainerID="main" class="btn btn-sm btn-primary" accesskey="s" value="Vista" />
+		<wo:form enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box">
+						<div class="box-header">
+							<h3 class="box-title"><wo:IMValue object="$selectedObject" /></h3> <wo:link action="$openListPage" class="label label-default"><wo:str value="$viewDefinition.icelandicName" /></wo:link>
+							<div class="box-tools pull-right">
+								<wo:USOperationMenu selectedObject="$selectedObject" />
+								<wo:AjaxModalContainer label="Eyða" closeLabel="Hætta við" class="btn btn-sm btn-danger"><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða færslunni &quot;<strong><wo:IMValue object="$selectedObject" /></strong>&quot;?</p><p align="center"><wo:link action="$deleteObject" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessari færslu</wo:link></p></div></wo:AjaxModalContainer>
+								<wo:link action="$returnToCallingComponent" class="btn btn-sm btn-default">Til baka</wo:link>
+								<wo:submit action="$saveChangesAndReturn" class="btn btn-sm btn-default" accesskey="d" value="Vista og loka" />
+								<wo:AjaxSubmitButton action="$saveChanges" updateContainerID="main" class="btn btn-sm btn-primary" accesskey="s" value="Vista" />
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
-					<wo:switch WOComponentName="$displayComponentName" callingComponent="$callingComponent" selectedObject="$selectedObject" />
+					<div class="box">
+						<div class="box-body">
+							<wo:switch WOComponentName="$displayComponentName" callingComponent="$callingComponent" selectedObject="$selectedObject" />
+						</div>
+					</div>
 				</div>
 			</div>
 		</wo:form>
