@@ -9,7 +9,7 @@ import com.webobjects.appserver.WOActionResults;
 import is.rebbi.core.util.Hierarchy;
 import is.rebbi.core.util.HierarchyUtilities;
 
-public abstract class USMenuItem implements Hierarchy {
+public abstract class USMenuItem implements Hierarchy<USMenuItem> {
 
 	/**
 	 * The name displayed to the user
