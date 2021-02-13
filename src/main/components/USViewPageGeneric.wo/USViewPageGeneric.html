@@ -24,7 +24,7 @@
 							<td>
 								<strong><wo:str value="$currentRelationship.name" /></strong>
 							</td>
-							<td><em style="color: rgb(200,200,200)"><wo:str value="$currentRelationship.targetEntity.name" /> <wo:if condition="$currentRelationship.isToMany">&gt;&gt; (<wo:str value="$currentRelationshipValue.size" />)</wo:if><wo:if condition="$currentRelationship.isToMany" negate="$true">&gt;</wo:if></em></td>
+							<td><em style="color: rgb(200,200,200)"><wo:str value="$currentRelationship.targetEntity.name" /> <wo:if condition="$currentRelationship.isToMany">&gt;&gt; (<wo:str value="$currentRelationshipValue.size // VALID" />)</wo:if><wo:if condition="$currentRelationship.isToMany" negate="$true">&gt;</wo:if></em></td>
 							<td>
 								<wo:if condition="$currentRelationship.isToMany" negate="$true"><wo:ViewLink object="$currentRelationshipValue"><wo:str value="$currentRelationshipValueHumanReadable" /></wo:ViewLink></wo:if>
 								<wo:if condition="$currentRelationship.isToMany">
