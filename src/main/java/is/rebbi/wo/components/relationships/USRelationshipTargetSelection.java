@@ -44,8 +44,8 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 	 * FIXME: Should this definitely be overridden?
 	 */
 	@Override
-	public EntityDefinition entityDefinition() {
-		return EntityDefinition.get( relationship().getTargetEntityName() );
+	public Class entityClass() {
+		return relationship().getTargetEntity().getJavaClass();
 	}
 
 	public WOActionResults cancel() {
