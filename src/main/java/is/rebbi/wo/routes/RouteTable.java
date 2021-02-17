@@ -56,6 +56,9 @@ public class RouteTable {
 		throw new RuntimeException( "No handler found for URL: " + url );
 	}
 
+	/**
+	 * Check if the given handler matches the given URL
+	 */
 	private static boolean matches( final String pattern, final String url ) {
 		return url.startsWith( pattern );
 	}
