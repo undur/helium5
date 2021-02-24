@@ -2,6 +2,7 @@ package is.rebbi.wo.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 
 import org.apache.cayenne.DataObject;
 
@@ -10,7 +11,6 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.appserver.ERXWOContext;
-import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.components.USViewPageGeneric;
 import is.rebbi.wo.components.USViewWrapper;
 import is.rebbi.wo.components.admin.USEditPageGeneric;
@@ -26,6 +26,14 @@ public class Inspection {
 
 		public static final Map<Class, InspectionRoute> inspectionRoutes() {
 			return _inspectionRoutes;
+		}
+
+		public static void add( Class entityClass, String urlPrefix, BiFunction<DataObject, WOContext, WOActionResults> viewFunction ) {
+			final InspectionRoute ir = new InspectionRoute();
+			ir.setEntityClass( entityClass );
+			ir.setUrlPrefix( urlPrefix );
+			ir._viewFunction = viewFunction;
+			inspectionRoutes().put( entityClass, ir );
 		}
 
 		public static void add( Class entityClass, String urlPrefix, Class viewComponentClass, Class editComponentClass ) {
@@ -48,6 +56,11 @@ public class Inspection {
 		 * Class of component used to view objects if this type.
 		 */
 		private Class _viewComponentClass;
+
+		/**
+		 * Class of component used to view objects if this type.
+		 */
+		private BiFunction<DataObject, WOContext, WOActionResults> _viewFunction;
 
 		/**
 		 * Class of component used to edit objects if this type.
@@ -118,26 +131,33 @@ public class Inspection {
 	 * @return The given object opened in the default view page.
 	 */
 	public static WOActionResults inspectObjectInContext( Object object, WOContext context ) {
-		Class<? extends HasSelectedObjectPage> componentClass = InspectionRoute.inspectionRoutes().get( object.getClass() ).viewComponentClass();
+		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
 
-		if( componentClass != null ) {
-			return inspectObjectInContextUsingComponent( object, context, componentClass );
+		if( ir._viewFunction != null ) {
+			return ir._viewFunction.apply( (DataObject)object, context );
 		}
 
-		return inspectObjectInContextUsingGenericComponent( object, context );
+		final Class<? extends HasSelectedObjectPage> componentClass = ir.viewComponentClass();
+
+		if( componentClass == null ) {
+			throw new RuntimeException( "This object type has no associated view component" );
+		}
+
+		return inspectObjectInContextUsingComponent( object, context, componentClass );
 	}
 
 	/**
 	 * @return The given object opened in the default edit page.
 	 */
 	public static WOActionResults editObjectInContext( Object object, WOContext context ) {
-		Class<? extends USViewPage> componentClass = InspectionRoute.inspectionRoutes().get( object.getClass() ).editComponentClass();
+		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
+		final Class<? extends HasSelectedObjectPage> componentClass = ir.editComponentClass();
 
-		if( componentClass != null ) {
-			return editObjectInContextUsingComponent( object, context, componentClass );
+		if( componentClass == null ) {
+			throw new RuntimeException( "This object type has no associated view component" );
 		}
 
-		return editObjectInContextUsingGenericComponent( object, context );
+		return editObjectInContextUsingComponent( object, context, componentClass );
 	}
 
 	public static WOActionResults openListPage( Class entityClass ) {
