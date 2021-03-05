@@ -1,79 +1,67 @@
 <wo:USEditLook>
-	<style type="text/css">
-		th {
-			font-size: 14px !important;
-		}
-		
-		table {
-			background-color: white !important;
-		}
-	</style>
-	<div class="row">
-		<div class="col-md-12">
-			<h3><wo:str value="$entityDefinition.icelandicNamePlural" /></h3>
-			<div class="row">
-				<div class="col-md-4">
-					<wo:form class="form-search">
-						<wo:textfield value="$searchString" id="searchString" class="form-control searchField input-medium search-query" placeholder="Leita…" />
-						<wo:AjaxObserveField observeFieldID="searchString" updateContainerID="list" observeFieldFrequency="1" action="$search" />
-					</wo:form>
-				</div>
-			</div>
-			<wo:AjaxUpdateContainer id="list">
-				<div class="pull-right" style="text-align: right; margin-bottom: 10px; margin-top: -55px">
-					<wo:form>
-						<wo:if condition="$selectedObjects.size"><wo:AjaxModalContainer label="Eyða völdum færslum" closeLabel="Hætta við" class="btn btn-xs btn-danger" style="margin-bottom: 10px" ><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða <wo:str value="$selectedObjects.size" /> völdum hlutum?</p><p align="center"><wo:link action="$deleteSelectedObjects" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessum færslum</wo:link></p></div></wo:AjaxModalContainer></wo:if>
-						<wo:link class="btn btn-xs btn-success" style="margin-bottom: 10px" action="$createObject">Stofna hlut</wo:link><br />
-						<strong><wo:str value="$numberOfObjects" numberformat="0" /></strong> hlutir fundust<wo:if condition="$hasMultipleBatches">. Síða <wo:popUpButton list="$batches" selection="$currentBatchIndexForDisplay" id="currentBatchIndex" /> af <wo:str value="$numberOfBatches" /> með <wo:textfield value="$batchSize" numberformat="0" size="3" id="batchSize" /> hlutum hver</wo:if>
-						<wo:AjaxObserveField observeFieldID="currentBatchIndex" updateContainerID="list" />
-						<wo:AjaxObserveField observeFieldID="batchSize" updateContainerID="list" />
-					</wo:form>
-				</div>
-				<wo:form>
-					<table class="table table-striped table-condensed table-bordered">
-						<thead>
-							<tr>
-								<th width="10"></th>
-								<wo:repetition list="$keyPathsToShow" item="$currentKeyPath">
-									<th nowrap><wo:USSort orderings="$orderings" keyPath="$currentKeyPath"><wo:str value="$currentKeyPathDisplayName" /></wo:USSort></th>
-								</wo:repetition>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<wo:repetition list="$objects" item="$currentObject">
-								<wo:container elementName="tr" class="$currentTRClass">
-									<td width="10"><wo:EditLink object="$currentObject"><i class="glyphicon glyphicon-edit"></i></wo:EditLink></td>
-									<wo:repetition list="$keyPathsToShow" item="$currentKeyPath">
-										<td><wo:IMValue object="$currentValue" maxLength="50" abbreviationPostfix=" [...]"/></td>
-									</wo:repetition>
-									<td>
-										<wo:link action="$toggleSelected">
-											<wo:if condition="$currentIsSelected" negate="$true">Velja</wo:if>
-											<wo:if condition="$currentIsSelected">Afvelja</wo:if>
-										</wo:link>
-									</td>
-								</wo:container>
-							</wo:repetition>
-						</tbody>
-					</table>
-				</wo:form>
-			</wo:AjaxUpdateContainer>
-		</div>
-	</div>
 	<script>
 		// Focus on the search field
 		jQuery(document).ready(function(){
 			jQuery("#searchString").focus();
 		});
 	</script>
-	<style type="text/css">
-		.clickable-row {
-			cursor: pointer;
-		}
-		
-		.clickable-row:hover {
-			color: rgb(230,230,230);
-		}
-	</style>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title"><wo:str value="$entityDefinition.icelandicNamePlural" /></h3>
+					<div class="row">
+						<div class="col-md-4">
+							<wo:form class="form-search">
+								<wo:textfield value="$searchString" id="searchString" class="form-control searchField input-medium search-query" placeholder="Leita…" />
+								<wo:AjaxObserveField observeFieldID="searchString" updateContainerID="list" observeFieldFrequency="1" action="$search" />
+							</wo:form>
+						</div>
+					</div>
+				</div>
+				<div class="box-body no-padding">
+					<wo:AjaxUpdateContainer id="list">
+						<div class="pull-right" style="text-align: right; margin-bottom: 10px; margin-top: -55px">
+							<wo:form>
+								<wo:if condition="$selectedObjects.size"><wo:AjaxModalContainer label="Eyða völdum færslum" closeLabel="Hætta við" class="btn btn-xs btn-danger" style="margin-bottom: 10px" ><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða <wo:str value="$selectedObjects.size" /> völdum hlutum?</p><p align="center"><wo:link action="$deleteSelectedObjects" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessum færslum</wo:link></p></div></wo:AjaxModalContainer></wo:if>
+								<wo:link class="btn btn-xs btn-success" style="margin-bottom: 10px" action="$createObject">Stofna hlut</wo:link><br />
+								<strong><wo:str value="$numberOfObjects" numberformat="0" /></strong> hlutir fundust<wo:if condition="$hasMultipleBatches">. Síða <wo:popUpButton list="$batches" selection="$currentBatchIndexForDisplay" id="currentBatchIndex" /> af <wo:str value="$numberOfBatches" /> með <wo:textfield value="$batchSize" numberformat="0" size="3" id="batchSize" /> hlutum hver</wo:if>
+								<wo:AjaxObserveField observeFieldID="currentBatchIndex" updateContainerID="list" />
+								<wo:AjaxObserveField observeFieldID="batchSize" updateContainerID="list" />
+							</wo:form>
+						</div>
+						<wo:form>
+							<table class="table table-striped table-condensed table-bordered">
+								<thead>
+									<tr>
+										<th width="10"></th>
+										<wo:repetition list="$keyPathsToShow" item="$currentKeyPath">
+											<th nowrap><wo:USSort orderings="$orderings" keyPath="$currentKeyPath"><wo:str value="$currentKeyPathDisplayName" /></wo:USSort></th>
+										</wo:repetition>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<wo:repetition list="$objects" item="$currentObject">
+										<wo:container elementName="tr" class="$currentTRClass">
+											<td width="10"><wo:EditLink object="$currentObject"><i class="glyphicon glyphicon-edit"></i></wo:EditLink></td>
+											<wo:repetition list="$keyPathsToShow" item="$currentKeyPath">
+												<td><wo:IMValue object="$currentValue" maxLength="50" abbreviationPostfix=" [...]"/></td>
+											</wo:repetition>
+											<td>
+												<wo:link action="$toggleSelected">
+													<wo:if condition="$currentIsSelected" negate="$true">Velja</wo:if>
+													<wo:if condition="$currentIsSelected">Afvelja</wo:if>
+												</wo:link>
+											</td>
+										</wo:container>
+									</wo:repetition>
+								</tbody>
+							</table>
+						</wo:form>
+					</wo:AjaxUpdateContainer>
+				</div>
+			</div>
+		</div>
+	</div>
 </wo:USEditLook>
