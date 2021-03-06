@@ -2,12 +2,13 @@ package is.rebbi.wo.components.admin;
 
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSComparator.ComparisonException;
-import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSTimestamp;
 
@@ -22,7 +23,7 @@ public class USSystemInfoPage extends ERXComponent {
 	private static final int psLength = PATH_SEPARATOR.length();
 
 	public String currentPropertyKey;
-	private final NSDictionary _properties = new NSDictionary( java.lang.System.getProperties() );
+	private final Properties _properties = java.lang.System.getProperties();
 
 	public USSystemInfoPage( WOContext context ) {
 		super( context );
@@ -35,15 +36,15 @@ public class USSystemInfoPage extends ERXComponent {
 	/**
 	 * @return All property keys in the application.
 	 */
-	public NSArray<String> propertyKeys() throws ComparisonException {
-		return _properties.allKeys(); // FIXME: Sorting
+	public List<Object> propertyKeys() {
+		return new ArrayList<>( _properties.keySet() );
 	}
 
 	/**
 	 * @return Value of the property currently being iterated over.
 	 */
 	public Object currentPropertyValue() {
-		return _properties.objectForKey( currentPropertyKey );
+		return _properties.get( currentPropertyKey );
 	}
 
 	public String reportPath() {
