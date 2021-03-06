@@ -12,7 +12,6 @@ import com.webobjects.foundation.NSTimestamp;
 
 import er.extensions.components.ERXComponent;
 import er.extensions.foundation.ERXProperties;
-import is.rebbi.core.formatters.DurationFormatter;
 import is.rebbi.core.util.StringUtilities;
 
 public class USSystemInfoPage extends ERXComponent {
@@ -113,9 +112,5 @@ public class USSystemInfoPage extends ERXComponent {
 
 	private static NSArray<String> ppp( String systemProperty ) {
 		return pp( ERXProperties.stringForKey( systemProperty ) );
-	}
-
-	public DurationFormatter durationFormatter() {
-		return new DurationFormatter();
 	}
 }
