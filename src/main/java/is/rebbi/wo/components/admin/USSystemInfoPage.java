@@ -1,7 +1,5 @@
 package is.rebbi.wo.components.admin;
 
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -67,17 +65,6 @@ public class USSystemInfoPage extends ERXComponent {
 		b.append( "\n" );
 
 		return StringUtilities.replace( b.toString(), "\n", "<br />\n" );
-	}
-
-	private static NSArray<URL> urlClassPath() {
-		NSMutableArray<URL> result = new NSMutableArray<>();
-		URLClassLoader classLoader = (URLClassLoader)ClassLoader.getSystemClassLoader();
-
-		for( URL url : classLoader.getURLs() ) {
-			result.addObject( url );
-		}
-
-		return result.immutableClone();
 	}
 
 	private static String reportPath( NSArray<String> arr, String name ) {
