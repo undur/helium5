@@ -127,9 +127,18 @@ public class USMenu {
 		_rootItems = new ArrayList<>();
 	}
 
-	public static void addSystemMenuItems() {
+	public static void addDatabaseMenuItem() {
 		defaultMenu().addChild( databaseMenuItem() );
+	}
+
+	public static void addSystemMenuItem() {
 		defaultMenu().addChild( systemMenuItem() );
+	}
+
+	@Deprecated // Delete this and use the two other methods instead.
+	public static void addSystemMenuItems() {
+		addDatabaseMenuItem();
+		addSystemMenuItem();
 	}
 
 	private static USMenuItemPage systemMenuItem() {
