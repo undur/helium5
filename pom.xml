@@ -140,16 +140,58 @@
 			<groupId>wonder.core</groupId>
 			<artifactId>ERExtensions</artifactId>
 			<version>${wonder.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaXML</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaEOAccess</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaEOControl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>wonder.ajax</groupId>
 			<artifactId>Ajax</artifactId>
 			<version>${wonder.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaXML</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaEOAccess</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaEOControl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.webobjects</groupId>
 			<artifactId>JavaWebObjects</artifactId>
 			<version>${webobjects.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaXML</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaEOAccess</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.webobjects</groupId>
+					<artifactId>JavaEOControl</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>is.rebbi</groupId>

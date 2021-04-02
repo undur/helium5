@@ -1,12 +1,8 @@
 package is.rebbi.wo.menu;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-import com.webobjects.eocontrol.EOKeyValueQualifier;
-import com.webobjects.eocontrol.EOQualifier;
 import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSComparator;
 import com.webobjects.foundation.NSComparator.ComparisonException;
@@ -16,7 +12,6 @@ import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
 import is.rebbi.wo.components.admin.USSystemInfoPage;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
 import is.rebbi.wo.components.admin.USViewDefinitionOverviewPage;
-import is.rebbi.wo.util.USGenericComparator;
 import jambalaya.definitions.EntityDefinition;
 
 public class USMenu {
@@ -61,6 +56,8 @@ public class USMenu {
 	}
 
 	public static List<EntityDefinition> viewDefinitions( String currentCategoryName ) {
+		return new ArrayList<>();
+		/*
 		EOQualifier q = null;
 
 		if( currentCategoryName.equals( UNCATEGORIZED_CATEGORY_NAME ) ) {
@@ -73,23 +70,7 @@ public class USMenu {
 		List<EntityDefinition> a = filteredArrayWithQualifier( EntityDefinition.all(), q );
 		Collections.sort( a, new USGenericComparator( "icelandicName", true, true ) );
 		return a;
-	}
-
-	private static <E> List<E> filteredArrayWithQualifier( List<E> list, EOQualifier qualifier ) {
-		if( list == null ) {
-			return new ArrayList<>();
-		}
-		if( (qualifier == null) || (qualifier._isEmpty()) ) {
-			return list;
-		}
-		List<E> filteredList = new ArrayList<>( list.size() );
-		for( Iterator<E> iterator = list.iterator(); iterator.hasNext(); ) {
-			E object = iterator.next();
-			if( qualifier.evaluateWithObject( object ) ) {
-				filteredList.add( object );
-			}
-		}
-		return filteredList;
+		*/
 	}
 
 	public static NSArray<String> categoryNames() {
