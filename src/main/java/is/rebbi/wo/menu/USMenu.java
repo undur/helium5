@@ -40,6 +40,28 @@ public class USMenu {
 		return _defaultMenu;
 	}
 
+	public USMenuItem addChild( final USMenuItem item ) {
+		rootItems().add( item );
+		return item;
+	}
+
+	public void addDatabaseMenuItem() {
+		addChild( databaseMenuItem() );
+	}
+
+	public void addSystemMenuItem() {
+		addChild( systemMenuItem() );
+	}
+
+	private static USMenuItem systemMenuItem() {
+		final USMenuItem mi = USMenuItemContainer.create( "Kerfi", "fa fa-wrench sidebar-nav-icon" );
+		mi.addChild( USMenuItemPage.create( "Aðgerðir", null, USTaskRunnerPage.class ) );
+		mi.addChild( USMenuItemPage.create( "Birting", null, USViewDefinitionOverviewPage.class ) );
+		mi.addChild( USMenuItemPage.create( "Umhverfi", null, USSystemInfoPage.class ) );
+		mi.addChild( USMenuItemPage.create( "Loggar", null, USLoggingConfigurationPage.class ) );
+		return mi;
+	}
+
 	private static USMenuItemPage databaseMenuItem() {
 		USMenuItemPage dataTablesLevel = USMenuItemPage.create( "Gagnagrunnur", "fa fa-database sidebar-nav-icon", null );
 
@@ -55,7 +77,7 @@ public class USMenu {
 		return dataTablesLevel;
 	}
 
-	public static List<EntityDefinition> viewDefinitions( String currentCategoryName ) {
+	private static List<EntityDefinition> viewDefinitions( String currentCategoryName ) {
 		return new ArrayList<>();
 		/*
 		EOQualifier q = null;
@@ -73,7 +95,7 @@ public class USMenu {
 		*/
 	}
 
-	public static NSArray<String> categoryNames() {
+	private static NSArray<String> categoryNames() {
 		NSMutableSet<String> results = new NSMutableSet<>();
 
 		for( EntityDefinition d : EntityDefinition.all() ) {
@@ -92,42 +114,5 @@ public class USMenu {
 		catch( ComparisonException e ) {
 			throw new RuntimeException( "Fucking sorting, how does it work!" );
 		}
-	}
-
-	public USMenuItem addAtTop( USMenuItem item ) {
-		rootItems().add( 0, item );
-		return item;
-	}
-
-	public USMenuItem addChild( USMenuItem item ) {
-		rootItems().add( item );
-		return item;
-	}
-
-	public void clear() {
-		_rootItems = new ArrayList<>();
-	}
-
-	public static void addDatabaseMenuItem() {
-		defaultMenu().addChild( databaseMenuItem() );
-	}
-
-	public static void addSystemMenuItem() {
-		defaultMenu().addChild( systemMenuItem() );
-	}
-
-	@Deprecated // Delete this and use the two other methods instead.
-	public static void addSystemMenuItems() {
-		addDatabaseMenuItem();
-		addSystemMenuItem();
-	}
-
-	private static USMenuItemPage systemMenuItem() {
-		USMenuItemPage systemItem = USMenuItemPage.create( "Kerfi", "fa fa-wrench sidebar-nav-icon", null );
-		systemItem.addChild( USMenuItemPage.create( "Aðgerðir", null, USTaskRunnerPage.class ) );
-		systemItem.addChild( USMenuItemPage.create( "Birting", null, USViewDefinitionOverviewPage.class ) );
-		systemItem.addChild( USMenuItemPage.create( "Umhverfi", null, USSystemInfoPage.class ) );
-		systemItem.addChild( USMenuItemPage.create( "Loggar", null, USLoggingConfigurationPage.class ) );
-		return systemItem;
 	}
 }
