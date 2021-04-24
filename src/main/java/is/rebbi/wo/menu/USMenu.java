@@ -1,7 +1,14 @@
 package is.rebbi.wo.menu;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.apache.cayenne.exp.Expression;
+import org.apache.cayenne.exp.ExpressionFactory;
 
 import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSComparator;
@@ -77,26 +84,23 @@ public class USMenu {
 		return dataTablesLevel;
 	}
 
-	private static List<EntityDefinition> viewDefinitions( String currentCategoryName ) {
-		return new ArrayList<>();
-		/*
-		EOQualifier q = null;
+	private static List<EntityDefinition> viewDefinitions( final String currentCategoryName ) {
+		Expression e = null;
 
 		if( currentCategoryName.equals( UNCATEGORIZED_CATEGORY_NAME ) ) {
-			q = new EOKeyValueQualifier( "categoryName", EOQualifier.QualifierOperatorEqual, null );
+			e = ExpressionFactory.matchExp( "categoryName", null );
 		}
 		else {
-			q = new EOKeyValueQualifier( "categoryName", EOQualifier.QualifierOperatorEqual, currentCategoryName );
+			e = ExpressionFactory.matchExp( "categoryName", currentCategoryName );
 		}
 
-		List<EntityDefinition> a = filteredArrayWithQualifier( EntityDefinition.all(), q );
-		Collections.sort( a, new USGenericComparator( "icelandicName", true, true ) );
+		List<EntityDefinition> a = e.filterObjects( EntityDefinition.all() );
+		Collections.sort( a, Comparator.comparing( EntityDefinition::icelandicName ) );
 		return a;
-		*/
 	}
 
-	private static NSArray<String> categoryNames() {
-		NSMutableSet<String> results = new NSMutableSet<>();
+	private static List<String> categoryNames() {
+		final Set<String> categorySet = new HashSet<>();
 
 		for( EntityDefinition d : EntityDefinition.all() ) {
 			String categoryName = d.categoryName();
@@ -105,14 +109,9 @@ public class USMenu {
 				categoryName = UNCATEGORIZED_CATEGORY_NAME;
 			}
 
-			results.addObject( categoryName );
+			categorySet.add( categoryName );
 		}
 
-		try {
-			return results.allObjects().sortedArrayUsingComparator( NSComparator.AscendingStringComparator );
-		}
-		catch( ComparisonException e ) {
-			throw new RuntimeException( "Fucking sorting, how does it work!" );
-		}
+		return new ArrayList<>( categorySet );
 	}
 }
