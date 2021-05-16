@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
+import com.webobjects.appserver.WORequest;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
+import is.rebbi.wo.util.USHTTPUtilities;
 
 /**
  * Contains a list of handlers for URLs
@@ -69,7 +71,8 @@ public class RouteTable {
 	 * FIXME: We should be returning a 404 response if no handler is found for the URL.
 	 */
 	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
-		logger.info( "Handling URL: {}", url );
+		final WORequest request = context.request();
+		logger.info( "Handling URL: {};{};{}", url, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
 		return handlerForURL( url ).handle( url, context );
 	}
 
