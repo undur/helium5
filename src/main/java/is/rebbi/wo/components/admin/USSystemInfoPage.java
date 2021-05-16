@@ -1,6 +1,7 @@
 package is.rebbi.wo.components.admin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
@@ -33,8 +34,16 @@ public class USSystemInfoPage extends ERXComponent {
 	/**
 	 * @return All property keys in the application.
 	 */
-	public List<Object> propertyKeys() {
-		return new ArrayList<>( _properties.keySet() );
+	public List<String> propertyKeys() {
+		final ArrayList<String> keys = new ArrayList<>();
+		
+		for( final Object key : _properties.keySet() ) {
+			keys.add( (String)key );
+		}
+		
+		Collections.sort( keys );
+
+		return keys;
 	}
 
 	/**
