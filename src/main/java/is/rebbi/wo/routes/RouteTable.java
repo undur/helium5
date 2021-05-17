@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WORequest;
+import com.webobjects.appserver.WOResponse;
 
 import er.extensions.appserver.ERXApplication;
 import er.extensions.components.ERXComponent;
@@ -25,6 +26,8 @@ import is.rebbi.wo.util.USHTTPUtilities;
  */
 
 public class RouteTable {
+
+	private static final NotFoundRouteHandler NOT_FOUND_ROUTE_HANDLER = new NotFoundRouteHandler();
 
 	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
 
@@ -54,8 +57,10 @@ public class RouteTable {
 			}
 		}
 
+		logger.warn( "No RouteHandler found for URL: {}", url.toString() );
+		return NOT_FOUND_ROUTE_HANDLER;
 		// FIXME: This should be handled by a generic "no page found" handler.
-		throw new RuntimeException( "No handler found for URL: " + url );
+//		throw new RuntimeException( "No handler found for URL: " + url );
 	}
 
 	/**
@@ -111,6 +116,18 @@ public class RouteTable {
 
 	public static abstract class RouteHandler {
 		public abstract WOActionResults handle( WrappedURL url, WOContext context );
+	}
+
+	/**
+	 * For returning 404
+	 */
+	public static class NotFoundRouteHandler extends RouteHandler {
+		public WOActionResults handle( final WrappedURL url, WOContext context ) {
+			final WOResponse response = new WOResponse();
+			response.setStatus( 404 );
+			response.setContent( "Not found: " + url );
+			return response;
+		}
 	}
 
 	public static class BiFunctionRouteHandler extends RouteHandler {
