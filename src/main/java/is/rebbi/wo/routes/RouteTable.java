@@ -57,10 +57,7 @@ public class RouteTable {
 			}
 		}
 
-		logger.warn( "No RouteHandler found for URL: {}", url.toString() );
-		return NOT_FOUND_ROUTE_HANDLER;
-		// FIXME: This should be handled by a generic "no page found" handler.
-//		throw new RuntimeException( "No handler found for URL: " + url );
+		return null;
 	}
 
 	/**
@@ -72,13 +69,18 @@ public class RouteTable {
 
 	/**
 	 * Handle the given URL
-	 *
-	 * FIXME: We should be returning a 404 response if no handler is found for the URL.
 	 */
 	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
 		final WORequest request = context.request();
 		logger.info( "Handling URL: {};{};{}", url, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
-		return handlerForURL( url ).handle( url, context );
+		RouteHandler routeHandler = handlerForURL( url );
+
+		if( routeHandler == null ) {
+			logger.warn( "No RouteHandler found for URL: {}", url.toString() );
+			routeHandler = NOT_FOUND_ROUTE_HANDLER;
+		}
+
+		return routeHandler.handle( url, context );
 	}
 
 	public void map( final String pattern, final RouteHandler routeHandler ) {
@@ -88,7 +90,7 @@ public class RouteTable {
 		_routes.add( r );
 	}
 
-	public void map( final String pattern, final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
+	public void map( final String pattern, final BiFunction<WrappedURL, WOContext, WOActionResults> biFunction ) {
 		final BiFunctionRouteHandler routeHandler = new BiFunctionRouteHandler( biFunction );
 		map( pattern, routeHandler );
 	}
@@ -131,9 +133,9 @@ public class RouteTable {
 	}
 
 	public static class BiFunctionRouteHandler extends RouteHandler {
-		private BiFunction<WrappedURL,WOContext,WOActionResults> _biFunction;
+		private BiFunction<WrappedURL, WOContext, WOActionResults> _biFunction;
 
-		public BiFunctionRouteHandler( final BiFunction<WrappedURL,WOContext,WOActionResults> biFunction ) {
+		public BiFunctionRouteHandler( final BiFunction<WrappedURL, WOContext, WOActionResults> biFunction ) {
 			_biFunction = biFunction;
 		}
 
