@@ -11,6 +11,8 @@ import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.DbAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.query.SelectQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
@@ -24,11 +26,15 @@ import jambalaya.Jambalaya;
 
 public class ObjectRouteHandler extends RouteHandler {
 
+	private static final Logger logger = LoggerFactory.getLogger( ObjectRouteHandler.class );
+
 	@Override
 	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
 		final Object object = selectedObject( url );
 
+		// FIXME: 404 handling could really use some improvement here.
 		if( object == null ) {
+			logger.warn( "Nothing found at {}", url );
 			return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + url );
 		}
 
@@ -43,6 +49,10 @@ public class ObjectRouteHandler extends RouteHandler {
 		final String objectIdentifier = path.getString( 2 );
 
 		final String objEntityName = entityNameFromTypeIdentifier( typeIdentifier );
+		
+		if( objEntityName == null ) {
+			return null;
+		}
 
 		if( objectIdentifier.startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX ) ) {
 			final String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
@@ -86,7 +96,8 @@ public class ObjectRouteHandler extends RouteHandler {
 		InspectionRoute inspectionRoute = InspectionRoute.forURLPrefix( typeIdentifier );
 
 		if( inspectionRoute == null ) {
-			throw new RuntimeException( "No view definition found for URL prefix: " + typeIdentifier );
+			return null;
+//			throw new RuntimeException( "No view definition found for URL prefix: " + typeIdentifier );
 		}
 
 		return inspectionRoute.entityClass().getSimpleName();
