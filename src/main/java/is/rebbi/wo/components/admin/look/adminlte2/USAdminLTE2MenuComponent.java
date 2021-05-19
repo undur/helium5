@@ -3,14 +3,13 @@ package is.rebbi.wo.components.admin.look.adminlte2;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXSession;
 import er.extensions.components.ERXNonSynchronizingComponent;
 import is.rebbi.core.util.HierarchyUtilities;
+import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.menu.USMenuItem;
 
 public class USAdminLTE2MenuComponent extends ERXNonSynchronizingComponent {
@@ -44,7 +43,7 @@ public class USAdminLTE2MenuComponent extends ERXNonSynchronizingComponent {
 	}
 
 	public boolean noItemClass() {
-		return StringUtils.isEmpty( currentMenuItemClass() );
+		return !StringUtilities.hasValue( currentMenuItemClass() );
 	}
 
 	public String actionLinkClass() {
