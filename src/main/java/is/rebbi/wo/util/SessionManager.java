@@ -10,7 +10,6 @@ import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
 import com.webobjects.foundation.NSTimestamp;
 
-import er.extensions.appserver.ERXBrowser;
 import er.extensions.appserver.ERXSession;
 
 /**
@@ -24,12 +23,13 @@ public class SessionManager {
 	/**
 	 * It's a singleton.
 	 */
-	private SessionManager() {}
+	private SessionManager() {
+	}
 
 	/**
 	 * List of all currently active sessions.
 	 */
-	private Map<String,ERXSession> _activeSessions = new ConcurrentHashMap<>();
+	private Map<String, ERXSession> _activeSessions = new ConcurrentHashMap<>();
 
 	/**
 	 * @return The session manager singleton.
@@ -59,7 +59,7 @@ public class SessionManager {
 	/**
 	 * @return A list of all active sessions.
 	 */
-	public Map<String,ERXSession> activeSessions() {
+	public Map<String, ERXSession> activeSessions() {
 		return _activeSessions;
 	}
 
@@ -98,14 +98,14 @@ public class SessionManager {
 						session.objectStore().takeValueForKey( ipAddress, "remoteHostAddress" );
 					}
 				}
-
-				ERXBrowser browser = session.browser();
-
-				if( browser != null ) {
-					if( browser.isRobot() ) {
-						session.setTimeOut( 300 );
-					}
-				}
+				//				FIXME: This is temporarily disabled due to package name discrepancies between Wonder and Slim
+				//				ERXBrowser browser = session.browser();
+				//
+				//				if( browser != null ) {
+				//					if( browser.isRobot() ) {
+				//						session.setTimeOut( 300 );
+				//					}
+				//				}
 			}
 		}
 	}
