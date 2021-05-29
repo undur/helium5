@@ -18,6 +18,7 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
  * myVeryOwnNSArray.sortUsingComparator( icelandicComparator  );
  */
 
+@Deprecated
 public class USGenericComparator<T> implements Comparator<T> {
 
 	private final java.text.Collator _collator;
@@ -35,14 +36,14 @@ public class USGenericComparator<T> implements Comparator<T> {
 	 */
 	public static final Comparator IcelandicAscendingComparator = new USGenericComparator._IcelandicComparator( true, true );
 
-	public USGenericComparator(String keyPath, boolean ascending, boolean caseInsensitive) {
+	public USGenericComparator( String keyPath, boolean ascending, boolean caseInsensitive ) {
 		_collator = Collator.getInstance( new Locale( "is", "IS" ) );
 		_keyPath = keyPath;
 		_ascending = ascending;
 		_caseInsensitive = caseInsensitive;
 	}
 
-	public USGenericComparator(java.text.Collator collator, String keyPath, boolean ascending, boolean caseInsensitive) {
+	public USGenericComparator( java.text.Collator collator, String keyPath, boolean ascending, boolean caseInsensitive ) {
 		_collator = collator;
 		_keyPath = keyPath;
 		_ascending = ascending;
@@ -161,7 +162,7 @@ public class USGenericComparator<T> implements Comparator<T> {
 			this( true, true );
 		}
 
-		public _IcelandicComparator(boolean flag, boolean flag1) {
+		public _IcelandicComparator( boolean flag, boolean flag1 ) {
 			_ascending = flag;
 			_caseInsensitive = flag1;
 		}

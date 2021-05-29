@@ -13,6 +13,7 @@ import is.rebbi.core.util.StringUtilities;
  * SWDictionary is a simple key-value store that allows synchronization with a file (in ASCII-plist format)
  */
 
+@Deprecated
 public class SWDictionary<E, T> implements NSKeyValueCodingAdditions {
 
 	/**
@@ -28,7 +29,8 @@ public class SWDictionary<E, T> implements NSKeyValueCodingAdditions {
 	/**
 	 * Initializes an empty SWDictionary
 	 */
-	public SWDictionary() {}
+	public SWDictionary() {
+	}
 
 	/**
 	 * Initializes an SWDictionary using the specified File. If the file does not exist,

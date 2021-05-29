@@ -30,6 +30,7 @@ import com.webobjects.foundation.NSMutableDictionary;
 import er.extensions.appserver.ERXResponse;
 import is.rebbi.core.util.DateUtilities;
 
+@Deprecated
 public class USJson {
 
 	private static final Gson _gson = new GsonBuilder()
@@ -170,11 +171,13 @@ public class USJson {
 			try {
 				return DateUtilities.toLocalDate( localFormat.parse( json ) );
 			}
-			catch( ParseException ignored ) {}
+			catch( ParseException ignored ) {
+			}
 			try {
 				return DateUtilities.toLocalDate( enUsFormat.parse( json ) );
 			}
-			catch( ParseException ignored ) {}
+			catch( ParseException ignored ) {
+			}
 			try {
 				return DateUtilities.toLocalDate( ISO8601Utils.parse( json, new ParsePosition( 0 ) ) );
 			}
