@@ -151,10 +151,11 @@ public class Inspection {
 	 */
 	public static WOActionResults editObjectInContext( Object object, WOContext context ) {
 		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
-		final Class<? extends HasSelectedObjectPage> componentClass = ir.editComponentClass();
+		Class<? extends HasSelectedObjectPage> componentClass = ir.editComponentClass();
 
+		// FIXME. I want to stop here, like in the viewing route
 		if( componentClass == null ) {
-			throw new RuntimeException( "This object type has no associated view component" );
+			componentClass = USEditPageGeneric.class;
 		}
 
 		return editObjectInContextUsingComponent( object, context, componentClass );
