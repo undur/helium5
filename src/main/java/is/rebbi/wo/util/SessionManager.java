@@ -1,9 +1,11 @@
 package is.rebbi.wo.util;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.webobjects.appserver.WOContext;
+import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOSession;
 import com.webobjects.foundation.NSNotification;
 import com.webobjects.foundation.NSNotificationCenter;
@@ -81,33 +83,36 @@ public class SessionManager {
 		}
 	}
 
+	@Deprecated
 	public void addSessionIfMissing( ERXSession session ) {
-		if( session != null ) {
+		addSessionIfMissing( session, session.context().request() );
+	}
+
+	public void addSessionIfMissing( ERXSession session, WORequest request ) {
+		Objects.requireNonNull( session );
+		Objects.requireNonNull( request );
+		
 			touchSession( session );
 			final String sessionID = session.sessionID();
 
 			if( !activeSessions().containsKey( sessionID ) ) {
 				activeSessions().put( sessionID, session );
 
-				final WOContext context = session.context();
+				final String ipAddress = USHTTPUtilities.ipAddressFromRequest( request );
 
-				if( context != null ) {
-					final String ipAddress = USHTTPUtilities.ipAddressFromRequest( context.request() );
-
-					if( ipAddress != null ) {
-						session.objectStore().takeValueForKey( ipAddress, "remoteHostAddress" );
-					}
+				if( ipAddress != null ) {
+					session.objectStore().takeValueForKey( ipAddress, "remoteHostAddress" );
 				}
-				//				FIXME: This is temporarily disabled due to package name discrepancies between Wonder and Slim
-				//				ERXBrowser browser = session.browser();
-				//
-				//				if( browser != null ) {
-				//					if( browser.isRobot() ) {
-				//						session.setTimeOut( 300 );
-				//					}
-				//				}
+
+//				FIXME: This is temporarily disabled due to package name discrepancies between Wonder and Slim
+//				ERXBrowser browser = session.browser();
+//
+//				if( browser != null ) {
+//					if( browser.isRobot() ) {
+//						session.setTimeOut( 300 );
+//					}
+//				}
 			}
-		}
 	}
 
 	private void touchSession( ERXSession session ) {
