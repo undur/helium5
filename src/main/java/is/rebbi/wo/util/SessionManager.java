@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOSession;
 import com.webobjects.foundation.NSNotification;
@@ -65,17 +64,17 @@ public class SessionManager {
 		return _activeSessions;
 	}
 
-	public void sessionDidRestore( NSNotification notification ) {
+	public void sessionDidRestore( final NSNotification notification ) {
 		ERXSession session = (ERXSession)notification.object();
 		addSessionIfMissing( session );
 	}
 
-	public void sessionDidCreate( NSNotification notification ) {
+	public void sessionDidCreate( final NSNotification notification ) {
 		ERXSession session = (ERXSession)notification.object();
 		addSessionIfMissing( session );
 	}
 
-	public void sessionDidTimeOut( NSNotification notification ) {
+	public void sessionDidTimeOut( final NSNotification notification ) {
 		String sessionID = (String)notification.object();
 
 		if( sessionID != null ) {
@@ -83,39 +82,57 @@ public class SessionManager {
 		}
 	}
 
-	@Deprecated
-	public void addSessionIfMissing( ERXSession session ) {
-		addSessionIfMissing( session, session.context().request() );
+	public void addSessionIfMissing( final ERXSession session ) {
+		addSessionIfMissing( session, null );
 	}
 
-	public void addSessionIfMissing( ERXSession session, WORequest request ) {
+	public void addSessionIfMissing( final ERXSession session, final WORequest request ) {
 		Objects.requireNonNull( session );
-		Objects.requireNonNull( request );
-		
-			touchSession( session );
-			final String sessionID = session.sessionID();
 
-			if( !activeSessions().containsKey( sessionID ) ) {
-				activeSessions().put( sessionID, session );
+		setSessionLastTouchedDate( session );
 
+		final String sessionID = session.sessionID();
+
+		if( !activeSessions().containsKey( sessionID ) ) {
+			activeSessions().put( sessionID, session );
+			shortenTimeoutIfRobotSession( session );
+
+			if( request != null ) {
 				final String ipAddress = USHTTPUtilities.ipAddressFromRequest( request );
 
 				if( ipAddress != null ) {
-					session.objectStore().takeValueForKey( ipAddress, "remoteHostAddress" );
+					setSessionIPAddress( session, ipAddress );
 				}
 
-//				FIXME: This is temporarily disabled due to package name discrepancies between Wonder and Slim
-//				ERXBrowser browser = session.browser();
-//
-//				if( browser != null ) {
-//					if( browser.isRobot() ) {
-//						session.setTimeOut( 300 );
-//					}
-//				}
+				final String userAgent = USHTTPUtilities.userAgent( request );
+
+				if( userAgent != null ) {
+					setSessionUserAgent( session, userAgent );
+				}
 			}
+		}
 	}
 
-	private void touchSession( ERXSession session ) {
+	private void setSessionLastTouchedDate( final ERXSession session ) {
 		session.objectStore().takeValueForKey( new NSTimestamp(), "lastTouchedDate" );
+	}
+
+	private void setSessionIPAddress( final ERXSession session, final String ipAddress ) {
+		session.objectStore().takeValueForKey( ipAddress, "lastIPAddress" );
+	}
+
+	private void setSessionUserAgent( final ERXSession session, final String userAgent ) {
+		session.objectStore().takeValueForKey( userAgent, "lastUserAgent" );
+	}
+
+	private void shortenTimeoutIfRobotSession( final ERXSession session ) {
+		//				FIXME: This is temporarily disabled due to package name discrepancies between Wonder and Slim
+		//				ERXBrowser browser = session.browser();
+		//
+		//				if( browser != null ) {
+		//					if( browser.isRobot() ) {
+		//						session.setTimeOut( 300 );
+		//					}
+		//				}
 	}
 }
