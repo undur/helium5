@@ -11,6 +11,7 @@ import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
 import com.webobjects.foundation.NSTimestamp;
 
+import er.extensions.appserver.ERXBrowser;
 import er.extensions.appserver.ERXSession;
 
 /**
@@ -126,13 +127,12 @@ public class SessionManager {
 	}
 
 	private void shortenTimeoutIfRobotSession( final ERXSession session ) {
-		//				FIXME: This is temporarily disabled due to package name discrepancies between Wonder and Slim
-		//				ERXBrowser browser = session.browser();
-		//
-		//				if( browser != null ) {
-		//					if( browser.isRobot() ) {
-		//						session.setTimeOut( 300 );
-		//					}
-		//				}
+		ERXBrowser browser = session.browser();
+
+		if( browser != null ) {
+			if( browser.isRobot() ) {
+				session.setTimeOut( 300 );
+			}
+		}
 	}
 }
