@@ -2,6 +2,7 @@ package is.rebbi.wo.util;
 
 import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -49,21 +50,21 @@ public class USGenericComparator<T> implements Comparator<T> {
 		_caseInsensitive = caseInsensitive;
 	}
 
-	public void sort( List<T> list ) {
+	public void sort( final List<T> list ) {
 		Collections.sort( list, this );
 	}
 
-	public List<T> sorted( List<T> list ) {
-		List<T> listCopy = new ArrayList<>( list );
-		Collections.sort( listCopy, this );
-		return listCopy;
+	public List<T> sorted( final Collection<T> collection ) {
+		final List<T> list = new ArrayList<>( collection );
+		sort( list );
+		return list;
 	}
 
 	@Override
-	public int compare( T kvc1, T kvc2 ) {
+	public int compare( final T kvc1, final T kvc2 ) {
 
-		Object value1 = NSKeyValueCodingAdditions.Utility.valueForKeyPath( kvc1, _keyPath );
-		Object value2 = NSKeyValueCodingAdditions.Utility.valueForKeyPath( kvc2, _keyPath );
+		final Object value1 = NSKeyValueCodingAdditions.Utility.valueForKeyPath( kvc1, _keyPath );
+		final Object value2 = NSKeyValueCodingAdditions.Utility.valueForKeyPath( kvc2, _keyPath );
 
 		if( value1 == value2 ) {
 			return OrderedSame;
