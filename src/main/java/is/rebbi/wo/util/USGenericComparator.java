@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import com.webobjects.foundation.NSComparator;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
 /**
@@ -18,13 +17,16 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
  * myVeryOwnNSArray.sortUsingComparator( icelandicComparator  );
  */
 
-@Deprecated
 public class USGenericComparator<T> implements Comparator<T> {
 
 	private final java.text.Collator _collator;
 	private final String _keyPath;
 	private final boolean _ascending;
 	private final boolean _caseInsensitive;
+
+	private static final int OrderedAscending = -1;
+	private static final int OrderedSame = 0;
+	private static final int OrderedDescending = 1;
 
 	/**
 	 * A Comparator for sorting Icelandic text alphabetically in a descending order.
@@ -36,14 +38,15 @@ public class USGenericComparator<T> implements Comparator<T> {
 	 */
 	public static final Comparator IcelandicAscendingComparator = new USGenericComparator._IcelandicComparator( true, true );
 
-	public USGenericComparator( String keyPath, boolean ascending, boolean caseInsensitive ) {
-		_collator = Collator.getInstance( new Locale( "is", "IS" ) );
-		_keyPath = keyPath;
-		_ascending = ascending;
-		_caseInsensitive = caseInsensitive;
+	public USGenericComparator( String keyPath ) {
+		this( keyPath, true, false );
 	}
 
-	public USGenericComparator( java.text.Collator collator, String keyPath, boolean ascending, boolean caseInsensitive ) {
+	public USGenericComparator( String keyPath, boolean ascending, boolean caseInsensitive ) {
+		this( Collator.getInstance( new Locale( "is", "IS" ) ), keyPath, ascending, caseInsensitive );
+	}
+
+	public USGenericComparator( Collator collator, String keyPath, boolean ascending, boolean caseInsensitive ) {
 		_collator = collator;
 		_keyPath = keyPath;
 		_ascending = ascending;
@@ -67,7 +70,7 @@ public class USGenericComparator<T> implements Comparator<T> {
 		Object value2 = NSKeyValueCodingAdditions.Utility.valueForKeyPath( kvc2, _keyPath );
 
 		if( value1 == value2 ) {
-			return NSComparator.OrderedSame;
+			return OrderedSame;
 		}
 
 		if( (value1 != null && value1 instanceof Comparable) && !(value1 instanceof String) ) {
@@ -93,7 +96,7 @@ public class USGenericComparator<T> implements Comparator<T> {
 		}
 
 		if( string1 == string2 ) {
-			return NSComparator.OrderedSame;
+			return OrderedSame;
 		}
 
 		int i = _collator.compare( string1, string2 );
@@ -106,14 +109,14 @@ public class USGenericComparator<T> implements Comparator<T> {
 		}
 
 		if( i < 0 ) {
-			return _ascending ? NSComparator.OrderedAscending : NSComparator.OrderedDescending;
+			return _ascending ? OrderedAscending : OrderedDescending;
 		}
 
 		if( i > 0 ) {
-			return _ascending ? NSComparator.OrderedDescending : NSComparator.OrderedAscending;
+			return _ascending ? OrderedDescending : OrderedAscending;
 		}
 		else {
-			return NSComparator.OrderedSame;
+			return OrderedSame;
 		}
 	}
 
