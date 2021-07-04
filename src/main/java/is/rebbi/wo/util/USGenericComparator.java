@@ -34,15 +34,15 @@ public class USGenericComparator<T> implements Comparator<T> {
 	 */
 	public static final Comparator IcelandicAscendingComparator = new USGenericComparator._IcelandicComparator( true, true );
 
-	public USGenericComparator( String keyPath ) {
+	public USGenericComparator( final String keyPath ) {
 		this( keyPath, true, false );
 	}
 
-	public USGenericComparator( String keyPath, boolean ascending, boolean caseInsensitive ) {
+	public USGenericComparator( final String keyPath, final boolean ascending, final boolean caseInsensitive ) {
 		this( Collator.getInstance( new Locale( "is", "IS" ) ), keyPath, ascending, caseInsensitive );
 	}
 
-	public USGenericComparator( Collator collator, String keyPath, boolean ascending, boolean caseInsensitive ) {
+	public USGenericComparator( final Collator collator, final String keyPath, final boolean ascending, final boolean caseInsensitive ) {
 		_collator = collator;
 		_keyPath = keyPath;
 		_ascending = ascending;
