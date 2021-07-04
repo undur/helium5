@@ -131,7 +131,7 @@ public class SessionManager {
 
 		if( browser != null ) {
 			if( browser.isRobot() ) {
-				session.setTimeOut( 300 );
+				session.setTimeOut( 30 );
 			}
 		}
 	}
