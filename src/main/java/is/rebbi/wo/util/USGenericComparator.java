@@ -10,16 +10,12 @@ import java.util.Locale;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
 
 /**
- * A comparator for comparing/sorting objects based on a keypath.
- *
- * Example use:
- * GenericComparator icelandicComparator = new GenericComparator( java.text.Collator.getInstance( new java.util.Locale( "is", "IS" ) ), "my.keypath", true, true);
- * myVeryOwnNSArray.sortUsingComparator( icelandicComparator  );
+ * Comparator for comparing/sorting objects based on a keypath
  */
 
 public class USGenericComparator<T> implements Comparator<T> {
 
-	private final java.text.Collator _collator;
+	private final Collator _collator;
 	private final String _keyPath;
 	private final boolean _ascending;
 	private final boolean _caseInsensitive;
