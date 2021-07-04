@@ -35,8 +35,8 @@ public class USGenericComparator<T> implements Comparator<T> {
 	 */
 	public static final Comparator IcelandicAscendingComparator = new USGenericComparator._IcelandicComparator( true, true );
 
-	public USGenericComparator( final String keyPath ) {
-		this( keyPath, true, false );
+	public USGenericComparator( final String keyPath, final boolean ascending ) {
+		this( keyPath, ascending, false );
 	}
 
 	public USGenericComparator( final String keyPath, final boolean ascending, final boolean caseInsensitive ) {
