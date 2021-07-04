@@ -4,12 +4,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.joda.time.LocalDateTime;
+
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOSession;
 import com.webobjects.foundation.NSNotification;
 import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
-import com.webobjects.foundation.NSTimestamp;
 
 import er.extensions.appserver.ERXBrowser;
 import er.extensions.appserver.ERXSession;
@@ -115,7 +116,7 @@ public class SessionManager {
 	}
 
 	private void setSessionLastTouchedDate( final ERXSession session ) {
-		session.objectStore().takeValueForKey( new NSTimestamp(), "lastTouchedDate" );
+		session.objectStore().takeValueForKey( LocalDateTime.now(), "lastTouchedDate" );
 	}
 
 	private void setSessionIPAddress( final ERXSession session, final String ipAddress ) {
