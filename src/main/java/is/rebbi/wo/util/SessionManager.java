@@ -88,27 +88,29 @@ public class SessionManager {
 	}
 
 	public void addSessionIfMissing( final ERXSession session, final WORequest request ) {
-		Objects.requireNonNull( session );
+		//		Objects.requireNonNull( session );
 
-		setSessionLastTouchedDate( session );
+		if( session != null ) { // FIXME: This check should not be required
+			setSessionLastTouchedDate( session );
 
-		final String sessionID = session.sessionID();
+			final String sessionID = session.sessionID();
 
-		if( !activeSessions().containsKey( sessionID ) ) {
-			activeSessions().put( sessionID, session );
-			shortenTimeoutIfRobotSession( session );
+			if( !activeSessions().containsKey( sessionID ) ) {
+				activeSessions().put( sessionID, session );
+				shortenTimeoutIfRobotSession( session );
 
-			if( request != null ) {
-				final String ipAddress = USHTTPUtilities.ipAddressFromRequest( request );
+				if( request != null ) {
+					final String ipAddress = USHTTPUtilities.ipAddressFromRequest( request );
 
-				if( ipAddress != null ) {
-					setSessionIPAddress( session, ipAddress );
-				}
+					if( ipAddress != null ) {
+						setSessionIPAddress( session, ipAddress );
+					}
 
-				final String userAgent = USHTTPUtilities.userAgent( request );
+					final String userAgent = USHTTPUtilities.userAgent( request );
 
-				if( userAgent != null ) {
-					setSessionUserAgent( session, userAgent );
+					if( userAgent != null ) {
+						setSessionUserAgent( session, userAgent );
+					}
 				}
 			}
 		}
