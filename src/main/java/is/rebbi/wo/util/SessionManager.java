@@ -1,10 +1,9 @@
 package is.rebbi.wo.util;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.joda.time.LocalDateTime;
 
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOSession;
