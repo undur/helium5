@@ -148,10 +148,16 @@ public class Inspection {
 
 	/**
 	 * @return The given object opened in the default edit page.
+	 * 
+	 * FIXME: No fallbacks should be here, this should be purely configured by the programmer.
 	 */
 	public static WOActionResults editObjectInContext( Object object, WOContext context ) {
 		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
-		Class<? extends HasSelectedObjectPage> componentClass = ir.editComponentClass();
+		Class<? extends HasSelectedObjectPage> componentClass = null;
+		
+		if( ir != null ) {
+			componentClass = ir.editComponentClass();
+		}
 
 		// FIXME. I want to stop here, like in the viewing route
 		if( componentClass == null ) {
