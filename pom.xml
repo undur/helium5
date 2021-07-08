@@ -90,7 +90,7 @@
 		<repository>
 			<id>wocommunity.releases</id>
 			<name>WOCommunity Releases Repository</name>
-			<url>http://maven.wocommunity.org/content/groups/public</url>
+			<url>https://maven.wocommunity.org/content/groups/public</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -101,7 +101,7 @@
 		<repository>
 			<id>wocommunity.snapshots</id>
 			<name>WOCommunity Snapshots Repository</name>
-			<url>http://maven.wocommunity.org/content/groups/public-snapshots</url>
+			<url>https://maven.wocommunity.org/content/groups/public-snapshots</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -114,7 +114,7 @@
 		<pluginRepository>
 			<id>wocommunity.releases</id>
 			<name>WOCommunity Releases Repository</name>
-			<url>http://maven.wocommunity.org/content/groups/public</url>
+			<url>https://maven.wocommunity.org/content/groups/public</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -125,7 +125,7 @@
 		<pluginRepository>
 			<id>wocommunity.snapshots</id>
 			<name>WOCommunity Snapshots Repository</name>
-			<url>http://maven.wocommunity.org/content/groups/public-snapshots</url>
+			<url>https://maven.wocommunity.org/content/groups/public-snapshots</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
