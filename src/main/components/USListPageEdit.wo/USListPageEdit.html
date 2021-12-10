@@ -21,7 +21,7 @@
 				</div>
 				<div class="box-body no-padding">
 					<wo:AjaxUpdateContainer id="list">
-						<div class="pull-right" style="text-align: right; margin-bottom: 10px; margin-top: -55px">
+						<div style="text-align: right">
 							<wo:form>
 								<wo:if condition="$selectedObjects.size"><wo:AjaxModalContainer label="Eyða völdum færslum" closeLabel="Hætta við" class="btn btn-xs btn-danger" style="margin-bottom: 10px" ><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða <wo:str value="$selectedObjects.size" /> völdum hlutum?</p><p align="center"><wo:link action="$deleteSelectedObjects" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessum færslum</wo:link></p></div></wo:AjaxModalContainer></wo:if>
 								<wo:link class="btn btn-xs btn-success" style="margin-bottom: 10px" action="$createObject">Stofna hlut</wo:link><br />
