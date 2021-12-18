@@ -27,7 +27,6 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSMutableDictionary;
 
-import er.extensions.appserver.ERXResponse;
 import is.rebbi.core.util.DateUtilities;
 
 @Deprecated
@@ -63,7 +62,7 @@ public class USJson {
 	 * @return A response containing the given String.
 	 */
 	public static WOResponse responseWithString( String contentString ) {
-		WOResponse r = new ERXResponse();
+		WOResponse r = new WOResponse();
 		r.setHeader( "text/plain; charset=utf-8", "content-type" );
 		r.disableClientCaching();
 		r.setContent( contentString );
