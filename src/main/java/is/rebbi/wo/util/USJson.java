@@ -21,11 +21,6 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
-import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSDictionary;
-import com.webobjects.foundation.NSKeyValueCodingAdditions;
-import com.webobjects.foundation.NSMutableArray;
-import com.webobjects.foundation.NSMutableDictionary;
 
 import is.rebbi.core.util.DateUtilities;
 
@@ -91,65 +86,7 @@ public class USJson {
 	 * @return An object deserialized from the content of the given request.
 	 */
 	public static <E> E fromRequest( WORequest request, Type type ) {
-		E fromJson = USJson.fromJson( request.contentString(), type );
-
-		//		Temporarily disabled 2014-10-13
-		//
-		//		if( fromJson == null ) {
-		//			try {
-		//				fromJson = clazz.newInstance();
-		//			}
-		//			catch( InstantiationException | IllegalAccessException e ) {
-		//				e.printStackTrace();
-		//			}
-		//		}
-
-		return fromJson;
-	}
-
-	public static NSArray<NSDictionary<String, Object>> valuesForKeyPaths( NSArray<?> objects, NSArray<String> keyPaths, NSDictionary<String, String> replacementKeys ) {
-		NSMutableArray<NSDictionary<String, Object>> results = new NSMutableArray<>();
-
-		for( Object object : objects ) {
-			results.addObject( valuesForKeyPaths( object, keyPaths, replacementKeys ) );
-		}
-
-		return results;
-	}
-
-	public static NSDictionary<String, Object> valuesForKeyPaths( Object object, NSArray<String> keyPaths, NSDictionary<String, String> replacementKeys ) {
-		NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
-
-		for( String keyPath : keyPaths ) {
-			Object value = NSKeyValueCodingAdditions.Utility.valueForKeyPath( object, keyPath );
-
-			if( value != null ) {
-				if( replacementKeys != null ) {
-					String newKeyPath = replacementKeys.objectForKey( keyPath );
-
-					if( newKeyPath != null ) {
-						keyPath = newKeyPath;
-					}
-				}
-
-				d.setObjectForKey( value, keyPath );
-			}
-		}
-
-		return d;
-	}
-
-	public static NSDictionary<String, Object> remapKey( NSDictionary<String, Object> d, String oldKey, String newKey ) {
-		d = d.mutableClone();
-
-		Object value = d.objectForKey( oldKey );
-
-		if( value != null ) {
-			d.remove( oldKey );
-			((NSMutableDictionary<String, Object>)d).setObjectForKey( value, newKey );
-		}
-
-		return d;
+		return USJson.fromJson( request.contentString(), type );
 	}
 
 	private static class LocalDateThatLooksLikeDateAdapter extends TypeAdapter<LocalDate> {
@@ -170,13 +107,11 @@ public class USJson {
 			try {
 				return DateUtilities.toLocalDate( localFormat.parse( json ) );
 			}
-			catch( ParseException ignored ) {
-			}
+			catch( ParseException ignored ) {}
 			try {
 				return DateUtilities.toLocalDate( enUsFormat.parse( json ) );
 			}
-			catch( ParseException ignored ) {
-			}
+			catch( ParseException ignored ) {}
 			try {
 				return DateUtilities.toLocalDate( ISO8601Utils.parse( json, new ParsePosition( 0 ) ) );
 			}
