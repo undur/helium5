@@ -2,6 +2,7 @@ package is.rebbi.wo.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 import org.apache.cayenne.DataObject;
@@ -17,6 +18,7 @@ import is.rebbi.wo.components.admin.USEditPageGeneric;
 import is.rebbi.wo.components.admin.USEditWrapper;
 import is.rebbi.wo.components.admin.USListPageEdit;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
+import is.rebbi.wo.urls.USURLProvider;
 
 public class Inspection {
 
@@ -148,13 +150,13 @@ public class Inspection {
 
 	/**
 	 * @return The given object opened in the default edit page.
-	 * 
+	 *
 	 * FIXME: No fallbacks should be here, this should be purely configured by the programmer.
 	 */
 	public static WOActionResults editObjectInContext( Object object, WOContext context ) {
 		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
 		Class<? extends HasSelectedObjectPage> componentClass = null;
-		
+
 		if( ir != null ) {
 			componentClass = ir.editComponentClass();
 		}
@@ -211,5 +213,13 @@ public class Inspection {
 		}
 
 		return inspectObjectInContextUsingComponent( selectedObject, context, pageClass );
+	}
+
+	public static StaticURLResponse inspectObject( Object object, WOContext context ) {
+		Objects.requireNonNull( object );
+		Objects.requireNonNull( context );
+
+		final String url = USURLProvider.urlForObjectInContext( object, context );
+		return StaticURLResponse.of( url );
 	}
 }
