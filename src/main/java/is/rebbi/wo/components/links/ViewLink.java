@@ -1,6 +1,5 @@
 package is.rebbi.wo.components.links;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.Persistent;
 
 import com.webobjects.appserver.WOContext;
@@ -51,6 +50,10 @@ public class ViewLink extends ERXStatelessComponent {
 	 */
 	public String href() {
 
+		if( object() == null ) {
+			return null;
+		}
+
 		if( isNewPersistentObject() ) {
 			return null;
 		}
@@ -58,6 +61,9 @@ public class ViewLink extends ERXStatelessComponent {
 		return USURLProvider.urlForObjectInContext( object(), context() );
 	}
 
+	/**
+	 * FIXME: wat? 
+	 */
 	public boolean showPlaceholder() {
 		if( disabled() && valueForBinding( "class" ) != null ) {
 			return true;
