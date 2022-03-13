@@ -1,6 +1,7 @@
 package is.rebbi.wo.components.links;
 
 import org.apache.cayenne.DataObject;
+import org.apache.cayenne.Persistent;
 
 import com.webobjects.appserver.WOContext;
 
@@ -22,15 +23,20 @@ public class ViewLink extends ERXStatelessComponent {
 	 */
 	public boolean disabled() {
 
-		if( isTemporary() ) {
+		if( object() == null ) {
 			return true;
 		}
 
-		return object() == null || booleanValueForBinding( "disabled" );
+		// We can't generate URLs for objects that haven't been committed to the DB, so we disable the link
+		if( isNewPersistentObject() ) {
+			return true;
+		}
+
+		return booleanValueForBinding( "disabled" );
 	}
 
-	private boolean isTemporary() {
-		return object() instanceof DataObject && ((DataObject)object()).getObjectId().isTemporary();
+	private boolean isNewPersistentObject() {
+		return object() instanceof Persistent && ((Persistent)object()).getObjectId().isTemporary();
 	}
 
 	/**
@@ -45,18 +51,11 @@ public class ViewLink extends ERXStatelessComponent {
 	 */
 	public String href() {
 
-		if( isTemporary() ) {
+		if( isNewPersistentObject() ) {
 			return null;
 		}
 
 		return USURLProvider.urlForObjectInContext( object(), context() );
-	}
-
-	/**
-	 * @return The operation to link to. If no operation is specified, the default is the "view" operation.
-	 */
-	public String operation() {
-		return stringValueForBinding( "operation" );
 	}
 
 	public boolean showPlaceholder() {
