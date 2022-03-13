@@ -1,5 +1,7 @@
 package is.rebbi.wo.components.links;
 
+import org.apache.cayenne.Persistent;
+
 import com.webobjects.appserver.WOAssociation;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOElement;
@@ -28,17 +30,32 @@ public class ViewLinkDE extends WODynamicGroup {
 
 		_disabledAssociation = associations.objectForKey( "disabled" );
 	}
-	
+
+	/**
+	 * TODO: class
+	 * TODO: placeholder
+	 * TODO: other bindings. perhaps just append the remaining bindings arbitrarily?
+	 */
 	@Override
 	public void appendToResponse( final WOResponse response, final WOContext context ) {
 		final Object object = _objectAssociation.valueInComponent( context.component() );
-		final boolean disabled = _disabledAssociation != null && _disabledAssociation.booleanValueInComponent( context.component() );
+		boolean disabled = false;
+		
+		if( object == null ) {
+			disabled = true;
+		}
+		
+		if( isNewPersistentObject( object ) ) {
+			disabled = true;
+		}
 
-		final String url = USURLProvider.urlForObjectInContext( object, context );
+		if( _disabledAssociation != null && _disabledAssociation.booleanValueInComponent( context.component() ) ) {
+			disabled = true;
+		}
 
 		if( !disabled ) {
 			response.appendContentString( "<a href=\"" );
-			response.appendContentString( url );
+			response.appendContentString( USURLProvider.urlForObjectInContext( object, context ) );
 			response.appendContentString( "\">" );
 		}
 
@@ -47,5 +64,9 @@ public class ViewLinkDE extends WODynamicGroup {
 		if( !disabled ) {
 			response.appendContentString( "</a>" );
 		}
+	}
+	
+	private static boolean isNewPersistentObject( Object object ) {
+		return object instanceof Persistent && ((Persistent)object).getObjectId().isTemporary();
 	}
 }
