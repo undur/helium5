@@ -2,7 +2,7 @@ package is.rebbi.wo.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -248,15 +248,7 @@ public class USHTTPUtilities {
 			contentString = "";
 		}
 
-		NSData data = NSData.EmptyData;
-
-		try {
-			data = new NSData( contentString.getBytes( "UTF-8" ) );
-		}
-		catch( UnsupportedEncodingException e ) {
-			logger.debug( "Attempted to convert string to unsupported encoding", e );
-		}
-
+		final NSData data = new NSData( contentString.getBytes( StandardCharsets.UTF_8 ) );
 		return responseWithDataAndMimeType( filename, data, mimeType + "; charset=UTF-8", false );
 	}
 
