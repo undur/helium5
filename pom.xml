@@ -10,9 +10,15 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
+		<webobjects.group>com.webobjects</webobjects.group>
 		<webobjects.version>5.4.3</webobjects.version>
+
+		<wonder.core.group>wonder.core</wonder.core.group>
+		<wonder.ajax.group>wonder.ajax</wonder.ajax.group>
 		<wonder.version>7.3</wonder.version>
+
 		<cayenne.version>4.1.1</cayenne.version>
+
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -145,58 +151,58 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>wonder.core</groupId>
+			<groupId>${wonder.core.group}</groupId>
 			<artifactId>ERExtensions</artifactId>
 			<version>${wonder.version}</version>
 			<exclusions>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaXML</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaEOAccess</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaEOControl</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>wonder.ajax</groupId>
+			<groupId>${wonder.ajax.group}</groupId>
 			<artifactId>Ajax</artifactId>
 			<version>${wonder.version}</version>
 			<exclusions>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaXML</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaEOAccess</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaEOControl</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>com.webobjects</groupId>
+			<groupId>${webobjects.group}</groupId>
 			<artifactId>JavaWebObjects</artifactId>
 			<version>${webobjects.version}</version>
 			<exclusions>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaXML</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaEOAccess</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.webobjects</groupId>
+					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaEOControl</artifactId>
 				</exclusion>
 			</exclusions>
