@@ -1,10 +1,16 @@
 package is.rebbi.wo.components;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.webobjects.appserver.WOContext;
+import com.webobjects.appserver.WOResponse;
 
 import is.rebbi.wo.util.SWSettings;
 
 public class USViewWrapper extends USViewPage {
+
+	private static final Logger logger = LoggerFactory.getLogger( USViewWrapper.class );
 
 	/**
 	 * Name of the component currently being displayed.
@@ -30,5 +36,11 @@ public class USViewWrapper extends USViewPage {
 		}
 
 		return USBaseViewTools.class.getSimpleName();
+	}
+
+	@Override
+	public void appendToResponse( WOResponse response, WOContext context ) {
+		logger.info( "displayComponentName" + _displayComponentName );
+		super.appendToResponse( response, context );
 	}
 }
