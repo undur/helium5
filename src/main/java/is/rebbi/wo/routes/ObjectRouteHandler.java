@@ -49,7 +49,7 @@ public class ObjectRouteHandler extends RouteHandler {
 		final String objectIdentifier = path.getString( 2 );
 
 		final String objEntityName = entityNameFromTypeIdentifier( typeIdentifier );
-		
+
 		if( objEntityName == null ) {
 			return null;
 		}
@@ -64,7 +64,8 @@ public class ObjectRouteHandler extends RouteHandler {
 			return objectFromUniqueID( Jambalaya.newContext(), objEntityName, identifier );
 		}
 
-		throw new RuntimeException( "Unsupported URL format" );
+		return null;
+		//		throw new RuntimeException( "Unsupported URL format" );
 	}
 
 	private static DataObject objectFromUniqueID( final ObjectContext oc, final String objEntityName, final String uniqueID ) {
@@ -97,7 +98,7 @@ public class ObjectRouteHandler extends RouteHandler {
 
 		if( inspectionRoute == null ) {
 			return null;
-//			throw new RuntimeException( "No view definition found for URL prefix: " + typeIdentifier );
+			//			throw new RuntimeException( "No view definition found for URL prefix: " + typeIdentifier );
 		}
 
 		return inspectionRoute.entityClass().getSimpleName();
