@@ -40,7 +40,7 @@ public class USViewWrapper extends USViewPage {
 
 	@Override
 	public void appendToResponse( WOResponse response, WOContext context ) {
-		logger.info( "displayComponentName" + _displayComponentName );
+		logger.info( "displayComponentName: " + _displayComponentName );
 		super.appendToResponse( response, context );
 	}
 }
