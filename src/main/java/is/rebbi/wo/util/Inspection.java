@@ -175,6 +175,11 @@ public class Inspection {
 		return nextPage;
 	}
 
+	public static WOActionResults viewObject( final Object object, final WOContext context ) {
+		final String url = USURLProvider.urlForObjectInContext( object, context );
+		return USHTTPUtilities.redirectTemporary( url );
+	}
+
 	/**
 	 * Takes an object of a supported type and returns an inspection page for it.
 	 */
