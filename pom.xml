@@ -15,7 +15,7 @@
 
 		<wonder.core.group>wonder.core</wonder.core.group>
 		<wonder.ajax.group>wonder.ajax</wonder.ajax.group>
-		<wonder.version>7.3</wonder.version>
+		<wonder.version>8.0.0.slim-SNAPSHOT</wonder.version>
 
 		<cayenne.version>4.1.1</cayenne.version>
 
