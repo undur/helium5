@@ -146,39 +146,11 @@
 			<groupId>${wonder.core.group}</groupId>
 			<artifactId>ERExtensions</artifactId>
 			<version>${wonder.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>${webobjects.group}</groupId>
-					<artifactId>JavaXML</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>${webobjects.group}</groupId>
-					<artifactId>JavaEOAccess</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>${webobjects.group}</groupId>
-					<artifactId>JavaEOControl</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>${wonder.ajax.group}</groupId>
 			<artifactId>Ajax</artifactId>
 			<version>${wonder.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>${webobjects.group}</groupId>
-					<artifactId>JavaXML</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>${webobjects.group}</groupId>
-					<artifactId>JavaEOAccess</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>${webobjects.group}</groupId>
-					<artifactId>JavaEOControl</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>${webobjects.group}</groupId>
@@ -188,14 +160,6 @@
 				<exclusion>
 					<groupId>${webobjects.group}</groupId>
 					<artifactId>JavaXML</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>${webobjects.group}</groupId>
-					<artifactId>JavaEOAccess</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>${webobjects.group}</groupId>
-					<artifactId>JavaEOControl</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
