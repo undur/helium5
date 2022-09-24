@@ -3,8 +3,8 @@ package is.rebbi.wo.components;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXSession;
+import er.extensions.appserver.ERXWOContext;
 import er.extensions.components.ERXComponent;
-import er.extensions.foundation.ERXStringUtilities;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.util.SWSettings;
 
@@ -39,7 +39,7 @@ public abstract class USBaseComponent extends ERXComponent {
 				_uniqueID = context().elementID();
 			}
 
-			_uniqueID = ERXStringUtilities.safeIdentifierName( _uniqueID, "u_" );
+			_uniqueID = ERXWOContext.safeIdentifierName( _uniqueID, "u_" );
 		}
 
 		return _uniqueID;
