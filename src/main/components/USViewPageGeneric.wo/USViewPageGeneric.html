@@ -7,23 +7,27 @@
 			<div class="box-body">
 				<h4>Attributes</h4>
 				<table class="table table-condensed table-striped">
+					<tr>
+						<th>Name</th>
+						<th>Column</th>
+						<th>Java type</th>
+						<th>Value</th>
+					</tr>
 					<wo:repetition list="$attributes" item="$currentAttribute">
 						<tr>
-							<td>
-								<strong><wo:str value="$currentAttribute.name" /></strong>
-							</td>
+							<td><wo:str value="$currentAttribute.name" /></td>
+							<td><wo:str value="$currentAttribute.dbAttributeName" /></td>
 							<td><em style="color: rgb(180,180,180)"><wo:str value="$currentAttribute.javaClass.simpleName" /></em></td>
 							<td><wo:IMValue object="$currentAttributeValue" /></td>
 						</tr>
 					</wo:repetition>
 					<tr>
-						<td colspan="3"><h4>Relationships</h4></td>
+						<td colspan="4"><h4>Relationships</h4></td>
 					</tr>
 					<wo:repetition list="$relationships" item="$currentRelationship">
 						<tr>
-							<td>
-								<strong><wo:str value="$currentRelationship.name" /></strong>
-							</td>
+							<td><wo:str value="$currentRelationship.name" /></td>
+							<td></td>
 							<td><em style="color: rgb(180,180,180)"><wo:str value="$currentRelationship.targetEntity.name" /> <wo:if condition="$currentRelationship.isToMany">&gt;&gt; (<wo:str value="$currentRelationshipValue.size // VALID" />)</wo:if><wo:if condition="$currentRelationship.isToMany" negate="$true">&gt;</wo:if></em></td>
 							<td>
 								<wo:if condition="$currentRelationship.isToMany" negate="$true"><wo:ViewLink object="$currentRelationshipValue"><wo:str value="$currentRelationshipValueHumanReadable" /></wo:ViewLink></wo:if>
