@@ -10,7 +10,7 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.DbAttribute;
 import org.apache.cayenne.map.ObjEntity;
-import org.apache.cayenne.query.SelectQuery;
+import org.apache.cayenne.query.ObjectSelect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,8 +69,10 @@ public class ObjectRouteHandler extends RouteHandler {
 	}
 
 	private static DataObject objectFromUniqueID( final ObjectContext oc, final String objEntityName, final String uniqueID ) {
-		final SelectQuery<?> q = new SelectQuery<>( objEntityName, ExpressionFactory.matchExp( "uniqueID", uniqueID ) );
-		return (DataObject)q.selectOne( oc );
+		return ObjectSelect
+				.query( DataObject.class, objEntityName )
+				.where( ExpressionFactory.matchExp( "uniqueID", uniqueID ) )
+				.selectOne( oc );
 	}
 
 	private static DataObject objectFromPKString( final ObjectContext oc, final String objEntityName, final String identifier ) {
@@ -86,8 +88,12 @@ public class ObjectRouteHandler extends RouteHandler {
 			keyMap.put( attribute.getName(), components[i++] );
 		}
 
-		final SelectQuery<?> q = new SelectQuery<>( objEntityName, ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO ) );
-		return (DataObject)q.selectOne( oc );
+		final Expression exp = ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO );
+
+		return ObjectSelect
+				.query( DataObject.class, objEntityName )
+				.where( exp )
+				.selectOne( oc );
 	}
 
 	/**
