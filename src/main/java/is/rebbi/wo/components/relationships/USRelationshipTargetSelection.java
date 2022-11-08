@@ -2,9 +2,11 @@ package is.rebbi.wo.components.relationships;
 
 import java.util.List;
 
+import org.apache.cayenne.CayenneRuntimeException;
 import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.map.ObjRelationship;
+import org.apache.cayenne.util.Util;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
@@ -45,7 +47,14 @@ public class USRelationshipTargetSelection extends USListPageEdit {
 	 */
 	@Override
 	public Class entityClass() {
-		return relationship().getTargetEntity().getJavaClass();
+		String name = relationship().getTargetEntity().getJavaClassName();
+
+		try {
+			return Util.getJavaClass( name );
+		}
+		catch( ClassNotFoundException e ) {
+			throw new CayenneRuntimeException( "Failed to doLoad class " + name + ": " + e.getMessage(), e );
+		}
 	}
 
 	public WOActionResults cancel() {
