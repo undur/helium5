@@ -159,6 +159,7 @@
 			<groupId>${wonder.ajax.group}</groupId>
 			<artifactId>Ajax</artifactId>
 			<version>${wonder.version}</version>
+			<scope>provided</scope> <!-- Prevents us from Ajax-ing all over AjaxSlim projects -->
 		</dependency>
 		<dependency>
 			<groupId>${wonder.core.group}</groupId>
