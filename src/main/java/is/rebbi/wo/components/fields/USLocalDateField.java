@@ -7,7 +7,7 @@ import java.time.temporal.TemporalAccessor;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
 
-import er.ajax.AjaxUtils;
+import er.extensions.appserver.ERXResponseRewriter;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USBaseComponent;
 
@@ -34,14 +34,14 @@ public class USLocalDateField extends USBaseComponent {
 	@Override
 	public void appendToResponse( WOResponse r, WOContext c ) {
 		super.appendToResponse( r, c );
-		AjaxUtils.addStylesheetResourceInHead( context(), r, Primary.frameworkBundleName(), "smoothness/jquery-ui-1.8.22.custom.css" );
-		AjaxUtils.addScriptResourceInHead( context(), r, Primary.frameworkBundleName(), "jquery-ui-1.8.22.custom.min.js" );
-		AjaxUtils.addScriptResourceInHead( context(), r, Primary.frameworkBundleName(), "jquery.ui.datepicker-is.js" );
+		ERXResponseRewriter.addStylesheetResourceInHead( r, context(), Primary.frameworkBundleName(), "smoothness/jquery-ui-1.8.22.custom.css" );
+		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "jquery-ui-1.8.22.custom.min.js" );
+		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "jquery.ui.datepicker-is.js" );
 	}
 
 	public String stringValue() {
 
-		if( hasBinding("stringValue") ) {
+		if( hasBinding( "stringValue" ) ) {
 			return stringValueForBinding( "stringValue" );
 		}
 
@@ -56,7 +56,7 @@ public class USLocalDateField extends USBaseComponent {
 
 	public void setStringValue( String value ) {
 
-		if( hasBinding("stringValue") ) {
+		if( hasBinding( "stringValue" ) ) {
 			setValueForBinding( value, "stringValue" );
 		}
 		else {

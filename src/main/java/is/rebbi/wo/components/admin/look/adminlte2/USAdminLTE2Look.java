@@ -3,7 +3,7 @@ package is.rebbi.wo.components.admin.look.adminlte2;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
 
-import er.ajax.AjaxUtils;
+import er.extensions.appserver.ERXResponseRewriter;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.menu.USMenu;
@@ -18,7 +18,7 @@ public class USAdminLTE2Look extends USViewPage {
 	@Override
 	public void appendToResponse( WOResponse r, WOContext c ) {
 		super.appendToResponse( r, c );
-		AjaxUtils.addScriptResourceInHead( context(), r, Primary.frameworkBundleName(), "bootstrap_prototype_conflict_fix.js" );
+		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "bootstrap_prototype_conflict_fix.js" );
 	}
 
 	public String frameworkBundleName() {
