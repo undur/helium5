@@ -6,7 +6,9 @@
 					<wo:link href="$currentMenuItem.url"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span></wo:link>
 				</wo:if>
 				<wo:if condition="$currentMenuItem.url" negate="$true">
-					<wo:link action="$action"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" /> <span><wo:str value="$currentMenuItem.name" /></span></wo:link>
+					<wo:link action="$action"><wo:container elementName="i" class="$currentMenuItemClass" omitTags="$noItemClass" />
+						<span><wo:str value="$currentMenuItem.name" /><wo:if condition="$currentMenuItem.badgeString.length"> <small class="label pull-right bg-red" style="margin-top:3px"><wo:str value="$currentMenuItem.badgeString" /></small></wo:if></span>
+					</wo:link>
 				</wo:if>
 			</wo:container>
 		</wo:if>

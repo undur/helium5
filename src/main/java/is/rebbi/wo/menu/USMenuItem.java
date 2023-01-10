@@ -38,6 +38,12 @@ public abstract class USMenuItem implements Hierarchy<USMenuItem> {
 
 	public boolean forceOpen;
 
+	/**
+	 * FIXME: Actually implement
+	 */
+	@Deprecated
+	public String badgeString;
+
 	USMenuItem() {
 		_identifier = UUID.randomUUID().toString();
 	}
