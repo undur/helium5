@@ -55,11 +55,8 @@ public abstract class USBaseComponent extends ERXComponent {
 			return lookName;
 		}
 
-		// Use existingSession() to prevent excessive session creation
-		final ERXSession session = (ERXSession)((ERXWOContext)context()).existingSession();
-
-		if( session != null ) {
-			lookName = lookNameInSession( session );
+		if( context().hasSession() ) {
+			lookName = lookNameInSession( (ERXSession)session() );
 
 			if( lookName != null ) {
 				return lookName;
