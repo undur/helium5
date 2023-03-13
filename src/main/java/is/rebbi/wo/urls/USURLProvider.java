@@ -44,22 +44,24 @@ public abstract class USURLProvider {
 			url = urlForDevelopment( url, context );
 		}
 
-		if( context == null ) {
-			url = addProtocolAndHost( url );
-		}
+		//		FIXME: Delete // Hugi 2023-03-13
+		//		if( context == null ) {
+		//			url = addProtocolAndHost( url );
+		//		}
 
 		return url;
 	}
 
-	@Deprecated
-	private static String addProtocolAndHost( String url ) {
-		StringBuilder b = new StringBuilder();
-		b.append( "http" );
-		b.append( "://" );
-		b.append( SWSettings.defaultDomainName() );
-		b.append( url );
-		return b.toString();
-	}
+	//	FIXME: Delete // Hugi 2023-03-13
+	//	@Deprecated
+	//	private static String addProtocolAndHost( String url ) {
+	//		StringBuilder b = new StringBuilder();
+	//		b.append( "http" );
+	//		b.append( "://" );
+	//		b.append( SWSettings.defaultDomainName() );
+	//		b.append( url );
+	//		return b.toString();
+	//	}
 
 	private static Map<Class, URLProvider> urlProviders() {
 		if( _urlProviders == null ) {
