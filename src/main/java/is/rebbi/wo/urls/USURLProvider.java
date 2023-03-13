@@ -33,6 +33,27 @@ public abstract class USURLProvider {
 		return urlProvider.urlForObject( object );
 	}
 
+	private static Map<Class, URLProvider> urlProviders() {
+		if( _urlProviders == null ) {
+			_urlProviders = new HashMap<>();
+			_urlProviders.put( DataObject.class, new URLProviderDataObject() );
+			_urlProviders.put( ObjectId.class, new URLProviderObjectId() );
+		}
+
+		return _urlProviders;
+	}
+
+	private static URLProvider urlProviderForClass( Class<?> clazz ) {
+
+		for( Entry<Class, URLProvider> provider : urlProviders().entrySet() ) {
+			if( provider.getKey().isAssignableFrom( clazz ) ) {
+				return provider.getValue();
+			}
+		}
+
+		throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
+	}
+
 	/**
 	 * @return The URL for viewing the given object.
 	 */
@@ -62,27 +83,6 @@ public abstract class USURLProvider {
 	//		b.append( url );
 	//		return b.toString();
 	//	}
-
-	private static Map<Class, URLProvider> urlProviders() {
-		if( _urlProviders == null ) {
-			_urlProviders = new HashMap<>();
-			_urlProviders.put( DataObject.class, new URLProviderDataObject() );
-			_urlProviders.put( ObjectId.class, new URLProviderObjectId() );
-		}
-
-		return _urlProviders;
-	}
-
-	private static URLProvider urlProviderForClass( Class<?> clazz ) {
-
-		for( Entry<Class, URLProvider> provider : urlProviders().entrySet() ) {
-			if( provider.getKey().isAssignableFrom( clazz ) ) {
-				return provider.getValue();
-			}
-		}
-
-		throw new NullPointerException( "No URLProvider registered for objects of class: " + clazz );
-	}
 
 	/**
 	 * @return A direct connect version of the URL.
