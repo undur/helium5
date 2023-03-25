@@ -11,6 +11,7 @@ public class Primary {
 	private static final Logger logger = LoggerFactory.getLogger( Primary.class );
 
 	static {
+		System.out.println( "==== Initializing Helium ====" );
 		logger.info( "Initializing Helium" );
 		SoftUser.Manager.register();
 		SessionManager.register();
