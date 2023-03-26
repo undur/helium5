@@ -15,8 +15,10 @@ public class InspectAction extends RouteAction {
 
 	public InspectAction( WORequest r ) {
 		super( r );
+		System.out.println( "====== WARNING! InspectAction is deprecated ======" );
 	}
 
+	@Deprecated
 	public WOActionResults loginAction() {
 		return pageWithName( USLoginPage.class );
 	}
