@@ -25,24 +25,8 @@ public abstract class USURLProvider {
 			url = urlForDevelopment( url, context );
 		}
 
-		//		FIXME: Delete // Hugi 2023-03-13
-		//		if( context == null ) {
-		//			url = addProtocolAndHost( url );
-		//		}
-
 		return url;
 	}
-
-	//	FIXME: Delete // Hugi 2023-03-13
-	//	@Deprecated
-	//	private static String addProtocolAndHost( String url ) {
-	//		StringBuilder b = new StringBuilder();
-	//		b.append( "http" );
-	//		b.append( "://" );
-	//		b.append( SWSettings.defaultDomainName() );
-	//		b.append( url );
-	//		return b.toString();
-	//	}
 
 	/**
 	 * @return A direct connect version of the URL.
