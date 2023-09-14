@@ -225,21 +225,59 @@ public class ImageInfo {
 		int blockType;
 		do {
 			blockType = read();
-			switch (blockType) {
-				case (0x2c): // image separator
-				{
-					if( read( a, 0, 9 ) != 9 ) {
+			switch( blockType ) {
+			case (0x2c): // image separator
+			{
+				if( read( a, 0, 9 ) != 9 ) {
+					return false;
+				}
+				flags = a[8] & 0xff;
+				int localBitsPerPixel = (flags & 0x07) + 1;
+				if( localBitsPerPixel > bitsPerPixel ) {
+					bitsPerPixel = localBitsPerPixel;
+				}
+				if( (flags & 0x80) != 0 ) {
+					skip( (1 << localBitsPerPixel) * 3 );
+				}
+				skip( 1 ); // initial code length
+				int n;
+				do {
+					n = read();
+					if( n > 0 ) {
+						skip( n );
+					}
+					else if( n == -1 ) {
 						return false;
 					}
-					flags = a[8] & 0xff;
-					int localBitsPerPixel = (flags & 0x07) + 1;
-					if( localBitsPerPixel > bitsPerPixel ) {
-						bitsPerPixel = localBitsPerPixel;
+				}
+				while( n > 0 );
+				numberOfImages++;
+				break;
+			}
+			case (0x21): // extension
+			{
+				int extensionType = read();
+				if( collectComments && extensionType == 0xfe ) {
+					StringBuffer sb = new StringBuffer();
+					int n;
+					do {
+						n = read();
+						if( n == -1 ) {
+							return false;
+						}
+						if( n > 0 ) {
+							for( int i = 0; i < n; i++ ) {
+								int ch = read();
+								if( ch == -1 ) {
+									return false;
+								}
+								sb.append( (char)ch );
+							}
+						}
 					}
-					if( (flags & 0x80) != 0 ) {
-						skip( (1 << localBitsPerPixel) * 3 );
-					}
-					skip( 1 ); // initial code length
+					while( n > 0 );
+				}
+				else {
 					int n;
 					do {
 						n = read();
@@ -251,54 +289,16 @@ public class ImageInfo {
 						}
 					}
 					while( n > 0 );
-					numberOfImages++;
-					break;
 				}
-				case (0x21): // extension
-				{
-					int extensionType = read();
-					if( collectComments && extensionType == 0xfe ) {
-						StringBuffer sb = new StringBuffer();
-						int n;
-						do {
-							n = read();
-							if( n == -1 ) {
-								return false;
-							}
-							if( n > 0 ) {
-								for( int i = 0; i < n; i++ ) {
-									int ch = read();
-									if( ch == -1 ) {
-										return false;
-									}
-									sb.append( (char)ch );
-								}
-							}
-						}
-						while( n > 0 );
-					}
-					else {
-						int n;
-						do {
-							n = read();
-							if( n > 0 ) {
-								skip( n );
-							}
-							else if( n == -1 ) {
-								return false;
-							}
-						}
-						while( n > 0 );
-					}
-					break;
-				}
-				case (0x3b): // end of file
-				{
-					break;
-				}
-				default: {
-					return false;
-				}
+				break;
+			}
+			case (0x3b): // end of file
+			{
+				break;
+			}
+			default: {
+				return false;
+			}
 			}
 		}
 		while( blockType != 0x3b );
@@ -318,7 +318,7 @@ public class ImageInfo {
 		}
 		int type = getIntBigEndian( a, 6 );
 		if( type != 0x494c424d && // type must be ILBM...
-		type != 0x50424d20 ) { // ...or PBM
+				type != 0x50424d20 ) { // ...or PBM
 			return false;
 		}
 		// loop chunks to find BMHD chunk
