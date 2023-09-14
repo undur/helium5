@@ -1,6 +1,10 @@
 package is.rebbi.wo.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
@@ -29,8 +33,7 @@ public class SWDictionary<E, T> implements NSKeyValueCodingAdditions {
 	/**
 	 * Initializes an empty SWDictionary
 	 */
-	public SWDictionary() {
-	}
+	public SWDictionary() {}
 
 	/**
 	 * Initializes an SWDictionary using the specified File. If the file does not exist,
@@ -95,7 +98,12 @@ public class SWDictionary<E, T> implements NSKeyValueCodingAdditions {
 			String s = NSPropertyListSerialization.stringFromPropertyList( storage() );
 
 			if( s != null ) {
-				StringUtilities.writeStringToFileUsingEncoding( s, file(), "UTF-8" );
+				try {
+					Files.writeString( file().toPath(), s, Charset.forName( "UTF-8" ) );
+				}
+				catch( IOException e ) {
+					throw new UncheckedIOException( e );
+				}
 			}
 		}
 	}
