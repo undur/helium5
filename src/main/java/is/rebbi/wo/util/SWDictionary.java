@@ -81,11 +81,13 @@ public class SWDictionary<E, T> implements NSKeyValueCodingAdditions {
 	 */
 	private void read() {
 		if( hasFile() ) {
-			String s = StringUtilities.readStringFromFileUsingEncoding( file(), "UTF-8" );
-			NSMutableDictionary<E, T> d = (NSMutableDictionary)NSPropertyListSerialization.propertyListFromString( s );
+			if( file().exists() ) {
+				final String s = StringUtilities.readStringFromFileUsingEncoding( file(), "UTF-8" );
+				final NSMutableDictionary<E, T> d = (NSMutableDictionary)NSPropertyListSerialization.propertyListFromString( s );
 
-			if( d != null ) {
-				setStorage( d );
+				if( d != null ) {
+					setStorage( d );
+				}
 			}
 		}
 	}
