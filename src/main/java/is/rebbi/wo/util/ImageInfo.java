@@ -9,6 +9,11 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @deprecated use the logic from rebbi-core
+ */
+
+@Deprecated
 public class ImageInfo {
 
 	private static final Logger logger = LoggerFactory.getLogger( ImageInfo.class );
