@@ -40,7 +40,7 @@ public class USGenericComparator<T> implements Comparator<T> {
 	}
 
 	public USGenericComparator( final String keyPath, final boolean ascending, final boolean caseInsensitive ) {
-		this( Collator.getInstance( new Locale( "is", "IS" ) ), keyPath, ascending, caseInsensitive );
+		this( Collator.getInstance( Locale.of( "is", "IS" ) ), keyPath, ascending, caseInsensitive );
 	}
 
 	public USGenericComparator( final Collator collator, final String keyPath, final boolean ascending, final boolean caseInsensitive ) {
@@ -124,7 +124,7 @@ public class USGenericComparator<T> implements Comparator<T> {
 
 		private final boolean _ascending;
 		private final boolean _caseInsensitive;
-		private static Collator collator = Collator.getInstance( new Locale( "is", "IS" ) );
+		private static Collator collator = Collator.getInstance( Locale.of( "is", "IS" ) );
 
 		@Override
 		public int compare( Object obj, Object obj1 ) {

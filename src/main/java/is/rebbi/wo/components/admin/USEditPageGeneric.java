@@ -149,7 +149,7 @@ public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
 	 * FIXME: We're always using an Icelandic numerical format here.
 	 */
 	public Format decimalFormat() {
-		DecimalFormatSymbols symbols = new DecimalFormatSymbols( new Locale( "is" ) );
+		DecimalFormatSymbols symbols = new DecimalFormatSymbols( Locale.of( "is" ) );
 		symbols.setGroupingSeparator( '.' );
 		symbols.setMonetaryDecimalSeparator( ',' );
 		return new DecimalFormat( "##.####", symbols );
