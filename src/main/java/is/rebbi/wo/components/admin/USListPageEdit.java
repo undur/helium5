@@ -88,7 +88,10 @@ public class USListPageEdit extends USBaseComponent {
 	public List<Ordering> orderings() {
 		if( _orderings == null ) {
 			_orderings = new ArrayList<>();
-			_orderings.add( initialOrdering() );
+
+			if( initialOrdering() != null ) {
+				_orderings.add( initialOrdering() );
+			}
 		}
 
 		return _orderings;
@@ -213,6 +216,11 @@ public class USListPageEdit extends USBaseComponent {
 	}
 
 	private Ordering initialOrdering() {
+
+		if( keyPathsToShow().isEmpty() ) {
+			return null;
+		}
+
 		return new Ordering( keyPathsToShow().get( 0 ) );
 	}
 
