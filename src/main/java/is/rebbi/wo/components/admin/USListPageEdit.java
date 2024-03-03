@@ -139,7 +139,7 @@ public class USListPageEdit extends USBaseComponent {
 			return null;
 		}
 
-		final Expression fromEntity = CayenneUtils.allQualifier( oc(), searchString, entityClass() );
+		final Expression fromEntity = CayenneUtils.allExpression( oc(), searchString, entityClass() );
 		final Expression fromKeyPaths = CayenneUtils.allExpression( oc(), searchString, entityClass(), keyPathsToShow() );
 		final Expression e = ExpressionFactory.or( fromEntity, fromKeyPaths );
 
