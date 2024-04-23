@@ -7,6 +7,8 @@ import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
 
 import is.rebbi.wo.util.SWSettings;
+import jambalaya.interfaces.UUIDStamped;
+import jambalaya.interfaces.UniqueIDStamped;
 
 public class USViewWrapper extends USViewPage {
 
@@ -40,7 +42,18 @@ public class USViewWrapper extends USViewPage {
 
 	@Override
 	public void appendToResponse( WOResponse response, WOContext context ) {
-		logger.info( "displayComponentName: " + _displayComponentName );
+		String uniqueID = "[no uniqueID]";
+
+		if( selectedObject() != null ) {
+			if( selectedObject() instanceof UniqueIDStamped uuid ) {
+				uniqueID = uuid.uniqueID();
+			}
+			if( selectedObject() instanceof UUIDStamped uuid ) {
+				uniqueID = uuid.uniqueID().toString();
+			}
+		}
+
+		logger.info( "displayComponentName : %s : %s".formatted( _displayComponentName, uniqueID ) );
 		super.appendToResponse( response, context );
 	}
 }
