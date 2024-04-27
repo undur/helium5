@@ -2,9 +2,9 @@ package is.rebbi.wo.util;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOSession;
 import com.webobjects.foundation.NSNotification;
@@ -25,8 +25,7 @@ public class SessionManager {
 	/**
 	 * It's a singleton.
 	 */
-	private SessionManager() {
-	}
+	private SessionManager() {}
 
 	/**
 	 * List of all currently active sessions.
@@ -87,10 +86,19 @@ public class SessionManager {
 		addSessionIfMissing( session, null );
 	}
 
-	public void addSessionIfMissing( final ERXSession session, final WORequest request ) {
+	public void addSessionIfMissing( final ERXSession session, WORequest request ) {
 		//		Objects.requireNonNull( session );
 
 		if( session != null ) { // FIXME: This check should not be required
+
+			// FIXME: This whole thing feels very hacky
+			if( request == null ) {
+				final WOContext context = session.context();
+
+				if( context != null ) {
+					request = context.request();
+				}
+			}
 			setSessionLastTouchedDate( session );
 
 			final String sessionID = session.sessionID();
