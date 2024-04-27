@@ -141,7 +141,8 @@ public class SessionManager {
 	private static final List<String> SHORTENED_USER_AGENTS = List.of(
 			"applebot",
 			"googleother",
-			"gptbot" );
+			"gptbot",
+			"bingbot" );
 
 	private void shortenTimeoutIfRobotSessionFromUserAgent( final ERXSession session, final String userAgent ) {
 		boolean isRobot = false;
