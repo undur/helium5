@@ -1,6 +1,7 @@
 package is.rebbi.wo.util;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -105,7 +106,7 @@ public class SessionManager {
 
 			if( !activeSessions().containsKey( sessionID ) ) {
 				activeSessions().put( sessionID, session );
-				shortenTimeoutIfRobotSession( session );
+				shortenTimeoutIfRobotSessionFromBrowser( session );
 
 				if( request != null ) {
 					final String ipAddress = USHTTPUtilities.ipAddressFromRequest( request );
@@ -118,6 +119,7 @@ public class SessionManager {
 
 					if( userAgent != null ) {
 						setSessionUserAgent( session, userAgent );
+						shortenTimeoutIfRobotSessionFromUserAgent( session, userAgent );
 					}
 				}
 			}
@@ -136,7 +138,26 @@ public class SessionManager {
 		session.objectStore().takeValueForKey( userAgent, "lastUserAgent" );
 	}
 
-	private void shortenTimeoutIfRobotSession( final ERXSession session ) {
+	private static final List<String> SHORTENED_USER_AGENTS = List.of(
+			"applebot",
+			"googleother",
+			"gptbot" );
+
+	private void shortenTimeoutIfRobotSessionFromUserAgent( final ERXSession session, final String userAgent ) {
+		boolean isRobot = false;
+
+		for( String agentString : SHORTENED_USER_AGENTS ) {
+			if( userAgent.toLowerCase().contains( agentString ) ) {
+				isRobot = true;
+			}
+		}
+
+		if( isRobot ) {
+			session.setTimeOut( 30 );
+		}
+	}
+
+	private void shortenTimeoutIfRobotSessionFromBrowser( final ERXSession session ) {
 		ERXBrowser browser = session.browser();
 
 		if( browser != null ) {
