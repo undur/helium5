@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -25,17 +26,17 @@ import er.extensions.appserver.ERXWOContext;
 public class SlowRegionWrapper extends WODynamicGroup {
 
 	/**
-	 * Element name of the wrapper displayed (defaults to 'div')
+	 * Element name of the wrapper element (defaults to 'div')
 	 */
 	private final WOAssociation _elementNameAssociation;
 
 	/**
-	 * Store the additional associations to add to the wrapper tag
+	 * Additional associations stored for adding to the wrapepr element
 	 */
 	private final Map<String, WOAssociation> _associations;
 
 	/**
-	 * Created to process all our slow regions
+	 * Executor for processing our slow regions
 	 */
 	private static final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
@@ -68,9 +69,13 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		// Lord only knows how immensely we're fudging with the WO framework's mind by doing this.
 		setPrivateField( contextClone, "_contextID", context.contextID() );
 
+		// The key we use to store the rendered sub-response for later retrieval by the request handler
+		// We're lazily using a UUID to ensure safety between different sessions here, should probably use a combination of contextID/sessionID instead
+		final String subResponseStorageKey = currentElementID + UUID.randomUUID();
+
 		// Start processing our "subtemplate" and stash it as a Future<WOResponse> for later retrieval by the slow region request handler.
-		SlowRegionRequestHandler.responses.put(
-				currentElementID,
+		SlowRegionRequestHandler.slowResponses.put(
+				subResponseStorageKey,
 				executor.submit( () -> {
 					// Ensure thread storage is properly storing our cloned context
 					ERXWOContext.setCurrentContext( contextClone );
@@ -114,7 +119,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		response.appendContentString( "<%s %s></%s>\n".formatted( elementName, attributesString, elementName ) );
 
 		// Append the "loading script"
-		final String url = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, currentElementID, null );
+		final String url = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
 		final String uriJSVariableName = "uri_" + elementID;
 		final String xhttpJSVariableName = "xhttp_" + elementID;
 
@@ -151,14 +156,14 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 		private static final String REQUEST_HANDLER_KEY = "slow-region";
 
-		public static final Map<String, Future<WOResponse>> responses = new ConcurrentHashMap<>();
+		public static final Map<String, Future<WOResponse>> slowResponses = new ConcurrentHashMap<>();
 
 		@Override
 		public WOResponse handleRequest( WORequest request ) {
 			final String elementID = request._uriDecomposed().requestHandlerPath();
 
 			try {
-				return responses.remove( elementID ).get();
+				return slowResponses.remove( elementID ).get();
 			}
 			catch( InterruptedException | ExecutionException e ) {
 				throw new RuntimeException( e );
