@@ -23,6 +23,14 @@ import com.webobjects.foundation.NSDictionary;
 
 import er.extensions.appserver.ERXWOContext;
 
+/**
+ * A dynamic element that allows you to wrap segments of a web page
+ * with <wo:SlowRegionWrapper>[something slow</wo:SlowRegionWrapper>.
+ *
+ * Rendering of the wrapped content/template will get deferred and the
+ * content will be shown in the UI once rendering is complete
+ */
+
 public class SlowRegionWrapper extends WODynamicGroup {
 
 	/**
