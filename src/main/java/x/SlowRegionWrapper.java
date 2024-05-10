@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import com.webobjects.appserver.WOApplication;
 import com.webobjects.appserver.WOAssociation;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOElement;
@@ -27,10 +28,17 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		super( aName, someAssociations, template );
 	}
 
+	/**
+	 * Just a quick way to register the request handler with the application
+	 */
+	public static void register() {
+		WOApplication.application().registerRequestHandler( new SlowRegionWrapper.SlowRegionRequestHandler(), SlowRegionRequestHandler.REQUEST_HANDLER_KEY );
+	}
+
 	@Override
 	public void appendToResponse( WOResponse response, WOContext context ) {
 
-		final String uri = context.urlWithRequestHandlerKey( "slow-region", context.elementID(), null );
+		final String uri = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, context.elementID(), null );
 
 		final WOContext contextClone = (WOContext)context.clone();
 		contextClone._setCurrentComponent( context.component() );
@@ -65,6 +73,9 @@ public class SlowRegionWrapper extends WODynamicGroup {
 	}
 
 	public static class SlowRegionRequestHandler extends WORequestHandler {
+
+		private static final String REQUEST_HANDLER_KEY = "slow-region";
+
 		public static final Map<String, Future<WOResponse>> responses = new ConcurrentHashMap<>();
 
 		@Override
