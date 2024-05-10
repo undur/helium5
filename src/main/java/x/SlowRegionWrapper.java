@@ -63,15 +63,8 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		contextClone._setCurrentComponent( context.component() );
 
 		// We're going to have to use the same contextID as the original for proper construction of component URLs.
-		// Lord only knows how immensely we're fudging with the framework's mind by doing this.
-		try {
-			Field field = WOContext.class.getDeclaredField( "_contextID" );
-			field.setAccessible( true );
-			field.set( contextClone, context.contextID() );
-		}
-		catch( NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e ) {
-			throw new RuntimeException( "If this exception is thrown, you deserve it.", e );
-		}
+		// Lord only knows how immensely we're fudging with the WO framework's mind by doing this.
+		setPrivateField( contextClone, "_contextID", context.contextID() );
 
 		// Start processing our "subtemplate" and stash it as a Future<WOResponse> for later retrieval by the slow region request handler.
 		SlowRegionRequestHandler.responses.put(
@@ -83,6 +76,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 					return responseClone;
 				} ) );
 
+		// Finally, append our "hold element" to the response, along with the "loading script"
 		String elementName;
 
 		if( _elementNameAssociation != null ) {
@@ -107,14 +101,16 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			attributesString.append( "%s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
 		}
 
-		final String uri = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, currentElementID, null );
+		// Append the "hold element"
+		response.appendContentString( "<%s %s></%s>\n".formatted( elementName, attributesString, elementName ) );
+
+		// Append the "loading script"
+		final String url = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, currentElementID, null );
 		final String uriJSVariableName = "uri_" + elementID;
 		final String xhttpJSVariableName = "xhttp_" + elementID;
 
-		response.appendContentString( "<%s %s></%s>".formatted( elementName, attributesString, elementName ) );
-		response.appendContentString( "\n" );
 		response.appendContentString( "<script>\n" );
-		response.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, uri ) );
+		response.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, url ) );
 		response.appendContentString( "const %s = new XMLHttpRequest();\n".formatted( xhttpJSVariableName ) );
 		response.appendContentString( "%s.open(\"GET\", %s, true);\n".formatted( xhttpJSVariableName, uriJSVariableName ) );
 		//		response.appendContentString( "\n" );
@@ -126,6 +122,21 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		response.appendContentString( "}\n" );
 		response.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
 		response.appendContentString( "</script>\n" );
+	}
+
+	/**
+	 * Implemented only to set contextID
+	 */
+	private static void setPrivateField( Object object, String fieldName, Object value ) {
+		try {
+			System.out.println( "Class is: " + object.getClass() );
+			Field field = WOContext.class.getDeclaredField( fieldName );
+			field.setAccessible( true );
+			field.set( object, value );
+		}
+		catch( NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e ) {
+			throw new RuntimeException( "If this exception is thrown, you deserve it.", e );
+		}
 	}
 
 	public static class SlowRegionRequestHandler extends WORequestHandler {
