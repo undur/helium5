@@ -55,20 +55,20 @@ public class SlowRegionWrapper extends WODynamicGroup {
 	}
 
 	@Override
-	public void appendToResponse( WOResponse response, WOContext context ) {
+	public void appendToResponse( final WOResponse originalResponse, final WOContext originalContext ) {
 
 		// Grab hold of the current elementID before we start fudging with everything
-		final String currentElementID = context.elementID();
+		final String currentElementID = originalContext.elementID();
 
 		// Clone the context (contexts are very stateful and don't like to be used concurrently. At. All)
-		final WOContext contextClone = (WOContext)context.clone();
+		final WOContext contextClone = (WOContext)originalContext.clone();
 
 		// Cloning apparently doesn't copy over the current component
-		contextClone._setCurrentComponent( context.component() );
+		contextClone._setCurrentComponent( originalContext.component() );
 
 		// We're going to have to use the same contextID as the original for proper construction of component URLs.
 		// Lord only knows how immensely we're fudging with the WO framework's mind by doing this.
-		setPrivateField( contextClone, "_contextID", context.contextID() );
+		setPrivateField( contextClone, "_contextID", originalContext.contextID() );
 
 		// The key we use to store the rendered sub-response for later retrieval by the request handler
 		// We're lazily using a UUID to ensure safety between different sessions here, should probably use a combination of contextID/sessionID instead
@@ -81,8 +81,9 @@ public class SlowRegionWrapper extends WODynamicGroup {
 					// Ensure thread storage is properly storing our cloned context
 					ERXWOContext.setCurrentContext( contextClone );
 
+					// Create a responseto store our results
 					// We're working from/cloning the actual current response to ensure we have the same headers etc.
-					final WOResponse subResponse = (WOResponse)response.clone();
+					final WOResponse subResponse = (WOResponse)originalResponse.clone();
 
 					// Wipe the new response clean for rendering our subtemplate
 					subResponse.setContent( "" );
@@ -92,11 +93,11 @@ public class SlowRegionWrapper extends WODynamicGroup {
 					return subResponse;
 				} ) );
 
-		// Finally, append our HTML
+		// Finally, append our "placeholder" HTML (and JS to load the "subtemplate") to the main template
 		String elementName;
 
 		if( _elementNameAssociation != null ) {
-			elementName = (String)_elementNameAssociation.valueInComponent( context.component() );
+			elementName = (String)_elementNameAssociation.valueInComponent( originalContext.component() );
 		}
 		else {
 			elementName = "div";
@@ -108,7 +109,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		attributes.put( "id", elementID );
 
 		_associations.forEach( ( bindingName, association ) -> {
-			attributes.put( bindingName, association.valueInComponent( context.component() ) );
+			attributes.put( bindingName, association.valueInComponent( originalContext.component() ) );
 		} );
 
 		final StringBuilder attributesString = new StringBuilder();
@@ -118,26 +119,26 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 
 		// Append the "hold element"
-		response.appendContentString( "<%s %s></%s>\n".formatted( elementName, attributesString, elementName ) );
+		originalResponse.appendContentString( "<%s %s></%s>\n".formatted( elementName, attributesString, elementName ) );
 
 		// Append the "loading script"
-		final String url = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
+		final String url = originalContext.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
 		final String uriJSVariableName = "uri_" + elementID;
 		final String xhttpJSVariableName = "xhttp_" + elementID;
 
-		response.appendContentString( "<script>\n" );
-		response.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, url ) );
-		response.appendContentString( "const %s = new XMLHttpRequest();\n".formatted( xhttpJSVariableName ) );
-		response.appendContentString( "%s.open(\"GET\", %s, true);\n".formatted( xhttpJSVariableName, uriJSVariableName ) );
+		originalResponse.appendContentString( "<script>\n" );
+		originalResponse.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, url ) );
+		originalResponse.appendContentString( "const %s = new XMLHttpRequest();\n".formatted( xhttpJSVariableName ) );
+		originalResponse.appendContentString( "%s.open(\"GET\", %s, true);\n".formatted( xhttpJSVariableName, uriJSVariableName ) );
 		//		response.appendContentString( "\n" );
 		//		response.appendContentString( "console.log( \"Requested URL: \" + url );" );
 		//		response.appendContentString( "\n" );
 		//		response.appendContentString( "console.log( \"Received content: \" + xhttp.responseText )" );
-		response.appendContentString( "%s.onload = (e) => {\n".formatted( xhttpJSVariableName ) );
-		response.appendContentString( "document.getElementById('%s').innerHTML = %s.responseText;\n".formatted( elementID, xhttpJSVariableName ) );
-		response.appendContentString( "}\n" );
-		response.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
-		response.appendContentString( "</script>\n" );
+		originalResponse.appendContentString( "%s.onload = (e) => {\n".formatted( xhttpJSVariableName ) );
+		originalResponse.appendContentString( "document.getElementById('%s').innerHTML = %s.responseText;\n".formatted( elementID, xhttpJSVariableName ) );
+		originalResponse.appendContentString( "}\n" );
+		originalResponse.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
+		originalResponse.appendContentString( "</script>\n" );
 	}
 
 	/**
