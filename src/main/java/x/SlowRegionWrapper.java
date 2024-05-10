@@ -20,6 +20,8 @@ import com.webobjects.appserver.WOResponse;
 import com.webobjects.appserver._private.WODynamicGroup;
 import com.webobjects.foundation.NSDictionary;
 
+import er.extensions.appserver.ERXWOContext;
+
 public class SlowRegionWrapper extends WODynamicGroup {
 
 	/**
@@ -70,9 +72,16 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		SlowRegionRequestHandler.responses.put(
 				currentElementID,
 				executor.submit( () -> {
+					// Ensure thread storage is properly storing our cloned context
+					ERXWOContext.setCurrentContext( contextClone );
+
 					final WOResponse responseClone = (WOResponse)response.clone();
+
+					// Wipe the new response clean for rendering
 					responseClone.setContent( "" );
+
 					super.appendToResponse( responseClone, contextClone );
+
 					return responseClone;
 				} ) );
 
