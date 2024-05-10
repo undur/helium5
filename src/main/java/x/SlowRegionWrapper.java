@@ -54,20 +54,23 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 		final String elementName = "div";
 		final String elementID = "slow_" + context.elementID().replace( '.', '_' );
-		final String uriJSVariableName = elementID;
+		final String uriJSVariableName = "uri_" + elementID;
+		final String xhttpJSVariableName = "xhttp_" + elementID;
 
 		response.appendContentString( "<%s id=\"%s\"></%s>".formatted( elementName, elementID, elementName ) );
 		response.appendContentString( "\n" );
 		response.appendContentString( "<script>\n" );
 		response.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, uri ) );
-		response.appendContentString( "const xhttp = new XMLHttpRequest();\n" );
-		response.appendContentString( "xhttp.open(\"GET\", %s, false);\n".formatted( uriJSVariableName ) );
-		response.appendContentString( "xhttp.send();\n" );
+		response.appendContentString( "const %s = new XMLHttpRequest();\n".formatted( xhttpJSVariableName ) );
+		response.appendContentString( "%s.open(\"GET\", %s, true);\n".formatted( xhttpJSVariableName, uriJSVariableName ) );
 		//		response.appendContentString( "\n" );
 		//		response.appendContentString( "console.log( \"Requested URL: \" + url );" );
 		//		response.appendContentString( "\n" );
 		//		response.appendContentString( "console.log( \"Received content: \" + xhttp.responseText )" );
-		response.appendContentString( "document.getElementById('%s').innerHTML = xhttp.responseText;\n".formatted( elementID ) );
+		response.appendContentString( "%s.onload = (e) => {\n".formatted( xhttpJSVariableName ) );
+		response.appendContentString( "document.getElementById('%s').innerHTML = %s.responseText;\n".formatted( elementID, xhttpJSVariableName ) );
+		response.appendContentString( "}\n" );
+		response.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
 		response.appendContentString( "</script>\n" );
 
 	}
