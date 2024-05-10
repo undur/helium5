@@ -1,7 +1,9 @@
 package x;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -20,7 +22,15 @@ import com.webobjects.foundation.NSDictionary;
 
 public class SlowRegionWrapper extends WODynamicGroup {
 
+	/**
+	 * Element name of the wrapper displayed (defaults to 'div')
+	 */
 	private final WOAssociation _elementNameAssociation;
+
+	/**
+	 * Store the additional associations to add to the wrapper tag
+	 */
+	private final Map<String, WOAssociation> _associations;
 
 	/**
 	 * Created to process all our slow regions
@@ -29,7 +39,8 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 	public SlowRegionWrapper( String name, NSDictionary<String, WOAssociation> associations, WOElement template ) {
 		super( name, associations, template );
-		_elementNameAssociation = associations.get( "elementName" );
+		_associations = associations;
+		_elementNameAssociation = _associations.remove( "elementName" );
 	}
 
 	/**
@@ -78,12 +89,26 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			elementName = "div";
 		}
 
-		final String uri = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, currentElementID, null );
 		final String elementID = "slow_" + currentElementID.replace( '.', '_' );
+
+		final Map<String, Object> attributes = new HashMap<>();
+		attributes.put( "id", elementID );
+
+		_associations.forEach( ( bindingName, association ) -> {
+			attributes.put( bindingName, association.valueInComponent( context.component() ) );
+		} );
+
+		final StringBuilder attributesString = new StringBuilder();
+
+		for( Entry<String, Object> entry : attributes.entrySet() ) {
+			attributesString.append( "%s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
+		}
+
+		final String uri = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, currentElementID, null );
 		final String uriJSVariableName = "uri_" + elementID;
 		final String xhttpJSVariableName = "xhttp_" + elementID;
 
-		response.appendContentString( "<%s id=\"%s\"></%s>".formatted( elementName, elementID, elementName ) );
+		response.appendContentString( "<%s %s></%s>".formatted( elementName, attributesString, elementName ) );
 		response.appendContentString( "\n" );
 		response.appendContentString( "<script>\n" );
 		response.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, uri ) );
