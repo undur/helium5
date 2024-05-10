@@ -25,26 +25,26 @@ import er.extensions.appserver.ERXWOContext;
 
 /**
  * A dynamic element that allows you to wrap segments of a web page
- * with <wo:SlowRegionWrapper>[something slow</wo:SlowRegionWrapper>.
+ * with <wo:SlowRegionWrapper>[something slow]</wo:SlowRegionWrapper>.
  *
- * Rendering of the wrapped content/template will get deferred and the
- * content will be shown in the UI once rendering is complete
+ * Rendering of the wrapped content/regions will get deferred, executed
+ * concurrently, and the content shown in the UI once rendering is complete
  */
 
 public class SlowRegionWrapper extends WODynamicGroup {
 
 	/**
-	 * Element name of the wrapper element (defaults to 'div')
+	 * Element name of the wrapper element. Defaults to 'div'
 	 */
 	private final WOAssociation _elementNameAssociation;
 
 	/**
-	 * Additional associations stored for adding to the wrapepr element
+	 * Additional associations, stored for adding as attributes to the wrapper element's tag
 	 */
 	private final Map<String, WOAssociation> _associations;
 
 	/**
-	 * Executor for processing our slow regions
+	 * Executor for processing the slow regions
 	 */
 	private static final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
@@ -52,13 +52,6 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		super( name, associations, template );
 		_associations = associations;
 		_elementNameAssociation = _associations.remove( "elementName" );
-	}
-
-	/**
-	 * Just a quick way to register the request handler with the application
-	 */
-	public static void register() {
-		WOApplication.application().registerRequestHandler( new SlowRegionWrapper.SlowRegionRequestHandler(), SlowRegionRequestHandler.REQUEST_HANDLER_KEY );
 	}
 
 	@Override
@@ -159,6 +152,13 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		catch( NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e ) {
 			throw new RuntimeException( "If this exception is thrown, you deserve it.", e );
 		}
+	}
+
+	/**
+	 * Just a shortcut to register the request handler with the application
+	 */
+	public static void registerRequestHandler() {
+		WOApplication.application().registerRequestHandler( new SlowRegionWrapper.SlowRegionRequestHandler(), SlowRegionRequestHandler.REQUEST_HANDLER_KEY );
 	}
 
 	public static class SlowRegionRequestHandler extends WORequestHandler {
