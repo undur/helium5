@@ -138,7 +138,6 @@ public class SlowRegionWrapper extends WODynamicGroup {
 	 */
 	private static void setPrivateField( Object object, String fieldName, Object value ) {
 		try {
-			System.out.println( "Class is: " + object.getClass() );
 			Field field = WOContext.class.getDeclaredField( fieldName );
 			field.setAccessible( true );
 			field.set( object, value );
