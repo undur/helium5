@@ -1,5 +1,6 @@
 package x;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
@@ -19,13 +20,16 @@ import com.webobjects.foundation.NSDictionary;
 
 public class SlowRegionWrapper extends WODynamicGroup {
 
+	private final WOAssociation _elementNameAssociation;
+
 	/**
 	 * Created to process all our slow regions
 	 */
 	private static final ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor();
 
-	public SlowRegionWrapper( String aName, NSDictionary<String, WOAssociation> someAssociations, WOElement template ) {
-		super( aName, someAssociations, template );
+	public SlowRegionWrapper( String name, NSDictionary<String, WOAssociation> associations, WOElement template ) {
+		super( name, associations, template );
+		_elementNameAssociation = associations.get( "elementName" );
 	}
 
 	/**
@@ -38,13 +42,29 @@ public class SlowRegionWrapper extends WODynamicGroup {
 	@Override
 	public void appendToResponse( WOResponse response, WOContext context ) {
 
-		final String uri = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, context.elementID(), null );
+		// Grab hold of the current elementID before we start fudging with everything
+		final String currentElementID = context.elementID();
 
+		// Clone the context (contexts are very stateful and don't like to be used concurrently. At. All)
 		final WOContext contextClone = (WOContext)context.clone();
+
+		// Cloning apparently doesn't copy over the current component
 		contextClone._setCurrentComponent( context.component() );
 
+		// We're going to have to use the same contextID as the original for proper construction of component URLs.
+		// Lord only knows how immensely we're fudging with the framework's mind by doing this.
+		try {
+			Field field = WOContext.class.getDeclaredField( "_contextID" );
+			field.setAccessible( true );
+			field.set( contextClone, context.contextID() );
+		}
+		catch( NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e ) {
+			throw new RuntimeException( "If this exception is thrown, you deserve it.", e );
+		}
+
+		// Start processing our "subtemplate" and stash it as a Future<WOResponse> for later retrieval by the slow region request handler.
 		SlowRegionRequestHandler.responses.put(
-				context.elementID(),
+				currentElementID,
 				executor.submit( () -> {
 					final WOResponse responseClone = (WOResponse)response.clone();
 					responseClone.setContent( "" );
@@ -52,8 +72,14 @@ public class SlowRegionWrapper extends WODynamicGroup {
 					return responseClone;
 				} ) );
 
-		final String elementName = "div";
-		final String elementID = "slow_" + context.elementID().replace( '.', '_' );
+		String elementName = (String)_elementNameAssociation.valueInComponent( context.component() );
+
+		if( elementName == null ) {
+			elementName = "div";
+		}
+
+		final String uri = context.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, currentElementID, null );
+		final String elementID = "slow_" + currentElementID.replace( '.', '_' );
 		final String uriJSVariableName = "uri_" + elementID;
 		final String xhttpJSVariableName = "xhttp_" + elementID;
 
@@ -72,7 +98,6 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		response.appendContentString( "}\n" );
 		response.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
 		response.appendContentString( "</script>\n" );
-
 	}
 
 	public static class SlowRegionRequestHandler extends WORequestHandler {
