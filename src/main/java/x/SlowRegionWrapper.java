@@ -80,17 +80,18 @@ public class SlowRegionWrapper extends WODynamicGroup {
 					// Ensure thread storage is properly storing our cloned context
 					ERXWOContext.setCurrentContext( contextClone );
 
-					final WOResponse responseClone = (WOResponse)response.clone();
+					// We're working from/cloning the actual current response to ensure we have the same headers etc.
+					final WOResponse subResponse = (WOResponse)response.clone();
 
-					// Wipe the new response clean for rendering
-					responseClone.setContent( "" );
+					// Wipe the new response clean for rendering our subtemplate
+					subResponse.setContent( "" );
 
-					super.appendToResponse( responseClone, contextClone );
+					super.appendToResponse( subResponse, contextClone );
 
-					return responseClone;
+					return subResponse;
 				} ) );
 
-		// Finally, append our "hold element" to the response, along with the "loading script"
+		// Finally, append our HTML
 		String elementName;
 
 		if( _elementNameAssociation != null ) {
