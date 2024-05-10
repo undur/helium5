@@ -83,9 +83,12 @@ public class SlowRegionWrapper extends WODynamicGroup {
 					return responseClone;
 				} ) );
 
-		String elementName = (String)_elementNameAssociation.valueInComponent( context.component() );
+		String elementName;
 
-		if( elementName == null ) {
+		if( _elementNameAssociation != null ) {
+			elementName = (String)_elementNameAssociation.valueInComponent( context.component() );
+		}
+		else {
 			elementName = "div";
 		}
 
