@@ -1,9 +1,7 @@
 package x;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -169,7 +167,8 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 		else {
 			originalResponse.appendContentString( subResponseStorageKey );
-			markResponseAsHavingServerSideSlowRegions( originalResponse );
+			SlowRegion slowRegion = SlowRegionRequestHandler.slowResponses.remove( subResponseStorageKey );
+			addSlowRegion( originalResponse, subResponseStorageKey, slowRegion );
 		}
 	}
 
@@ -181,13 +180,20 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		return _serverSideAssociation.booleanValueInComponent( context.component() );
 	}
 
-	public static void markResponseAsHavingServerSideSlowRegions( WOResponse response ) {
-		response.setUserInfoForKey( "true", "hasServerSideSlowRegion" );
+	private static void addSlowRegion( WOResponse response, String elementID, SlowRegion slowRegion ) {
+		Map<String, SlowRegion> slowRegions = slowRegions( response );
+		slowRegions.put( elementID, slowRegion );
 	}
 
-	public static boolean responseHasServerSideSlowRegions( WOResponse response ) {
-		final Object marker = response.userInfoForKey( "hasServerSideSlowRegion" );
-		return marker != null && marker.equals( "true" );
+	private static Map<String, SlowRegion> slowRegions( WOResponse response ) {
+		Map<String, SlowRegion> slowRegions = (Map<String, SlowRegion>)response.userInfoForKey( "slowRegions" );
+
+		if( slowRegions == null ) {
+			slowRegions = new ConcurrentHashMap<>();
+			response.setUserInfoForKey( slowRegions, "slowRegions" );
+		}
+
+		return slowRegions;
 	}
 
 	/**
@@ -209,27 +215,14 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 			final WOResponse response = (WOResponse)n.object();
 
-			if( responseHasServerSideSlowRegions( response ) ) {
-				final List<String> removedKeys = new ArrayList<>();
-
-				for( Entry<String, SlowRegion> entry : SlowRegionRequestHandler.slowResponses.entrySet() ) {
-					try {
-						final SlowRegion region = entry.getValue();
-
-						if( region.isServerSide() ) {
-							final String responseKey = entry.getKey();
-
-							response.setContent( response.contentString().replace( responseKey, region.responseFuture().get().contentString() ) );
-							removedKeys.add( responseKey );
-						}
-					}
-					catch( InterruptedException | ExecutionException e ) {
-						throw new RuntimeException( e );
-					}
+			for( Entry<String, SlowRegion> entry : slowRegions( response ).entrySet() ) {
+				try {
+					final SlowRegion region = entry.getValue();
+					final String responseKey = entry.getKey();
+					response.setContent( response.contentString().replace( responseKey, region.responseFuture().get().contentString() ) );
 				}
-
-				for( String key : removedKeys ) {
-					SlowRegionRequestHandler.slowResponses.remove( key );
+				catch( InterruptedException | ExecutionException e ) {
+					throw new RuntimeException( e );
 				}
 			}
 		}
