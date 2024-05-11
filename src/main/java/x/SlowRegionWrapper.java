@@ -35,6 +35,14 @@ import er.extensions.foundation.ERXUtilities;
  *
  * Rendering of the wrapped content/regions will get deferred, executed
  * concurrently, and the content shown in the UI once rendering is complete
+ *
+ * TODO: Allow the [serverSide] binding to take three values; yes/no/auto.
+ * 			"auto" meaning that if the future is done rendering when the response is returned,
+ * 			just append the content on the server side and skip the script stuff.
+ *
+ * TODO: We could add to that by adding a threshold, for example you might want to allow waiting for
+ * 			two seconds to append on the serverSide, if the Future is still being rendered
+ * 			when [threshold] time expires, we skip to client side rendering.
  */
 
 public class SlowRegionWrapper extends WODynamicGroup {
@@ -45,7 +53,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 	private final WOAssociation _elementNameAssociation;
 
 	/**
-	 *
+	 * Indicate whether the rendered content should be appended on the server side, or on the client side (using JS)
 	 */
 	private final WOAssociation _serverSideAssociation;
 
