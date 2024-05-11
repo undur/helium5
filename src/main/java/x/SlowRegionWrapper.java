@@ -39,6 +39,11 @@ public class SlowRegionWrapper extends WODynamicGroup {
 	private final WOAssociation _elementNameAssociation;
 
 	/**
+	 *
+	 */
+	private final WOAssociation _serverSideAssociation;
+
+	/**
 	 * Additional associations, stored for adding as attributes to the wrapper element's tag
 	 */
 	private final Map<String, WOAssociation> _associations;
@@ -51,6 +56,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 	public SlowRegionWrapper( String name, NSDictionary<String, WOAssociation> associations, WOElement template ) {
 		super( name, associations, template );
 		_associations = associations;
+		_serverSideAssociation = _associations.remove( "serverSide" );
 		_elementNameAssociation = _associations.remove( "elementName" );
 	}
 
@@ -71,7 +77,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		setPrivateField( contextClone, "_contextID", originalContext.contextID() );
 
 		// The key we use to store the rendered sub-response for later retrieval by the request handler
-		// We're lazily using a UUID to ensure safety between different sessions here, should probably use a combination of contextID/sessionID instead
+		// We're lazily using a UUID to ensure uniqueness between pages/sessions, should probably use a combination of sessionID/contextID instead
 		final String subResponseStorageKey = currentElementID + UUID.randomUUID();
 
 		// Start processing our "subtemplate" and stash it as a Future<WOResponse> for later retrieval by the slow region request handler.
@@ -93,7 +99,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 					return subResponse;
 				} ) );
 
-		// Finally, append our "placeholder" HTML (and JS to load the "subtemplate") to the main template
+		// Finally, append our "placeholder" element's HTML (and JS to load the "subtemplate") to the main template
 		String elementName;
 
 		if( _elementNameAssociation != null ) {
@@ -118,7 +124,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			attributesString.append( "%s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
 		}
 
-		// Append the "hold element"
+		// Append the "placeholder element"
 		originalResponse.appendContentString( "<%s %s></%s>\n".formatted( elementName, attributesString, elementName ) );
 
 		// Append the "loading script"
@@ -139,6 +145,14 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		originalResponse.appendContentString( "}\n" );
 		originalResponse.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
 		originalResponse.appendContentString( "</script>\n" );
+	}
+
+	private boolean serverSide( final WOContext context ) {
+		if( _serverSideAssociation == null ) {
+			return false;
+		}
+
+		return _serverSideAssociation.booleanValueInComponent( context.component() );
 	}
 
 	/**
