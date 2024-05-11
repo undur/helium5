@@ -1,7 +1,9 @@
 package x;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -87,21 +89,22 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		// Start processing our "subtemplate" and stash it as a Future<WOResponse> for later retrieval by the slow region request handler.
 		SlowRegionRequestHandler.slowResponses.put(
 				subResponseStorageKey,
-				executor.submit( () -> {
-					// Ensure thread storage is properly storing our cloned context
-					ERXWOContext.setCurrentContext( contextClone );
+				new SlowRegion( serverSide( originalContext ),
+						executor.submit( () -> {
+							// Ensure thread storage is properly storing our cloned context
+							ERXWOContext.setCurrentContext( contextClone );
 
-					// Create a responseto store our results
-					// We're working from/cloning the actual current response to ensure we have the same headers etc.
-					final WOResponse subResponse = (WOResponse)originalResponse.clone();
+							// Create a responseto store our results
+							// We're working from/cloning the actual current response to ensure we have the same headers etc.
+							final WOResponse subResponse = (WOResponse)originalResponse.clone();
 
-					// Wipe the new response clean for rendering our subtemplate
-					subResponse.setContent( "" );
+							// Wipe the new response clean for rendering our subtemplate
+							subResponse.setContent( "" );
 
-					super.appendToResponse( subResponse, contextClone );
+							super.appendToResponse( subResponse, contextClone );
 
-					return subResponse;
-				} ) );
+							return subResponse;
+						} ) ) );
 
 		if( !serverSide( originalContext ) ) {
 			// Finally, append our "placeholder" element's HTML (and JS to load the "subtemplate") to the main template
@@ -153,6 +156,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 		else {
 			originalResponse.appendContentString( subResponseStorageKey );
+			markResponseAsHavingServerSideSlowRegions( originalResponse );
 		}
 	}
 
@@ -162,6 +166,15 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 
 		return _serverSideAssociation.booleanValueInComponent( context.component() );
+	}
+
+	public static void markResponseAsHavingServerSideSlowRegions( WOResponse response ) {
+		response.setUserInfoForKey( "true", "hasServerSideSlowRegion" );
+	}
+
+	public static boolean responseHasServerSideSlowRegions( WOResponse response ) {
+		final Object marker = response.userInfoForKey( "hasServerSideSlowRegion" );
+		return marker != null && marker.equals( "true" );
 	}
 
 	/**
@@ -180,15 +193,31 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 	public static class ResponseRewriter {
 		public void applicationDidHandleRequest( NSNotification n ) {
-			String originalContentString = ((WOResponse)n.object()).contentString();
 
-			for( Entry<String, Future<WOResponse>> entry : SlowRegionRequestHandler.slowResponses.entrySet() ) {
-				try {
-					originalContentString = originalContentString.replace( entry.getKey(), entry.getValue().get().contentString() );
+			final WOResponse response = (WOResponse)n.object();
+
+			if( responseHasServerSideSlowRegions( response ) ) {
+				final List<String> removedKeys = new ArrayList<>();
+
+				for( Entry<String, SlowRegion> entry : SlowRegionRequestHandler.slowResponses.entrySet() ) {
+					try {
+						final SlowRegion region = entry.getValue();
+
+						if( region.isServerSide() ) {
+							final String responseKey = entry.getKey();
+
+							response.setContent( response.contentString().replace( responseKey, region.responseFuture().get().contentString() ) );
+							removedKeys.add( responseKey );
+						}
+					}
+					catch( InterruptedException | ExecutionException e ) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-				catch( InterruptedException | ExecutionException e ) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+
+				for( String key : removedKeys ) {
+					SlowRegionRequestHandler.slowResponses.remove( key );
 				}
 			}
 		}
@@ -208,18 +237,20 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		NSNotificationCenter.defaultCenter().addObserver( rewriter, selector, WOApplication.ApplicationDidDispatchRequestNotification, null );
 	}
 
+	public record SlowRegion( boolean isServerSide, Future<WOResponse> responseFuture ) {};
+
 	public static class SlowRegionRequestHandler extends WORequestHandler {
 
 		private static final String REQUEST_HANDLER_KEY = "slow-region";
 
-		public static final Map<String, Future<WOResponse>> slowResponses = new ConcurrentHashMap<>();
+		public static final Map<String, SlowRegion> slowResponses = new ConcurrentHashMap<>();
 
 		@Override
 		public WOResponse handleRequest( WORequest request ) {
 			final String elementID = request._uriDecomposed().requestHandlerPath();
 
 			try {
-				return slowResponses.remove( elementID ).get();
+				return slowResponses.remove( elementID ).responseFuture().get();
 			}
 			catch( InterruptedException | ExecutionException e ) {
 				throw new RuntimeException( e );
