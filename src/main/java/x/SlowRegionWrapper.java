@@ -34,8 +34,10 @@ import er.extensions.foundation.ERXUtilities;
  * Rendering of the wrapped content/regions will get deferred, executed
  * concurrently, and the content shown in the UI once rendering is complete
  *
- * TODO: Create a separate element "SlowRegionPlaceholder" that can be embedded within this one
- * 			for content to be displayed while content is being fetched on the client side.
+ * If you want to show something to the user while the server is rendering/fetching
+ * a client-side slow region, put a <wo:SlowRegionPlaceholder> inside the SlowRegionWrapper
+ * and put your "hold content" in there.
+ *
  *
  * TODO: Allow the [serverSide] binding to take three values; yes/no/auto.
  * 			"auto" meaning that if the future is done rendering when the response is returned,
@@ -111,7 +113,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 						executor.submit( () -> {
 							// Ensure thread storage is properly storing our cloned context
 							ERXWOContext.setCurrentContext( contextClone );
-
+							contextClone.setUserInfoForKey( "true", "isSlowResponse" );
 							// Create a response to store our results
 							// We're working from/cloning the actual current response to ensure we have the same headers etc.
 							final WOResponse subResponse = (WOResponse)originalResponse.clone();
@@ -131,7 +133,6 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			addSlowRegion( originalResponse, subResponseStorageKey, slowRegion );
 		}
 		else {
-			// Finally, append our "placeholder" element's HTML (and JS to load the "subtemplate") to the main template
 			String elementName;
 
 			if( _elementNameAssociation != null ) {
@@ -157,7 +158,16 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			}
 
 			// Append the "placeholder element"
-			originalResponse.appendContentString( "<%s%s></%s>\n".formatted( elementName, attributesString, elementName ) );
+			originalResponse.appendContentString( "<%s%s>".formatted( elementName, attributesString ) );
+
+			// Check if there's an actual placeholder element present and  if so, render it's content to the main response
+			final SlowRegionPlaceholder placeholderElement = placeHolderElement();
+
+			if( placeholderElement != null ) {
+				placeholderElement.appendChildrenToResponse( originalResponse, originalContext );
+			}
+
+			originalResponse.appendContentString( "</%s>".formatted( elementName ) );
 
 			// Append the "loading script"
 			final String url = originalContext.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
@@ -180,6 +190,19 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 			originalResponse.appendContentString( scriptString );
 		}
+	}
+
+	/**
+	 * @return A placeholder container element, if present among this element's children
+	 */
+	private SlowRegionPlaceholder placeHolderElement() {
+		for( final WOElement element : childrenElements() ) {
+			if( element instanceof SlowRegionPlaceholder srp ) {
+				return srp;
+			}
+		}
+
+		return null;
 	}
 
 	/**
