@@ -36,6 +36,9 @@ import er.extensions.foundation.ERXUtilities;
  * Rendering of the wrapped content/regions will get deferred, executed
  * concurrently, and the content shown in the UI once rendering is complete
  *
+ * TODO: Create a separate element "SlowRegionPlaceholder" that can be embedded within this one
+ * 			for content to be displayed while content is being fetched on the client side.
+ *
  * TODO: Allow the [serverSide] binding to take three values; yes/no/auto.
  * 			"auto" meaning that if the future is done rendering when the response is returned,
  * 			just append the content on the server side and skip the script stuff.
@@ -102,7 +105,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 							// Ensure thread storage is properly storing our cloned context
 							ERXWOContext.setCurrentContext( contextClone );
 
-							// Create a responseto store our results
+							// Create a response to store our results
 							// We're working from/cloning the actual current response to ensure we have the same headers etc.
 							final WOResponse subResponse = (WOResponse)originalResponse.clone();
 
@@ -221,8 +224,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 						}
 					}
 					catch( InterruptedException | ExecutionException e ) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new RuntimeException( e );
 					}
 				}
 
