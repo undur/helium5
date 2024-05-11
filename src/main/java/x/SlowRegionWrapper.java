@@ -129,30 +129,32 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			final StringBuilder attributesString = new StringBuilder();
 
 			for( Entry<String, Object> entry : attributes.entrySet() ) {
-				attributesString.append( "%s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
+				attributesString.append( " %s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
 			}
 
 			// Append the "placeholder element"
-			originalResponse.appendContentString( "<%s %s></%s>\n".formatted( elementName, attributesString, elementName ) );
+			originalResponse.appendContentString( "<%s%s></%s>\n".formatted( elementName, attributesString, elementName ) );
 
 			// Append the "loading script"
 			final String url = originalContext.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
-			final String uriJSVariableName = "uri_" + elementID;
-			final String xhttpJSVariableName = "xhttp_" + elementID;
+			final String xhttpVarName = "xhttp_" + elementID;
 
-			originalResponse.appendContentString( "<script>\n" );
-			originalResponse.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, url ) );
-			originalResponse.appendContentString( "const %s = new XMLHttpRequest();\n".formatted( xhttpJSVariableName ) );
-			originalResponse.appendContentString( "%s.open(\"GET\", %s, true);\n".formatted( xhttpJSVariableName, uriJSVariableName ) );
-			//		response.appendContentString( "\n" );
-			//		response.appendContentString( "console.log( \"Requested URL: \" + url );" );
-			//		response.appendContentString( "\n" );
-			//		response.appendContentString( "console.log( \"Received content: \" + xhttp.responseText )" );
-			originalResponse.appendContentString( "%s.onload = (e) => {\n".formatted( xhttpJSVariableName ) );
-			originalResponse.appendContentString( "document.getElementById('%s').innerHTML = %s.responseText;\n".formatted( elementID, xhttpJSVariableName ) );
-			originalResponse.appendContentString( "}\n" );
-			originalResponse.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
-			originalResponse.appendContentString( "</script>\n" );
+			String scriptString = """
+					<script>
+						const ${xhttpVarName} = new XMLHttpRequest();
+						${xhttpVarName}.open("GET", "${url}", true);
+						${xhttpVarName}.onload = (e) => {
+							document.getElementById("${elementID}").innerHTML = ${xhttpVarName}.responseText;
+						}
+						${xhttpVarName}.send();
+					</script>
+					""";
+
+			scriptString = scriptString.replace( "${url}", url );
+			scriptString = scriptString.replace( "${xhttpVarName}", xhttpVarName );
+			scriptString = scriptString.replace( "${elementID}", elementID );
+
+			originalResponse.appendContentString( scriptString );
 		}
 		else {
 			originalResponse.appendContentString( subResponseStorageKey );
