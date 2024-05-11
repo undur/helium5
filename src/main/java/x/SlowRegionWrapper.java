@@ -20,8 +20,12 @@ import com.webobjects.appserver.WORequestHandler;
 import com.webobjects.appserver.WOResponse;
 import com.webobjects.appserver._private.WODynamicGroup;
 import com.webobjects.foundation.NSDictionary;
+import com.webobjects.foundation.NSNotification;
+import com.webobjects.foundation.NSNotificationCenter;
+import com.webobjects.foundation.NSSelector;
 
 import er.extensions.appserver.ERXWOContext;
+import er.extensions.foundation.ERXUtilities;
 
 /**
  * A dynamic element that allows you to wrap segments of a web page
@@ -99,52 +103,57 @@ public class SlowRegionWrapper extends WODynamicGroup {
 					return subResponse;
 				} ) );
 
-		// Finally, append our "placeholder" element's HTML (and JS to load the "subtemplate") to the main template
-		String elementName;
+		if( !serverSide( originalContext ) ) {
+			// Finally, append our "placeholder" element's HTML (and JS to load the "subtemplate") to the main template
+			String elementName;
 
-		if( _elementNameAssociation != null ) {
-			elementName = (String)_elementNameAssociation.valueInComponent( originalContext.component() );
+			if( _elementNameAssociation != null ) {
+				elementName = (String)_elementNameAssociation.valueInComponent( originalContext.component() );
+			}
+			else {
+				elementName = "div";
+			}
+
+			final String elementID = "slow_" + currentElementID.replace( '.', '_' );
+
+			final Map<String, Object> attributes = new HashMap<>();
+			attributes.put( "id", elementID );
+
+			_associations.forEach( ( bindingName, association ) -> {
+				attributes.put( bindingName, association.valueInComponent( originalContext.component() ) );
+			} );
+
+			final StringBuilder attributesString = new StringBuilder();
+
+			for( Entry<String, Object> entry : attributes.entrySet() ) {
+				attributesString.append( "%s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
+			}
+
+			// Append the "placeholder element"
+			originalResponse.appendContentString( "<%s %s></%s>\n".formatted( elementName, attributesString, elementName ) );
+
+			// Append the "loading script"
+			final String url = originalContext.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
+			final String uriJSVariableName = "uri_" + elementID;
+			final String xhttpJSVariableName = "xhttp_" + elementID;
+
+			originalResponse.appendContentString( "<script>\n" );
+			originalResponse.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, url ) );
+			originalResponse.appendContentString( "const %s = new XMLHttpRequest();\n".formatted( xhttpJSVariableName ) );
+			originalResponse.appendContentString( "%s.open(\"GET\", %s, true);\n".formatted( xhttpJSVariableName, uriJSVariableName ) );
+			//		response.appendContentString( "\n" );
+			//		response.appendContentString( "console.log( \"Requested URL: \" + url );" );
+			//		response.appendContentString( "\n" );
+			//		response.appendContentString( "console.log( \"Received content: \" + xhttp.responseText )" );
+			originalResponse.appendContentString( "%s.onload = (e) => {\n".formatted( xhttpJSVariableName ) );
+			originalResponse.appendContentString( "document.getElementById('%s').innerHTML = %s.responseText;\n".formatted( elementID, xhttpJSVariableName ) );
+			originalResponse.appendContentString( "}\n" );
+			originalResponse.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
+			originalResponse.appendContentString( "</script>\n" );
 		}
 		else {
-			elementName = "div";
+			originalResponse.appendContentString( subResponseStorageKey );
 		}
-
-		final String elementID = "slow_" + currentElementID.replace( '.', '_' );
-
-		final Map<String, Object> attributes = new HashMap<>();
-		attributes.put( "id", elementID );
-
-		_associations.forEach( ( bindingName, association ) -> {
-			attributes.put( bindingName, association.valueInComponent( originalContext.component() ) );
-		} );
-
-		final StringBuilder attributesString = new StringBuilder();
-
-		for( Entry<String, Object> entry : attributes.entrySet() ) {
-			attributesString.append( "%s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
-		}
-
-		// Append the "placeholder element"
-		originalResponse.appendContentString( "<%s %s></%s>\n".formatted( elementName, attributesString, elementName ) );
-
-		// Append the "loading script"
-		final String url = originalContext.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
-		final String uriJSVariableName = "uri_" + elementID;
-		final String xhttpJSVariableName = "xhttp_" + elementID;
-
-		originalResponse.appendContentString( "<script>\n" );
-		originalResponse.appendContentString( "var %s = \"%s\";\n".formatted( uriJSVariableName, url ) );
-		originalResponse.appendContentString( "const %s = new XMLHttpRequest();\n".formatted( xhttpJSVariableName ) );
-		originalResponse.appendContentString( "%s.open(\"GET\", %s, true);\n".formatted( xhttpJSVariableName, uriJSVariableName ) );
-		//		response.appendContentString( "\n" );
-		//		response.appendContentString( "console.log( \"Requested URL: \" + url );" );
-		//		response.appendContentString( "\n" );
-		//		response.appendContentString( "console.log( \"Received content: \" + xhttp.responseText )" );
-		originalResponse.appendContentString( "%s.onload = (e) => {\n".formatted( xhttpJSVariableName ) );
-		originalResponse.appendContentString( "document.getElementById('%s').innerHTML = %s.responseText;\n".formatted( elementID, xhttpJSVariableName ) );
-		originalResponse.appendContentString( "}\n" );
-		originalResponse.appendContentString( "%s.send();\n".formatted( xhttpJSVariableName ) );
-		originalResponse.appendContentString( "</script>\n" );
 	}
 
 	private boolean serverSide( final WOContext context ) {
@@ -169,11 +178,34 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 	}
 
+	public static class ResponseRewriter {
+		public void applicationDidHandleRequest( NSNotification n ) {
+			String originalContentString = ((WOResponse)n.object()).contentString();
+
+			for( Entry<String, Future<WOResponse>> entry : SlowRegionRequestHandler.slowResponses.entrySet() ) {
+				try {
+					originalContentString = originalContentString.replace( entry.getKey(), entry.getValue().get().contentString() );
+				}
+				catch( InterruptedException | ExecutionException e ) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public static ResponseRewriter rewriter = new ResponseRewriter();
+
 	/**
 	 * Just a shortcut to register the request handler with the application
 	 */
 	public static void registerRequestHandler() {
+		// For client side rendering of slow responses
 		WOApplication.application().registerRequestHandler( new SlowRegionWrapper.SlowRegionRequestHandler(), SlowRegionRequestHandler.REQUEST_HANDLER_KEY );
+
+		// For server side rendering of slow responses
+		final NSSelector<Void> selector = ERXUtilities.notificationSelector( "applicationDidHandleRequest" );
+		NSNotificationCenter.defaultCenter().addObserver( rewriter, selector, WOApplication.ApplicationDidDispatchRequestNotification, null );
 	}
 
 	public static class SlowRegionRequestHandler extends WORequestHandler {
