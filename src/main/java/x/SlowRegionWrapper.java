@@ -44,6 +44,10 @@ import er.extensions.foundation.ERXUtilities;
  * TODO: We could add to that by adding a threshold, for example you might want to allow waiting for
  * 			two seconds to append on the serverSide, if the Future is still being rendered
  * 			when [threshold] time expires, we skip to client side rendering.
+ *
+ * TODO: Stashed client-side responses are stored until they're requested.
+ * 			A response that's never requested thus forms a potential resource leak
+ * 			(besides, that central single map is a little naughty). Fix.
  */
 
 public class SlowRegionWrapper extends WODynamicGroup {
@@ -120,7 +124,13 @@ public class SlowRegionWrapper extends WODynamicGroup {
 							return subResponse;
 						} ) ) );
 
-		if( !serverSide( originalContext ) ) {
+		if( serverSide( originalContext ) ) {
+			// Append a placeholder string to the response (that will eventually get replaced with the  region's actual rendered response, at the end of the R-R loop)
+			originalResponse.appendContentString( subResponseStorageKey );
+			SlowRegion slowRegion = SlowRegionRequestHandler.slowResponses.remove( subResponseStorageKey );
+			addSlowRegion( originalResponse, subResponseStorageKey, slowRegion );
+		}
+		else {
 			// Finally, append our "placeholder" element's HTML (and JS to load the "subtemplate") to the main template
 			String elementName;
 
@@ -169,11 +179,6 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			scriptString = scriptString.replace( "${elementID}", elementID );
 
 			originalResponse.appendContentString( scriptString );
-		}
-		else {
-			originalResponse.appendContentString( subResponseStorageKey );
-			SlowRegion slowRegion = SlowRegionRequestHandler.slowResponses.remove( subResponseStorageKey );
-			addSlowRegion( originalResponse, subResponseStorageKey, slowRegion );
 		}
 	}
 
