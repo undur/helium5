@@ -49,6 +49,11 @@ import er.extensions.foundation.ERXUtilities;
 public class SlowRegionWrapper extends WODynamicGroup {
 
 	/**
+	 * Container class for regions we're going to render.
+	 */
+	public record SlowRegion( boolean isServerSide, Future<WOResponse> responseFuture ) {};
+
+	/**
 	 * Element name of the wrapper element. Defaults to 'div'
 	 */
 	private final WOAssociation _elementNameAssociation;
@@ -172,6 +177,9 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 	}
 
+	/**
+	 * @return true if the rendered region should be appended to the response on the server side (at the end of the R-R loop)
+	 */
 	private boolean serverSide( final WOContext context ) {
 		if( _serverSideAssociation == null ) {
 			return false;
@@ -180,11 +188,17 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		return _serverSideAssociation.booleanValueInComponent( context.component() );
 	}
 
+	/**
+	 * Add a region intended to be appended on the server side to the given WOResponse
+	 */
 	private static void addSlowRegion( WOResponse response, String elementID, SlowRegion slowRegion ) {
 		Map<String, SlowRegion> slowRegions = slowRegions( response );
 		slowRegions.put( elementID, slowRegion );
 	}
 
+	/**
+	 * Regions of the WOResponse intended to be appended on the server side
+	 */
 	private static Map<String, SlowRegion> slowRegions( WOResponse response ) {
 		Map<String, SlowRegion> slowRegions = (Map<String, SlowRegion>)response.userInfoForKey( "slowRegions" );
 
@@ -210,6 +224,9 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 	}
 
+	/**
+	 * Container object for a single method that appends server side regions to a response at the end of the R-R loop
+	 */
 	public static class ResponseRewriter {
 		public void applicationDidHandleRequest( NSNotification n ) {
 
@@ -228,21 +245,19 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 	}
 
-	public static ResponseRewriter rewriter = new ResponseRewriter();
+	public static ResponseRewriter rewriterInstance = new ResponseRewriter();
 
 	/**
 	 * Just a shortcut to register the request handler with the application
 	 */
-	public static void registerRequestHandler() {
+	public static void register() {
 		// For client side rendering of slow responses
 		WOApplication.application().registerRequestHandler( new SlowRegionWrapper.SlowRegionRequestHandler(), SlowRegionRequestHandler.REQUEST_HANDLER_KEY );
 
 		// For server side rendering of slow responses
 		final NSSelector<Void> selector = ERXUtilities.notificationSelector( "applicationDidHandleRequest" );
-		NSNotificationCenter.defaultCenter().addObserver( rewriter, selector, WOApplication.ApplicationDidDispatchRequestNotification, null );
+		NSNotificationCenter.defaultCenter().addObserver( rewriterInstance, selector, WOApplication.ApplicationDidDispatchRequestNotification, null );
 	}
-
-	public record SlowRegion( boolean isServerSide, Future<WOResponse> responseFuture ) {};
 
 	public static class SlowRegionRequestHandler extends WORequestHandler {
 
