@@ -38,6 +38,9 @@ import er.extensions.foundation.ERXUtilities;
  * a client-side slow region, put a <wo:SlowRegionPlaceholder> inside the SlowRegionWrapper
  * and put your "hold content" in there.
  *
+ * @binding elementName Name of the element that will be rendered for the container element. Defaults to 'div'.
+ * @binding serverSide Indicates that the rendered regions will be appended on the server side, rather than on the client side.
+ * @binding [every other binding] is added as an attribute on the container element.
  *
  * TODO: Allow the [serverSide] binding to take three values; yes/no/auto.
  * 			"auto" meaning that if the future is done rendering when the response is returned,
