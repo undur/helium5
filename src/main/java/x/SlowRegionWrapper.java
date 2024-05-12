@@ -113,7 +113,10 @@ public class SlowRegionWrapper extends WODynamicGroup {
 						executor.submit( () -> {
 							// Ensure thread storage is properly storing our cloned context
 							ERXWOContext.setCurrentContext( contextClone );
+
+							// This marker is added only to indicate to the placeholder element that it should not render itself (since we're now rendering the actual content)
 							contextClone.setUserInfoForKey( "true", "isSlowResponse" );
+
 							// Create a response to store our results
 							// We're working from/cloning the actual current response to ensure we have the same headers etc.
 							final WOResponse subResponse = (WOResponse)originalResponse.clone();
