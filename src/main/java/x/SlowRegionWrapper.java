@@ -126,39 +126,44 @@ public class SlowRegionWrapper extends WODynamicGroup {
 							return subResponse;
 						} ) ) );
 
+		// Construct and append the container element
+
+		String elementName;
+
+		if( _elementNameAssociation != null ) {
+			elementName = (String)_elementNameAssociation.valueInComponent( originalContext.component() );
+		}
+		else {
+			elementName = "div";
+		}
+
+		final String containerElementID = "slow_" + currentElementID.replace( '.', '_' );
+
+		final Map<String, Object> attributes = new HashMap<>();
+		attributes.put( "id", containerElementID );
+
+		_associations.forEach( ( bindingName, association ) -> {
+			attributes.put( bindingName, association.valueInComponent( originalContext.component() ) );
+		} );
+
+		final StringBuilder attributesString = new StringBuilder();
+
+		for( Entry<String, Object> entry : attributes.entrySet() ) {
+			attributesString.append( " %s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
+		}
+
+		originalResponse.appendContentString( "<%s%s>".formatted( elementName, attributesString ) );
+
 		if( serverSide( originalContext ) ) {
 			// Append a placeholder string to the response (that will eventually get replaced with the  region's actual rendered response, at the end of the R-R loop)
 			originalResponse.appendContentString( subResponseStorageKey );
 			SlowRegion slowRegion = SlowRegionRequestHandler.slowResponses.remove( subResponseStorageKey );
 			addSlowRegion( originalResponse, subResponseStorageKey, slowRegion );
+
+			// CHECKME: It's kind of lame to do this both here, and in the client side part.
+			originalResponse.appendContentString( "</%s>".formatted( elementName ) );
 		}
 		else {
-			String elementName;
-
-			if( _elementNameAssociation != null ) {
-				elementName = (String)_elementNameAssociation.valueInComponent( originalContext.component() );
-			}
-			else {
-				elementName = "div";
-			}
-
-			final String elementID = "slow_" + currentElementID.replace( '.', '_' );
-
-			final Map<String, Object> attributes = new HashMap<>();
-			attributes.put( "id", elementID );
-
-			_associations.forEach( ( bindingName, association ) -> {
-				attributes.put( bindingName, association.valueInComponent( originalContext.component() ) );
-			} );
-
-			final StringBuilder attributesString = new StringBuilder();
-
-			for( Entry<String, Object> entry : attributes.entrySet() ) {
-				attributesString.append( " %s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
-			}
-
-			// Append the "placeholder element"
-			originalResponse.appendContentString( "<%s%s>".formatted( elementName, attributesString ) );
 
 			// Check if there's an actual placeholder element present and  if so, render it's content to the main response
 			final SlowRegionPlaceholder placeholderElement = placeHolderElement();
@@ -167,11 +172,12 @@ public class SlowRegionWrapper extends WODynamicGroup {
 				placeholderElement.appendChildrenToResponse( originalResponse, originalContext );
 			}
 
+			// CHECKME: It's kind of lame to do this both here, and in the client side part.
 			originalResponse.appendContentString( "</%s>".formatted( elementName ) );
 
 			// Append the "loading script"
 			final String url = originalContext.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
-			final String xhttpVarName = "xhttp_" + elementID;
+			final String xhttpVarName = "xhttp_" + containerElementID;
 
 			String scriptString = """
 					<script>
@@ -186,7 +192,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 			scriptString = scriptString.replace( "${url}", url );
 			scriptString = scriptString.replace( "${xhttpVarName}", xhttpVarName );
-			scriptString = scriptString.replace( "${elementID}", elementID );
+			scriptString = scriptString.replace( "${elementID}", containerElementID );
 
 			originalResponse.appendContentString( scriptString );
 		}
