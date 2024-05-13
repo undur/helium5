@@ -38,8 +38,8 @@ import er.extensions.foundation.ERXUtilities;
  * a client-side slow region, put a <wo:SlowRegionPlaceholder> inside the SlowRegionWrapper
  * and put your "hold content" in there.
  *
- * @binding elementName Type of the container element. Defaults to 'div'.
- * @binding serverSide Indicates that the rendered regions will be appended on the server side, rather than on the client side.
+ * @binding elementName [String] Type of the container element. Defaults to 'div'.
+ * @binding serverSide [boolean] Set to true to append the rendered region on the server side, rather than on the client side.
  * @binding [every other binding] is added as an attribute on the container element.
  *
  * TODO: Allow the [serverSide] binding to take three values; yes/no/auto.
@@ -47,8 +47,8 @@ import er.extensions.foundation.ERXUtilities;
  * 			just append the content on the server side and skip the script stuff.
  *
  * TODO: We could add to that by adding a threshold, for example you might want to allow waiting for
- * 			two seconds to append on the serverSide, if the Future is still being rendered
- * 			when [threshold] time expires, we skip to client side rendering.
+ * 			two seconds to append on the serverSide. If the Future is still being rendered
+ * 			when [threshold] time has passed, skip to client side rendering.
  *
  * TODO: Stashed client-side responses are stored until they're requested.
  * 			A response that's never requested thus forms a potential resource leak
@@ -110,7 +110,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		final String subResponseStorageKey = currentElementID + UUID.randomUUID();
 
 		// Start processing our "subtemplate" and stash it as a Future<WOResponse> for later retrieval by the slow region request handler.
-		SlowRegionRequestHandler.slowResponses.put(
+		SlowRegionRequestHandler.clientSideSlowResponses.put(
 				subResponseStorageKey,
 				new SlowRegion( serverSide( originalContext ),
 						executor.submit( () -> {
@@ -133,28 +133,19 @@ public class SlowRegionWrapper extends WODynamicGroup {
 						} ) ) );
 
 		// Construct and append the container element
-
-		String elementName;
-
-		if( _elementNameAssociation != null ) {
-			elementName = (String)_elementNameAssociation.valueInComponent( originalContext.component() );
-		}
-		else {
-			elementName = "div";
-		}
-
+		final String elementName = elementName( originalContext );
 		final String containerElementID = "slow_" + currentElementID.replace( '.', '_' );
 
-		final Map<String, Object> attributes = new HashMap<>();
-		attributes.put( "id", containerElementID );
+		final Map<String, Object> containerElementAttributes = new HashMap<>();
+		containerElementAttributes.put( "id", containerElementID );
 
 		_associations.forEach( ( bindingName, association ) -> {
-			attributes.put( bindingName, association.valueInComponent( originalContext.component() ) );
+			containerElementAttributes.put( bindingName, association.valueInComponent( originalContext.component() ) );
 		} );
 
 		final StringBuilder attributesString = new StringBuilder();
 
-		for( Entry<String, Object> entry : attributes.entrySet() ) {
+		for( Entry<String, Object> entry : containerElementAttributes.entrySet() ) {
 			attributesString.append( " %s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
 		}
 
@@ -163,15 +154,14 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		if( serverSide( originalContext ) ) {
 			// Append a placeholder string to the response (that will eventually get replaced with the  region's actual rendered response, at the end of the R-R loop)
 			originalResponse.appendContentString( subResponseStorageKey );
-			SlowRegion slowRegion = SlowRegionRequestHandler.slowResponses.remove( subResponseStorageKey );
+			SlowRegion slowRegion = SlowRegionRequestHandler.clientSideSlowResponses.remove( subResponseStorageKey );
 			addSlowRegion( originalResponse, subResponseStorageKey, slowRegion );
 
 			// CHECKME: It's kind of lame to do this both here, and in the client side part.
 			originalResponse.appendContentString( "</%s>".formatted( elementName ) );
 		}
 		else {
-
-			// Check if there's an actual placeholder element present and  if so, render it's content to the main response
+			// Check for a placeholder element. If present, render it's content to the main response
 			final SlowRegionPlaceholder placeholderElement = placeHolderElement();
 
 			if( placeholderElement != null ) {
@@ -205,16 +195,14 @@ public class SlowRegionWrapper extends WODynamicGroup {
 	}
 
 	/**
-	 * @return A placeholder container element, if present among this element's children
+	 * @return Tag name of the container element
 	 */
-	private SlowRegionPlaceholder placeHolderElement() {
-		for( final WOElement element : childrenElements() ) {
-			if( element instanceof SlowRegionPlaceholder srp ) {
-				return srp;
-			}
+	private String elementName( final WOContext originalContext ) {
+		if( _elementNameAssociation != null ) {
+			return (String)_elementNameAssociation.valueInComponent( originalContext.component() );
 		}
 
-		return null;
+		return "div";
 	}
 
 	/**
@@ -226,6 +214,19 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 
 		return _serverSideAssociation.booleanValueInComponent( context.component() );
+	}
+
+	/**
+	 * @return A placeholder container element, if present among this element's children
+	 */
+	private SlowRegionPlaceholder placeHolderElement() {
+		for( final WOElement element : childrenElements() ) {
+			if( element instanceof SlowRegionPlaceholder srp ) {
+				return srp;
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -303,14 +304,14 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 		private static final String REQUEST_HANDLER_KEY = "slow-region";
 
-		public static final Map<String, SlowRegion> slowResponses = new ConcurrentHashMap<>();
+		public static final Map<String, SlowRegion> clientSideSlowResponses = new ConcurrentHashMap<>();
 
 		@Override
 		public WOResponse handleRequest( WORequest request ) {
 			final String elementID = request._uriDecomposed().requestHandlerPath();
 
 			try {
-				return slowResponses.remove( elementID ).responseFuture().get();
+				return clientSideSlowResponses.remove( elementID ).responseFuture().get();
 			}
 			catch( InterruptedException | ExecutionException e ) {
 				throw new RuntimeException( e );
