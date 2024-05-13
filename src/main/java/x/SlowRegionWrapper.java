@@ -133,7 +133,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 						} ) ) );
 
 		// Construct and append the container element
-		final String elementName = elementName( originalContext );
+		final String containerElementName = elementName( originalContext );
 		final String containerElementID = "slow_" + currentElementID.replace( '.', '_' );
 
 		final Map<String, Object> containerElementAttributes = new HashMap<>();
@@ -143,20 +143,19 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			containerElementAttributes.put( bindingName, association.valueInComponent( originalContext.component() ) );
 		} );
 
-		final StringBuilder attributesString = new StringBuilder();
+		final StringBuilder containerElementAttributesString = new StringBuilder();
 
 		for( Entry<String, Object> entry : containerElementAttributes.entrySet() ) {
-			attributesString.append( " %s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
+			containerElementAttributesString.append( " %s=\"%s\"".formatted( entry.getKey(), entry.getValue() ) );
 		}
 
-		originalResponse.appendContentString( "<%s%s>".formatted( elementName, attributesString ) );
+		originalResponse.appendContentString( "<%s%s>".formatted( containerElementName, containerElementAttributesString ) );
 
 		if( serverSide( originalContext ) ) {
 			// Append a placeholder string to the response (that will eventually get replaced with the  region's actual rendered response, at the end of the R-R loop)
 			originalResponse.appendContentString( subResponseStorageKey );
 			SlowRegion slowRegion = SlowRegionRequestHandler.clientSideSlowResponses.remove( subResponseStorageKey );
 			addSlowRegion( originalResponse, subResponseStorageKey, slowRegion );
-
 		}
 		else {
 			// Check for a placeholder element. If present, render it's content.
@@ -189,7 +188,7 @@ public class SlowRegionWrapper extends WODynamicGroup {
 		}
 
 		// Close the container element
-		originalResponse.appendContentString( "</%s>".formatted( elementName ) );
+		originalResponse.appendContentString( "</%s>".formatted( containerElementName ) );
 	}
 
 	/**
