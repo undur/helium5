@@ -157,19 +157,14 @@ public class SlowRegionWrapper extends WODynamicGroup {
 			SlowRegion slowRegion = SlowRegionRequestHandler.clientSideSlowResponses.remove( subResponseStorageKey );
 			addSlowRegion( originalResponse, subResponseStorageKey, slowRegion );
 
-			// CHECKME: It's kind of lame to do this both here, and in the client side part.
-			originalResponse.appendContentString( "</%s>".formatted( elementName ) );
 		}
 		else {
-			// Check for a placeholder element. If present, render it's content to the main response
+			// Check for a placeholder element. If present, render it's content.
 			final SlowRegionPlaceholder placeholderElement = placeHolderElement();
 
 			if( placeholderElement != null ) {
 				placeholderElement.appendChildrenToResponse( originalResponse, originalContext );
 			}
-
-			// CHECKME: It's kind of lame to do this both here, and in the client side part.
-			originalResponse.appendContentString( "</%s>".formatted( elementName ) );
 
 			// Append the "loading script"
 			final String url = originalContext.urlWithRequestHandlerKey( SlowRegionRequestHandler.REQUEST_HANDLER_KEY, subResponseStorageKey, null );
@@ -192,6 +187,9 @@ public class SlowRegionWrapper extends WODynamicGroup {
 
 			originalResponse.appendContentString( scriptString );
 		}
+
+		// Close the container element
+		originalResponse.appendContentString( "</%s>".formatted( elementName ) );
 	}
 
 	/**
