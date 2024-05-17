@@ -15,20 +15,20 @@ import er.extensions.components.ERXStatelessComponent;
 
 public class IMValue extends ERXStatelessComponent {
 
-	public IMValue(WOContext context) {
+	public IMValue( WOContext context ) {
 		super( context );
 	}
 
 	public Object object() {
-	    if( hasBinding( "object" ) ) {
-	        return valueForBinding( "object" );
-	    }
+		if( hasBinding( "object" ) ) {
+			return valueForBinding( "object" );
+		}
 
-	    if( hasBinding( "value" ) ) {
-	        return valueForBinding( "value" );
-	    }
-	    
-	    return null;
+		if( hasBinding( "value" ) ) {
+			return valueForBinding( "value" );
+		}
+
+		return null;
 	}
 
 	public String keyPath() {
@@ -52,7 +52,7 @@ public class IMValue extends ERXStatelessComponent {
 	}
 
 	public Object valueForDisplay() {
-	    if( keyPath() != null ) {
+		if( object() != null && keyPath() != null ) {
 			return NSKeyValueCodingAdditions.Utility.valueForKeyPath( object(), keyPath() );
 		}
 
