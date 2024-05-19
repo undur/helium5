@@ -3,6 +3,7 @@ package is.rebbi.wo.util;
 import java.util.UUID;
 
 import com.webobjects.appserver.WOCookie;
+import com.webobjects.appserver.WOCookie.SameSite;
 import com.webobjects.appserver.WOMessage;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
@@ -36,7 +37,7 @@ public class SoftUser {
 		this( UUID.randomUUID().toString() );
 	}
 
-	public SoftUser(String uuid) {
+	public SoftUser( String uuid ) {
 		setUuid( uuid );
 	}
 
@@ -115,6 +116,7 @@ public class SoftUser {
 	private static WOCookie createCookieWithUserID( String userID, String domain, Integer lifetime ) {
 		NSTimestamp expires = new NSTimestamp().timestampByAddingGregorianUnits( 0, lifetime, 0, 0, 0, 0 );
 		WOCookie cookie = new WOCookie( USER_ID_COOKIE_NAME, userID.toString(), USER_ID_COOKIE_PATH, domain, expires, false );
+		cookie.setSameSite( SameSite.LAX );
 		return cookie;
 	}
 
