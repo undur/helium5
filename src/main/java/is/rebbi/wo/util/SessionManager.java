@@ -151,6 +151,10 @@ public class SessionManager {
 	private void shortenTimeoutIfRobotSessionFromUserAgent( final ERXSession session, final String userAgent ) {
 		boolean isRobot = false;
 
+		if( userAgent.length() == 1 ) {
+			isRobot = true;
+		}
+
 		for( String agentString : SHORTENED_BOT_USER_AGENTS ) {
 			if( userAgent.toLowerCase().contains( agentString ) ) {
 				isRobot = true;
