@@ -143,7 +143,8 @@ public class SessionManager {
 			"googleother",
 			"gptbot",
 			"bingbot",
-			"facebookexternalhit" );
+			"facebookexternalhit",
+			"bytespider" );
 
 	private void shortenTimeoutIfRobotSessionFromUserAgent( final ERXSession session, final String userAgent ) {
 		boolean isRobot = false;
