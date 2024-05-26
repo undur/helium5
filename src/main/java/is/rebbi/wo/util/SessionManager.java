@@ -138,18 +138,19 @@ public class SessionManager {
 		session.objectStore().takeValueForKey( userAgent, "lastUserAgent" );
 	}
 
-	private static final List<String> SHORTENED_USER_AGENTS = List.of(
+	private static final List<String> SHORTENED_BOT_USER_AGENTS = List.of(
 			"applebot",
 			"googleother",
 			"gptbot",
 			"bingbot",
 			"facebookexternalhit",
-			"bytespider" );
+			"bytespider",
+			"zoominfobot" );
 
 	private void shortenTimeoutIfRobotSessionFromUserAgent( final ERXSession session, final String userAgent ) {
 		boolean isRobot = false;
 
-		for( String agentString : SHORTENED_USER_AGENTS ) {
+		for( String agentString : SHORTENED_BOT_USER_AGENTS ) {
 			if( userAgent.toLowerCase().contains( agentString ) ) {
 				isRobot = true;
 			}
