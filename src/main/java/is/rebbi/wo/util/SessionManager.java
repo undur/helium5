@@ -48,11 +48,11 @@ public class SessionManager {
 	 * Registers the transaction manager so it starts listening and watching transactions.
 	 */
 	public static void register() {
-		NSSelector<SessionManager> sessionDidRestore = new NSSelector<>( "sessionDidRestore", new Class[] { NSNotification.class } );
-		NSNotificationCenter.defaultCenter().addObserver( singleton(), sessionDidRestore, WOSession.SessionDidRestoreNotification, null );
-
 		NSSelector<SessionManager> sessionDidCreate = new NSSelector<>( "sessionDidCreate", new Class[] { NSNotification.class } );
 		NSNotificationCenter.defaultCenter().addObserver( singleton(), sessionDidCreate, WOSession.SessionDidCreateNotification, null );
+
+		NSSelector<SessionManager> sessionDidRestore = new NSSelector<>( "sessionDidRestore", new Class[] { NSNotification.class } );
+		NSNotificationCenter.defaultCenter().addObserver( singleton(), sessionDidRestore, WOSession.SessionDidRestoreNotification, null );
 
 		NSSelector<SessionManager> sessionDidTimeOut = new NSSelector<>( "sessionDidTimeOut", new Class[] { NSNotification.class } );
 		NSNotificationCenter.defaultCenter().addObserver( singleton(), sessionDidTimeOut, WOSession.SessionDidTimeOutNotification, null );
@@ -65,12 +65,12 @@ public class SessionManager {
 		return _activeSessions;
 	}
 
-	public void sessionDidRestore( final NSNotification notification ) {
+	public void sessionDidCreate( final NSNotification notification ) {
 		ERXSession session = (ERXSession)notification.object();
 		addSessionIfMissing( session );
 	}
 
-	public void sessionDidCreate( final NSNotification notification ) {
+	public void sessionDidRestore( final NSNotification notification ) {
 		ERXSession session = (ERXSession)notification.object();
 		addSessionIfMissing( session );
 	}
