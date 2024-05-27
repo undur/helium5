@@ -88,7 +88,6 @@ public class SessionManager {
 	}
 
 	public void addSessionIfMissing( final ERXSession session, WORequest request ) {
-		//		Objects.requireNonNull( session );
 
 		if( session != null ) { // FIXME: This check should not be required
 
@@ -146,7 +145,8 @@ public class SessionManager {
 			"facebookexternalhit",
 			"bytespider",
 			"zoominfobot",
-			"openai" );
+			"openai",
+			"petalbot" );
 
 	private void shortenTimeoutIfRobotSessionFromUserAgent( final ERXSession session, final String userAgent ) {
 		boolean isRobot = false;
