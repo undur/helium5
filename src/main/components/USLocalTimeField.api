@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wodefinitions>
+    <wo class="USLocalTimeField" wocomponentcontent="false">
+        <binding name="value"/>
+        <binding name="stringValue"/>
+    </wo>
+</wodefinitions>
