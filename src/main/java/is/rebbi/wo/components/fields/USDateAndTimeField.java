@@ -10,8 +10,11 @@ import is.rebbi.core.formatters.FormatterWrapperNullSafe;
 
 /**
  * A field for selecting date and time.
+ *
+ * @deprecated Should be replaced with the new components for java.time
  */
 
+@Deprecated
 public class USDateAndTimeField extends ERXStatelessComponent {
 
 	public USDateAndTimeField( WOContext context ) {
