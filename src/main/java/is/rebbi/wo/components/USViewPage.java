@@ -84,10 +84,10 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 
 	@Override
 	public E selectedObject() {
-		E newSelectedObject = (E)valueForBinding( "selectedObject" );
+		E selectedObjectFromBinding = (E)valueForBinding( "selectedObject" );
 
-		if( newSelectedObject != null && !newSelectedObject.equals( _selectedObject ) ) {
-			_selectedObject = newSelectedObject;
+		if( selectedObjectFromBinding != null && !selectedObjectFromBinding.equals( _selectedObject ) ) {
+			_selectedObject = selectedObjectFromBinding;
 		}
 
 		return _selectedObject;
