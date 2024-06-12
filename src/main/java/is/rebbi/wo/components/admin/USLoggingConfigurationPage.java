@@ -26,7 +26,7 @@ public class USLoggingConfigurationPage extends ERXComponent {
 	}
 
 	public List<Logger> loggers() {
-		final ArrayList list = Collections.list( LogManager.getCurrentLoggers() );
+		final ArrayList<Logger> list = Collections.list( LogManager.getCurrentLoggers() );
 		Collections.sort( list, Comparator.comparing( Logger::getName ) );
 		return list;
 	}
