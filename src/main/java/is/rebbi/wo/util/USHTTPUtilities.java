@@ -243,7 +243,7 @@ public class USHTTPUtilities {
 	 */
 	public static WOResponse responseWithDataAndMimeType( final String filename, String contentString, final String mimeType ) {
 
-		if( !StringUtilities.hasValue( contentString ) ) {
+		if( contentString == null ) {
 			contentString = "";
 		}
 
