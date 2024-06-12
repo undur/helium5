@@ -41,7 +41,6 @@ public class USHTTPUtilities {
 	private static final String HEADER_CONTENT_INLINE = "inline";
 	private static final String HEADER_CONTENT_ATTACHMENT = "attachment";
 
-	private static final String MIME_TYPE_HTML = "text/html";
 	private static final String MIME_TYPE_OCTET_STREAM = "octet/stream";
 
 	private static final String UNTITLED_FILENAME = "Untitled";
@@ -94,7 +93,7 @@ public class USHTTPUtilities {
 
 		response.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
 		response.setStatus( 302 );
-		response.setHeader( MIME_TYPE_HTML, HEADER_CONTENT_TYPE );
+		response.setHeader( "text/html", HEADER_CONTENT_TYPE );
 		response.setHeader( "0", HEADER_CONTENT_LENGTH );
 
 		return response;
@@ -110,7 +109,7 @@ public class USHTTPUtilities {
 
 		response.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
 		response.setStatus( 301 );
-		response.setHeader( MIME_TYPE_HTML, HEADER_CONTENT_TYPE );
+		response.setHeader( "text/html", HEADER_CONTENT_TYPE );
 		response.setHeader( "0", HEADER_CONTENT_LENGTH );
 
 		return response;
