@@ -206,13 +206,6 @@ public class USHTTPUtilities {
 		return request.headerForKey( HEADER_REDIRECT_QUERY_STRING );
 	}
 
-	/**
-	 * If the WO app is used as a 404 handler, this method returns the requested URL (that failed).
-	 */
-	public static String contentEncoding( final WOResponse response ) {
-		return response.headerForKey( HEADER_CONTENT_ENCODING );
-	}
-
 	public static WOResponse responseWithDataAndMimeType( final String filename, final NSData data, final String mimeType ) {
 		return responseWithDataAndMimeType( filename, data, mimeType, false );
 	}
