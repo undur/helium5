@@ -320,13 +320,6 @@ public class USHTTPUtilities {
 	}
 
 	/**
-	 * @return Response with HTTP status 404
-	 */
-	public static WOResponse response404() {
-		return statusResponse( 404, null );
-	}
-
-	/**
 	 * @return A response with the given status and, if specified and HTML content string displayed to the user.
 	 */
 	public static WOResponse statusResponse( final int status, final String htmlContent ) {
