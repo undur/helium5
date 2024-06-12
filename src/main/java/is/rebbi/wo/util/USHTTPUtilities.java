@@ -91,8 +91,8 @@ public class USHTTPUtilities {
 	public static WOResponse redirectTemporary( final String targetURL ) {
 		final WOResponse response = new WOResponse();
 
-		response.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
 		response.setStatus( 302 );
+		response.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
 		response.setHeader( "text/html", HEADER_CONTENT_TYPE );
 		response.setHeader( "0", HEADER_CONTENT_LENGTH );
 
@@ -107,8 +107,8 @@ public class USHTTPUtilities {
 	public static WOResponse redirectPermanent( final String targetURL ) {
 		final WOResponse response = new WOResponse();
 
-		response.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
 		response.setStatus( 301 );
+		response.setHeader( targetURL, HEADER_REDIRECT_LOCATION );
 		response.setHeader( "text/html", HEADER_CONTENT_TYPE );
 		response.setHeader( "0", HEADER_CONTENT_LENGTH );
 
