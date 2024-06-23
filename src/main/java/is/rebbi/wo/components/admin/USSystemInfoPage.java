@@ -2,13 +2,10 @@ package is.rebbi.wo.components.admin;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
 import com.webobjects.appserver.WOContext;
-import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSTimestamp;
 
 import er.extensions.components.ERXComponent;
@@ -36,11 +33,11 @@ public class USSystemInfoPage extends ERXComponent {
 	 */
 	public List<String> propertyKeys() {
 		final ArrayList<String> keys = new ArrayList<>();
-		
+
 		for( final Object key : _properties.keySet() ) {
 			keys.add( (String)key );
 		}
-		
+
 		Collections.sort( keys );
 
 		return keys;
@@ -75,14 +72,13 @@ public class USSystemInfoPage extends ERXComponent {
 		return StringUtilities.replace( b.toString(), "\n", "<br />\n" );
 	}
 
-	private static String reportPath( NSArray<String> arr, String name ) {
+	private static String reportPath( List<String> arr, String name ) {
 		StringBuilder b = new StringBuilder();
 		b.append( "<strong>" + name + "</strong>" );
 		b.append( "\n" );
-		Enumeration<String> en = arr.objectEnumerator();
 
-		while( en.hasMoreElements() ) {
-			b.append( en.nextElement() );
+		for( String str : arr ) {
+			b.append( str );
 			b.append( "\n" );
 		}
 
@@ -90,17 +86,17 @@ public class USSystemInfoPage extends ERXComponent {
 	}
 
 	private static String reportPath( String systemProperty ) {
-		NSArray<String> arr = ppp( systemProperty );
+		List<String> arr = ppp( systemProperty );
 		return reportPath( arr, systemProperty );
 	}
 
-	private static NSArray<String> pp( String path ) {
+	private static List<String> pp( String path ) {
 
 		if( path == null ) {
-			return NSArray.emptyArray();
+			return Collections.emptyList();
 		}
 
-		NSMutableArray<String> result = new NSMutableArray<>();
+		List<String> result = new ArrayList<>();
 		int oldloc = 0;
 		int loc = 0;
 		String found = null;
@@ -112,14 +108,14 @@ public class USSystemInfoPage extends ERXComponent {
 				loc = len;
 			}
 			found = path.substring( oldloc, loc );
-			result.addObject( found );
+			result.add( found );
 			oldloc = loc + psLength;
 		}
 
-		return result.immutableClone();
+		return result;
 	}
 
-	private static NSArray<String> ppp( String systemProperty ) {
+	private static List<String> ppp( String systemProperty ) {
 		return pp( ERXProperties.stringForKey( systemProperty ) );
 	}
 }
