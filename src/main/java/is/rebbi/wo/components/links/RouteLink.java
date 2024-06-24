@@ -8,12 +8,12 @@ import is.rebbi.wo.util.SWSettings;
 
 public class RouteLink extends ERXStatelessComponent {
 
-	public String url() {
-		return stringValueForBinding( "url" );
-	}
-
 	public RouteLink( WOContext context ) {
 		super( context );
+	}
+
+	public String url() {
+		return stringValueForBinding( "url" );
 	}
 
 	public String href() {
