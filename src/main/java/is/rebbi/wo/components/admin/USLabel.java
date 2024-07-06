@@ -41,17 +41,15 @@ public class USLabel extends ERXNonSynchronizingComponent {
 	}
 
 	public String displayName() {
-		String result = null;
-
 		if( meta() != null ) {
-			return meta().icelandicName();
+			final String icelandicName = meta().icelandicName();
+
+			if( icelandicName != null ) {
+				return icelandicName;
+			}
 		}
 
-		if( result == null ) {
-			result = key();
-		}
-
-		return result;
+		return key();
 	}
 
 	public String text() {
