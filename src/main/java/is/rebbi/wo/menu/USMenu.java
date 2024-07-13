@@ -10,11 +10,6 @@ import java.util.Set;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 
-import com.webobjects.foundation.NSArray;
-import com.webobjects.foundation.NSComparator;
-import com.webobjects.foundation.NSComparator.ComparisonException;
-import com.webobjects.foundation.NSMutableSet;
-
 import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
 import is.rebbi.wo.components.admin.USSystemInfoPage;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
