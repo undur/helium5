@@ -124,10 +124,11 @@ public class RouteTable {
 	 * For returning 404
 	 */
 	public static class NotFoundRouteHandler extends RouteHandler {
+		@Override
 		public WOActionResults handle( final WrappedURL url, WOContext context ) {
 			final WOResponse response = new WOResponse();
 			response.setStatus( 404 );
-			response.setContent( "Not found: " + url );
+			response.setContent( "No route found for URL: " + url );
 			return response;
 		}
 	}
