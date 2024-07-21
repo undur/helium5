@@ -1,7 +1,6 @@
 package is.rebbi.wo.components.fields;
 
 import java.time.LocalTime;
-import java.time.temporal.TemporalAccessor;
 
 import com.webobjects.appserver.WOContext;
 
@@ -43,7 +42,7 @@ public class USLocalTimeField extends USBaseComponent {
 			setValueForBinding( stringValue, "stringValue" );
 		}
 		else {
-			TemporalAccessor localTime;
+			LocalTime localTime;
 
 			if( stringValue != null ) {
 				localTime = LocalTime.parse( stringValue );
