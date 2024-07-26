@@ -217,7 +217,7 @@ public class USListPageEdit extends USBaseComponent {
 			return attributesToShow.stream().map( AttributeDefinition::name ).collect( Collectors.toList() );
 		}
 		else {
-			return Jambalaya.serverRuntime().getDataDomain().getEntityResolver().getObjEntity( entityClass() ).getAttributes().stream().map( ObjAttribute::getName ).collect( Collectors.toList() );
+			return oc().getEntityResolver().getObjEntity( entityClass() ).getAttributes().stream().map( ObjAttribute::getName ).collect( Collectors.toList() );
 		}
 	}
 
