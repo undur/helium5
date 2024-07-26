@@ -90,9 +90,10 @@ public class USListPageEdit extends USBaseComponent {
 		if( _orderings == null ) {
 			_orderings = new ArrayList<>();
 
-			if( initialOrdering() != null ) {
-				_orderings.add( initialOrdering() );
-			}
+			//			FIXME: This is messing with us, figure out why (remember the whole "Dictionary" thing?
+			//			if( initialOrdering() != null ) {
+			//				_orderings.add( initialOrdering() );
+			//			}
 		}
 
 		return _orderings;
