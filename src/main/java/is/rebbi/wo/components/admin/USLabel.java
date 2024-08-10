@@ -1,6 +1,6 @@
 package is.rebbi.wo.components.admin;
 
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 
 import com.webobjects.appserver.WOContext;
 
@@ -20,8 +20,8 @@ public class USLabel extends ERXNonSynchronizingComponent {
 		super( context );
 	}
 
-	private DataObject object() {
-		return (DataObject)valueForBinding( "object" );
+	private PersistentObject object() {
+		return (PersistentObject)valueForBinding( "object" );
 	}
 
 	private String key() {

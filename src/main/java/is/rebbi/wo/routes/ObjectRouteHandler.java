@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.DbAttribute;
@@ -44,7 +44,7 @@ public class ObjectRouteHandler extends RouteHandler {
 	/**
 	 * @return The object the user wanted from the URL.
 	 */
-	private static DataObject selectedObject( final WrappedURL path ) {
+	private static PersistentObject selectedObject( final WrappedURL path ) {
 		final String typeIdentifier = path.getString( 1 );
 		final String objectIdentifier = path.getString( 2 );
 
@@ -68,14 +68,14 @@ public class ObjectRouteHandler extends RouteHandler {
 		//		throw new RuntimeException( "Unsupported URL format" );
 	}
 
-	private static DataObject objectFromUniqueID( final ObjectContext oc, final String objEntityName, final String uniqueID ) {
+	private static PersistentObject objectFromUniqueID( final ObjectContext oc, final String objEntityName, final String uniqueID ) {
 		return ObjectSelect
-				.query( DataObject.class, objEntityName )
+				.query( PersistentObject.class, objEntityName )
 				.where( ExpressionFactory.matchExp( "uniqueID", uniqueID ) )
 				.selectOne( oc );
 	}
 
-	private static DataObject objectFromPKString( final ObjectContext oc, final String objEntityName, final String identifier ) {
+	private static PersistentObject objectFromPKString( final ObjectContext oc, final String objEntityName, final String identifier ) {
 		final ObjEntity objEntity = oc.getEntityResolver().getObjEntity( objEntityName );
 		final Collection<DbAttribute> primaryKeyAttributes = objEntity.getDbEntity().getPrimaryKeys();
 		final String[] components = identifier.split( "\\|" );
@@ -91,7 +91,7 @@ public class ObjectRouteHandler extends RouteHandler {
 		final Expression exp = ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO );
 
 		return ObjectSelect
-				.query( DataObject.class, objEntityName )
+				.query( PersistentObject.class, objEntityName )
 				.where( exp )
 				.selectOne( oc );
 	}

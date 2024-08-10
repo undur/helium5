@@ -1,7 +1,7 @@
 package is.rebbi.wo.components;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.PersistentObject;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOComponent;
@@ -37,10 +37,12 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 		return EntityDefinition.get( selectedObject().getClass() );
 	}
 
+	@Override
 	public WOComponent callingComponent() {
 		return _componentToReturnTo;
 	}
 
+	@Override
 	public void setCallingComponent( WOComponent value ) {
 		_componentToReturnTo = value;
 	}
@@ -51,12 +53,12 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 	}
 
 	public WOActionResults saveChanges() {
-		((DataObject)selectedObject()).getObjectContext().commitChanges();
+		((PersistentObject)selectedObject()).getObjectContext().commitChanges();
 		return null;
 	}
 
 	public WOActionResults deleteObject() {
-		((DataObject)selectedObject()).getObjectContext().deleteObject( selectedObject() );
+		((PersistentObject)selectedObject()).getObjectContext().deleteObject( selectedObject() );
 		saveChanges();
 		return returnToCallingComponent();
 	}
@@ -72,7 +74,7 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 	protected ObjectContext oc() {
 		if( _oc == null ) {
 			if( selectedObject() != null ) {
-				_oc = ((DataObject)selectedObject()).getObjectContext();
+				_oc = ((PersistentObject)selectedObject()).getObjectContext();
 			}
 			else {
 				_oc = Jambalaya.newContext();
@@ -93,6 +95,7 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 		return _selectedObject;
 	}
 
+	@Override
 	public void setSelectedObject( E value ) {
 		_selectedObject = value;
 	}

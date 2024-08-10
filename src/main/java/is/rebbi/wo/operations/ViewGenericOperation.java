@@ -2,7 +2,7 @@ package is.rebbi.wo.operations;
 
 import java.util.function.BiFunction;
 
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
@@ -22,14 +22,14 @@ public class ViewGenericOperation implements DataObjectOperation {
 	}
 
 	@Override
-	public BiFunction<DataObject, WOContext, WOActionResults> execute() {
+	public BiFunction<PersistentObject, WOContext, WOActionResults> execute() {
 		return ( dataObject, context ) -> {
 			return Inspection.inspectObjectInContextUsingGenericComponent( dataObject, context );
 		};
 	}
 
 	@Override
-	public BiFunction<DataObject, WOContext, Boolean> show() {
+	public BiFunction<PersistentObject, WOContext, Boolean> show() {
 		return ( dataObject, context ) -> {
 			return dataObject != null;
 		};

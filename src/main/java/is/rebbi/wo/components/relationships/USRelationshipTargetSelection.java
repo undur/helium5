@@ -3,8 +3,8 @@ package is.rebbi.wo.components.relationships;
 import java.util.List;
 
 import org.apache.cayenne.CayenneRuntimeException;
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.map.ObjRelationship;
 import org.apache.cayenne.util.Util;
 
@@ -19,7 +19,7 @@ import jambalaya.definitions.EntityDefinition;
 public class USRelationshipTargetSelection extends USListPageEdit {
 
 	public ERXComponent callingComponent;
-	public DataObject object;
+	public PersistentObject object;
 	public String key;
 
 	public USRelationshipTargetSelection( WOContext context ) {

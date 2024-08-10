@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
@@ -25,7 +25,7 @@ import jambalaya.CayenneUtils;
  * Generic object edit page.
  */
 
-public class USEditPageGeneric<E extends DataObject> extends USViewPage<E> {
+public class USEditPageGeneric<E extends PersistentObject> extends USViewPage<E> {
 
 	public ObjAttribute currentAttribute;
 	public ObjRelationship currentRelationship;

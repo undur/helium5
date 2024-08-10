@@ -2,7 +2,7 @@ package is.rebbi.wo.components.value;
 
 import java.util.List;
 
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSKeyValueCoding;
@@ -89,6 +89,6 @@ public class USHumanReadableArray extends ERXStatelessComponent {
 	}
 
 	public boolean isInspectable() {
-		return currentObject instanceof DataObject;
+		return currentObject instanceof PersistentObject;
 	}
 }

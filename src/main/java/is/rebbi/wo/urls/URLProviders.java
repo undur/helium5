@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectId;
+import org.apache.cayenne.PersistentObject;
 
 public class URLProviders {
 
@@ -24,7 +24,7 @@ public class URLProviders {
 	private static Map<Class, URLProvider> urlProviders() {
 		if( _urlProviders == null ) {
 			_urlProviders = new HashMap<>();
-			_urlProviders.put( DataObject.class, new URLProviderDataObject() );
+			_urlProviders.put( PersistentObject.class, new URLProviderDataObject() );
 			_urlProviders.put( ObjectId.class, new URLProviderObjectId() );
 		}
 

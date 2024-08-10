@@ -1,6 +1,6 @@
 package is.rebbi.wo.menu;
 
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 
 import com.webobjects.appserver.WOActionResults;
 
@@ -11,22 +11,22 @@ import is.rebbi.wo.util.Inspection;
 
 public class USMenuItemViewObject extends USMenuItem {
 
-	private DataObject _object;
+	private PersistentObject _object;
 	private Class<? extends HasSelectedObjectPage> _viewComponentClass;
 
-	public DataObject object() {
+	public PersistentObject object() {
 		return _object;
 	}
 
-	public void setObject( DataObject newObject ) {
+	public void setObject( PersistentObject newObject ) {
 		_object = newObject;
 	}
 
-	public static USMenuItemViewObject create( String name, String iconClasses, DataObject object ) {
+	public static USMenuItemViewObject create( String name, String iconClasses, PersistentObject object ) {
 		return create( name, iconClasses, object, null );
 	}
 
-	public static USMenuItemViewObject create( String name, String iconClasses, DataObject object, Class<? extends HasSelectedObjectPage> viewComponentClass ) {
+	public static USMenuItemViewObject create( String name, String iconClasses, PersistentObject object, Class<? extends HasSelectedObjectPage> viewComponentClass ) {
 		USMenuItemViewObject item = new USMenuItemViewObject();
 		item.setName( name );
 		item.setIconClasses( iconClasses );

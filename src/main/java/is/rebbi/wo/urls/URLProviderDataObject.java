@@ -2,22 +2,22 @@ package is.rebbi.wo.urls;
 
 import java.util.UUID;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectId;
+import org.apache.cayenne.PersistentObject;
 
 import is.rebbi.wo.util.Inspection.InspectionRoute;
 import jambalaya.ObjectIdSerializer;
 import jambalaya.interfaces.UUIDStamped;
 import jambalaya.interfaces.UniqueIDStamped;
 
-public class URLProviderDataObject implements URLProvider<DataObject> {
+public class URLProviderDataObject implements URLProvider<PersistentObject> {
 
 	public static final String PK_IDENTIFIER_PREFIX = "id-";
 
 	public static final String UNIQUE_ID_IDENTIFIER_PREFIX = "uid-";
 
 	@Override
-	public String urlForObject( final DataObject dataObject ) {
+	public String urlForObject( final PersistentObject dataObject ) {
 
 		if( dataObject instanceof UniqueIDStamped ) {
 			final String uniqueID = ((UniqueIDStamped)dataObject).uniqueID();

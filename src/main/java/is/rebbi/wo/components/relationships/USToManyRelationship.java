@@ -2,8 +2,8 @@ package is.rebbi.wo.components.relationships;
 
 import java.util.List;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.Persistent;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.map.ObjRelationship;
 
@@ -23,7 +23,7 @@ import is.rebbi.wo.util.Inspection;
 
 public class USToManyRelationship extends USBaseComponent {
 
-	public DataObject currentObject;
+	public PersistentObject currentObject;
 
 	public USToManyRelationship( WOContext context ) {
 		super( context );
@@ -34,8 +34,8 @@ public class USToManyRelationship extends USBaseComponent {
 		return false;
 	}
 
-	private DataObject object() {
-		return (DataObject)valueForBinding( "object" );
+	private PersistentObject object() {
+		return (PersistentObject)valueForBinding( "object" );
 	}
 
 	private String key() {
@@ -50,15 +50,15 @@ public class USToManyRelationship extends USBaseComponent {
 		return object().getObjectContext().getEntityResolver().getObjEntity( object().getClass() ).getRelationship( key() );
 	}
 
-	public List<DataObject> destinationObjects() {
-		return (List<DataObject>)NSKeyValueCoding.Utility.valueForKey( object(), key() );
+	public List<PersistentObject> destinationObjects() {
+		return (List<PersistentObject>)NSKeyValueCoding.Utility.valueForKey( object(), key() );
 	}
 
 	public WOActionResults createObject() {
 		DataContext dc = (DataContext)object().getObjectContext();
 		String destinationEntityName = relationship().getTargetEntityName();
 		Persistent newObject = dc.newObject( destinationEntityName );
-		object().addToManyTarget( relationship().getName(), (DataObject)newObject, true );
+		object().addToManyTarget( relationship().getName(), newObject, true );
 		return Inspection.editObjectInContext( newObject, context() );
 	}
 

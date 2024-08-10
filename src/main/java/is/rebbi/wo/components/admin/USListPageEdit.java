@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.exp.property.PropertyFactory;
@@ -50,7 +50,7 @@ public class USListPageEdit extends USBaseComponent {
 	/**
 	 * the object currently being iterated over in lists.
 	 */
-	public DataObject currentObject;
+	public PersistentObject currentObject;
 
 	/**
 	 * The keyPath currently being iterated over in lists.
@@ -80,7 +80,7 @@ public class USListPageEdit extends USBaseComponent {
 	/**
 	 * A list of selected objects in the UI
 	 */
-	public Set<DataObject> selectedObjects = new HashSet<>();
+	public Set<PersistentObject> selectedObjects = new HashSet<>();
 
 	public USListPageEdit( WOContext context ) {
 		super( context );

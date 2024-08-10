@@ -2,7 +2,7 @@ package is.rebbi.wo.components;
 
 import java.util.List;
 
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
@@ -19,8 +19,8 @@ public class USOperationMenu extends ERXNonSynchronizingComponent {
 		super( context );
 	}
 
-	public DataObject selectedObject() {
-		return (DataObject)valueForBinding( "selectedObject" );
+	public PersistentObject selectedObject() {
+		return (PersistentObject)valueForBinding( "selectedObject" );
 	}
 
 	public List<DataObjectOperation> operations() {

@@ -2,7 +2,7 @@ package is.rebbi.wo.components.value;
 
 import java.util.List;
 
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
@@ -44,7 +44,7 @@ public class IMValue extends ERXStatelessComponent {
 			return true;
 		}
 
-		if( !(object() instanceof DataObject) ) {
+		if( !(object() instanceof PersistentObject) ) {
 			return true;
 		}
 

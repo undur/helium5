@@ -1,6 +1,6 @@
 package is.rebbi.wo.components.relationships;
 
-import org.apache.cayenne.DataObject;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.map.ObjRelationship;
 
 import com.webobjects.appserver.WOContext;
@@ -13,8 +13,8 @@ public class USRelationship extends ERXNonSynchronizingComponent {
 		super( context );
 	}
 
-	public DataObject object() {
-		return (DataObject)valueForBinding( "object" );
+	public PersistentObject object() {
+		return (PersistentObject)valueForBinding( "object" );
 	}
 
 	public String key() {

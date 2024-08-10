@@ -1,7 +1,7 @@
 package is.rebbi.wo.components.relationships;
 
-import org.apache.cayenne.DataObject;
 import org.apache.cayenne.Persistent;
+import org.apache.cayenne.PersistentObject;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.map.ObjRelationship;
@@ -31,8 +31,8 @@ public class USToOneRelationship extends USBaseComponent {
 		return false;
 	}
 
-	private DataObject object() {
-		return (DataObject)valueForBinding( "object" );
+	private PersistentObject object() {
+		return (PersistentObject)valueForBinding( "object" );
 	}
 
 	private String key() {
@@ -48,8 +48,8 @@ public class USToOneRelationship extends USBaseComponent {
 		return objEntity.getRelationship( key() );
 	}
 
-	public DataObject destinationObject() {
-		return (DataObject)NSKeyValueCoding.Utility.valueForKey( object(), key() );
+	public PersistentObject destinationObject() {
+		return (PersistentObject)NSKeyValueCoding.Utility.valueForKey( object(), key() );
 	}
 
 	public WOActionResults createObject() {
