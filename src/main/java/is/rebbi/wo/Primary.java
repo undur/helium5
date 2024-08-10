@@ -18,6 +18,6 @@ public class Primary {
 	}
 
 	public static String frameworkBundleName() {
-		return "helium";
+		return "helium5";
 	}
 }
