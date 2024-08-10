@@ -15,7 +15,7 @@
 		<wonder.ajax.group>wonder.ajax</wonder.ajax.group>
 		<wonder.version>8.0.0.slim-SNAPSHOT</wonder.version>
 
-		<cayenne.version>4.1.1</cayenne.version>
+		<cayenne.version>5.0-SNAPSHOT</cayenne.version>
 
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -189,7 +189,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cayenne</groupId>
-			<artifactId>cayenne-server</artifactId>
+			<artifactId>cayenne</artifactId>
 			<version>${cayenne.version}</version>
 		</dependency>
 		<dependency>

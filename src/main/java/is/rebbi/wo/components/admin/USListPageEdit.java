@@ -11,7 +11,7 @@ import org.apache.cayenne.DataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.exp.ExpressionFactory;
-import org.apache.cayenne.exp.Property;
+import org.apache.cayenne.exp.property.PropertyFactory;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.query.ObjectSelect;
 import org.apache.cayenne.query.Ordering;
@@ -152,7 +152,7 @@ public class USListPageEdit extends USBaseComponent {
 			// CHECKME: I'm actually not sure why we need to cast here?
 			_numberOfObjects = (Long)ObjectSelect
 					.query( entityClass() )
-					.column( Property.COUNT )
+					.column( PropertyFactory.COUNT )
 					.where( expression() )
 					.selectOne( oc() );
 		}
