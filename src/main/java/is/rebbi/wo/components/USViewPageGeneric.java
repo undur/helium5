@@ -162,4 +162,8 @@ public class USViewPageGeneric<E extends PersistentObject> extends USViewPage<E>
 		SimpleDateFormat format = new SimpleDateFormat( "dd.MM.yyyy HH:mm" );
 		return new FormatterWrapperNullSafe( format );
 	}
+	
+	public String entityName() {
+		return selectedObject().getObjectId().getEntityName();
+	}
 }
