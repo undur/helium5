@@ -24,22 +24,22 @@ public class ViewOperation implements DataObjectOperation {
 
 	@Override
 	public BiFunction<PersistentObject, WOContext, Boolean> show() {
-		return ( dataObject, context ) -> {
-			return dataObject != null;
+		return ( object, context ) -> {
+			return object != null;
 		};
 	}
 
 	@Override
 	public BiFunction<PersistentObject, WOContext, WOActionResults> execute() {
-		return ( dataObject, context ) -> {
-			return Inspection.inspectObjectInContext( dataObject, context );
+		return ( object, context ) -> {
+			return Inspection.inspectObjectInContext( object, context );
 		};
 	}
 
 	@Override
 	public BiFunction<PersistentObject, WOContext, String> urlFunction() {
-		return ( dataObject, context ) -> {
-			return USURLProvider.urlForObjectInContext( dataObject, context );
+		return ( object, context ) -> {
+			return USURLProvider.urlForObjectInContext( object, context );
 		};
 	}
 }

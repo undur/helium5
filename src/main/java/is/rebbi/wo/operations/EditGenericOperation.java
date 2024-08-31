@@ -23,15 +23,15 @@ public class EditGenericOperation implements DataObjectOperation {
 
 	@Override
 	public BiFunction<PersistentObject, WOContext, WOActionResults> execute() {
-		return ( dataObject, context ) -> {
-			return Inspection.editObjectInContextUsingGenericComponent( dataObject, context );
+		return ( object, context ) -> {
+			return Inspection.editObjectInContextUsingGenericComponent( object, context );
 		};
 	}
 
 	@Override
 	public BiFunction<PersistentObject, WOContext, Boolean> show() {
-		return ( dataObject, context ) -> {
-			return dataObject != null;
+		return ( object, context ) -> {
+			return object != null;
 		};
 	}
 }

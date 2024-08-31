@@ -17,25 +17,25 @@ public class URLProviderDataObject implements URLProvider<PersistentObject> {
 	public static final String UNIQUE_ID_IDENTIFIER_PREFIX = "uid-";
 
 	@Override
-	public String urlForObject( final PersistentObject dataObject ) {
+	public String urlForObject( final PersistentObject object ) {
 
-		if( dataObject instanceof UniqueIDStamped ) {
-			final String uniqueID = ((UniqueIDStamped)dataObject).uniqueID();
+		if( object instanceof UniqueIDStamped ) {
+			final String uniqueID = ((UniqueIDStamped)object).uniqueID();
 
 			if( uniqueID != null ) {
-				return urlForUniqueID( dataObject.getObjectId().getEntityName(), uniqueID );
+				return urlForUniqueID( object.getObjectId().getEntityName(), uniqueID );
 			}
 		}
 
-		if( dataObject instanceof UUIDStamped ) {
-			final UUID uniqueID = ((UUIDStamped)dataObject).uniqueID();
+		if( object instanceof UUIDStamped ) {
+			final UUID uniqueID = ((UUIDStamped)object).uniqueID();
 
 			if( uniqueID != null ) {
-				return urlForUniqueID( dataObject.getObjectId().getEntityName(), uniqueID.toString() );
+				return urlForUniqueID( object.getObjectId().getEntityName(), uniqueID.toString() );
 			}
 		}
 
-		return urlForObjectId( dataObject.getObjectId() );
+		return urlForObjectId( object.getObjectId() );
 	}
 
 	public static String urlForObjectId( final ObjectId objectId ) {

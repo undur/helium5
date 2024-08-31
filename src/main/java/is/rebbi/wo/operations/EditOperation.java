@@ -23,15 +23,15 @@ public class EditOperation implements DataObjectOperation {
 
 	@Override
 	public BiFunction<PersistentObject, WOContext, Boolean> show() {
-		return ( dataObject, context ) -> {
-			return dataObject != null;
+		return ( object, context ) -> {
+			return object != null;
 		};
 	}
 
 	@Override
 	public BiFunction<PersistentObject, WOContext, WOActionResults> execute() {
-		return ( dataObject, context ) -> {
-			return Inspection.editObjectInContext( dataObject, context );
+		return ( object, context ) -> {
+			return Inspection.editObjectInContext( object, context );
 		};
 	}
 }
