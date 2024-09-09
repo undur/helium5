@@ -39,7 +39,6 @@ public class USTablerLook extends WOComponent {
 
 	public String siteName() {
 		return "Helium 5";
-		//		return SWSettings.name();
 	}
 
 	/**
@@ -62,6 +61,8 @@ public class USTablerLook extends WOComponent {
 		final String url = application().resourceManager().urlForResourceNamed( "images/avatar.png", "app", NSArray.emptyArray(), context().request() );
 		return "background-image: url(%s)".formatted( url );
 	}
+
+	// --------------- Menu stuff starts here --------------- //
 
 	public WOActionResults menuItemClick() {
 		return menuItem.action();
