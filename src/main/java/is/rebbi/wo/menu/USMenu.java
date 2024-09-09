@@ -64,8 +64,8 @@ public class USMenu {
 		return mi;
 	}
 
-	private static USMenuItemPage databaseMenuItem() {
-		USMenuItemPage dataTablesLevel = USMenuItemPage.create( "Gagnagrunnur", "fa fa-database sidebar-nav-icon", null );
+	private static USMenuItemContainer databaseMenuItem() {
+		USMenuItemContainer dataTablesLevel = USMenuItemContainer.create( "Gagnagrunnur", "fa fa-database sidebar-nav-icon" );
 
 		for( String categoryName : categoryNames() ) {
 			USMenuItemPage categoryLevel = USMenuItemPage.create( categoryName, null, null );

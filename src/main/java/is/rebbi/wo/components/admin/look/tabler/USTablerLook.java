@@ -1,5 +1,6 @@
 package is.rebbi.wo.components.admin.look.tabler;
 
+import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
@@ -8,11 +9,15 @@ import com.webobjects.foundation.NSArray;
 import er.extensions.appserver.ERXResponseRewriter;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.menu.USMenu;
+import is.rebbi.wo.menu.USMenuItem;
 
 public class USTablerLook extends WOComponent {
 
 	public Object selectedObject;
 	public String searchString;
+
+	public USMenuItem menuItem;
+	public USMenuItem subItem;
 
 	public USTablerLook( WOContext context ) {
 		super( context );
@@ -46,7 +51,7 @@ public class USTablerLook extends WOComponent {
 	}
 
 	public boolean showTopButtons() {
-		return true;
+		return false;
 	}
 
 	public Object user() {
@@ -58,7 +63,39 @@ public class USTablerLook extends WOComponent {
 		return "background-image: url(%s)".formatted( url );
 	}
 
-	public boolean showDev() {
-		return true;
+	public WOActionResults menuItemClick() {
+		return menuItem.action();
+	}
+
+	public String liClass() {
+		if( !menuItem.children().isEmpty() ) {
+			return "nav-item dropdown";
+		}
+
+		return "nav-item";
+	}
+
+	public String rootLinkClass() {
+		if( !menuItem.children().isEmpty() ) {
+			return "nav-link dropdown-toggle";
+		}
+
+		return "nav-link";
+	}
+
+	public String dataBsToggle() {
+		if( menuItem.children().isEmpty() ) {
+			return null;
+		}
+
+		return "dropdown";
+	}
+
+	public String dataBsAutoClose() {
+		if( menuItem.children().isEmpty() ) {
+			return null;
+		}
+
+		return "outside";
 	}
 }

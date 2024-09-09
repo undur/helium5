@@ -128,6 +128,7 @@
 						</div>
 						-->
 					</div>
+					<!-- 
 					<wo:if condition="$user" negate="$true">
 						<div class="nav-item dropdown">
 							<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
@@ -155,6 +156,7 @@
 							</div>
 						</div>
 					</wo:if>
+					 -->
 				</div>
 			</div>
 		</header>
@@ -171,86 +173,29 @@
 									<span class="nav-link-title">Forsíða</span>
 								</a>
 							</li>
-							<li class="nav-item">
-								<wo:RouteLink url="/shops/" class="nav-link">
-									<span class="nav-link-icon d-md-none d-lg-inline-block">
-										<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-community" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M8 9l5 5v7h-5v-4m0 4h-5v-7l5 -5m1 1v-6a1 1 0 0 1 1 -1h10a1 1 0 0 1 1 1v17h-8" />
-  <path d="M13 7l0 .01" />
-  <path d="M17 7l0 .01" />
-  <path d="M17 11l0 .01" />
-  <path d="M17 15l0 .01" />
-</svg>
-									</span>
-									<span class="nav-link-title">Verslanir</span>
-								</wo:RouteLink>
-							</li>
-							<li class="nav-item">
-								<wo:RouteLink url="/shops-map/" class="nav-link">
-									<span class="nav-link-icon d-md-none d-lg-inline-block">
-<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-world" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-  <path d="M3.6 9h16.8" />
-  <path d="M3.6 15h16.8" />
-  <path d="M11.5 3a17 17 0 0 0 0 18" />
-  <path d="M12.5 3a17 17 0 0 1 0 18" />
-</svg>
-									</span>
-									<span class="nav-link-title">Kort</span>
-								</wo:RouteLink>
-							</li>
-							<li class="nav-item">
-								<wo:RouteLink url="/faq/" class="nav-link">
-									<span class="nav-link-icon d-md-none d-lg-inline-block">
-	<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-circle" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-  <path d="M12 9h.01" />
-  <path d="M11 12h1v4h1" />
-</svg>
-									</span>
-									<span class="nav-link-title">Um Neytandann</span>
-								</wo:RouteLink>
-							</li>
-							<li class="nav-item">
-								<wo:RouteLink url="/stats/" class="nav-link">
-									<span class="nav-link-icon d-md-none d-lg-inline-block">
-<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chart-bar" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-  <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-  <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-  <path d="M4 20l14 0" />
-</svg>
-									</span>
-									<span class="nav-link-title">Tölfræði</span>
-								</wo:RouteLink>
-							</li>
-							<wo:if condition="$showDev">
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#navbar-help" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
+							<wo:repetition list="$menu.rootItems" item="$menuItem">
+								<wo:container elementName="li" class="$liClass">
+									<wo:link href="#heh" class="$rootLinkClass" data-bs-toggle="$dataBsToggle" data-bs-auto-close="$dataBsAutoClose">
 										<span class="nav-link-icon d-md-none d-lg-inline-block">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M15 15l3.35 3.35" /><path d="M9 15l-3.35 3.35" /><path d="M5.65 5.65l3.35 3.35" /><path d="M18.35 5.65l-3.35 3.35" /></svg>
+											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chart-bar" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+											  <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+											  <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+											  <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+											  <path d="M4 20l14 0" />
+											</svg>
 										</span>
-										<span class="nav-link-title">Stóri stjóri</span>
-									</a>
-									<div class="dropdown-menu">
-										<wo:link action="$openAdmin" class="dropdown-item">Stjórnkerfi</wo:link>
-										<wo:link action="$toggleFluid" class="dropdown-item">Vökvaviðmót</wo:link>
-										<wo:link action="$openApp" class="dropdown-item">App</wo:link>
-										<wo:link action="$openDictionary" class="dropdown-item">Strimilstextar</wo:link>
-										<wo:link action="$openEcharts" class="dropdown-item">ECharts</wo:link>
-										<wo:link action="$openDictionaryOverview" class="dropdown-item">Orðabækurnar</wo:link>
-										<wo:link action="$openTimeOfDay" class="dropdown-item">Tími dagsins</wo:link>
-										<wo:link action="$openMultiChart" class="dropdown-item text-pink" rel="noopener">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-inline me-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" /></svg>
-											Multirit
-										</wo:link>
-									</div>
-								</li>
-							</wo:if>
+										<span class="nav-link-title"><wo:str value="$menuItem.name" /></span>
+									</wo:link>
+									<wo:if condition="$menuItem.children.size">
+										<div class="dropdown-menu">
+											<wo:repetition list="$menuItem.children" item="$subItem">
+												<wo:link action="$subItem.action" class="dropdown-item"><wo:str value="$subItem.name" /></wo:link>
+											</wo:repetition>
+										</div>
+									</wo:if>
+								</wo:container>
+							</wo:repetition>
 						</ul>
 						<div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
 							<wo:form directActionName="SMAction/search" method="GET" autocomplete="off" novalidate>
@@ -438,7 +383,7 @@
       </div>
     </div>
      -->
-    <wo:ERXJavaScript filename="tabler/js/tabler.min.js" defer></wo:ERXJavaScript>
+    <wo:ERXJavaScript filename="tabler/js/tabler.min.js" framework="$frameworkBundleName" defer></wo:ERXJavaScript>
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
