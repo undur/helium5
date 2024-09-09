@@ -56,7 +56,7 @@ public class USMenu {
 	}
 
 	private static USMenuItem systemMenuItem() {
-		final USMenuItem mi = USMenuItemContainer.create( "Kerfi", "fa fa-wrench sidebar-nav-icon" );
+		final USMenuItem mi = USMenuItemContainer.create( "System", "fa fa-wrench sidebar-nav-icon" );
 		mi.addChild( USMenuItemPage.create( "Tasks", null, USTaskRunnerPage.class ) );
 		mi.addChild( USMenuItemPage.create( "View definitions", null, USViewDefinitionOverviewPage.class ) );
 		mi.addChild( USMenuItemPage.create( "Environment", null, USSystemInfoPage.class ) );
