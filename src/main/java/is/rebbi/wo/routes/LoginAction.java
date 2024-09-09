@@ -3,6 +3,7 @@ package is.rebbi.wo.routes;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WORequest;
 
+import er.extensions.appserver.ERXDirectAction;
 import is.rebbi.wo.components.admin.USLoginPage;
 
 /**
@@ -12,7 +13,7 @@ import is.rebbi.wo.components.admin.USLoginPage;
  */
 
 @Deprecated
-public class LoginAction extends RouteAction {
+public class LoginAction extends ERXDirectAction {
 
 	public LoginAction( WORequest r ) {
 		super( r );
