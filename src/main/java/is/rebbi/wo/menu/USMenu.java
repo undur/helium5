@@ -57,10 +57,10 @@ public class USMenu {
 
 	private static USMenuItem systemMenuItem() {
 		final USMenuItem mi = USMenuItemContainer.create( "Kerfi", "fa fa-wrench sidebar-nav-icon" );
-		mi.addChild( USMenuItemPage.create( "Aðgerðir", null, USTaskRunnerPage.class ) );
-		mi.addChild( USMenuItemPage.create( "Birting", null, USViewDefinitionOverviewPage.class ) );
-		mi.addChild( USMenuItemPage.create( "Umhverfi", null, USSystemInfoPage.class ) );
-		mi.addChild( USMenuItemPage.create( "Loggar", null, USLoggingConfigurationPage.class ) );
+		mi.addChild( USMenuItemPage.create( "Tasks", null, USTaskRunnerPage.class ) );
+		mi.addChild( USMenuItemPage.create( "View definitions", null, USViewDefinitionOverviewPage.class ) );
+		mi.addChild( USMenuItemPage.create( "Environment", null, USSystemInfoPage.class ) );
+		mi.addChild( USMenuItemPage.create( "Logging", null, USLoggingConfigurationPage.class ) );
 		return mi;
 	}
 
