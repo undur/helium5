@@ -1,18 +1,19 @@
 package is.rebbi.wo.components.admin.look.tabler;
 
 import com.webobjects.appserver.WOActionResults;
-import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
 import com.webobjects.foundation.NSArray;
 
 import er.extensions.appserver.ERXResponseRewriter;
 import er.extensions.appserver.ERXResponseRewriter.TagMissingBehavior;
+import er.extensions.components.ERXComponent;
 import is.rebbi.wo.Primary;
+import is.rebbi.wo.components.admin.USStartPage;
 import is.rebbi.wo.menu.USMenu;
 import is.rebbi.wo.menu.USMenuItem;
 
-public class USTablerLook extends WOComponent {
+public class USTablerLook extends ERXComponent {
 
 	public Object selectedObject;
 	public String searchString;
@@ -44,6 +45,10 @@ public class USTablerLook extends WOComponent {
 
 		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "bootstrap_prototype_conflict_fix.js" );
 
+	}
+
+	public WOActionResults startPage() {
+		return pageWithName( USStartPage.class );
 	}
 
 	public String frameworkBundleName() {
