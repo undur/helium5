@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 		<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 		<wo:ERXStyleSheet filename="tabler/css/tabler.min.css" framework="$frameworkBundleName"/>
+		<wo:ERXStyleSheet rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" /> <!-- FIXME: Include in framework -->
 		<title>Helium</title>
 	</head>
 	<wo:container elementName="body" class="$bodyClass"> <!-- body class="layout-fluid" Þurfum aðeins að skoða þetta -->
@@ -176,7 +177,7 @@
 								<wo:container elementName="li" class="$liClass">
 									<wo:if condition="$menuItem.hasChildren" negate="$true">
 										<wo:link action="$menuItem.action" class="$rootLinkClass" data-bs-toggle="$dataBsToggle" data-bs-auto-close="$dataBsAutoClose">
-											<span class="nav-link-title"><wo:str value="$menuItem.name" /></span>
+											<wo:container elementName="i" class="$menuItem.iconClasses" style="margin-right: 5x; color: rgb(220,220,220)"></wo:container> <span class="nav-link-title"><wo:str value="$menuItem.name" /></span>
 										</wo:link>
 									</wo:if>
 									<wo:if condition="$menuItem.hasChildren">
@@ -192,7 +193,7 @@
 												</svg>
 											</span>
 											 -->
-											<span class="nav-link-title"><wo:str value="$menuItem.name" /></span>
+											 <wo:container elementName="i" class="$menuItem.iconClasses" style="margin-right: 5px; color: rgb(120,120,120)"></wo:container> <span class="nav-link-title"><wo:str value="$menuItem.name" /></span>
 										</wo:link>
 										<wo:if condition="$menuItem.children.size">
 											<div class="dropdown-menu">
