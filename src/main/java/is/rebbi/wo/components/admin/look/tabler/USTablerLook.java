@@ -7,6 +7,7 @@ import com.webobjects.appserver.WOResponse;
 import com.webobjects.foundation.NSArray;
 
 import er.extensions.appserver.ERXResponseRewriter;
+import er.extensions.appserver.ERXResponseRewriter.TagMissingBehavior;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.menu.USMenu;
 import is.rebbi.wo.menu.USMenuItem;
@@ -27,7 +28,22 @@ public class USTablerLook extends WOComponent {
 	@Override
 	public void appendToResponse( WOResponse r, WOContext c ) {
 		super.appendToResponse( r, c );
+
+		boolean includeJQuery = true;
+
+		if( includeJQuery ) {
+			final String scriptString = """
+					<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+					<script type="text/javascript">
+						$.noConflict();
+					</script>
+							""";
+
+			ERXResponseRewriter.insertInResponseBeforeTag( r, c, scriptString, "<title>", TagMissingBehavior.SkipAndWarn );
+		}
+
 		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "bootstrap_prototype_conflict_fix.js" );
+
 	}
 
 	public String frameworkBundleName() {
