@@ -174,36 +174,45 @@
 							</li>
 							<wo:repetition list="$menu.rootItems" item="$menuItem">
 								<wo:container elementName="li" class="$liClass">
-									<wo:link href="#heh" class="$rootLinkClass" data-bs-toggle="$dataBsToggle" data-bs-auto-close="$dataBsAutoClose">
-										<span class="nav-link-icon d-md-none d-lg-inline-block">
-											<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chart-bar" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
-											  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-											  <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-											  <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-											  <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
-											  <path d="M4 20l14 0" />
-											</svg>
-										</span>
-										<span class="nav-link-title"><wo:str value="$menuItem.name" /></span>
-									</wo:link>
-									<wo:if condition="$menuItem.children.size">
-										<div class="dropdown-menu">
-											<wo:repetition list="$menuItem.children" item="$subItem">
-												<wo:if condition="$subItem.hasChildren" negate="$true">
-													<wo:link action="$subItem.action" class="dropdown-item"><wo:str value="$subItem.name" /></wo:link>
-												</wo:if>
-												<wo:if condition="$subItem.hasChildren">
-													<div class="dropend">
-														<wo:link class="dropdown-item dropdown-toggle" href="#sidebar-error" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" ><wo:str value="$subItem.name" /></wo:link>
-														<div class="dropdown-menu dropend">
-															<wo:repetition list="$subItem.children" item="$subSubItem">
-																<wo:link action="$subSubItem.action" class="dropdown-item"><wo:str value="$subSubItem.name" /></wo:link>
-															</wo:repetition>
+									<wo:if condition="$menuItem.hasChildren" negate="$true">
+										<wo:link action="$menuItem.action" class="$rootLinkClass" data-bs-toggle="$dataBsToggle" data-bs-auto-close="$dataBsAutoClose">
+											<span class="nav-link-title"><wo:str value="$menuItem.name" /></span>
+										</wo:link>
+									</wo:if>
+									<wo:if condition="$menuItem.hasChildren">
+										<wo:link href="#heh" class="$rootLinkClass" data-bs-toggle="$dataBsToggle" data-bs-auto-close="$dataBsAutoClose">
+											<!-- FIXME: We really want those icons 
+											<span class="nav-link-icon d-md-none d-lg-inline-block">
+												<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chart-bar" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+												  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+												  <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+												  <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+												  <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+												  <path d="M4 20l14 0" />
+												</svg>
+											</span>
+											 -->
+											<span class="nav-link-title"><wo:str value="$menuItem.name" /></span>
+										</wo:link>
+										<wo:if condition="$menuItem.children.size">
+											<div class="dropdown-menu">
+												<wo:repetition list="$menuItem.children" item="$subItem">
+													<wo:if condition="$subItem.hasChildren" negate="$true">
+														<wo:link action="$subItem.action" class="dropdown-item"><wo:str value="$subItem.name" /></wo:link>
+													</wo:if>
+													<wo:if condition="$subItem.hasChildren">
+														<div class="dropend">
+															<wo:link class="dropdown-item dropdown-toggle" href="#sidebar-error" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" ><wo:str value="$subItem.name" /></wo:link>
+															<div class="dropdown-menu dropend">
+																<wo:repetition list="$subItem.children" item="$subSubItem">
+																	<wo:link action="$subSubItem.action" class="dropdown-item"><wo:str value="$subSubItem.name" /></wo:link>
+																</wo:repetition>
+															</div>
 														</div>
-													</div>
-												</wo:if>
-											</wo:repetition>
-										</div>
+													</wo:if>
+												</wo:repetition>
+											</div>
+										</wo:if>
 									</wo:if>
 								</wo:container>
 							</wo:repetition>
