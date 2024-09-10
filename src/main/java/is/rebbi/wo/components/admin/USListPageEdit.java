@@ -287,6 +287,6 @@ public class USListPageEdit extends USBaseComponent {
 	}
 
 	public String currentTRClass() {
-		return currentIsSelected() ? "danger" : null;
+		return currentIsSelected() ? "table-info" : null;
 	}
 }
