@@ -18,6 +18,7 @@ public class USTablerLook extends WOComponent {
 
 	public USMenuItem menuItem;
 	public USMenuItem subItem;
+	public USMenuItem subSubItem;
 
 	public USTablerLook( WOContext context ) {
 		super( context );
@@ -69,7 +70,7 @@ public class USTablerLook extends WOComponent {
 	}
 
 	public String liClass() {
-		if( !menuItem.children().isEmpty() ) {
+		if( menuItem.hasChildren() ) {
 			return "nav-item dropdown";
 		}
 
@@ -77,7 +78,7 @@ public class USTablerLook extends WOComponent {
 	}
 
 	public String rootLinkClass() {
-		if( !menuItem.children().isEmpty() ) {
+		if( menuItem.hasChildren() ) {
 			return "nav-link dropdown-toggle";
 		}
 
@@ -85,18 +86,18 @@ public class USTablerLook extends WOComponent {
 	}
 
 	public String dataBsToggle() {
-		if( menuItem.children().isEmpty() ) {
-			return null;
+		if( menuItem.hasChildren() ) {
+			return "dropdown";
 		}
 
-		return "dropdown";
+		return null;
 	}
 
 	public String dataBsAutoClose() {
-		if( menuItem.children().isEmpty() ) {
-			return null;
+		if( menuItem.hasChildren() ) {
+			return "outside";
 		}
 
-		return "outside";
+		return null;
 	}
 }

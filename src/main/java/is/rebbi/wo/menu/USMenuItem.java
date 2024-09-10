@@ -100,6 +100,10 @@ public abstract class USMenuItem implements Hierarchy<USMenuItem> {
 		}
 	}
 
+	public boolean hasChildren() {
+		return !children().isEmpty();
+	}
+
 	@Override
 	public USMenuItem parent() {
 		return _parent;

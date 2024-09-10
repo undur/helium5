@@ -190,15 +190,19 @@
 									<wo:if condition="$menuItem.children.size">
 										<div class="dropdown-menu">
 											<wo:repetition list="$menuItem.children" item="$subItem">
-												<wo:link action="$subItem.action" class="dropdown-item"><wo:str value="$subItem.name" /></wo:link>
-												<div class="dropend">
-													<a class="dropdown-item dropdown-toggle" href="#sidebar-error" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >Error pages</a>
-													<div class="dropdown-menu">
-														<a href="./error-404.html" class="dropdown-item">404 page</a>
-														<a href="./error-500.html" class="dropdown-item">500 page</a>
-														<a href="./error-maintenance.html" class="dropdown-item">Maintenance page</a>
+												<wo:if condition="$subItem.hasChildren" negate="$true">
+													<wo:link action="$subItem.action" class="dropdown-item"><wo:str value="$subItem.name" /></wo:link>
+												</wo:if>
+												<wo:if condition="$subItem.hasChildren">
+													<div class="dropend">
+														<wo:link class="dropdown-item dropdown-toggle" href="#sidebar-error" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" ><wo:str value="$subItem.name" /></wo:link>
+														<div class="dropdown-menu dropend">
+															<wo:repetition list="$subItem.children" item="$subSubItem">
+																<wo:link action="$subSubItem.action" class="dropdown-item"><wo:str value="$subSubItem.name" /></wo:link>
+															</wo:repetition>
+														</div>
 													</div>
-												</div>
+												</wo:if>
 											</wo:repetition>
 										</div>
 									</wo:if>
