@@ -7,6 +7,11 @@
 		<wo:ERXStyleSheet filename="tabler/css/tabler.min.css" framework="$frameworkBundleName"/>
 		<wo:ERXJavaScript filename="bootstrap_prototype_conflict_fix.js" framework="$frameworkBundleName" />
 		<title>Helium</title>
+		<script type="text/javascript">
+		if( window.jQuery ) {
+			$.noConflict();
+		}		
+		</script>
 	</head>
 	<wo:container elementName="body" class="$bodyClass"> <!-- body class="layout-fluid" Þurfum aðeins að skoða þetta -->
 		<div class="page">
