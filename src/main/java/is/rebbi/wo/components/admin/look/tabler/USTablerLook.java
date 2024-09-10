@@ -62,8 +62,8 @@ public class USTablerLook extends WOComponent {
 	 * FIXME: This should be configurable. Should be null for a non-fluid layout
 	 */
 	public String bodyClass() {
-		//		return "layout-fluid";
-		return null;
+		return "layout-fluid";
+		//		return null;
 	}
 
 	public boolean showTopButtons() {
