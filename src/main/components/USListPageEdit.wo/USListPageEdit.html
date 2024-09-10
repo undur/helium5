@@ -1,9 +1,9 @@
 <wo:USEditLook>
 	<script>
 		// Focus on the search field
-		jQuery(document).ready(function(){
-			jQuery("#searchString").focus();
-		});
+		document.addEventListener("DOMContentLoaded", async () => {
+			document.getElementById('searchString').focus();
+		})
 	</script>
 	<div class="row">
 		<div class="col-md-12">
@@ -25,13 +25,14 @@
 							<wo:form>
 								<wo:if condition="$selectedObjects.size"><wo:AjaxModalContainer label="Eyða völdum færslum" closeLabel="Hætta við" class="btn btn-xs btn-danger" style="margin-bottom: 10px" ><div style="padding: 10px; text-align: center"><p>Ertu viss um að þú viljir eyða <wo:str value="$selectedObjects.size" /> völdum hlutum?</p><p align="center"><wo:link action="$deleteSelectedObjects" class="btn btn-danger"><i class="glyphicon glyphicon-trash icon-white"></i> Já, ég vil eyða þessum færslum</wo:link></p></div></wo:AjaxModalContainer></wo:if>
 								<wo:link class="btn btn-xs btn-success" style="margin-bottom: 10px" action="$createObject">Stofna hlut</wo:link><br />
-								<strong><wo:str value="$numberOfObjects" numberformat="0" /></strong> hlutir fundust<wo:if condition="$hasMultipleBatches">. Síða <wo:popUpButton list="$batches" selection="$currentBatchIndexForDisplay" id="currentBatchIndex" /> af <wo:str value="$numberOfBatches" /> með <wo:textfield value="$batchSize" numberformat="0" size="3" id="batchSize" /> hlutum hver</wo:if>
+								<strong><wo:str value="$numberOfObjects" numberformat="0" /></strong> hlutir fundust<wo:if condition="$hasMultipleBatches">. Síða <wo:popUpButton list="$batches" selection="$currentBatchIndexForDisplay" id="currentBatchIndex" /> af <wo:str value="$numberOfBatches" /> með <wo:textfield value="$batchSize" numberformat="0" size="3" id="batchSize" /> hlutum hver
 								<wo:AjaxObserveField observeFieldID="currentBatchIndex" updateContainerID="list" />
 								<wo:AjaxObserveField observeFieldID="batchSize" updateContainerID="list" />
+								</wo:if>
 							</wo:form>
 						</div>
 						<wo:form>
-							<table class="table table-striped table-condensed table-bordered">
+							<table class="table table-striped table-sm table-bordered">
 								<thead>
 									<tr>
 										<th width="10"></th>
