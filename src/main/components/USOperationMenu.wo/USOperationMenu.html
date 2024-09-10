@@ -4,10 +4,10 @@
 		<wo:repetition list="$operations" item="$currentOperation">
 			<wo:if condition="$showCurrentOperation">
 				<wo:if condition="$currentOperation.urlFunction" negate="true">
-					<li><wo:link action="$selectOperation"><wo:container elementName="i" class="$currentOperationClass"></wo:container> <wo:str value="$currentOperation.name" /></wo:link></li>
+					<li><wo:link action="$selectOperation" class="dropdown-item"><wo:container elementName="i" class="$currentOperationClass"></wo:container> <wo:str value="$currentOperation.name" /></wo:link></li>
 				</wo:if>
 				<wo:if condition="$currentOperation.urlFunction">
-					<li><wo:link href="$currentOperationURL"><wo:container elementName="i" class="$currentOperationClass"></wo:container> <wo:str value="$currentOperation.name" /></wo:link></li>
+					<li><wo:link href="$currentOperationURL" class="dropdown-item"><wo:container elementName="i" class="$currentOperationClass"></wo:container> <wo:str value="$currentOperation.name" /></wo:link></li>
 				</wo:if>
 			</wo:if>
 		</wo:repetition>
