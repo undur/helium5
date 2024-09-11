@@ -57,7 +57,7 @@ public class USLoggingConfigurationPage extends ERXComponent {
 	}
 
 	public String currentClass() {
-		String s = "btn btn-xs";
+		String s = "btn btn-sm";
 
 		if( currentLevel.equals( currentLogger.getLevel() ) ) {
 			s = s + " btn-success";
@@ -65,7 +65,7 @@ public class USLoggingConfigurationPage extends ERXComponent {
 
 		if( currentLogger.getLevel() == null ) {
 			if( currentLevel.equals( currentLogger.getEffectiveLevel() ) ) {
-				s = s + " btn-default";
+				s = s + " btn-secondary";
 			}
 		}
 
