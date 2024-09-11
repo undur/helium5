@@ -1,30 +1,28 @@
 <wo:USEditLook>
 	<div class="row">
-		<div class="col-md-12">
-			<div class="box">
-				<div class="box-header with-border">
-					<h3 class="box-title">Properties</h3>
+		<div class="col">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Properties</h3>
 				</div>
-				<div class="box-body no-padding">
-					<table class="table table-condensed table-striped">
-						<tr>
-							<th>Key</th>
-							<th>Value</th>
-						</tr>
-						<wo:repetition list="$propertyKeys" item="$currentPropertyKey">
-						<tr>
-							<td><wo:str value="$currentPropertyKey" /></td>
-							<td style="word-wrap: break-word"><wo:str value="$currentPropertyValue" /></td>
-						</tr>
-						</wo:repetition>
-					</table>
-				</div>
+				<table class="table table-sm table-striped">
+					<tr>
+						<th>Key</th>
+						<th>Value</th>
+					</tr>
+					<wo:repetition list="$propertyKeys" item="$currentPropertyKey">
+					<tr>
+						<td><wo:str value="$currentPropertyKey" /></td>
+						<td style="word-wrap: break-word"><wo:str value="$currentPropertyValue" /></td>
+					</tr>
+					</wo:repetition>
+				</table>
 			</div>
-			<div class="box">
-				<div class="box-header with-border">
-					<h3 class="box-title">Classpath</h3>
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Classpath</h3>
 				</div>
-				<div class="box-body">
+				<div class="card-body">
 					<wo:str value="$reportPath" escapeHTML="$false" />
 				</div>
 			</div>

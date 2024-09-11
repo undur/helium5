@@ -55,7 +55,6 @@ public class USSystemInfoPage extends ERXComponent {
 		b.append( "\n" );
 		b.append( reportPath( "java.home" ) );
 		b.append( "\n" );
-		b.append( "\n" );
 		b.append( reportPath( "sun.boot.class.path" ) );
 		b.append( "\n" );
 		b.append( reportPath( "java.ext.dirs" ) );
