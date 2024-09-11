@@ -5,13 +5,13 @@
 			<tr>
 				<td width="100px">
 					<div class="btn-group">
-						<a class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-cog"></i> <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><wo:AjaxUpdateLink action="$removeObject" updateContainerID="$uniqueID"><i class="glyphicon glyphicon-remove"></i> Aftengja</wo:AjaxUpdateLink></li>
-							<li class="divider"></li>
-							<li><wo:EditLink object="$destinationObject"><i class="glyphicon glyphicon-pencil"></i> Opna í stjórnkerfi</wo:EditLink></li>
-							<li><wo:ViewLink object="$destinationObject"><i class="glyphicon glyphicon-eye-open"></i> Opna á vefnum</wo:ViewLink></li>
-						</ul>
+						<button class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-cog"></i></button>
+						<div class="dropdown-menu">
+							<wo:AjaxUpdateLink action="$removeObject" updateContainerID="$uniqueID" class="dropdown-item"><i class="fa fa-remove"></i> Aftengja</wo:AjaxUpdateLink>
+							<div class="dropdown-divider"></div>
+							<wo:EditLink object="$destinationObject" class="dropdown-item"><i class="fa fa-pencil"></i> Opna í stjórnkerfi</wo:EditLink>
+							<wo:ViewLink object="$destinationObject" class="dropdown-item"><i class="fa fa-eye"></i> Opna á vefnum</wo:ViewLink>
+						</div>
 					</div>
 				</td>
 				<td><wo:EditLink object="$destinationObject"><wo:IMString value="$displayString" valueWhenEmpty="Ekkert valið"/></wo:EditLink></td>

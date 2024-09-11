@@ -6,13 +6,13 @@
 				<tr>
 					<td width="100px">
 						<div class="btn-group">
-							<a class="btn dropdown-toggle btn-default" data-bs-toggle="dropdown" href="#"><i class="glyphicon glyphicon-cog"></i> <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><wo:AjaxUpdateLink action="$removeObject" updateContainerID="$uniqueID" class="dropdown-item"><i class="glyphicon glyphicon-remove"></i> Aftengja</wo:AjaxUpdateLink></li>
-								<li class="divider"></li>
-								<li><wo:EditLink object="$currentObject" class="dropdown-item"><i class="glyphicon glyphicon-pencil"></i> Opna í stjórnkerfi</wo:EditLink></li>
-								<li><wo:ViewLink object="$currentObject" class="dropdown-item"><i class="glyphicon glyphicon-eye-open"></i> Opna á vefnum</wo:ViewLink></li>
-							</ul>
+							<button class="btn btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-cog"></i> <span class="caret"></span></button>
+							<div class="dropdown-menu">
+								<wo:AjaxUpdateLink action="$removeObject" updateContainerID="$uniqueID" class="dropdown-item"><i class="glyphicon glyphicon-remove"></i> Aftengja</wo:AjaxUpdateLink>
+								<div class="dropdown-divider"></div>
+								<wo:EditLink object="$currentObject" class="dropdown-item"><i class="fa fa-pencil"></i> Opna í stjórnkerfi</wo:EditLink>
+								<wo:ViewLink object="$currentObject" class="dropdown-item"><i class="fa fa-eye"></i> Opna á vefnum</wo:ViewLink>
+							</div>
 						</div>
 					</td>
 					<td><wo:EditLink object="$currentObject"><wo:str value="$displayString" /></wo:EditLink></td>
