@@ -4,6 +4,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXComponent;
+import is.rebbi.wo.Primary;
 import is.rebbi.wo.util.SWSettings;
 
 public class USLoginPage extends ERXComponent {
@@ -13,6 +14,10 @@ public class USLoginPage extends ERXComponent {
 
 	public USLoginPage( WOContext context ) {
 		super( context );
+	}
+
+	public String frameworkBundleName() {
+		return Primary.frameworkBundleName();
 	}
 
 	public WOActionResults login() {
