@@ -12,26 +12,18 @@ public class USMenu {
 	 */
 	private List<USMenuItem> _rootItems = new ArrayList<>();
 
-	/**
-	 * Default menu
-	 */
-	private static USMenu _defaultMenu;
-
 	public List<USMenuItem> rootItems() {
 		return _rootItems;
-	}
-
-	public static USMenu defaultMenu() {
-		if( _defaultMenu == null ) {
-			_defaultMenu = new USMenu();
-		}
-
-		return _defaultMenu;
 	}
 
 	public USMenuItem addChild( final USMenuItem item ) {
 		rootItems().add( item );
 		return item;
+	}
+
+	@Deprecated
+	public static USMenu defaultMenu() {
+		return Primary.heliumMenu();
 	}
 
 	@Deprecated

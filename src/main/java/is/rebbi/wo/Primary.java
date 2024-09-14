@@ -16,6 +16,7 @@ import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
 import is.rebbi.wo.components.admin.USSystemInfoPage;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
 import is.rebbi.wo.components.admin.USViewDefinitionOverviewPage;
+import is.rebbi.wo.menu.USMenu;
 import is.rebbi.wo.menu.USMenuItem;
 import is.rebbi.wo.menu.USMenuItemContainer;
 import is.rebbi.wo.menu.USMenuItemEntity;
@@ -35,6 +36,19 @@ public class Primary {
 		logger.info( "Initializing Helium" );
 		SoftUser.Manager.register();
 		SessionManager.register();
+	}
+
+	/**
+	 * Default Helium menu
+	 */
+	private static USMenu _heliumMenu;
+
+	public static USMenu heliumMenu() {
+		if( _heliumMenu == null ) {
+			_heliumMenu = new USMenu();
+		}
+
+		return _heliumMenu;
 	}
 
 	public static String frameworkBundleName() {
