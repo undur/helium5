@@ -44,7 +44,7 @@ public abstract class USMenuItem implements Hierarchy<USMenuItem> {
 	@Deprecated
 	public String badgeString;
 
-	USMenuItem() {
+	protected USMenuItem() {
 		_identifier = UUID.randomUUID().toString();
 	}
 
