@@ -6,7 +6,7 @@ import er.extensions.appserver.ERXSession;
 import er.extensions.appserver.ERXWOContext;
 import er.extensions.components.ERXComponent;
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.util.SWSettings;
+import is.rebbi.wo.util.USSettings;
 
 public abstract class USBaseComponent extends ERXComponent {
 
@@ -63,7 +63,7 @@ public abstract class USBaseComponent extends ERXComponent {
 			}
 		}
 
-		lookName = SWSettings.defaultLookName();
+		lookName = USSettings.defaultLookName();
 
 		if( lookName == null ) {
 			lookName = USStandardLook.class.getSimpleName();
@@ -90,7 +90,7 @@ public abstract class USBaseComponent extends ERXComponent {
 			return lookName;
 		}
 
-		lookName = SWSettings.defaultEditLookName();
+		lookName = USSettings.defaultEditLookName();
 
 		if( lookName == null ) {
 			lookName = USStandardLook.class.getSimpleName();

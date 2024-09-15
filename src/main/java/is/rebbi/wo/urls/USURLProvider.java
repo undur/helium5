@@ -6,7 +6,7 @@ import com.webobjects.foundation.NSMutableDictionary;
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.routes.RouteAction;
-import is.rebbi.wo.util.SWSettings;
+import is.rebbi.wo.util.USSettings;
 
 /**
  * Clean up this whole thing. It could really use some cleanup.
@@ -21,7 +21,7 @@ public abstract class USURLProvider {
 
 		String url = URLProviders.urlForObject( object );
 
-		if( !SWSettings.generateFriendlyURLs() ) {
+		if( !USSettings.generateFriendlyURLs() ) {
 			url = urlForDevelopment( url, context );
 		}
 

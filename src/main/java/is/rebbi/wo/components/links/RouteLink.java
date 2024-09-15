@@ -4,7 +4,7 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXStatelessComponent;
 import is.rebbi.wo.urls.USURLProvider;
-import is.rebbi.wo.util.SWSettings;
+import is.rebbi.wo.util.USSettings;
 
 public class RouteLink extends ERXStatelessComponent {
 
@@ -18,7 +18,7 @@ public class RouteLink extends ERXStatelessComponent {
 
 	public String href() {
 
-		if( SWSettings.generateFriendlyURLs() ) {
+		if( USSettings.generateFriendlyURLs() ) {
 			return url();
 		}
 

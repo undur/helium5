@@ -5,7 +5,7 @@ import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.Primary;
-import is.rebbi.wo.util.SWSettings;
+import is.rebbi.wo.util.USSettings;
 
 public class USLoginPage extends ERXComponent {
 
@@ -22,7 +22,7 @@ public class USLoginPage extends ERXComponent {
 
 	public WOActionResults login() {
 
-		if( SWSettings.adminUsername().equals( username ) && SWSettings.adminPassword().equals( password ) ) {
+		if( USSettings.adminUsername().equals( username ) && USSettings.adminPassword().equals( password ) ) {
 			return pageWithName( USStartPage.class );
 		}
 

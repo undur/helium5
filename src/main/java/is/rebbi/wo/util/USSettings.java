@@ -6,7 +6,7 @@ import er.extensions.foundation.ERXProperties;
  * Access to Helium's properties
  */
 
-public class SWSettings {
+public class USSettings {
 
 	/**
 	 * Prefix for our properties
@@ -28,7 +28,7 @@ public class SWSettings {
 	/**
 	 * No instances.
 	 */
-	private SWSettings() {}
+	private USSettings() {}
 
 	/**
 	 * @return Name of setting on the format of a property.

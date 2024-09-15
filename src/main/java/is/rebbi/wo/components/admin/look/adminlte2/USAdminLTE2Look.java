@@ -7,7 +7,7 @@ import er.extensions.appserver.ERXResponseRewriter;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USViewPage;
 import is.rebbi.wo.menu.USMenu;
-import is.rebbi.wo.util.SWSettings;
+import is.rebbi.wo.util.USSettings;
 
 public class USAdminLTE2Look extends USViewPage {
 
@@ -30,6 +30,6 @@ public class USAdminLTE2Look extends USViewPage {
 	}
 
 	public String siteName() {
-		return SWSettings.name();
+		return USSettings.name();
 	}
 }

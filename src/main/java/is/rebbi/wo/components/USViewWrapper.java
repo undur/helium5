@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
 
-import is.rebbi.wo.util.SWSettings;
+import is.rebbi.wo.util.USSettings;
 import jambalaya.interfaces.UUIDStamped;
 import jambalaya.interfaces.UniqueIDStamped;
 
@@ -33,8 +33,8 @@ public class USViewWrapper extends USViewPage {
 
 	public String viewToolsComponentName() {
 
-		if( SWSettings.viewToolsComponentName() != null ) {
-			return SWSettings.viewToolsComponentName();
+		if( USSettings.viewToolsComponentName() != null ) {
+			return USSettings.viewToolsComponentName();
 		}
 
 		return USBaseViewTools.class.getSimpleName();
