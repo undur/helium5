@@ -14,6 +14,7 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
  * Comparator for comparing/sorting objects based on a keypath
  */
 
+@Deprecated
 public class USGenericComparator<T> implements Comparator<T> {
 
 	private final Collator _collator;

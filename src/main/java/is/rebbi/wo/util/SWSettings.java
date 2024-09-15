@@ -16,6 +16,7 @@ import is.rebbi.core.util.StringUtilities;
  * SWSettings simplifies access to the system's settings and properties.
  */
 
+@Deprecated
 public class SWSettings {
 
 	private static final Logger logger = LoggerFactory.getLogger( SWSettings.class );
