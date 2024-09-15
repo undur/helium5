@@ -3,10 +3,9 @@ package is.rebbi.wo.util;
 import er.extensions.foundation.ERXProperties;
 
 /**
- * SWSettings simplifies access to the system's settings and properties.
+ * Access to Helium's properties
  */
 
-@Deprecated
 public class SWSettings {
 
 	/**
