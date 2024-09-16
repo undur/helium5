@@ -4,9 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.webobjects.appserver.WOCookie;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
@@ -16,8 +13,6 @@ import com.webobjects.foundation.NSMutableArray;
 import is.rebbi.core.util.StringUtilities;
 
 public class USHTTPUtilities {
-
-	private static final Logger logger = LoggerFactory.getLogger( USHTTPUtilities.class );
 
 	private static final String HEADER_CONTENT_TYPE = "content-type";
 	private static final String HEADER_SET_COOKIE = "set-cookie";
@@ -30,7 +25,6 @@ public class USHTTPUtilities {
 	private static final String HEADER_HOST_IIS = "http_host";
 	private static final String HEADER_REDIRECT_LOCATION = "location";
 	private static final String HEADER_CONTENT_LENGTH = "content-length";
-	private static final String HEADER_CONTENT_ENCODING = "content-encoding";
 	private static final String HEADER_REDIRECT_URL = "redirect_url";
 	private static final String HEADER_REDIRECT_QUERY_STRING = "REDIRECT_QUERY_STRING";
 	private static final String HEADER_PRAGMA = "pragma";
@@ -41,9 +35,8 @@ public class USHTTPUtilities {
 	private static final String HEADER_CONTENT_INLINE = "inline";
 	private static final String HEADER_CONTENT_ATTACHMENT = "attachment";
 
-	private static final String MIME_TYPE_OCTET_STREAM = "octet/stream";
-
 	private static final String UNTITLED_FILENAME = "Untitled";
+	private static final String MIME_TYPE_OCTET_STREAM = "octet/stream";
 
 	/**
 	 * @return The IP-address that initiated the WORequest (if present)
