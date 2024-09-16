@@ -1,5 +1,7 @@
 package is.rebbi.wo.routes;
 
+import java.util.Objects;
+
 /**
  * Wraps URL paths for easy access to its components.
  *
@@ -11,12 +13,12 @@ public class WrappedURL {
 	/**
 	 * The URL string this object was generated from.
 	 */
-	private String _sourceURL;
+	private final String _sourceURL;
 
 	/**
 	 * The cleaned up URL
 	 */
-	private String _parsedURL;
+	private final String _parsedURL;
 
 	/**
 	 * cached copy of the url's elements
@@ -25,15 +27,14 @@ public class WrappedURL {
 
 	/**
 	 * Instances are constructed using the create() method.
+	 *
+	 * FIXME: We're currently stripping away starting and ending slashes. We'll want to look into if that's generally desired behaviour // Hugi 2021-12-28
 	 */
-	private WrappedURL() {}
+	private WrappedURL( final String sourceURL ) {
+		Objects.requireNonNull( sourceURL );
+		_sourceURL = sourceURL;
 
-	public static WrappedURL create( final String sourceURL ) {
 		String parsedURL = sourceURL;
-
-		if( parsedURL == null ) {
-			parsedURL = "";
-		}
 
 		if( parsedURL.startsWith( "/" ) ) {
 			parsedURL = parsedURL.substring( 1 );
@@ -43,10 +44,11 @@ public class WrappedURL {
 			parsedURL = parsedURL.substring( 0, parsedURL.length() - 1 );
 		}
 
-		WrappedURL object = new WrappedURL();
-		object._parsedURL = parsedURL;
-		object._sourceURL = sourceURL;
-		return object;
+		_parsedURL = parsedURL;
+	}
+
+	public static WrappedURL create( final String sourceURL ) {
+		return new WrappedURL( sourceURL );
 	}
 
 	public String sourceURL() {
