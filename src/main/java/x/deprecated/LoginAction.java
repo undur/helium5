@@ -1,4 +1,4 @@
-package is.rebbi.wo.routes;
+package x.deprecated;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WORequest;
