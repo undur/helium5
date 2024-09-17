@@ -45,27 +45,31 @@ public class ObjectRouteHandler extends RouteHandler {
 	 * @return The object the user wanted from the URL.
 	 */
 	private static PersistentObject selectedObject( final WrappedURL path ) {
-		final String typeIdentifier = path.getString( 1 );
+		final String objectTypeIdentifier = path.getString( 1 );
 		final String objectIdentifier = path.getString( 2 );
 
-		final String objEntityName = entityNameFromTypeIdentifier( typeIdentifier );
+		final String objectEntityName = entityNameFromTypeIdentifier( objectTypeIdentifier );
 
-		if( objEntityName == null ) {
+		if( objectEntityName == null ) {
 			return null;
 		}
 
+		return objectFromIdentifierString( Jambalaya.newContext(), objectEntityName, objectIdentifier );
+	}
+
+	private static PersistentObject objectFromIdentifierString( final ObjectContext oc, final String objectEntityName, final String objectIdentifier ) {
 		if( objectIdentifier.startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX ) ) {
 			final String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
-			return objectFromPKString( Jambalaya.newContext(), objEntityName, identifier );
+			return objectFromPKString( oc, objectEntityName, identifier );
 		}
 
 		if( objectIdentifier.startsWith( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX ) ) {
 			final String identifier = objectIdentifier.substring( URLProviderDataObject.UNIQUE_ID_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
-			return objectFromUniqueID( Jambalaya.newContext(), objEntityName, identifier );
+			return objectFromUniqueID( oc, objectEntityName, identifier );
 		}
 
+		// FIXME: Just returning null feels wrong, we should be throwing an exception here (probably resulting in a 404 in the front end) // Hugi 2024-09-17
 		return null;
-		//		throw new RuntimeException( "Unsupported URL format" );
 	}
 
 	private static PersistentObject objectFromUniqueID( final ObjectContext oc, final String objEntityName, final String uniqueID ) {
@@ -97,14 +101,14 @@ public class ObjectRouteHandler extends RouteHandler {
 	}
 
 	/**
-	 * FIXME: Evaluate this method
+	 * @return The name of the identifier identified by the type identifier
 	 */
 	private static String entityNameFromTypeIdentifier( final String typeIdentifier ) {
 		InspectionRoute inspectionRoute = InspectionRoute.forURLPrefix( typeIdentifier );
 
 		if( inspectionRoute == null ) {
+			// FIXME: If no identifier is found we should be throwing an exception here (probably resulting in a 404 in the front end) // Hugi 2024-09-17
 			return null;
-			//			throw new RuntimeException( "No view definition found for URL prefix: " + typeIdentifier );
 		}
 
 		return inspectionRoute.entityClass().getSimpleName();
