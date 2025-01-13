@@ -263,7 +263,7 @@ public class USHTTPUtilities {
 		WOResponse response = new WOResponse();
 		response.setHeader( mimeType, HEADER_CONTENT_TYPE );
 		response.setHeader( data.length() + "", HEADER_CONTENT_LENGTH );
-		response.setHeader( disposition + ";filename=\"" + filename + "\"", HEADER_CONTENT_DISPOSITION );
+		response.setHeader( disposition + ";filename=\"" + escapeFilenameForDispositionHeader( filename ) + "\"", HEADER_CONTENT_DISPOSITION );
 		response.removeHeadersForKey( HEADER_CACHE_CONTROL );
 		response.removeHeadersForKey( HEADER_PRAGMA );
 		response.removeHeadersForKey( HEADER_EXPIRES );
@@ -297,12 +297,22 @@ public class USHTTPUtilities {
 		WOResponse response = new WOResponse();
 		response.setHeader( mimeType, HEADER_CONTENT_TYPE );
 		response.setHeader( length + "", HEADER_CONTENT_LENGTH );
-		response.setHeader( disposition + ";filename=\"" + filename + "\"", HEADER_CONTENT_DISPOSITION );
+		response.setHeader( disposition + ";filename=\"" + escapeFilenameForDispositionHeader( filename ) + "\"", HEADER_CONTENT_DISPOSITION );
 		response.removeHeadersForKey( HEADER_CACHE_CONTROL );
 		response.removeHeadersForKey( HEADER_PRAGMA );
 		response.removeHeadersForKey( HEADER_EXPIRES );
 		response.setContentStream( stream, 32000, length );
 		return response;
+	}
+
+	/**
+	 * @return The filename escaped for the content-disposition header
+	 */
+	private static String escapeFilenameForDispositionHeader( String string ) {
+		string = string.replace( "–", "-" );
+		string = string.replace( "&", "-" );
+
+		return string;
 	}
 
 	/**
