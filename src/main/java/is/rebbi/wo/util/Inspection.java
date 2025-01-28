@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 import org.apache.cayenne.PersistentObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
@@ -20,6 +22,8 @@ import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import is.rebbi.wo.urls.USURLProvider;
 
 public class Inspection {
+
+	private static final Logger logger = LoggerFactory.getLogger( Inspection.class );
 
 	public static class InspectionRoute {
 
@@ -183,15 +187,20 @@ public class Inspection {
 	 * Takes an object of a supported type and returns an inspection page for it.
 	 */
 	public static WOActionResults inspectObjectInContextUsingComponent( Object object, WOContext context, Class<? extends HasSelectedObjectPage> componentClass ) {
-		return openObjectUsingWrapperAndComponent( object, componentClass, USViewWrapper.class );
+		return openObjectUsingWrapperAndComponent( object, context, componentClass, USViewWrapper.class );
 	}
 
 	public static WOActionResults editObjectInContextUsingComponent( Object object, WOContext context, Class<? extends HasSelectedObjectPage> componentClass ) {
-		return openObjectUsingWrapperAndComponent( object, componentClass, USEditWrapper.class );
+		return openObjectUsingWrapperAndComponent( object, context, componentClass, USEditWrapper.class );
 	}
 
-	private static WOActionResults openObjectUsingWrapperAndComponent( Object object, Class<? extends HasSelectedObjectPage> componentClass, Class<? extends USViewWrapper> wrapperClass ) {
-		WOContext context = ERXWOContext.currentContext();
+	private static WOActionResults openObjectUsingWrapperAndComponent( Object object, WOContext context, Class<? extends HasSelectedObjectPage> componentClass, Class<? extends USViewWrapper> wrapperClass ) {
+
+		if( context == null ) {
+			logger.error( "Received a null [context] parameter. Setting context to currentContext()" );
+			context = ERXWOContext.currentContext();
+		}
+
 		USViewWrapper nextPage = ERXApplication.erxApplication().pageWithName( wrapperClass, context );
 		nextPage.setDisplayComponentName( componentClass.getSimpleName() );
 		nextPage.setSelectedObject( object );
