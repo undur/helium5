@@ -2,7 +2,6 @@ package is.rebbi.wo.util;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.BiFunction;
 
 import org.apache.cayenne.PersistentObject;
@@ -218,13 +217,5 @@ public class Inspection {
 		}
 
 		return inspectObjectInContextUsingComponent( selectedObject, context, pageClass );
-	}
-
-	public static StaticURLResponse inspectObject( Object object, WOContext context ) {
-		Objects.requireNonNull( object );
-		Objects.requireNonNull( context );
-
-		final String url = USURLProvider.urlForObjectInContext( object, context );
-		return StaticURLResponse.of( url );
 	}
 }
