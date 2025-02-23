@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
 
+import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import is.rebbi.wo.util.USSettings;
 import jambalaya.interfaces.UUIDStamped;
 import jambalaya.interfaces.UniqueIDStamped;
@@ -17,18 +18,18 @@ public class USViewWrapper extends USViewPage {
 	/**
 	 * Name of the component currently being displayed.
 	 */
-	private String _displayComponentName;
+	private HasSelectedObjectPage _displayComponentInstance;
 
 	public USViewWrapper( WOContext context ) {
 		super( context );
 	}
 
-	public String displayComponentName() {
-		return _displayComponentName;
+	public HasSelectedObjectPage displayComponentInstance() {
+		return _displayComponentInstance;
 	}
 
-	public void setDisplayComponentName( String displayComponentName ) {
-		_displayComponentName = displayComponentName;
+	public void setDisplayComponentInstance( HasSelectedObjectPage displayComponentInstance ) {
+		_displayComponentInstance = displayComponentInstance;
 	}
 
 	public String viewToolsComponentName() {
@@ -53,7 +54,7 @@ public class USViewWrapper extends USViewPage {
 			}
 		}
 
-		logger.info( "displayComponentName : %s : %s".formatted( _displayComponentName, uniqueID ) );
+		logger.info( "displayComponentName : %s : %s".formatted( _displayComponentInstance.getClass().getName(), uniqueID ) );
 		super.appendToResponse( response, context );
 	}
 }

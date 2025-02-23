@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
+import com.webobjects.appserver.WOApplication;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.appserver.ERXApplication;
@@ -200,8 +201,12 @@ public class Inspection {
 			context = ERXWOContext.currentContext();
 		}
 
+		HasSelectedObjectPage displayComponent = (HasSelectedObjectPage)WOApplication.application()._componentDefinition( componentClass.getName(), context._languages() ).componentInstanceInContext( context );
+		displayComponent.setCallingComponent( context.page() );
+		displayComponent.setSelectedObject( object );
+
 		USViewWrapper nextPage = ERXApplication.erxApplication().pageWithName( wrapperClass, context );
-		nextPage.setDisplayComponentName( componentClass.getSimpleName() );
+		nextPage.setDisplayComponentInstance( displayComponent );
 		nextPage.setSelectedObject( object );
 		nextPage.setCallingComponent( context.page() );
 		return nextPage;
