@@ -1,4 +1,4 @@
-package is.rebbi.wo.routes;
+package is.rebbi.wo.objectroutes;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
+import is.rebbi.wo.routes.RouteTable;
+import is.rebbi.wo.routes.WrappedURL;
 import is.rebbi.wo.routes.RouteTable.RouteHandler;
 import is.rebbi.wo.urls.URLProviderDataObject;
 import is.rebbi.wo.util.Inspection;
