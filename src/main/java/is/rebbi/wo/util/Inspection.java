@@ -128,7 +128,6 @@ public class Inspection {
 			}
 
 			return null;
-			//			throw new IllegalArgumentException( "EntityName not found: " +  entityName );
 		}
 	}
 
