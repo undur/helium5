@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
+import com.webobjects.appserver.WOApplication;
+import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
 
-import er.extensions.appserver.ERXApplication;
-import er.extensions.components.ERXComponent;
 import is.rebbi.wo.util.USHTTPUtilities;
 
 /**
@@ -125,7 +125,7 @@ public class RouteTable {
 		map( pattern, routeHandler );
 	}
 
-	public void mapComponent( final String pattern, final Class<? extends ERXComponent> componentClass ) {
+	public void mapComponent( final String pattern, final Class<? extends WOComponent> componentClass ) {
 		final ComponentRouteHandler routeHandler = new ComponentRouteHandler( componentClass );
 		map( pattern, routeHandler );
 	}
@@ -177,15 +177,15 @@ public class RouteTable {
 	}
 
 	public static class ComponentRouteHandler extends RouteHandler {
-		private Class<? extends ERXComponent> _componentClass;
+		private Class<? extends WOComponent> _componentClass;
 
-		public ComponentRouteHandler( final Class<? extends ERXComponent> componentClass ) {
+		public ComponentRouteHandler( final Class<? extends WOComponent> componentClass ) {
 			_componentClass = componentClass;
 		}
 
 		@Override
 		public WOActionResults handle( WrappedURL url, WOContext context ) {
-			return ERXApplication.erxApplication().pageWithName( _componentClass, context );
+			return WOApplication.application().pageWithName( _componentClass.getName(), context );
 		}
 	}
 }
