@@ -49,10 +49,10 @@ public class RouteTable {
 		return _routes;
 	}
 
-	private RouteHandler handlerForURL( final WrappedURL url ) {
+	private RouteHandler handlerForURL( final String url ) {
 
 		for( final Route route : routes() ) {
-			if( matches( route.pattern, url.sourceURL() ) ) {
+			if( matches( route.pattern, url ) ) {
 				return route.routeHandler;
 			}
 		}
@@ -75,10 +75,10 @@ public class RouteTable {
 	 * Handle the given URL
 	 */
 	@Deprecated
-	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
+	private WOActionResults handle( final WrappedURL url, final WOContext context ) {
 		final WORequest request = context.request();
 		logger.info( "Handling URL: {};{};{}", url, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
-		RouteHandler routeHandler = handlerForURL( url );
+		RouteHandler routeHandler = handlerForURL( url.sourceURL() );
 
 		if( routeHandler == null ) {
 			logger.warn( "No RouteHandler found for URL: {}", url.toString() );
