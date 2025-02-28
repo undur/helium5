@@ -3,7 +3,6 @@ package is.rebbi.wo.urls;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.foundation.NSMutableDictionary;
 
-import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.routes.RouteAction;
 import is.rebbi.wo.util.USSettings;
@@ -32,14 +31,8 @@ public abstract class USURLProvider {
 	 * @return A direct connect version of the URL.
 	 */
 	public static String urlForDevelopment( String url, WOContext context ) {
-
-		if( context == null ) {
-			context = ERXWOContext.currentContext();
-		}
-
-		NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
-		d.setObjectForKey( url, "url" );
-		url = context.directActionURLForActionNamed( RouteAction.class.getSimpleName() + "/handler", d );
+		final NSMutableDictionary<String, Object> params = new NSMutableDictionary<>( url, "url" );
+		url = context.directActionURLForActionNamed( RouteAction.class.getSimpleName() + "/handler", params );
 		url = StringUtilities.replace( url, "&", "&amp;" );
 		return url;
 	}
