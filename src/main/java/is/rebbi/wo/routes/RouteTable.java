@@ -27,9 +27,9 @@ import is.rebbi.wo.util.USHTTPUtilities;
 
 public class RouteTable {
 
-	private static final NotFoundRouteHandler NOT_FOUND_ROUTE_HANDLER = new NotFoundRouteHandler();
-
 	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
+
+	private static final NotFoundRouteHandler NOT_FOUND_ROUTE_HANDLER = new NotFoundRouteHandler();
 
 	/**
 	 * A list of all routes mapped by this table
@@ -76,24 +76,16 @@ public class RouteTable {
 
 	public WOActionResults handle( final WORequest request ) {
 		final String routeURL = routeURLFromRequestParameters( request );
-		return handle( routeURL, request.context() );
-	}
 
-	/**
-	 * Handle the given URL
-	 */
-	@Deprecated
-	private WOActionResults handle( final String url, final WOContext context ) {
-		final WORequest request = context.request();
-		logger.info( "Handling URL: {};{};{}", url, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
-		RouteHandler routeHandler = handlerForURL( url );
+		logger.info( "Handling URL: {};{};{}", routeURL, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
+
+		RouteHandler routeHandler = handlerForURL( routeURL );
 
 		if( routeHandler == null ) {
-			logger.warn( "No RouteHandler found for URL: {}", url.toString() );
 			routeHandler = NOT_FOUND_ROUTE_HANDLER;
 		}
 
-		return routeHandler.handle( WrappedURL.create( url ), context );
+		return routeHandler.handle( WrappedURL.create( routeURL ), request.context() );
 	}
 
 	/**
@@ -114,10 +106,7 @@ public class RouteTable {
 	}
 
 	public void map( final String pattern, final RouteHandler routeHandler ) {
-		Route r = new Route();
-		r.pattern = pattern;
-		r.routeHandler = routeHandler;
-		_routes.add( r );
+		_routes.add( new Route( pattern, routeHandler ) );
 	}
 
 	public void map( final String pattern, final BiFunction<WrappedURL, WOContext, WOActionResults> biFunction ) {
@@ -133,18 +122,17 @@ public class RouteTable {
 	/**
 	 * Maps a URL pattern to a given RouteHandler
 	 */
-	public static class Route {
+	public record Route(
 
-		/**
-		 * The pattern this route uses
-		 */
-		public String pattern;
+			/**
+			 * The pattern this route uses
+			 */
+			String pattern,
 
-		/**
-		 * The routeHandler that will handle requests passed to this route
-		 */
-		public RouteHandler routeHandler;
-	}
+			/**
+			 * The routeHandler that will handle requests passed to this route
+			 */
+			RouteHandler routeHandler ) {}
 
 	public static abstract class RouteHandler {
 		public abstract WOActionResults handle( WrappedURL url, WOContext context );
