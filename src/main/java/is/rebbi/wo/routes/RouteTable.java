@@ -67,25 +67,43 @@ public class RouteTable {
 		return url.startsWith( pattern );
 	}
 
-	public WOActionResults handle( final String url, final WOContext context ) {
-		return handle( WrappedURL.create( url ), context );
+	public WOActionResults handle( final WORequest request ) {
+		final String routeURL = routeURLFromRequestParameters( request );
+		return handle( routeURL, request.context() );
 	}
 
 	/**
 	 * Handle the given URL
 	 */
 	@Deprecated
-	private WOActionResults handle( final WrappedURL url, final WOContext context ) {
+	private WOActionResults handle( final String url, final WOContext context ) {
 		final WORequest request = context.request();
 		logger.info( "Handling URL: {};{};{}", url, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
-		RouteHandler routeHandler = handlerForURL( url.sourceURL() );
+		RouteHandler routeHandler = handlerForURL( url );
 
 		if( routeHandler == null ) {
 			logger.warn( "No RouteHandler found for URL: {}", url.toString() );
 			routeHandler = NOT_FOUND_ROUTE_HANDLER;
 		}
 
-		return routeHandler.handle( url, context );
+		return routeHandler.handle( WrappedURL.create( url ), context );
+	}
+
+	/**
+	 * @return The requested URL
+	 *
+	 * Either
+	 *  - from the "URL"query parameter (usually used for development)
+	 *  - or from the redirect_url header provided by Apache's 404 handler
+	 */
+	private static String routeURLFromRequestParameters( final WORequest request ) {
+		String url = request.stringFormValueForKey( "url" );
+
+		if( url == null ) {
+			url = USHTTPUtilities.redirectURL( request );
+		}
+
+		return url;
 	}
 
 	public void map( final String pattern, final RouteHandler routeHandler ) {
