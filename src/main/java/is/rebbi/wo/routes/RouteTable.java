@@ -67,9 +67,14 @@ public class RouteTable {
 		return url.startsWith( pattern );
 	}
 
+	public WOActionResults handle( final String url, final WOContext context ) {
+		return handle( WrappedURL.create( url ), context );
+	}
+
 	/**
 	 * Handle the given URL
 	 */
+	@Deprecated
 	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
 		final WORequest request = context.request();
 		logger.info( "Handling URL: {};{};{}", url, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
