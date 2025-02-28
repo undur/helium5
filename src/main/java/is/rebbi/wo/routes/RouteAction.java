@@ -23,6 +23,13 @@ public class RouteAction extends ERXDirectAction {
 	 * @return The result of invoking the route mathing the provided URL.
 	 */
 	public WOActionResults handlerAction() {
+		System.out.println( "==== CONTEXT A" );
+		System.out.println( context() );
+		System.out.println( "==== CONTEXT B" );
+		System.out.println( request().context() );
+		System.out.println( "=========" );
+		System.out.println();
+		System.out.println();
 		return RouteTable.defaultRouteTable().handle( url(), context() );
 	}
 
