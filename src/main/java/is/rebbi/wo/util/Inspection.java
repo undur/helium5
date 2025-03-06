@@ -208,22 +208,10 @@ public class Inspection {
 	}
 
 	public static WOActionResults editObjectInContextUsingGenericComponent( Object selectedObject, WOContext context ) {
-		Class<? extends HasSelectedObjectPage> pageClass = null;
-
-		if( selectedObject instanceof PersistentObject ) {
-			pageClass = USEditPageGeneric.class;
-		}
-
-		return editObjectInContextUsingComponent( selectedObject, context, pageClass );
+		return editObjectInContextUsingComponent( selectedObject, context, USEditPageGeneric.class );
 	}
 
 	public static WOActionResults inspectObjectInContextUsingGenericComponent( Object selectedObject, WOContext context ) {
-		Class<? extends HasSelectedObjectPage> pageClass = null;
-
-		if( selectedObject instanceof PersistentObject ) {
-			pageClass = USViewPageGeneric.class;
-		}
-
-		return inspectObjectInContextUsingComponent( selectedObject, context, pageClass );
+		return inspectObjectInContextUsingComponent( selectedObject, context, USViewPageGeneric.class );
 	}
 }
