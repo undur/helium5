@@ -15,7 +15,7 @@
 		<wonder.ajax.group>wonder.ajax</wonder.ajax.group>
 		<wonder.version>8.0.0.slim-SNAPSHOT</wonder.version>
 
-		<cayenne.version>5.0-SNAPSHOT</cayenne.version>
+		<cayenne.version>5.0-M1</cayenne.version>
 
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -195,7 +195,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.11.3</version>
+			<version>5.12.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

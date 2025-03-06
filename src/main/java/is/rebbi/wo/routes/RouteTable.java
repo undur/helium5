@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
+import com.webobjects.appserver.WOApplication;
+import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
 
-import er.extensions.appserver.ERXApplication;
-import er.extensions.components.ERXComponent;
 import is.rebbi.wo.util.USHTTPUtilities;
 
 /**
@@ -27,9 +27,9 @@ import is.rebbi.wo.util.USHTTPUtilities;
 
 public class RouteTable {
 
-	private static final NotFoundRouteHandler NOT_FOUND_ROUTE_HANDLER = new NotFoundRouteHandler();
-
 	private static final Logger logger = LoggerFactory.getLogger( RouteTable.class );
+
+	private static final NotFoundRouteHandler NOT_FOUND_ROUTE_HANDLER = new NotFoundRouteHandler();
 
 	/**
 	 * A list of all routes mapped by this table
@@ -49,10 +49,10 @@ public class RouteTable {
 		return _routes;
 	}
 
-	private RouteHandler handlerForURL( final WrappedURL url ) {
+	private RouteHandler handlerForURL( final String url ) {
 
 		for( final Route route : routes() ) {
-			if( matches( route.pattern, url.sourceURL() ) ) {
+			if( matches( route.pattern, url ) ) {
 				return route.routeHandler;
 			}
 		}
@@ -61,33 +61,52 @@ public class RouteTable {
 	}
 
 	/**
-	 * Check if the given handler matches the given URL
+	 * Check if the given handler matches the given URL.
+	 *
+	 * FIXME: We're currently only checking if the pattern starts with the given pattern. We want some real pattern matching here // Hugi 2021-12-30
 	 */
 	private static boolean matches( final String pattern, final String url ) {
-		return url.startsWith( pattern );
+		if( pattern.endsWith( "*" ) ) {
+			final String patternWithoutWildcard = pattern.substring( 0, pattern.length() - 1 );
+			return url.startsWith( patternWithoutWildcard );
+		}
+
+		return pattern.equals( url );
 	}
 
-	/**
-	 * Handle the given URL
-	 */
-	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
-		final WORequest request = context.request();
-		logger.info( "Handling URL: {};{};{}", url, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
-		RouteHandler routeHandler = handlerForURL( url );
+	public WOActionResults handle( final WORequest request ) {
+		final String routeURL = routeURLFromRequestParameters( request );
+
+		logger.info( "Handling URL: {};{};{}", routeURL, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
+
+		RouteHandler routeHandler = handlerForURL( routeURL );
 
 		if( routeHandler == null ) {
-			logger.warn( "No RouteHandler found for URL: {}", url.toString() );
 			routeHandler = NOT_FOUND_ROUTE_HANDLER;
 		}
 
-		return routeHandler.handle( url, context );
+		return routeHandler.handle( WrappedURL.create( routeURL ), request.context() );
+	}
+
+	/**
+	 * @return The requested URL
+	 *
+	 * Either
+	 *  - from the "URL"query parameter (usually used for development)
+	 *  - or from the redirect_url header provided by Apache's 404 handler
+	 */
+	private static String routeURLFromRequestParameters( final WORequest request ) {
+		String url = request.stringFormValueForKey( "url" );
+
+		if( url == null ) {
+			url = USHTTPUtilities.redirectURL( request );
+		}
+
+		return url;
 	}
 
 	public void map( final String pattern, final RouteHandler routeHandler ) {
-		Route r = new Route();
-		r.pattern = pattern;
-		r.routeHandler = routeHandler;
-		_routes.add( r );
+		_routes.add( new Route( pattern, routeHandler ) );
 	}
 
 	public void map( final String pattern, final BiFunction<WrappedURL, WOContext, WOActionResults> biFunction ) {
@@ -95,7 +114,7 @@ public class RouteTable {
 		map( pattern, routeHandler );
 	}
 
-	public void mapComponent( final String pattern, final Class<? extends ERXComponent> componentClass ) {
+	public void mapComponent( final String pattern, final Class<? extends WOComponent> componentClass ) {
 		final ComponentRouteHandler routeHandler = new ComponentRouteHandler( componentClass );
 		map( pattern, routeHandler );
 	}
@@ -103,18 +122,17 @@ public class RouteTable {
 	/**
 	 * Maps a URL pattern to a given RouteHandler
 	 */
-	public static class Route {
+	public record Route(
 
-		/**
-		 * The pattern this route uses
-		 */
-		public String pattern;
+			/**
+			 * The pattern this route uses
+			 */
+			String pattern,
 
-		/**
-		 * The routeHandler that will handle requests passed to this route
-		 */
-		public RouteHandler routeHandler;
-	}
+			/**
+			 * The routeHandler that will handle requests passed to this route
+			 */
+			RouteHandler routeHandler ) {}
 
 	public static abstract class RouteHandler {
 		public abstract WOActionResults handle( WrappedURL url, WOContext context );
@@ -147,15 +165,15 @@ public class RouteTable {
 	}
 
 	public static class ComponentRouteHandler extends RouteHandler {
-		private Class<? extends ERXComponent> _componentClass;
+		private Class<? extends WOComponent> _componentClass;
 
-		public ComponentRouteHandler( final Class<? extends ERXComponent> componentClass ) {
+		public ComponentRouteHandler( final Class<? extends WOComponent> componentClass ) {
 			_componentClass = componentClass;
 		}
 
 		@Override
 		public WOActionResults handle( WrappedURL url, WOContext context ) {
-			return ERXApplication.erxApplication().pageWithName( _componentClass, context );
+			return WOApplication.application().pageWithName( _componentClass.getName(), context );
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package x;
+package x.slowregion;
 
 import com.webobjects.appserver.WOAssociation;
 import com.webobjects.appserver.WOContext;

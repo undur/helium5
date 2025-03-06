@@ -1,11 +1,8 @@
 package is.rebbi.wo.urls;
 
 import com.webobjects.appserver.WOContext;
-import com.webobjects.foundation.NSMutableDictionary;
 
-import er.extensions.appserver.ERXWOContext;
-import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.routes.RouteAction;
+import is.rebbi.wo.routes.Routes;
 import is.rebbi.wo.util.USSettings;
 
 /**
@@ -22,25 +19,9 @@ public abstract class USURLProvider {
 		String url = URLProviders.urlForObject( object );
 
 		if( !USSettings.generateFriendlyURLs() ) {
-			url = urlForDevelopment( url, context );
+			url = Routes.urlForDevelopment( url, context );
 		}
 
-		return url;
-	}
-
-	/**
-	 * @return A direct connect version of the URL.
-	 */
-	public static String urlForDevelopment( String url, WOContext context ) {
-
-		if( context == null ) {
-			context = ERXWOContext.currentContext();
-		}
-
-		NSMutableDictionary<String, Object> d = new NSMutableDictionary<>();
-		d.setObjectForKey( url, "url" );
-		url = context.directActionURLForActionNamed( RouteAction.class.getSimpleName() + "/handler", d );
-		url = StringUtilities.replace( url, "&", "&amp;" );
 		return url;
 	}
 }
