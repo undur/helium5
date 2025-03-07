@@ -30,6 +30,7 @@ public class Inspection {
 		private static final Map<Class, InspectionRoute> _inspectionRoutes = new HashMap<>();
 
 		public static final Map<Class, InspectionRoute> inspectionRoutes() {
+			System.out.println( _inspectionRoutes );
 			return _inspectionRoutes;
 		}
 
