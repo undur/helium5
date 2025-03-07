@@ -30,7 +30,6 @@ public class Inspection {
 		private static final Map<Class, InspectionRoute> _inspectionRoutes = new HashMap<>();
 
 		public static final Map<Class, InspectionRoute> inspectionRoutes() {
-			System.out.println( _inspectionRoutes );
 			return _inspectionRoutes;
 		}
 
@@ -136,8 +135,6 @@ public class Inspection {
 	 * @return The given object opened in the default view page.
 	 */
 	public static WOActionResults inspectObjectInContext( Object object, WOContext context ) {
-		logger.info( "Obtaining inspection route for object of class: " + object.getClass() );
-
 		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
 
 		if( ir._viewFunction != null ) {
