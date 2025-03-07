@@ -22,11 +22,6 @@ public class USMenu {
 	}
 
 	@Deprecated
-	public static USMenu defaultMenu() {
-		return Primary.heliumMenu();
-	}
-
-	@Deprecated
 	public void addDatabaseMenuItem() {
 		addChild( Primary.databaseMenuItem() );
 	}
