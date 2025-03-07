@@ -3,8 +3,6 @@ package is.rebbi.wo.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import is.rebbi.wo.Primary;
-
 public class USMenu {
 
 	/**
@@ -19,15 +17,5 @@ public class USMenu {
 	public USMenuItem addChild( final USMenuItem item ) {
 		rootItems().add( item );
 		return item;
-	}
-
-	@Deprecated
-	public void addDatabaseMenuItem() {
-		addChild( Primary.databaseMenuItem() );
-	}
-
-	@Deprecated
-	public void addSystemMenuItem() {
-		addChild( Primary.systemMenuItem() );
 	}
 }
