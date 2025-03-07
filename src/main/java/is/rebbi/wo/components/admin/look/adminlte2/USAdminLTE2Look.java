@@ -26,7 +26,7 @@ public class USAdminLTE2Look extends USViewPage {
 	}
 
 	public USMenu menu() {
-		return USMenu.defaultMenu();
+		return Primary.heliumMenu();
 	}
 
 	public String siteName() {
