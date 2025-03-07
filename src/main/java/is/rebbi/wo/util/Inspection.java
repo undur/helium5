@@ -135,6 +135,8 @@ public class Inspection {
 	 * @return The given object opened in the default view page.
 	 */
 	public static WOActionResults inspectObjectInContext( Object object, WOContext context ) {
+		logger.info( "Obtaining inspection route for object of class: " + object.getClass() );
+
 		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
 
 		if( ir._viewFunction != null ) {
