@@ -113,7 +113,7 @@ public class USLocalDateField extends USBaseComponent {
 				}
 				// Date is on the form 031220
 				if( dateString.length() == 8 ) {
-					dateString = dateString.substring( 0, 4 ) + (Integer.parseInt( dateString.substring( 4, 6 ) ));
+					dateString = dateString.substring( 0, 4 ) + (Integer.parseInt( dateString.substring( 4, 8 ) ));
 				}
 
 				// Finally parse date using form 03122020
