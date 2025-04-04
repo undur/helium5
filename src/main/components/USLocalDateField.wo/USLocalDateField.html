@@ -1,9 +1,27 @@
-<wo:textfield value="$stringValue" class="$^class" style="$^style" id="$uniqueID" disabled="$^disabled" data-date-format="mm/dd/yy" placeholder="dd.mm.yyyy" />
+<wo:textfield value="$stringValue" id="$uniqueID" class="form-control" placeholder="dd.mm.yyyy" class="$^class" style="$^style" disabled="$^disabled" />
 
-<script type="text/javascript">
-	jQuery.datepicker.setDefaults(jQuery.datepicker.regional["is"]);
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		var el = document.getElementById("<wo:str value="$uniqueID" />");
 
-	jQuery(document).ready(function() {
-		jQuery('#<wo:str value="$uniqueID" />').datepicker({ dateFormat: "dd.mm.yy" });
-	});
+		window.Litepicker &&
+		new Litepicker({
+			element: el,
+        buttonText: {
+          previousMonth: `<!-- Download SVG icon from http://tabler.io/icons/icon/chevron-left -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M15 6l-6 6l6 6" /></svg>`,
+          nextMonth: `<!-- Download SVG icon from http://tabler.io/icons/icon/chevron-right -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1"><path d="M9 6l6 6l-6 6" /></svg>`,
+        },
+        format: 'DD.MM.YYYY',
+        autoRefresh: true,
+        setup: (picker) => {
+      el.addEventListener('keydown', (evt) => {
+        if (evt.code === 'Tab' || evt.code === 'Enter') {
+          picker.hide();
+        }
+      })
+    }
+      });
+  });
 </script>

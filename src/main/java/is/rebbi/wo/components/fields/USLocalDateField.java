@@ -34,9 +34,10 @@ public class USLocalDateField extends USBaseComponent {
 	@Override
 	public void appendToResponse( WOResponse r, WOContext c ) {
 		super.appendToResponse( r, c );
-		ERXResponseRewriter.addStylesheetResourceInHead( r, context(), Primary.frameworkBundleName(), "smoothness/jquery-ui-1.8.22.custom.css" );
-		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "jquery-ui-1.8.22.custom.min.js" );
-		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "jquery.ui.datepicker-is.js" );
+		//		ERXResponseRewriter.addStylesheetResourceInHead( r, context(), Primary.frameworkBundleName(), "smoothness/jquery-ui-1.8.22.custom.css" );
+		//		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "jquery-ui-1.8.22.custom.min.js" );
+		//		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "jquery.ui.datepicker-is.js" );
+		ERXResponseRewriter.addScriptResourceInHead( r, context(), Primary.frameworkBundleName(), "tabler/vendor/litepicker.js" );
 	}
 
 	public String stringValue() {
