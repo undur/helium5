@@ -96,7 +96,6 @@ public class USLocalDateField extends USBaseComponent {
 				// Date is on the form 03.12.20
 				if( splitString.length == 3 && splitString[2].length() == 2 ) {
 					dateString = splitString[0] + "." + splitString[1] + "." + (Integer.parseInt( splitString[2] ) + 2000);
-					System.out.println( "dateString: " + dateString );
 				}
 
 				// Finally parse date using form 03.12.2020
