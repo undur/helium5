@@ -2,11 +2,14 @@ package is.rebbi.wo.components.fields;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WOResponse;
+import com.webobjects.foundation.NSValidation;
 
 import er.extensions.appserver.ERXResponseRewriter;
+import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.Primary;
 import is.rebbi.wo.components.USBaseComponent;
 
@@ -52,14 +55,20 @@ public class USLocalDateField extends USBaseComponent {
 		return StringDateParser.format( value );
 	}
 
-	public void setStringValue( String value ) {
+	public void setStringValue( final String value ) {
 
 		if( hasBinding( "stringValue" ) ) {
 			setValueForBinding( value, "stringValue" );
 		}
 		else {
-			final LocalDate localDate = StringDateParser.parse( value );
-			setValueForBinding( localDate, "value" );
+			// FIXME: I don't like this validation mechanism // Hugi 2025-04-07
+			try {
+				final LocalDate localDate = StringDateParser.parse( value );
+				setValueForBinding( localDate, "value" );
+			}
+			catch( DateTimeParseException e ) {
+				throw new NSValidation.ValidationException( "Snið dagsetningar '%s' er ekki rétt".formatted( value ) );
+			}
 		}
 	}
 
@@ -101,7 +110,7 @@ public class USLocalDateField extends USBaseComponent {
 				// Finally parse date using form 03.12.2020
 				parsed = LocalDate.parse( dateString, DATE_TIME_FORMATTER_WITHOUT_TIME );
 			}
-			else {
+			else if( StringUtilities.isDigitsOnly( dateString ) ) {
 				// Date is on the form 0312
 				if( dateString.length() == 4 ) {
 					dateString = dateString + LocalDate.now().getYear();
