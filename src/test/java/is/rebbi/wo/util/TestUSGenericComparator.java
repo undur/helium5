@@ -66,7 +66,7 @@ public class TestUSGenericComparator {
 	public void sortSome() {
 		List<Person> unsorted = Arrays.asList( new Person( "Þórarinn" ), new Person( "Aðalsteinn" ), new Person( "Ýsleyfur" ), new Person( "Jónas" ), new Person( "Gunnar" ) );
 		List<Person> expectedSorted = Arrays.asList( new Person( "Aðalsteinn" ), new Person( "Gunnar" ), new Person( "Jónas" ), new Person( "Ýsleyfur" ), new Person( "Þórarinn" ) );
-		Collections.sort( unsorted, new USGenericComparator( "icelandicName", true, true ) );
+		Collections.sort( unsorted, USGenericComparator.of( "icelandicName" ) );
 		assertEquals( expectedSorted, unsorted );
 	}
 }
