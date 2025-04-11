@@ -22,7 +22,6 @@ import is.rebbi.wo.menu.USMenuItemContainer;
 import is.rebbi.wo.menu.USMenuItemEntity;
 import is.rebbi.wo.menu.USMenuItemPage;
 import is.rebbi.wo.util.SessionManager;
-import is.rebbi.wo.util.SoftUser;
 import jambalaya.definitions.EntityDefinition;
 
 public class Primary {
@@ -34,7 +33,6 @@ public class Primary {
 	static {
 		System.out.println( "==== Initializing Helium ====" );
 		logger.info( "Initializing Helium" );
-		SoftUser.Manager.register();
 		SessionManager.register();
 	}
 
