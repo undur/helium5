@@ -36,19 +36,28 @@ public class USKVCComparator<T> implements Comparator<T> {
 	@Override
 	public int compare( final T object1, final T object2 ) {
 
-		final Object value1 = NSKeyValueCodingAdditions.Utility.valueForKeyPath( object1, _keyPath );
-		final Object value2 = NSKeyValueCodingAdditions.Utility.valueForKeyPath( object2, _keyPath );
+		final Object value1 = object1 == null ? null : NSKeyValueCodingAdditions.Utility.valueForKeyPath( object1, _keyPath );
+		final Object value2 = object2 == null ? null : NSKeyValueCodingAdditions.Utility.valueForKeyPath( object2, _keyPath );
 
 		if( value1 == value2 ) {
 			return 0;
+		}
+
+		// Start by handling null values
+		if( value1 == null && value2 != null ) {
+			return -1;
+		}
+
+		if( value1 != null && value2 == null ) {
+			return 1;
 		}
 
 		if( value1 instanceof Comparable comparableValue1 && !(value1 instanceof String) ) {
 			return comparableValue1.compareTo( value2 );
 		}
 
-		final String string1 = value1 == null ? "" : value1.toString();
-		final String string2 = value2 == null ? "" : value2.toString();
+		final String string1 = value1.toString();
+		final String string2 = value2.toString();
 		return _wrappedComparator.compare( string1, string2 );
 	}
 }

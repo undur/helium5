@@ -10,63 +10,42 @@ import org.junit.jupiter.api.Test;
 
 public class TestUSKVCComparator {
 
-	public class Person {
-		public String _icelandicName;
-
-		public Person( String icelandicName ) {
-			_icelandicName = icelandicName;
-		}
-
-		@Override
-		public String toString() {
-			return "Person [_icelandicName=" + _icelandicName + "]";
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result + ((_icelandicName == null) ? 0 : _icelandicName.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals( Object obj ) {
-			if( this == obj ) {
-				return true;
-			}
-			if( obj == null ) {
-				return false;
-			}
-			if( getClass() != obj.getClass() ) {
-				return false;
-			}
-			Person other = (Person)obj;
-			if( !getOuterType().equals( other.getOuterType() ) ) {
-				return false;
-			}
-			if( _icelandicName == null ) {
-				if( other._icelandicName != null ) {
-					return false;
-				}
-			}
-			else if( !_icelandicName.equals( other._icelandicName ) ) {
-				return false;
-			}
-			return true;
-		}
-
-		private TestUSKVCComparator getOuterType() {
-			return TestUSKVCComparator.this;
-		}
-	}
+	public record Person( String name ) {}
 
 	@Test
 	public void sortSome() {
-		List<Person> unsorted = Arrays.asList( new Person( "Þórarinn" ), new Person( "Aðalsteinn" ), new Person( "Ýsleyfur" ), new Person( "Jónas" ), new Person( "Gunnar" ) );
-		List<Person> expectedSorted = Arrays.asList( new Person( "Aðalsteinn" ), new Person( "Gunnar" ), new Person( "Jónas" ), new Person( "Ýsleyfur" ), new Person( "Þórarinn" ) );
-		Collections.sort( unsorted, USKVCComparator.of( "icelandicName" ) );
+		final List<Person> unsorted = Arrays.asList(
+				new Person( "Þórarinn" ),
+				new Person( "ásgeir" ),
+				new Person( null ),
+				new Person( "Aðalsteinn" ),
+				new Person( null ),
+				new Person( "þjóðólfur" ),
+				new Person( "Ýsleyfur" ),
+				null,
+				new Person( "þari" ),
+				null,
+				new Person( "Jónas" ),
+				null,
+				new Person( "Gunnar" ) );
+
+		List<Person> expectedSorted = Arrays.asList(
+				new Person( null ),
+				new Person( null ),
+				null,
+				null,
+				null,
+				new Person( "Aðalsteinn" ),
+				new Person( "ásgeir" ),
+				new Person( "Gunnar" ),
+				new Person( "Jónas" ),
+				new Person( "Ýsleyfur" ),
+				new Person( "þari" ),
+				new Person( "þjóðólfur" ),
+				new Person( "Þórarinn" ) );
+
+		Collections.sort( unsorted, USKVCComparator.of( "name" ) );
+
 		assertEquals( expectedSorted, unsorted );
 	}
 }
