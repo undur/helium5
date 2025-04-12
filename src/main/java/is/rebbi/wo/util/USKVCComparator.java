@@ -1,11 +1,7 @@
 package is.rebbi.wo.util;
 
 import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Locale;
 
 import com.webobjects.foundation.NSKeyValueCodingAdditions;
@@ -25,6 +21,7 @@ public class USKVCComparator<T> implements Comparator<T> {
 	public static USKVCComparator of( final String keyPath ) {
 
 		// CHECKME: We shouldn't really be defaulting to Icelandic. Collation isn't really the responsibility of this class
+		// CHECKME: Are collations thread safe? IF so, we wouldn't need to construct an instance each time here
 		final Collator defaultCollator = Collator.getInstance( Locale.of( "is", "IS" ) );
 		defaultCollator.setStrength( Collator.SECONDARY );
 
@@ -34,18 +31,6 @@ public class USKVCComparator<T> implements Comparator<T> {
 	private USKVCComparator( final String keyPath, final Comparator comparator ) {
 		_wrappedComparator = comparator;
 		_keyPath = keyPath;
-	}
-
-	@Deprecated
-	public void sort( final List<T> list ) {
-		Collections.sort( list, this );
-	}
-
-	@Deprecated
-	public List<T> sorted( final Collection<T> collection ) {
-		final List<T> list = new ArrayList<>( collection );
-		sort( list );
-		return list;
 	}
 
 	@Override
@@ -62,8 +47,8 @@ public class USKVCComparator<T> implements Comparator<T> {
 			return comparableValue1.compareTo( value2 );
 		}
 
-		String string1 = value1 != null ? value1.toString() : "";
-		String string2 = value2 != null ? value2.toString() : "";
+		final String string1 = value1 == null ? "" : value1.toString();
+		final String string2 = value2 == null ? "" : value2.toString();
 		return _wrappedComparator.compare( string1, string2 );
 	}
 }
