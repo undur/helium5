@@ -30,11 +30,11 @@ public class TestUSKVCComparator {
 				new Person( "Gunnar" ) );
 
 		List<Person> expectedSorted = Arrays.asList(
+				null,
+				null,
+				null,
 				new Person( null ),
 				new Person( null ),
-				null,
-				null,
-				null,
 				new Person( "Aðalsteinn" ),
 				new Person( "ásgeir" ),
 				new Person( "Gunnar" ),

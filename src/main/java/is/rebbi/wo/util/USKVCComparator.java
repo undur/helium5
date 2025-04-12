@@ -36,6 +36,21 @@ public class USKVCComparator<T> implements Comparator<T> {
 	@Override
 	public int compare( final T object1, final T object2 ) {
 
+		// Same objects don't need any handling, they're equal
+		if( object1 == object2 ) {
+			return 0;
+		}
+
+		// Null objects go to the front
+		if( object1 == null && object2 != null ) {
+			return -1;
+		}
+
+		if( object1 != null && object2 == null ) {
+			return 1;
+		}
+		// End null object handling
+
 		final Object value1 = object1 == null ? null : NSKeyValueCodingAdditions.Utility.valueForKeyPath( object1, _keyPath );
 		final Object value2 = object2 == null ? null : NSKeyValueCodingAdditions.Utility.valueForKeyPath( object2, _keyPath );
 
@@ -43,7 +58,7 @@ public class USKVCComparator<T> implements Comparator<T> {
 			return 0;
 		}
 
-		// Start by handling null values
+		// Null values go to the front
 		if( value1 == null && value2 != null ) {
 			return -1;
 		}
@@ -51,6 +66,7 @@ public class USKVCComparator<T> implements Comparator<T> {
 		if( value1 != null && value2 == null ) {
 			return 1;
 		}
+		// End null value handling
 
 		if( value1 instanceof Comparable comparableValue1 && !(value1 instanceof String) ) {
 			return comparableValue1.compareTo( value2 );
