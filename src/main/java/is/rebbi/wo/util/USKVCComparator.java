@@ -14,7 +14,7 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
  * Comparator for comparing/sorting objects based on a keypath.
  */
 
-public class USGenericComparator<T> implements Comparator<T> {
+public class USKVCComparator<T> implements Comparator<T> {
 
 	private final Comparator _wrappedComparator;
 	private final String _keyPath;
@@ -22,16 +22,16 @@ public class USGenericComparator<T> implements Comparator<T> {
 	/**
 	 * Creates a case insensitive comparator
 	 */
-	public static USGenericComparator of( final String keyPath ) {
+	public static USKVCComparator of( final String keyPath ) {
 
 		// CHECKME: We shouldn't really be defaulting to Icelandic. Collation isn't really the responsibility of this class
 		final Collator defaultCollator = Collator.getInstance( Locale.of( "is", "IS" ) );
 		defaultCollator.setStrength( Collator.SECONDARY );
 
-		return new USGenericComparator( keyPath, defaultCollator );
+		return new USKVCComparator( keyPath, defaultCollator );
 	}
 
-	private USGenericComparator( final String keyPath, final Comparator comparator ) {
+	private USKVCComparator( final String keyPath, final Comparator comparator ) {
 		_wrappedComparator = comparator;
 		_keyPath = keyPath;
 	}

@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-public class TestUSGenericComparator {
+public class TestUSKVCComparator {
 
 	public class Person {
 		public String _icelandicName;
@@ -57,8 +57,8 @@ public class TestUSGenericComparator {
 			return true;
 		}
 
-		private TestUSGenericComparator getOuterType() {
-			return TestUSGenericComparator.this;
+		private TestUSKVCComparator getOuterType() {
+			return TestUSKVCComparator.this;
 		}
 	}
 
@@ -66,7 +66,7 @@ public class TestUSGenericComparator {
 	public void sortSome() {
 		List<Person> unsorted = Arrays.asList( new Person( "Þórarinn" ), new Person( "Aðalsteinn" ), new Person( "Ýsleyfur" ), new Person( "Jónas" ), new Person( "Gunnar" ) );
 		List<Person> expectedSorted = Arrays.asList( new Person( "Aðalsteinn" ), new Person( "Gunnar" ), new Person( "Jónas" ), new Person( "Ýsleyfur" ), new Person( "Þórarinn" ) );
-		Collections.sort( unsorted, USGenericComparator.of( "icelandicName" ) );
+		Collections.sort( unsorted, USKVCComparator.of( "icelandicName" ) );
 		assertEquals( expectedSorted, unsorted );
 	}
 }
