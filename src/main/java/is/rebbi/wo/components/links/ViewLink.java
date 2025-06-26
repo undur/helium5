@@ -35,7 +35,7 @@ public class ViewLink extends ERXStatelessComponent {
 	}
 
 	private boolean isNewPersistentObject() {
-		return object() instanceof Persistent && ((Persistent)object()).getObjectId().isTemporary();
+		return object() instanceof Persistent p && p.getObjectId().isTemporary();
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class ViewLink extends ERXStatelessComponent {
 	}
 
 	/**
-	 * FIXME: wat? 
+	 * FIXME: wat?
 	 */
 	public boolean showPlaceholder() {
 		if( disabled() && valueForBinding( "class" ) != null ) {
