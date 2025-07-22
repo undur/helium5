@@ -1,5 +1,9 @@
 package is.rebbi.wo.components.admin;
 
+import java.lang.management.ManagementFactory;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -117,4 +121,10 @@ public class USSystemInfoPage extends ERXComponent {
 	private static List<String> ppp( String systemProperty ) {
 		return pp( ERXProperties.stringForKey( systemProperty ) );
 	}
+
+	public LocalDateTime startupTime() {
+		long jvmStartTime = ManagementFactory.getRuntimeMXBean().getStartTime();
+		return LocalDateTime.ofInstant( Instant.ofEpochMilli( jvmStartTime ), ZoneId.systemDefault() );
+	}
+
 }

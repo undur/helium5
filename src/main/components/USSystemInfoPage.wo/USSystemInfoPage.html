@@ -1,7 +1,18 @@
 <wo:USEditLook>
 	<div class="row">
 		<div class="col">
-			<div class="card">
+			<div class="card mb-3">
+				<div class="card-header">
+					<h3 class="card-title">Info</h3>
+				</div>
+				<table class="table table-sm card-table">
+					<tr>
+						<td>JVM startup time</td>
+						<td style="word-wrap: break-word"><wo:str value="$startupTime" /></td>
+					</tr>
+				</table>
+			</div>
+			<div class="card mb-3">
 				<div class="card-header">
 					<h3 class="card-title">Properties</h3>
 				</div>
@@ -11,10 +22,10 @@
 						<th>Value</th>
 					</tr>
 					<wo:repetition list="$propertyKeys" item="$currentPropertyKey">
-					<tr>
-						<td><wo:str value="$currentPropertyKey" /></td>
-						<td style="word-wrap: break-word"><wo:str value="$currentPropertyValue" /></td>
-					</tr>
+						<tr>
+							<td><wo:str value="$currentPropertyKey" /></td>
+							<td style="word-wrap: break-word"><wo:str value="$currentPropertyValue" /></td>
+						</tr>
 					</wo:repetition>
 				</table>
 			</div>
