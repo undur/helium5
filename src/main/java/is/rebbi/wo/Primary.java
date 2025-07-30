@@ -12,6 +12,7 @@ import org.apache.cayenne.exp.ExpressionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import is.rebbi.wo.components.admin.USExceptionManagementPage;
 import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
 import is.rebbi.wo.components.admin.USSystemInfoPage;
 import is.rebbi.wo.components.admin.USTaskRunnerPage;
@@ -58,6 +59,7 @@ public class Primary {
 		mi.addChild( USMenuItemPage.create( "Tasks", null, USTaskRunnerPage.class ) );
 		mi.addChild( USMenuItemPage.create( "View definitions", null, USViewDefinitionOverviewPage.class ) );
 		mi.addChild( USMenuItemPage.create( "Environment", null, USSystemInfoPage.class ) );
+		mi.addChild( USMenuItemPage.create( "Exceptions", null, USExceptionManagementPage.class ) );
 		mi.addChild( USMenuItemPage.create( "Logging", null, USLoggingConfigurationPage.class ) );
 		return mi;
 	}
