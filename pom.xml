@@ -32,113 +32,14 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M5</version>
 				<configuration>
 					<argLine>
 		    			--add-exports java.base/sun.security.action=ALL-UNNAMED
 					</argLine>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.0</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.wagon</groupId>
-						<artifactId>wagon-ssh</artifactId>
-						<version>3.5.3</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.7</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.wagon</groupId>
-						<artifactId>wagon-ssh</artifactId>
-						<version>3.5.3</version>
-					</dependency>
-				</dependencies>
-			</plugin>
 		</plugins>
 	</build>
-
-	<distributionManagement>
-		<site>
-			<id>rebbi</id>
-			<name>Rebbi</name>
-			<url>scp://root@maven.rebbi.is/rebbi/is.rebbi.maven/html</url>
-		</site>
-		<repository>
-			<id>rebbi</id>
-			<name>Rebbi</name>
-			<url>scp://root@maven.rebbi.is/rebbi/is.rebbi.maven/html</url>
-		</repository>
-	</distributionManagement>
-
-	<repositories>
-		<repository>
-			<id>rebbi</id>
-			<name>Rebbi</name>
-			<url>https://maven.rebbi.is</url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>wocommunity.releases</id>
-			<name>WOCommunity Releases Repository</name>
-			<url>https://maven.wocommunity.org/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>wocommunity.snapshots</id>
-			<name>WOCommunity Snapshots Repository</name>
-			<url>https://maven.wocommunity.org/content/groups/public-snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>wocommunity.releases</id>
-			<name>WOCommunity Releases Repository</name>
-			<url>https://maven.wocommunity.org/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>wocommunity.snapshots</id>
-			<name>WOCommunity Snapshots Repository</name>
-			<url>https://maven.wocommunity.org/content/groups/public-snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<dependencies>
 		<dependency>
