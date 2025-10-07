@@ -12,8 +12,8 @@ import com.webobjects.foundation.NSNotification;
 import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
 
-import er.extensions.appserver.ERXBrowser;
 import er.extensions.appserver.ERXSession;
+import er.extensions.browser.ERXBrowser;
 
 /**
  * Mark last activity of the session.
