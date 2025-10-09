@@ -2,7 +2,7 @@ package is.rebbi.wo.urls;
 
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.routes.Routes;
+import is.rebbi.wo.routes.RouteTable;
 import is.rebbi.wo.util.USSettings;
 
 /**
@@ -19,7 +19,7 @@ public abstract class USURLProvider {
 		String url = URLProviders.urlForObject( object );
 
 		if( !USSettings.generateFriendlyURLs() ) {
-			url = Routes.urlForDevelopment( url, context );
+			url = RouteTable.urlForDevelopment( url, context );
 		}
 
 		return url;

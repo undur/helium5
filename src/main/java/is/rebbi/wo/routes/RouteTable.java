@@ -13,6 +13,7 @@ import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
+import com.webobjects.foundation.NSMutableDictionary;
 
 import is.rebbi.wo.util.USHTTPUtilities;
 
@@ -117,6 +118,16 @@ public class RouteTable {
 	public void mapComponent( final String pattern, final Class<? extends WOComponent> componentClass ) {
 		final ComponentRouteHandler routeHandler = new ComponentRouteHandler( componentClass );
 		map( pattern, routeHandler );
+	}
+
+	/**
+	 * @return The route usable for development (i.e. invoking the direct action directly)
+	 */
+	public static String urlForDevelopment( String url, WOContext context ) {
+		final NSMutableDictionary<String, Object> params = new NSMutableDictionary<>( url, "url" );
+		url = context.directActionURLForActionNamed( RouteAction.class.getSimpleName() + "/handler", params );
+		url = url.replace( "&", "&amp;" );
+		return url;
 	}
 
 	/**
