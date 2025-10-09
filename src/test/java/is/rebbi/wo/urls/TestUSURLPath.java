@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-import is.rebbi.wo.routes.WrappedURL;
+import er.extensions.routes.WrappedURL;
 
 public class TestUSURLPath {
 

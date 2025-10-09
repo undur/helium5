@@ -3,7 +3,7 @@ package is.rebbi.wo.components.links;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXStatelessComponent;
-import is.rebbi.wo.routes.RouteTable;
+import er.extensions.routes.RouteTable;
 import is.rebbi.wo.util.USSettings;
 
 public class RouteLink extends ERXStatelessComponent {

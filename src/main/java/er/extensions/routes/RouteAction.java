@@ -1,4 +1,4 @@
-package is.rebbi.wo.routes;
+package er.extensions.routes;
 
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WORequest;

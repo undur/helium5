@@ -2,7 +2,7 @@ package is.rebbi.wo.urls;
 
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.routes.RouteTable;
+import er.extensions.routes.RouteTable;
 import is.rebbi.wo.util.USSettings;
 
 /**

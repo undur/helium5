@@ -1,4 +1,4 @@
-package is.rebbi.wo.routes;
+package er.extensions.routes;
 
 import java.util.Objects;
 
