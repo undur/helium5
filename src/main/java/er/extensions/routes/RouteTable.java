@@ -15,7 +15,7 @@ import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
 import com.webobjects.foundation.NSMutableDictionary;
 
-import is.rebbi.wo.util.USHTTPUtilities;
+import er.extensions.appserver.ERXRequest;
 
 /**
  * Contains a list of handlers for URLs
@@ -78,7 +78,10 @@ public class RouteTable {
 	public WOActionResults handle( final WORequest request ) {
 		final String routeURL = routeURLFromRequestParameters( request );
 
-		logger.info( "Handling URL: {};{};{}", routeURL, USHTTPUtilities.ipAddressFromRequest( request ), USHTTPUtilities.userAgent( request ) );
+		final String ipAddress = ((ERXRequest)request).remoteHostAddress();
+		final String userAgent = request.headerForKey( "user-agent" );
+
+		logger.info( "Handling URL: {};{};{}", routeURL, ipAddress, userAgent );
 
 		RouteHandler routeHandler = handlerForURL( routeURL );
 
@@ -100,7 +103,7 @@ public class RouteTable {
 		String url = request.stringFormValueForKey( "url" );
 
 		if( url == null ) {
-			url = USHTTPUtilities.redirectURL( request );
+			url = request.headerForKey( "redirect_url" );
 		}
 
 		return url;
