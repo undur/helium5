@@ -17,8 +17,8 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
+import er.extensions.routes.RouteHandler;
 import er.extensions.routes.WrappedURL;
-import er.extensions.routes.RouteTable.RouteHandler;
 import is.rebbi.wo.urls.URLProviderDataObject;
 import is.rebbi.wo.util.Inspection;
 import is.rebbi.wo.util.Inspection.InspectionRoute;
