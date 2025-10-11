@@ -5,31 +5,31 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-import er.extensions.routes.WrappedURL;
+import er.extensions.routes.RouteURL;
 
 public class TestUSURLPath {
 
 	@Test
 	public void removesSlashAtStartAndEnd() {
-		WrappedURL u = WrappedURL.create( "/url/" );
+		RouteURL u = RouteURL.create( "/url/" );
 		assertEquals( u.toString(), "url" );
 	}
 
 	@Test
 	public void length() {
-		WrappedURL u = WrappedURL.create( "/url/gunnar/" );
+		RouteURL u = RouteURL.create( "/url/gunnar/" );
 		assertEquals( u.length(), 2 );
 	}
 
 	@Test
 	public void integerValue() {
-		WrappedURL u = WrappedURL.create( "/url/2/haha" );
+		RouteURL u = RouteURL.create( "/url/2/haha" );
 		assertEquals( u.getInteger( 1 ), Integer.valueOf( 2 ) );
 	}
 
 	@Test
 	public void stringValue() {
-		WrappedURL u = WrappedURL.create( "/url/2/haha" );
+		RouteURL u = RouteURL.create( "/url/2/haha" );
 		assertEquals( u.getString( 0 ), "url" );
 		assertEquals( u.getString( 1 ), "2" );
 		assertEquals( u.getString( 2 ), "haha" );
@@ -37,13 +37,13 @@ public class TestUSURLPath {
 
 	@Test
 	public void stringValueExceedingLengthIsNull() {
-		WrappedURL u = WrappedURL.create( "/url/2/haha" );
+		RouteURL u = RouteURL.create( "/url/2/haha" );
 		assertNull( u.getString( 4 ) );
 	}
 
 	@Test
 	public void integerValueExceedingLengthIsNull() {
-		WrappedURL u = WrappedURL.create( "/url/2/haha" );
+		RouteURL u = RouteURL.create( "/url/2/haha" );
 		assertNull( u.getInteger( 4 ) );
 	}
 

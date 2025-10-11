@@ -18,7 +18,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.routes.RouteHandler;
-import er.extensions.routes.WrappedURL;
+import er.extensions.routes.RouteURL;
 import is.rebbi.wo.urls.URLProviderDataObject;
 import is.rebbi.wo.util.Inspection;
 import is.rebbi.wo.util.Inspection.InspectionRoute;
@@ -30,7 +30,7 @@ public class ObjectRouteHandler extends RouteHandler {
 	private static final Logger logger = LoggerFactory.getLogger( ObjectRouteHandler.class );
 
 	@Override
-	public WOActionResults handle( final WrappedURL url, final WOContext context ) {
+	public WOActionResults handle( final RouteURL url, final WOContext context ) {
 		final Object object = selectedObject( url );
 
 		// FIXME: 404 handling could really use some improvement here.
@@ -45,7 +45,7 @@ public class ObjectRouteHandler extends RouteHandler {
 	/**
 	 * @return The object the user wanted from the URL.
 	 */
-	private static PersistentObject selectedObject( final WrappedURL path ) {
+	private static PersistentObject selectedObject( final RouteURL path ) {
 		final String objectTypeIdentifier = path.getString( 1 );
 		final String objectIdentifier = path.getString( 2 );
 
