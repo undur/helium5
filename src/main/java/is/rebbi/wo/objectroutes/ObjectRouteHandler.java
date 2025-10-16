@@ -15,9 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
-import com.webobjects.appserver.WOContext;
 
 import er.extensions.routes.RouteHandler;
+import er.extensions.routes.RouteInvocation;
 import er.extensions.routes.RouteURL;
 import is.rebbi.wo.urls.URLProviderDataObject;
 import is.rebbi.wo.util.Inspection;
@@ -30,16 +30,16 @@ public class ObjectRouteHandler extends RouteHandler {
 	private static final Logger logger = LoggerFactory.getLogger( ObjectRouteHandler.class );
 
 	@Override
-	public WOActionResults handle( final RouteURL url, final WOContext context ) {
-		final Object object = selectedObject( url );
+	public WOActionResults handle( final RouteInvocation invocation ) {
+		final Object object = selectedObject( invocation.routeURL() );
 
 		// FIXME: 404 handling could really use some improvement here.
 		if( object == null ) {
-			logger.warn( "Nothing found at {}", url );
-			return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + url );
+			logger.warn( "Nothing found at {}", invocation.url() );
+			return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + invocation.url() );
 		}
 
-		return Inspection.inspectObjectInContext( object, context );
+		return Inspection.inspectObjectInContext( object, invocation.request().context() );
 	}
 
 	/**
