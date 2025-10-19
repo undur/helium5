@@ -25,7 +25,7 @@ import is.rebbi.wo.util.Inspection.InspectionRoute;
 import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.Jambalaya;
 
-public class ObjectRouteHandler extends RouteHandler {
+public class ObjectRouteHandler implements RouteHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger( ObjectRouteHandler.class );
 
