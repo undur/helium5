@@ -14,15 +14,17 @@ import is.rebbi.core.util.StringUtilities;
 
 public class USHTTPUtilities {
 
-	private static final String HEADER_CONTENT_TYPE = "content-type";
-	private static final String HEADER_SET_COOKIE = "set-cookie";
-	private static final String HEADER_REFERER = "referer";
 	private static final String HEADER_HOST_DEFAULT = "host";
+	private static final String HEADER_HOST_IIS = "http_host";
+
 	private static final String HEADER_REMOTE_HOST = "remote_host";
 	private static final String HEADER_REMOTE_ADDR = "remote_addr";
 	private static final String HEADER_REMOTE_USER = "remote_user";
 	private static final String HEADER_WEBOBJECTS_REMOTE_ADDR = "x-webobjects-remote-addr";
-	private static final String HEADER_HOST_IIS = "http_host";
+
+	private static final String HEADER_CONTENT_TYPE = "content-type";
+	private static final String HEADER_SET_COOKIE = "set-cookie";
+	private static final String HEADER_REFERER = "referer";
 	private static final String HEADER_REDIRECT_LOCATION = "location";
 	private static final String HEADER_CONTENT_LENGTH = "content-length";
 	private static final String HEADER_REDIRECT_URL = "redirect_url";
@@ -67,6 +69,23 @@ public class USHTTPUtilities {
 		}
 
 		return null;
+	}
+
+	/**
+	 * An adaptor-agnostic way of determining the requested host name.
+	 */
+	public static String host( final WORequest request ) {
+		String host = request.headerForKey( HEADER_HOST_DEFAULT );
+
+		if( !StringUtilities.hasValue( host ) ) {
+			host = request.headerForKey( HEADER_HOST_IIS );
+		}
+
+		if( host == null ) {
+			return null;
+		}
+
+		return host.toLowerCase();
 	}
 
 	/**
@@ -159,23 +178,6 @@ public class USHTTPUtilities {
 		}
 
 		return null;
-	}
-
-	/**
-	 * An adaptor-agnostic way of determining the requested host name.
-	 */
-	public static String host( final WORequest request ) {
-		String host = request.headerForKey( HEADER_HOST_DEFAULT );
-
-		if( !StringUtilities.hasValue( host ) ) {
-			host = request.headerForKey( HEADER_HOST_IIS );
-		}
-
-		if( host == null ) {
-			return null;
-		}
-
-		return host.toLowerCase();
 	}
 
 	/**
