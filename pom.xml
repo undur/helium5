@@ -8,7 +8,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<maven.compiler.release>21</maven.compiler.release>
+		<maven.compiler.release>25</maven.compiler.release>
 
 		<webobjects.group>com.webobjects</webobjects.group>
 		<webobjects.version>5.4.3</webobjects.version>
