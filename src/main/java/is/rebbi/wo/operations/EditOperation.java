@@ -7,7 +7,7 @@ import org.apache.cayenne.PersistentObject;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
-import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.objectroutes.Inspection;
 
 public class EditOperation implements DataObjectOperation {
 

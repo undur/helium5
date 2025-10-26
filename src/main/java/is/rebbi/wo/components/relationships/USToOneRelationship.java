@@ -14,7 +14,7 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
 import er.extensions.components.ERXComponent;
 import is.rebbi.core.humanreadable.HumanReadableUtils;
 import is.rebbi.wo.components.USBaseComponent;
-import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.objectroutes.Inspection;
 
 /**
  * Inspects a to-one relationship, allowing editing, addition and removal of objects.

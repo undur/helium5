@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.apache.cayenne.ObjectId;
 import org.apache.cayenne.PersistentObject;
 
-import is.rebbi.wo.util.Inspection.InspectionRoute;
+import is.rebbi.wo.objectroutes.Inspection.InspectionRoute;
 import jambalaya.ObjectIdSerializer;
 import jambalaya.interfaces.UUIDStamped;
 import jambalaya.interfaces.UniqueIDStamped;

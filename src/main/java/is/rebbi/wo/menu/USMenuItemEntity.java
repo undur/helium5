@@ -2,7 +2,7 @@ package is.rebbi.wo.menu;
 
 import com.webobjects.appserver.WOActionResults;
 
-import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.objectroutes.Inspection;
 import jambalaya.definitions.EntityDefinition;
 
 public class USMenuItemEntity extends USMenuItem {

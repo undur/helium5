@@ -24,7 +24,7 @@ import com.webobjects.foundation.NSKeyValueCodingAdditions;
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.core.util.StringUtilities;
 import is.rebbi.wo.components.USBaseComponent;
-import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.objectroutes.Inspection;
 import jambalaya.CayenneUtils;
 import jambalaya.Jambalaya;
 import jambalaya.definitions.AttributeDefinition;

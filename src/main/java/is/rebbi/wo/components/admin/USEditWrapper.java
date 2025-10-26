@@ -4,7 +4,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.components.USViewWrapper;
-import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.objectroutes.Inspection;
 
 public class USEditWrapper extends USViewWrapper {
 

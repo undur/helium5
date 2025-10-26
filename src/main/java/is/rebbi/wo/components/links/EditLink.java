@@ -4,7 +4,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXStatelessComponent;
-import is.rebbi.wo.util.Inspection;
+import is.rebbi.wo.objectroutes.Inspection;
 
 /**
  * Link to edit objects.

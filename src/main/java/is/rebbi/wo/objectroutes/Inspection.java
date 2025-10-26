@@ -1,4 +1,4 @@
-package is.rebbi.wo.util;
+package is.rebbi.wo.objectroutes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +20,7 @@ import is.rebbi.wo.components.admin.USEditWrapper;
 import is.rebbi.wo.components.admin.USListPageEdit;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
 import is.rebbi.wo.urls.USURLProvider;
+import is.rebbi.wo.util.USHTTPUtilities;
 
 public class Inspection {
 

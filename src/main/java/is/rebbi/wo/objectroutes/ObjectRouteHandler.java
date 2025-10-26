@@ -19,9 +19,8 @@ import com.webobjects.appserver.WOActionResults;
 import er.extensions.routes.RouteHandler;
 import er.extensions.routes.RouteInvocation;
 import er.extensions.routes.RouteURL;
+import is.rebbi.wo.objectroutes.Inspection.InspectionRoute;
 import is.rebbi.wo.urls.URLProviderDataObject;
-import is.rebbi.wo.util.Inspection;
-import is.rebbi.wo.util.Inspection.InspectionRoute;
 import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.Jambalaya;
 

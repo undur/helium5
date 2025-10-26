@@ -6,8 +6,8 @@ import com.webobjects.appserver.WOActionResults;
 
 import er.extensions.appserver.ERXWOContext;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
+import is.rebbi.wo.objectroutes.Inspection;
 import is.rebbi.wo.urls.USURLProvider;
-import is.rebbi.wo.util.Inspection;
 
 public class USMenuItemViewObject extends USMenuItem {
 
