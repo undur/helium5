@@ -19,16 +19,16 @@ public class URLProviderDataObject implements URLProvider<PersistentObject> {
 	@Override
 	public String urlForObject( final PersistentObject object ) {
 
-		if( object instanceof UniqueIDStamped ) {
-			final String uniqueID = ((UniqueIDStamped)object).uniqueID();
+		if( object instanceof UniqueIDStamped obj ) {
+			final String uniqueID = obj.uniqueID();
 
 			if( uniqueID != null ) {
 				return urlForUniqueID( object.getObjectId().getEntityName(), uniqueID );
 			}
 		}
 
-		if( object instanceof UUIDStamped ) {
-			final UUID uniqueID = ((UUIDStamped)object).uniqueID();
+		if( object instanceof UUIDStamped obj ) {
+			final UUID uniqueID = obj.uniqueID();
 
 			if( uniqueID != null ) {
 				return urlForUniqueID( object.getObjectId().getEntityName(), uniqueID.toString() );
@@ -62,12 +62,12 @@ public class URLProviderDataObject implements URLProvider<PersistentObject> {
 		return fullURL( typeIdentifierString, objectIdentifierString );
 	}
 
-	private static String fullURL( final String typeIdentifierString, final String objectIdentifierString ) {
+	private static String fullURL( final String typeIdentifier, final String objectIdentifier ) {
 		final StringBuilder b = new StringBuilder();
 		b.append( "/i/" );
-		b.append( typeIdentifierString );
+		b.append( typeIdentifier );
 		b.append( "/" );
-		b.append( objectIdentifierString );
+		b.append( objectIdentifier );
 		return b.toString();
 	}
 }
