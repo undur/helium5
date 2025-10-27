@@ -8,7 +8,7 @@ import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOContext;
 
 import is.rebbi.wo.objectroutes.Inspection;
-import is.rebbi.wo.urls.USURLProvider;
+import is.rebbi.wo.objectroutes.urls.USURLProvider;
 
 public class ViewOperation implements DataObjectOperation {
 

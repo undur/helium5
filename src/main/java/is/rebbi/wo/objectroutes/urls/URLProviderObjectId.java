@@ -1,4 +1,4 @@
-package is.rebbi.wo.urls;
+package is.rebbi.wo.objectroutes.urls;
 
 import org.apache.cayenne.ObjectId;
 

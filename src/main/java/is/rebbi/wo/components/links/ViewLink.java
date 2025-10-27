@@ -5,7 +5,7 @@ import org.apache.cayenne.Persistent;
 import com.webobjects.appserver.WOContext;
 
 import er.extensions.components.ERXStatelessComponent;
-import is.rebbi.wo.urls.USURLProvider;
+import is.rebbi.wo.objectroutes.urls.USURLProvider;
 
 /**
  * Link to view objects.

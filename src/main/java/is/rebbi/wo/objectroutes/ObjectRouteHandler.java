@@ -20,7 +20,7 @@ import er.extensions.routes.RouteHandler;
 import er.extensions.routes.RouteInvocation;
 import er.extensions.routes.RouteURL;
 import is.rebbi.wo.objectroutes.Inspection.InspectionRoute;
-import is.rebbi.wo.urls.URLProviderDataObject;
+import is.rebbi.wo.objectroutes.urls.URLProviderDataObject;
 import is.rebbi.wo.util.USHTTPUtilities;
 import jambalaya.Jambalaya;
 

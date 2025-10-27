@@ -19,7 +19,7 @@ import is.rebbi.wo.components.admin.USEditPageGeneric;
 import is.rebbi.wo.components.admin.USEditWrapper;
 import is.rebbi.wo.components.admin.USListPageEdit;
 import is.rebbi.wo.interfaces.HasSelectedObjectPage;
-import is.rebbi.wo.urls.USURLProvider;
+import is.rebbi.wo.objectroutes.urls.USURLProvider;
 import is.rebbi.wo.util.USHTTPUtilities;
 
 public class Inspection {
