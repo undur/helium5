@@ -6,16 +6,16 @@ import com.webobjects.appserver.WOResponse;
 
 import er.extensions.components.ERXNonSynchronizingComponent;
 
-public class USErrorPage extends ERXNonSynchronizingComponent {
+public class ERXErrorPage extends ERXNonSynchronizingComponent {
 
 	private String _message;
 
-	public USErrorPage( WOContext context ) {
+	public ERXErrorPage( WOContext context ) {
 		super( context );
 	}
 
 	public static WOResponse errorWithMessageAndStatusCode( String message, WOContext context, int status ) {
-		USErrorPage nextPage = (USErrorPage)WOApplication.application().pageWithName( USErrorPage.class.getSimpleName(), context );
+		ERXErrorPage nextPage = (ERXErrorPage)WOApplication.application().pageWithName( ERXErrorPage.class.getSimpleName(), context );
 		nextPage.setMessage( message );
 		WOResponse r = nextPage.generateResponse();
 		r.setStatus( status );
