@@ -6,7 +6,7 @@ import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
 import com.webobjects.foundation.NSTimestamp;
 
-public class UserCookies {
+public class USUserCookies {
 
 	private static final String COOKIE_NAME = "helium-" + WOApplication.application().name().toLowerCase() + "-userid";
 
