@@ -37,11 +37,11 @@ public class USSettings {
 		return PROPERTY_PREFIX + "." + propertyName;
 	}
 
-	public static String stringForKey( String key ) {
+	private static String stringForKey( String key ) {
 		return stringForKey( key, null );
 	}
 
-	public static String stringForKey( String key, String defaultValue ) {
+	private static String stringForKey( String key, String defaultValue ) {
 		String value = ERXProperties.stringForKey( p( key ) );
 
 		if( value == null ) {
@@ -51,7 +51,7 @@ public class USSettings {
 		return value;
 	}
 
-	public static boolean booleanForKey( final String key ) {
+	private static boolean booleanForKey( final String key ) {
 		final String stringValue = stringForKey( key );
 
 		if( stringValue == null ) {
