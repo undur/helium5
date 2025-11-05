@@ -35,27 +35,23 @@ public class Inspection {
 	 */
 	public record InspectionRoute( Class entityClass, String urlPrefix, BiFunction<PersistentObject, WOContext, WOActionResults> viewFunction, Class viewComponentClass, Class editComponentClass ) {
 
-		private static final Map<Class, InspectionRoute> _inspectionRoutes = new HashMap<>();
-
-		private static final Map<Class, InspectionRoute> inspectionRoutes() {
-			return _inspectionRoutes;
-		}
+		private static final Map<String, InspectionRoute> _inspectionRoutes = new HashMap<>();
 
 		public static void add( Class entityClass, String urlPrefix, BiFunction<PersistentObject, WOContext, WOActionResults> viewFunction ) {
 			final InspectionRoute ir = new InspectionRoute( entityClass, urlPrefix, viewFunction, null, null );
-			inspectionRoutes().put( entityClass, ir );
+			_inspectionRoutes.put( entityClass.getSimpleName(), ir );
 		}
 
 		public static void add( Class entityClass, String urlPrefix, Class viewComponentClass, Class editComponentClass ) {
 			final InspectionRoute ir = new InspectionRoute( entityClass, urlPrefix, null, viewComponentClass, editComponentClass );
-			inspectionRoutes().put( entityClass, ir );
+			_inspectionRoutes.put( entityClass.getSimpleName(), ir );
 		}
 
 		/**
-		 * @return The definition for the given URL prefix.
+		 * @return The route for the given URL prefix
 		 */
 		public static InspectionRoute forURLPrefix( String urlPrefix ) {
-			for( InspectionRoute o : inspectionRoutes().values() ) {
+			for( InspectionRoute o : _inspectionRoutes.values() ) {
 				if( urlPrefix.equals( o.urlPrefix() ) ) {
 					return o;
 				}
@@ -65,16 +61,10 @@ public class Inspection {
 		}
 
 		/**
-		 * @return The definition for the given URL prefix.
+		 * @return The route for the given entity name
 		 */
-		public static InspectionRoute forEntityName( String entityName ) {
-			for( InspectionRoute o : inspectionRoutes().values() ) {
-				if( entityName.equals( o.entityClass().getSimpleName() ) ) {
-					return o;
-				}
-			}
-
-			return null;
+		public static InspectionRoute forEntityName( final String entityName ) {
+			return _inspectionRoutes.get( entityName );
 		}
 	}
 
@@ -82,7 +72,7 @@ public class Inspection {
 	 * @return The given object opened in the default view page.
 	 */
 	public static WOActionResults inspectObjectInContext( Object object, WOContext context ) {
-		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
+		final InspectionRoute ir = InspectionRoute._inspectionRoutes.get( object.getClass().getSimpleName() );
 
 		if( ir.viewFunction() != null ) {
 			return ir.viewFunction().apply( (PersistentObject)object, context );
@@ -103,7 +93,7 @@ public class Inspection {
 	 * FIXME: No fallbacks should be here, this should be purely configured by the programmer.
 	 */
 	public static WOActionResults editObjectInContext( Object object, WOContext context ) {
-		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
+		final InspectionRoute ir = InspectionRoute._inspectionRoutes.get( object.getClass().getSimpleName() );
 		Class<? extends HasSelectedObjectPage> componentClass = null;
 
 		if( ir != null ) {
