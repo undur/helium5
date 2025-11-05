@@ -37,7 +37,7 @@ public class Inspection {
 
 		private static final Map<Class, InspectionRoute> _inspectionRoutes = new HashMap<>();
 
-		public static final Map<Class, InspectionRoute> inspectionRoutes() {
+		private static final Map<Class, InspectionRoute> inspectionRoutes() {
 			return _inspectionRoutes;
 		}
 
