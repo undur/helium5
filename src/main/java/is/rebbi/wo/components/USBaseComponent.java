@@ -5,7 +5,7 @@ import com.webobjects.appserver.WOContext;
 import er.extensions.appserver.ERXWOContext;
 import er.extensions.components.ERXComponent;
 import is.rebbi.core.util.StringUtilities;
-import is.rebbi.wo.util.USSettings;
+import is.rebbi.wo.objectroutes.InspectionUtil;
 
 public abstract class USBaseComponent extends ERXComponent {
 
@@ -47,38 +47,8 @@ public abstract class USBaseComponent extends ERXComponent {
 	/**
 	 * @return Name of WOComponent to wrap around content when viewing objects.
 	 */
+	@Deprecated
 	public String lookName() {
-		String lookName = context().request().stringFormValueForKey( "look" );
-
-		if( lookName != null ) {
-			return lookName;
-		}
-
-		lookName = USSettings.defaultLookName();
-
-		if( lookName == null ) {
-			lookName = USStandardLook.class.getSimpleName();
-		}
-
-		return lookName;
-	}
-
-	/**
-	 * @return Name of WOComponent to wrap around content when editing objects.
-	 */
-	public String editLookName() {
-		String lookName = context().request().stringFormValueForKey( "look" );
-
-		if( lookName != null ) {
-			return lookName;
-		}
-
-		lookName = USSettings.defaultEditLookName();
-
-		if( lookName == null ) {
-			lookName = USStandardLook.class.getSimpleName();
-		}
-
-		return lookName;
+		return InspectionUtil.lookNameInContext( context() );
 	}
 }
