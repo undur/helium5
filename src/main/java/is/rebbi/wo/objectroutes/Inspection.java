@@ -26,7 +26,14 @@ public class Inspection {
 
 	private static final Logger logger = LoggerFactory.getLogger( Inspection.class );
 
-	public static class InspectionRoute {
+	/**
+	 * @param entityClass Entity class
+	 * @param urlPrefix Prefix used in URLs to access objects of this type.
+	 * @param viewComponentClass Function applied to generate the view page for this object when invoking the route
+	 * @param viewComponentClass Class of component used to view objects if this type.
+	 * @param editComponentClass Class of component used to edit objects if this type.
+	 */
+	public record InspectionRoute( Class entityClass, String urlPrefix, BiFunction<PersistentObject, WOContext, WOActionResults> viewFunction, Class viewComponentClass, Class editComponentClass ) {
 
 		private static final Map<Class, InspectionRoute> _inspectionRoutes = new HashMap<>();
 
@@ -35,74 +42,13 @@ public class Inspection {
 		}
 
 		public static void add( Class entityClass, String urlPrefix, BiFunction<PersistentObject, WOContext, WOActionResults> viewFunction ) {
-			final InspectionRoute ir = new InspectionRoute();
-			ir.setEntityClass( entityClass );
-			ir.setUrlPrefix( urlPrefix );
-			ir._viewFunction = viewFunction;
+			final InspectionRoute ir = new InspectionRoute( entityClass, urlPrefix, viewFunction, null, null );
 			inspectionRoutes().put( entityClass, ir );
 		}
 
 		public static void add( Class entityClass, String urlPrefix, Class viewComponentClass, Class editComponentClass ) {
-			final InspectionRoute ir = new InspectionRoute();
-			ir.setEntityClass( entityClass );
-			ir.setUrlPrefix( urlPrefix );
-			ir.setViewComponentClass( viewComponentClass );
-			ir.setEditComponentClass( editComponentClass );
+			final InspectionRoute ir = new InspectionRoute( entityClass, urlPrefix, null, viewComponentClass, editComponentClass );
 			inspectionRoutes().put( entityClass, ir );
-		}
-
-		private Class _entityClass;
-
-		/**
-		 * Prefix used in URLs to access objects of this type.
-		 */
-		private String _urlPrefix;
-
-		/**
-		 * Class of component used to view objects if this type.
-		 */
-		private Class _viewComponentClass;
-
-		/**
-		 * Class of component used to view objects if this type.
-		 */
-		private BiFunction<PersistentObject, WOContext, WOActionResults> _viewFunction;
-
-		/**
-		 * Class of component used to edit objects if this type.
-		 */
-		private Class _editComponentClass;
-
-		public Class entityClass() {
-			return _entityClass;
-		}
-
-		public void setEntityClass( final Class value ) {
-			_entityClass = value;
-		}
-
-		public String urlPrefix() {
-			return _urlPrefix;
-		}
-
-		public void setUrlPrefix( String value ) {
-			_urlPrefix = value;
-		}
-
-		public Class viewComponentClass() {
-			return _viewComponentClass;
-		}
-
-		public void setViewComponentClass( Class value ) {
-			_viewComponentClass = value;
-		}
-
-		public Class editComponentClass() {
-			return _editComponentClass;
-		}
-
-		public void setEditComponentClass( Class value ) {
-			_editComponentClass = value;
 		}
 
 		/**
@@ -138,8 +84,8 @@ public class Inspection {
 	public static WOActionResults inspectObjectInContext( Object object, WOContext context ) {
 		final InspectionRoute ir = InspectionRoute.inspectionRoutes().get( object.getClass() );
 
-		if( ir._viewFunction != null ) {
-			return ir._viewFunction.apply( (PersistentObject)object, context );
+		if( ir.viewFunction() != null ) {
+			return ir.viewFunction().apply( (PersistentObject)object, context );
 		}
 
 		final Class<? extends HasSelectedObjectPage> componentClass = ir.viewComponentClass();
