@@ -158,7 +158,7 @@ public class USHTTPUtilities {
 			host = host.substring( 0, colonIndex );
 		}
 
-		String numericString = StringUtilities.replace( host, ".", "" );
+		String numericString = host.replace( ".", "" );
 
 		if( StringUtilities.isDigitsOnly( numericString ) ) {
 			return host;

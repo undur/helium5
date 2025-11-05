@@ -14,7 +14,6 @@ import com.webobjects.foundation.NSTimestamp;
 
 import er.extensions.components.ERXComponent;
 import er.extensions.foundation.ERXProperties;
-import is.rebbi.core.util.StringUtilities;
 
 public class USSystemInfoPage extends ERXComponent {
 
@@ -72,7 +71,7 @@ public class USSystemInfoPage extends ERXComponent {
 		b.append( reportPath( "java.class.path" ) );
 		b.append( "\n" );
 
-		return StringUtilities.replace( b.toString(), "\n", "<br />\n" );
+		return b.toString().replace( "\n", "<br />\n" );
 	}
 
 	private static String reportPath( List<String> arr, String name ) {
