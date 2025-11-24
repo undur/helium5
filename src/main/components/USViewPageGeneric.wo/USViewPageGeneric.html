@@ -1,52 +1,64 @@
+<style>
+	/* Gray cell text */
+	.grcell {
+		color: rgb(150,150,150) !important;
+	}
+	
+	/* Dark gray background cell */
+	.dgrcell {
+		background-color: rgb(220,220,220) !important;
+	}
+</style>
 <div class="row">
 	<div class="col-md-12">
-		<div class="box">
-			<div class="box-header with-border">
-				<h3 class="box-title"><wo:str value="$entityName" /></h3>
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title"><wo:str value="$entityName" /></h3>
+				<div class="card-actions">
+					<span class="badge bg-default"><wo:str value="$selectedObject.objectId" /></span>
+				</div>
 			</div>
-			<div class="box-body">
-				<h4>Attributes</h4>
-				<table class="table table-condensed table-striped">
+			<table class="table table-sm table-bordered">
+				<tr class="dgrcell">
+					<td colspan="4"><strong>Attributes</strong></td>
+				</tr>
+				<tr>
+					<th>Name</th>
+					<th>Column</th>
+					<th>Java type</th>
+					<th>Value</th>
+				</tr>
+				<wo:repetition list="$attributes" item="$currentAttribute">
 					<tr>
-						<th>Name</th>
-						<th>Column</th>
-						<th>Java type</th>
-						<th>Value</th>
+						<td><wo:str value="$currentAttribute.name" /></td>
+						<td class="grcell"><wo:str value="$currentAttribute.dbAttributeName" /></td>
+						<td><span class="grcell"><wo:str value="$currentAttribute.javaClass.simpleName" /></span></td>
+						<td><wo:IMValue object="$currentAttributeValue" /></td>
 					</tr>
-					<wo:repetition list="$attributes" item="$currentAttribute">
-						<tr>
-							<td><wo:str value="$currentAttribute.name" /></td>
-							<td><wo:str value="$currentAttribute.dbAttributeName" /></td>
-							<td><em style="color: rgb(180,180,180)"><wo:str value="$currentAttribute.javaClass.simpleName" /></em></td>
-							<td><wo:IMValue object="$currentAttributeValue" /></td>
-						</tr>
-					</wo:repetition>
+				</wo:repetition>
+				<tr>
+					<td colspan="4" class="dgrcell"><strong>Relationships</strong></td>
+				</tr>
+				<wo:repetition list="$relationships" item="$currentRelationship">
 					<tr>
-						<td colspan="4"><h4>Relationships</h4></td>
+						<td><wo:str value="$currentRelationship.name" /></td>
+						<td></td>
+						<td class="grcell"><wo:str value="$currentRelationship.targetEntity.name" /> <span style="float:right"><wo:if condition="$currentRelationship.isToMany"><wo:str value="$currentRelationshipValue.size // VALID" /> &gt;&gt;</wo:if><wo:if condition="$currentRelationship.isToMany" negate="$true">&gt;</wo:if></span></td>
+						<td>
+							<wo:if condition="$currentRelationship.isToMany" negate="$true"><wo:ViewLink object="$currentRelationshipValue"><wo:str value="$currentRelationshipValueHumanReadable" /></wo:ViewLink></wo:if>
+							<wo:if condition="$currentRelationship.isToMany">
+								<table>
+									<wo:repetition list="$currentRelationshipValue" item="$currentObject">
+										<tr>
+											<td><wo:ViewLink object="$currentObject"><wo:str value="$currentObjectHumanReadable" /></wo:ViewLink></td>
+										</tr>
+									</wo:repetition>
+								</table>
+							</wo:if>
+						</td>
 					</tr>
-					<wo:repetition list="$relationships" item="$currentRelationship">
-						<tr>
-							<td><wo:str value="$currentRelationship.name" /></td>
-							<td></td>
-							<td><em style="color: rgb(180,180,180)"><wo:str value="$currentRelationship.targetEntity.name" /> <wo:if condition="$currentRelationship.isToMany">&gt;&gt; (<wo:str value="$currentRelationshipValue.size // VALID" />)</wo:if><wo:if condition="$currentRelationship.isToMany" negate="$true">&gt;</wo:if></em></td>
-							<td>
-								<wo:if condition="$currentRelationship.isToMany" negate="$true"><wo:ViewLink object="$currentRelationshipValue"><wo:str value="$currentRelationshipValueHumanReadable" /></wo:ViewLink></wo:if>
-								<wo:if condition="$currentRelationship.isToMany">
-									<table>
-										<wo:repetition list="$currentRelationshipValue" item="$currentObject">
-											<tr>
-												<td><wo:ViewLink object="$currentObject"><wo:str value="$currentObjectHumanReadable" /></wo:ViewLink></td>
-											</tr>
-										</wo:repetition>
-									</table>
-								</wo:if>
-							</td>
-						</tr>
-					</wo:repetition>
-				</table>
-				<h4>Key</h4>
-				<p><wo:str value="$selectedObject.objectId" /></p>
-			</div>
+				</wo:repetition>
+			</table>
 		</div>
 	</div>
 </div>
