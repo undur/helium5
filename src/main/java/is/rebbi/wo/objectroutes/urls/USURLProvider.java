@@ -11,15 +11,8 @@ public abstract class USURLProvider {
 	/**
 	 * @return The URL for viewing the given object.
 	 */
+	@Deprecated
 	public static String urlForObjectInContext( final Object object, final WOContext context ) {
-
-		String url = URLProviders.urlForObject( object );
-
-		//		FIXME: Experimental. Hopefully we won't need this again, since our apps should now handle routed URLs directly // Hugi 2026-01-27
-		//		if( !USSettings.generateFriendlyURLs() ) {
-		//			url = RouteTable.urlForDevelopment( url, context );
-		//		}
-
-		return url;
+		return URLProviders.urlForObject( object );
 	}
 }

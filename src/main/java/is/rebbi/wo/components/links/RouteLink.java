@@ -15,11 +15,6 @@ public class RouteLink extends ERXStatelessComponent {
 	}
 
 	public String href() {
-
-		//		if( !USSettings.generateFriendlyURLs() ) {
-		//			return RouteTable.urlForDevelopment( url(), context() );
-		//		}
-
 		return url();
 	}
 }
