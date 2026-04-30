@@ -13,9 +13,8 @@
 		<webobjects.group>com.webobjects</webobjects.group>
 		<webobjects.version>5.4.3</webobjects.version>
 
-		<wonder.core.group>wonder.core</wonder.core.group>
-		<wonder.ajax.group>wonder.ajax</wonder.ajax.group>
-		<wonder.version>8.0.0.slim-SNAPSHOT</wonder.version>
+		<wonder.group>is.rebbi.slim</wonder.group>
+		<wonder.version>8.0.0-SNAPSHOT</wonder.version>
 
 		<cayenne.version>5.0-M1</cayenne.version>
 	</properties>
@@ -43,18 +42,18 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>${wonder.core.group}</groupId>
+			<groupId>${wonder.group}</groupId>
 			<artifactId>ERExtensions</artifactId>
 			<version>${wonder.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>${wonder.ajax.group}</groupId>
+			<groupId>${wonder.group}</groupId>
 			<artifactId>Ajax</artifactId>
 			<version>${wonder.version}</version>
 			<scope>provided</scope> <!-- Prevents us from Ajax-ing all over AjaxSlim projects -->
 		</dependency>
 		<dependency>
-			<groupId>${wonder.core.group}</groupId>
+			<groupId>${wonder.group}</groupId>
 			<artifactId>ERLoggingReload4j</artifactId>
 			<version>${wonder.version}</version>
 		</dependency>
