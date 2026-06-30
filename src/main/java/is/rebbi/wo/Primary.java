@@ -12,6 +12,8 @@ import org.apache.cayenne.exp.ExpressionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import er.extensions.appserver.cachemonitor.ERXSessionCacheOverviewPage;
+
 import is.rebbi.wo.components.admin.USExceptionManagementPage;
 import is.rebbi.wo.components.admin.USLoggingConfigurationPage;
 import is.rebbi.wo.components.admin.USSystemInfoPage;
@@ -61,6 +63,7 @@ public class Primary {
 		mi.addChild( USMenuItemPage.create( "Environment", null, USSystemInfoPage.class ) );
 		mi.addChild( USMenuItemPage.create( "Exceptions", null, USExceptionManagementPage.class ) );
 		mi.addChild( USMenuItemPage.create( "Logging", null, USLoggingConfigurationPage.class ) );
+		mi.addChild( USMenuItemPage.create( "Session caches", null, ERXSessionCacheOverviewPage.class ) );
 		return mi;
 	}
 
