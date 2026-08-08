@@ -14,6 +14,18 @@
 			</div>
 			<div class="card mb-3">
 				<div class="card-header">
+					<h3 class="card-title">JVM arguments</h3>
+				</div>
+				<table class="table table-sm table-striped">
+					<wo:repetition list="$jvmArguments" item="$currentJVMArgument">
+						<tr>
+							<td style="word-wrap: break-word"><wo:str value="$currentJVMArgument" /></td>
+						</tr>
+					</wo:repetition>
+				</table>
+			</div>
+			<div class="card mb-3">
+				<div class="card-header">
 					<h3 class="card-title">Properties</h3>
 				</div>
 				<table class="table table-sm table-striped">

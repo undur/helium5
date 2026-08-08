@@ -21,6 +21,7 @@ public class USSystemInfoPage extends ERXComponent {
 	private static final int psLength = PATH_SEPARATOR.length();
 
 	public String currentPropertyKey;
+	public String currentJVMArgument;
 	private final Properties _properties = java.lang.System.getProperties();
 
 	public USSystemInfoPage( WOContext context ) {
@@ -119,6 +120,13 @@ public class USSystemInfoPage extends ERXComponent {
 
 	private static List<String> ppp( String systemProperty ) {
 		return pp( ERXProperties.stringForKey( systemProperty ) );
+	}
+
+	/**
+	 * @return The arguments the JVM was started with (-Xmx, --enable-preview, --add-opens etc.)
+	 */
+	public List<String> jvmArguments() {
+		return ManagementFactory.getRuntimeMXBean().getInputArguments();
 	}
 
 	public LocalDateTime startupTime() {
