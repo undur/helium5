@@ -2,6 +2,9 @@ package is.rebbi.wo.components.value;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
@@ -26,8 +29,31 @@ public class IMString extends ERXStatelessComponent {
 		return intValueForBinding( "maxLength", -1 ); // FIXME: I kind of don't like this minus one value
 	}
 
+	/**
+	 * Default formats for temporal values when no dateTimeFormatter binding is given. Readable ISO-style, no "T" and no fractional seconds.
+	 */
+	private static final DateTimeFormatter DEFAULT_LOCAL_DATE_FORMATTER = DateTimeFormatter.ofPattern( "yyyy-MM-dd" );
+	private static final DateTimeFormatter DEFAULT_LOCAL_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern( "yyyy-MM-dd HH:mm:ss" );
+	private static final DateTimeFormatter DEFAULT_LOCAL_TIME_FORMATTER = DateTimeFormatter.ofPattern( "HH:mm:ss" );
+
 	private DateTimeFormatter dateTimeFormatter() {
 		return (DateTimeFormatter)valueForBinding( "dateTimeFormatter" );
+	}
+
+	private static DateTimeFormatter defaultFormatterFor( final Object value ) {
+		if( value instanceof LocalDateTime ) {
+			return DEFAULT_LOCAL_DATE_TIME_FORMATTER;
+		}
+
+		if( value instanceof LocalDate ) {
+			return DEFAULT_LOCAL_DATE_FORMATTER;
+		}
+
+		if( value instanceof LocalTime ) {
+			return DEFAULT_LOCAL_TIME_FORMATTER;
+		}
+
+		return null;
 	}
 
 	public String valueWhenEmpty() {
@@ -46,8 +72,14 @@ public class IMString extends ERXStatelessComponent {
 		}
 
 		if( value instanceof TemporalAccessor ) {
-			if( dateTimeFormatter() != null ) {
-				value = dateTimeFormatter().format( (TemporalAccessor)value );
+			DateTimeFormatter formatter = dateTimeFormatter();
+
+			if( formatter == null ) {
+				formatter = defaultFormatterFor( value );
+			}
+
+			if( formatter != null ) {
+				value = formatter.format( (TemporalAccessor)value );
 			}
 		}
 

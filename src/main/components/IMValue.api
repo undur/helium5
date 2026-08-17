@@ -31,6 +31,8 @@
         <binding name="maxLength"/>
             
         <binding name="abbreviationPostfix"/>
+
+        <binding name="dateTimeFormatter"/>
     </wo>
         
 
