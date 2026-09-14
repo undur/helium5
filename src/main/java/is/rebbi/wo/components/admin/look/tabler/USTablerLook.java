@@ -9,7 +9,6 @@ import er.extensions.appserver.ERXResponseRewriter;
 import er.extensions.appserver.ERXResponseRewriter.TagMissingBehavior;
 import er.extensions.components.ERXComponent;
 import is.rebbi.wo.Primary;
-import is.rebbi.wo.components.admin.USStartPage;
 import is.rebbi.wo.menu.USMenu;
 import is.rebbi.wo.menu.USMenuItem;
 
@@ -47,8 +46,9 @@ public class USTablerLook extends ERXComponent {
 
 	}
 
+	/** The app's start page (concept.startPageName), the framework's when none is set */
 	public WOActionResults startPage() {
-		return pageWithName( USStartPage.class );
+		return pageWithName( is.rebbi.wo.util.USSettings.startPageName() );
 	}
 
 	public String frameworkBundleName() {

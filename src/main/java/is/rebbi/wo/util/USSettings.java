@@ -24,6 +24,7 @@ public class USSettings {
 	private static final String GENERATE_FRIENDLY_URLS = "generateFriendlyURLs";
 	private static final String VIEW_TOOLS_COMPONENT_NAME = "viewToolsComponentName";
 	private static final String DEFAULT_EDIT_LOOK_NAME = "defaultEditLookName";
+	private static final String START_PAGE_NAME = "startPageName";
 
 	/**
 	 * No instances.
@@ -115,5 +116,12 @@ public class USSettings {
 	 */
 	public static String viewToolsComponentName() {
 		return stringForKey( VIEW_TOOLS_COMPONENT_NAME );
+	}
+
+	/**
+	 * @return Name of the component the admin look's "Forsíða" opens; the framework's own start page unless the app names its own
+	 */
+	public static String startPageName() {
+		return stringForKey( START_PAGE_NAME, "USStartPage" );
 	}
 }
