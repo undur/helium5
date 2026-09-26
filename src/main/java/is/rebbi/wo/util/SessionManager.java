@@ -13,7 +13,7 @@ import com.webobjects.foundation.NSNotificationCenter;
 import com.webobjects.foundation.NSSelector;
 
 import er.extensions.appserver.ERXSession;
-import er.extensions.browser.ERXBrowser;
+import is.rebbi.core.util.RBUserAgent;
 
 /**
  * Mark last activity of the session.
@@ -166,13 +166,10 @@ public class SessionManager {
 		}
 	}
 
+	// FIXME: RBUserAgent is a temporary copy of ERXUserAgent, so this builds against wonder-slim 8.0.7 and 8.0.8. Use ERXRequest.userAgent() once on 8.0.8 // Hugi 2026-09-26
 	private void shortenTimeoutIfRobotSessionFromBrowser( final ERXSession session ) {
-		ERXBrowser browser = session.browser();
-
-		if( browser != null ) {
-			if( browser.isRobot() ) {
-				session.setTimeOut( 30 );
-			}
+		if( session.context() != null && session.context().request() != null && RBUserAgent.parse( session.context().request().headerForKey( "user-agent" ) ).isBot() ) {
+			session.setTimeOut( 30 );
 		}
 	}
 }
