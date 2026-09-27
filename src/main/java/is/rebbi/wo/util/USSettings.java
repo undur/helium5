@@ -21,7 +21,6 @@ public class USSettings {
 	private static final String DEFAULT_USERNAME = "defaultUsername";
 	private static final String DEFAULT_LOOK_NAME = "defaultLookName";
 	private static final String DEFAULT_DOMAIN_NAME = "defaultDomainName";
-	private static final String GENERATE_FRIENDLY_URLS = "generateFriendlyURLs";
 	private static final String VIEW_TOOLS_COMPONENT_NAME = "viewToolsComponentName";
 	private static final String DEFAULT_EDIT_LOOK_NAME = "defaultEditLookName";
 	private static final String START_PAGE_NAME = "startPageName";
@@ -50,23 +49,6 @@ public class USSettings {
 		}
 
 		return value;
-	}
-
-	private static boolean booleanForKey( final String key ) {
-		final String stringValue = stringForKey( key );
-
-		if( stringValue == null ) {
-			return false;
-		}
-
-		return stringValue.toLowerCase().equals( "true" );
-	}
-
-	/**
-	 * Indicates if SEO should be active.
-	 */
-	public static boolean generateFriendlyURLs() {
-		return booleanForKey( GENERATE_FRIENDLY_URLS );
 	}
 
 	/**
