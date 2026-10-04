@@ -11,53 +11,58 @@ import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.DbAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.query.ObjectSelect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.webobjects.appserver.WOActionResults;
 
-import er.extensions.routes.RouteHandler;
-import er.extensions.routes.RouteInvocation;
-import er.extensions.routes.RouteURL;
+import er.extensions.routing.Declined;
+import er.extensions.routing.PlainRoute;
+import er.extensions.routing.Route;
+import er.extensions.routing.RouteGroup;
+import er.extensions.routing.RouteInvocation;
+import er.routing.conversion.Converters.Converter;
+
 import is.rebbi.wo.objectroutes.Inspection.InspectionRoute;
 import is.rebbi.wo.objectroutes.urls.URLProviderDataObject;
-import is.rebbi.wo.util.USHTTPUtilities;
+
 import jambalaya.Jambalaya;
 
-public class ObjectRouteHandler implements RouteHandler {
+/**
+ * An object's page, at /i/{type}/{object}: the type is an inspection route's URL prefix ({@code dictionary-entry}), the
+ * object its unique ID ({@code uid-…}) or its primary key ({@code id-…}). Declared by {@link HeliumPlugin} in every
+ * application including helium.
+ */
+public class ObjectRoutes {
 
-	private static final Logger logger = LoggerFactory.getLogger( ObjectRouteHandler.class );
+	/**
+	 * An object's page
+	 */
+	public static final PlainRoute object = Route.plain();
 
-	@Override
-	public WOActionResults handle( final RouteInvocation invocation ) {
-		final Object object = selectedObject( invocation.routeURL() );
+	public static void declare( final RouteGroup routes ) {
 
-		// FIXME: 404 handling could really use some improvement here.
-		if( object == null ) {
-			logger.warn( "Nothing found at {}", invocation.url() );
-			return USHTTPUtilities.statusResponse( 404, "Nothing found at: " + invocation.url() );
-		}
+		// A type that isn't an inspection route's declines the request (the converter is for helium's own type, so it
+		// doesn't touch the application's parameters)
+		routes.converters().register( InspectionRoute.class, Converter.of( InspectionRoute::forURLPrefix, InspectionRoute::urlPrefix ) );
 
-		return Inspection.inspectObjectInContext( object, invocation.request().context() );
+		routes.map( "/i/{type}/{object}", object, ObjectRoutes::inspect );
 	}
 
 	/**
-	 * @return The object the user wanted from the URL.
+	 * @return The object's page, the object found in the entity its type names: one that isn't there declines
 	 */
-	private static PersistentObject selectedObject( final RouteURL path ) {
-		final String objectTypeIdentifier = path.getString( 1 );
-		final String objectIdentifier = path.getString( 2 );
+	private static WOActionResults inspect( final RouteInvocation invocation ) {
+		final InspectionRoute type = invocation.parameter( "type", InspectionRoute.class );
+		final String identifier = invocation.parameter( "object" );
+		final PersistentObject found = objectFromIdentifierString( Jambalaya.newContext(), type.entityClass().getSimpleName(), identifier );
 
-		final String objectEntityName = entityNameFromTypeIdentifier( objectTypeIdentifier );
-
-		if( objectEntityName == null ) {
-			return null;
+		if( found == null ) {
+			throw new Declined( "There's no %s '%s'".formatted( type.entityClass().getSimpleName(), identifier ) );
 		}
 
-		return objectFromIdentifierString( Jambalaya.newContext(), objectEntityName, objectIdentifier );
+		return Inspection.inspectObjectInContext( found, invocation.context() );
 	}
 
-	private static PersistentObject objectFromIdentifierString( final ObjectContext oc, final String objectEntityName, final String objectIdentifier ) {
+	static PersistentObject objectFromIdentifierString( final ObjectContext oc, final String objectEntityName, final String objectIdentifier ) {
 		if( objectIdentifier.startsWith( URLProviderDataObject.PK_IDENTIFIER_PREFIX ) ) {
 			final String identifier = objectIdentifier.substring( URLProviderDataObject.PK_IDENTIFIER_PREFIX.length(), objectIdentifier.length() );
 			return objectFromPKString( oc, objectEntityName, identifier );
@@ -98,19 +103,5 @@ public class ObjectRouteHandler implements RouteHandler {
 				.query( PersistentObject.class, objEntityName )
 				.where( exp )
 				.selectOne( oc );
-	}
-
-	/**
-	 * @return The name of the identifier identified by the type identifier
-	 */
-	private static String entityNameFromTypeIdentifier( final String typeIdentifier ) {
-		InspectionRoute inspectionRoute = InspectionRoute.forURLPrefix( typeIdentifier );
-
-		if( inspectionRoute == null ) {
-			// FIXME: If no identifier is found we should be throwing an exception here (probably resulting in a 404 in the front end) // Hugi 2024-09-17
-			return null;
-		}
-
-		return inspectionRoute.entityClass().getSimpleName();
 	}
 }

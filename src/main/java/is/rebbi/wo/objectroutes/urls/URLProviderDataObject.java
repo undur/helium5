@@ -1,11 +1,14 @@
 package is.rebbi.wo.objectroutes.urls;
 
+import java.util.Map;
+
 import java.util.UUID;
 
 import org.apache.cayenne.ObjectId;
 import org.apache.cayenne.PersistentObject;
 
 import is.rebbi.wo.objectroutes.Inspection.InspectionRoute;
+import is.rebbi.wo.objectroutes.ObjectRoutes;
 import jambalaya.ObjectIdSerializer;
 import jambalaya.interfaces.UUIDStamped;
 import jambalaya.interfaces.UniqueIDStamped;
@@ -63,11 +66,6 @@ public class URLProviderDataObject implements URLProvider<PersistentObject> {
 	}
 
 	private static String fullURL( final String typeIdentifier, final String objectIdentifier ) {
-		final StringBuilder b = new StringBuilder();
-		b.append( "/i/" );
-		b.append( typeIdentifier );
-		b.append( "/" );
-		b.append( objectIdentifier );
-		return b.toString();
+		return ObjectRoutes.object.url( Map.of( "type", typeIdentifier, "object", objectIdentifier ) );
 	}
 }
