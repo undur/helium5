@@ -1,7 +1,6 @@
 package is.rebbi.wo.objectroutes.urls;
 
 import java.util.Map;
-
 import java.util.UUID;
 
 import org.apache.cayenne.ObjectId;

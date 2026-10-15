@@ -1,6 +1,7 @@
 package is.rebbi.wo.components;
 
 import org.apache.cayenne.ObjectContext;
+import org.apache.cayenne.Persistent;
 import org.apache.cayenne.PersistentObject;
 
 import com.webobjects.appserver.WOActionResults;
@@ -58,7 +59,7 @@ public abstract class USViewPage<E> extends USBaseComponent implements HasSelect
 	}
 
 	public WOActionResults deleteObject() {
-		((PersistentObject)selectedObject()).getObjectContext().deleteObject( selectedObject() );
+		((PersistentObject)selectedObject()).getObjectContext().deleteObject( (Persistent)selectedObject() );
 		saveChanges();
 		return returnToCallingComponent();
 	}

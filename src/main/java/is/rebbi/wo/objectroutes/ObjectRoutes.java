@@ -20,10 +20,8 @@ import er.extensions.routing.Route;
 import er.extensions.routing.RouteGroup;
 import er.extensions.routing.RouteInvocation;
 import er.routing.conversion.Converters.Converter;
-
 import is.rebbi.wo.objectroutes.Inspection.InspectionRoute;
 import is.rebbi.wo.objectroutes.urls.URLProviderDataObject;
-
 import jambalaya.Jambalaya;
 
 /**
@@ -97,7 +95,7 @@ public class ObjectRoutes {
 			keyMap.put( attribute.getName(), components[i++] );
 		}
 
-		final Expression exp = ExpressionFactory.matchAllDbExp( keyMap, Expression.EQUAL_TO );
+		final Expression exp = ExpressionFactory.matchAllDbExp( keyMap );
 
 		return ObjectSelect
 				.query( PersistentObject.class, objEntityName )
